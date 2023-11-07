@@ -1,0 +1,71 @@
+\doxysection{bno08x\+\_\+config\+\_\+t Struct Reference}
+\label{structbno08x__config__t}\index{bno08x\_config\_t@{bno08x\_config\_t}}
+
+
+IMU configuration settings passed into constructor.  
+
+
+
+
+{\ttfamily \#include $<$BNO08x.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\label{structbno08x__config__t_abf8805292192f4c30c5000423175a2e1} 
+{\bfseries bno08x\+\_\+config\+\_\+t} ()
+\begin{DoxyCompactList}\small\item\em Default IMU configuration settings ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec} 
+spi\+\_\+host\+\_\+device\+\_\+t {\bfseries spi\+\_\+peripheral}
+\begin{DoxyCompactList}\small\item\em SPI peripheral to be used. \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+mosi}
+\begin{DoxyCompactList}\small\item\em MOSI GPIO pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} DI pin) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+miso}
+\begin{DoxyCompactList}\small\item\em MISO GPIO pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} SDA pin) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a639685b91ae3198909d722316495246a} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+sclk}
+\begin{DoxyCompactList}\small\item\em SCLK pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} SCL pin) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+cs}
+\item 
+\label{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+int}
+\begin{DoxyCompactList}\small\item\em Chip select pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} CS pin) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a62745c761219139f66ecd173b51577fc} 
+gpio\+\_\+num\+\_\+t {\bfseries io\+\_\+rst}
+\begin{DoxyCompactList}\small\item\em Host interrupt pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} INT pin) \end{DoxyCompactList}\item 
+gpio\+\_\+num\+\_\+t \textbf{ io\+\_\+wake}
+\begin{DoxyCompactList}\small\item\em Reset pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} RST pin) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a652ad01310ba21afcae1bb765de51cfe} 
+uint64\+\_\+t {\bfseries sclk\+\_\+speed}
+\begin{DoxyCompactList}\small\item\em Desired SPI SCLK speed in Hz (max 3MHz) \end{DoxyCompactList}\item 
+\label{structbno08x__config__t_a720c215a75b3922ffa6f683e7ca70abe} 
+bool {\bfseries debug\+\_\+en}
+\begin{DoxyCompactList}\small\item\em Whether or not debugging print statements are enabled. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+IMU configuration settings passed into constructor. 
+
+\doxysubsection{Member Data Documentation}
+\label{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0} 
+\index{bno08x\_config\_t@{bno08x\_config\_t}!io\_wake@{io\_wake}}
+\index{io\_wake@{io\_wake}!bno08x\_config\_t@{bno08x\_config\_t}}
+\doxysubsubsection{io\_wake}
+{\footnotesize\ttfamily gpio\+\_\+num\+\_\+t bno08x\+\_\+config\+\_\+t\+::io\+\_\+wake}
+
+
+
+Reset pin (connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} RST pin) 
+
+Wake pin (optional, connects to \doxyref{BNO08x}{p.}{class_b_n_o08x} P0) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/development/git/esp32\+\_\+\+BNO08x/BNO08x.\+hpp\end{DoxyCompactItemize}

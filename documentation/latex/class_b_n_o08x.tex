@@ -1,0 +1,2711 @@
+\doxysection{BNO08x Class Reference}
+\label{class_b_n_o08x}\index{BNO08x@{BNO08x}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ BNO08x} (\textbf{ bno08x\+\_\+config\+\_\+t} \textbf{ imu\+\_\+config}=\textbf{ default\+\_\+imu\+\_\+config})
+\begin{DoxyCompactList}\small\item\em \doxyref{BNO08x}{p.}{class_b_n_o08x} imu constructor. \end{DoxyCompactList}\item 
+bool \textbf{ initialize} ()
+\begin{DoxyCompactList}\small\item\em Initializes \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor. \end{DoxyCompactList}\item 
+bool \textbf{ hard\+\_\+reset} ()
+\begin{DoxyCompactList}\small\item\em Hard resets \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor. \end{DoxyCompactList}\item 
+bool \textbf{ soft\+\_\+reset} ()
+\begin{DoxyCompactList}\small\item\em Soft resets \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor using executable channel. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+reset\+\_\+reason} ()
+\begin{DoxyCompactList}\small\item\em Get the reason for the most recent reset. \end{DoxyCompactList}\item 
+bool \textbf{ mode\+\_\+sleep} ()
+\begin{DoxyCompactList}\small\item\em Puts \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor into sleep/low power mode using executable channel. \end{DoxyCompactList}\item 
+bool \textbf{ mode\+\_\+on} ()
+\begin{DoxyCompactList}\small\item\em Turns on/ brings \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor out of sleep mode using executable channel. \end{DoxyCompactList}\item 
+float \textbf{ q\+\_\+to\+\_\+float} (int16\+\_\+t fixed\+\_\+point\+\_\+value, uint8\+\_\+t q\+\_\+point)
+\begin{DoxyCompactList}\small\item\em Converts a register value to a float using its associated Q point. (See {\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Q\+\_\+(number\+\_\+format)}}) \end{DoxyCompactList}\item 
+bool \textbf{ run\+\_\+full\+\_\+calibration\+\_\+routine} ()
+\begin{DoxyCompactList}\small\item\em Runs full calibration routine. \end{DoxyCompactList}\item 
+void \textbf{ calibrate\+\_\+all} ()
+\begin{DoxyCompactList}\small\item\em Sends command to calibrate accelerometer, gyro, and magnetometer. \end{DoxyCompactList}\item 
+void \textbf{ calibrate\+\_\+accelerometer} ()
+\begin{DoxyCompactList}\small\item\em Sends command to calibrate accelerometer. \end{DoxyCompactList}\item 
+void \textbf{ calibrate\+\_\+gyro} ()
+\begin{DoxyCompactList}\small\item\em Sends command to calibrate gyro. \end{DoxyCompactList}\item 
+void \textbf{ calibrate\+\_\+magnetometer} ()
+\begin{DoxyCompactList}\small\item\em Sends command to calibrate magnetometer. \end{DoxyCompactList}\item 
+void \textbf{ calibrate\+\_\+planar\+\_\+accelerometer} ()
+\begin{DoxyCompactList}\small\item\em Sends command to calibrate planar accelerometer. \end{DoxyCompactList}\item 
+void \textbf{ request\+\_\+calibration\+\_\+status} ()
+\begin{DoxyCompactList}\small\item\em Requests ME calibration status from \doxyref{BNO08x}{p.}{class_b_n_o08x} (see Ref. Manual 6.\+4.\+7.\+2) \end{DoxyCompactList}\item 
+bool \textbf{ calibration\+\_\+complete} ()
+\begin{DoxyCompactList}\small\item\em Returns true if calibration has completed. \end{DoxyCompactList}\item 
+void \textbf{ end\+\_\+calibration} ()
+\begin{DoxyCompactList}\small\item\em Sends command to end calibration procedure. \end{DoxyCompactList}\item 
+void \textbf{ save\+\_\+calibration} ()
+\begin{DoxyCompactList}\small\item\em Sends command to save internal calibration data (See Ref. Manual 6.\+4.\+7). \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+rotation\+\_\+vector} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable rotation vector reports (See Ref. Manual 6.\+5.\+18) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+game\+\_\+rotation\+\_\+vector} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable game rotation vector reports (See Ref. Manual 6.\+5.\+19) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+\+ARVR\+\_\+stabilized\+\_\+rotation\+\_\+vector} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable ARVR stabilized rotation vector reports (See Ref. Manual 6.\+5.\+42) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+\+ARVR\+\_\+stabilized\+\_\+game\+\_\+rotation\+\_\+vector} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable ARVR stabilized game rotation vector reports (See Ref. Manual 6.\+5.\+43) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+gyro\+\_\+integrated\+\_\+rotation\+\_\+vector} (uint16\+\_\+t time\+Between\+Reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+accelerometer} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable accelerometer reports (See Ref. Manual 6.\+5.\+9) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+linear\+\_\+accelerometer} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable linear accelerometer reports (See Ref. Manual 6.\+5.\+10) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+gravity} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable gravity reading reports (See Ref. Manual 6.\+5.\+11) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+gyro} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable gyro reports (See Ref. Manual 6.\+5.\+13) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+uncalibrated\+\_\+gyro} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable uncalibrated gyro reports (See Ref. Manual 6.\+5.\+14) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+magnetometer} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable magnetometer reports (See Ref. Manual 6.\+5.\+16) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+tap\+\_\+detector} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable tap detector reports (See Ref. Manual 6.\+5.\+27) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+step\+\_\+counter} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable step counter reports (See Ref. Manual 6.\+5.\+29) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+stability\+\_\+classifier} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable activity stability classifier reports (See Ref. Manual 6.\+5.\+31) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+activity\+\_\+classifier} (uint16\+\_\+t time\+\_\+between\+\_\+reports, uint32\+\_\+t activities\+\_\+to\+\_\+enable, uint8\+\_\+t(\&activity\+\_\+confidence\+\_\+vals)[9])
+\begin{DoxyCompactList}\small\item\em Sends command to enable activity classifier reports (See Ref. Manual 6.\+5.\+36) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+raw\+\_\+accelerometer} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable raw accelerometer reports (See Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+raw\+\_\+gyro} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable raw gyro reports (See Ref. Manual 6.\+5.\+12) \end{DoxyCompactList}\item 
+void \textbf{ enable\+\_\+raw\+\_\+magnetometer} (uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Sends command to enable raw magnetometer reports (See Ref. Manual 6.\+5.\+15) \end{DoxyCompactList}\item 
+void \textbf{ tare\+\_\+now} (uint8\+\_\+t axis\+\_\+sel=\textbf{ TARE\+\_\+\+AXIS\+\_\+\+ALL}, uint8\+\_\+t rotation\+\_\+vector\+\_\+basis=\textbf{ TARE\+\_\+\+ROTATION\+\_\+\+VECTOR})
+\begin{DoxyCompactList}\small\item\em Sends command to tare an axis (See Ref. Manual 6.\+4.\+4.\+1) \end{DoxyCompactList}\item 
+void \textbf{ save\+\_\+tare} ()
+\begin{DoxyCompactList}\small\item\em Sends command to save tare into non-\/volatile memory of \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+4.\+4.\+2) \end{DoxyCompactList}\item 
+void \textbf{ clear\+\_\+tare} ()
+\begin{DoxyCompactList}\small\item\em Sends command to clear persistent tare settings in non-\/volatile memory of \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+4.\+4.\+3) \end{DoxyCompactList}\item 
+bool \textbf{ data\+\_\+available} ()
+\begin{DoxyCompactList}\small\item\em Checks if \doxyref{BNO08x}{p.}{class_b_n_o08x} has asserted interrupt and sent data. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ parse\+\_\+input\+\_\+report} ()
+\begin{DoxyCompactList}\small\item\em Parses received input report sent by \doxyref{BNO08x}{p.}{class_b_n_o08x}. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ parse\+\_\+command\+\_\+report} ()
+\begin{DoxyCompactList}\small\item\em Parses received command report sent by \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+3.\+9) \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ get\+\_\+readings} ()
+\begin{DoxyCompactList}\small\item\em Waits for \doxyref{BNO08x}{p.}{class_b_n_o08x} HINT pin to assert, and parses the received data. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ get\+\_\+time\+\_\+stamp} ()
+\begin{DoxyCompactList}\small\item\em Return timestamp of most recent report. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+magf} (float \&x, float \&y, float \&z, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get the full magnetic field vector. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+magf\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get X component of magnetic field vector. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+magf\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get Y component of magnetic field vector. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+magf\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get Z component of magnetic field vector. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+magf\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get accuracy of reported magnetic field vector. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+gravity} (float \&x, float \&y, float \&z, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get full reported gravity vector, units in m/s$^\wedge$2. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gravity\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get the reported x axis gravity. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gravity\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get the reported y axis gravity. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gravity\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get the reported z axis gravity. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+gravity\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get the reported gravity accuracy. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+roll} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about x axis. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+pitch} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about y axis. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+yaw} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about z axis. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+roll\+\_\+deg} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about x axis. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+pitch\+\_\+deg} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about y axis. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+yaw\+\_\+deg} ()
+\begin{DoxyCompactList}\small\item\em Get the reported rotation about z axis. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+quat} (float \&i, float \&j, float \&k, float \&real, float \&rad\+\_\+accuracy, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get the full quaternion reading. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+quat\+\_\+I} ()
+\begin{DoxyCompactList}\small\item\em Get I component of reported quaternion. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+quat\+\_\+J} ()
+\begin{DoxyCompactList}\small\item\em Get J component of reported quaternion. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+quat\+\_\+K} ()
+\begin{DoxyCompactList}\small\item\em Get K component of reported quaternion. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+quat\+\_\+real} ()
+\begin{DoxyCompactList}\small\item\em Get real component of reported quaternion. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+quat\+\_\+radian\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get radian accuracy of reported quaternion. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+quat\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get accuracy of reported quaternion. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+accel} (float \&x, float \&y, float \&z, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get full acceleration (total acceleration of device, units in m/s$^\wedge$2). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+accel\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get x axis acceleration (total acceleration of device, units in m/s$^\wedge$2). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+accel\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get y axis acceleration (total acceleration of device, units in m/s$^\wedge$2). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+accel\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get z axis acceleration (total acceleration of device, units in m/s$^\wedge$2). \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+accel\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get accuracy of linear acceleration. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+linear\+\_\+accel} (float \&x, float \&y, float \&z, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get full linear acceleration (acceleration of the device minus gravity, units in m/s$^\wedge$2). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+linear\+\_\+accel\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get x axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+linear\+\_\+accel\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get y axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+linear\+\_\+accel\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get z axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+linear\+\_\+accel\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get accuracy of linear acceleration. \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+accel\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get raw accelerometer x axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+accel\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get raw accelerometer y axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+accel\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get raw accelerometer z axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+gyro\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get raw gyroscope x axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+gyro\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get raw gyroscope y axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+gyro\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get raw gyroscope z axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+magf\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get raw magnetometer x axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+magf\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get raw magnetometer y axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+raw\+\_\+magf\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get raw magnetometer z axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+gyro\+\_\+calibrated\+\_\+velocity} (float \&x, float \&y, float \&z, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get full rotational velocity with drift compensation (units in Rad/s). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get calibrated gyro x axis angular velocity measurement. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get calibrated gyro y axis angular velocity measurement. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get calibrated gyro z axis angular velocity measurement. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+gyro\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get calibrated gyro accuracy. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+uncalibrated\+\_\+gyro} (float \&x, float \&y, float \&z, float \&bx, float \&by, float \&bz, uint8\+\_\+t \&accuracy)
+\begin{DoxyCompactList}\small\item\em Get full rotational velocity without drift compensation (units in Rad/s). An estimate of drift is given but not applied. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro x axis angular velocity measurement. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro Y axis angular velocity measurement. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro Z axis angular velocity measurement. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro x axis drift estimate. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro Y axis drift estimate. \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro Z axis drift estimate. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+uncalibrated\+\_\+gyro\+\_\+accuracy} ()
+\begin{DoxyCompactList}\small\item\em Get uncalibrated gyro accuracy. \end{DoxyCompactList}\item 
+void \textbf{ get\+\_\+gyro\+\_\+velocity} (float \&x, float \&y, float \&z)
+\begin{DoxyCompactList}\small\item\em Full rotational velocity from gyro-\/integrated rotation vector (See Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+velocity\+\_\+X} ()
+\begin{DoxyCompactList}\small\item\em Get x axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+velocity\+\_\+Y} ()
+\begin{DoxyCompactList}\small\item\em Get y axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+gyro\+\_\+velocity\+\_\+Z} ()
+\begin{DoxyCompactList}\small\item\em Get z axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+tap\+\_\+detector} ()
+\begin{DoxyCompactList}\small\item\em Get if tap has occured. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ get\+\_\+step\+\_\+count} ()
+\begin{DoxyCompactList}\small\item\em Get the counted amount of steps. \end{DoxyCompactList}\item 
+int8\+\_\+t \textbf{ get\+\_\+stability\+\_\+classifier} ()
+\begin{DoxyCompactList}\small\item\em Get the current stability classifier (Seee Ref. Manual 6.\+5.\+31) \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ get\+\_\+activity\+\_\+classifier} ()
+\begin{DoxyCompactList}\small\item\em Get the current activity classifier (Seee Ref. Manual 6.\+5.\+36) \end{DoxyCompactList}\item 
+void \textbf{ print\+\_\+header} ()
+\begin{DoxyCompactList}\small\item\em Prints the most recently received SHTP header to serial console with ESP\+\_\+\+LOG statement. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a0ef39163352bd7a54ac85952e8cb8516} 
+void {\bfseries print\+\_\+packet} ()
+\item 
+int16\+\_\+t \textbf{ get\+\_\+\+Q1} (uint16\+\_\+t record\+\_\+\+ID)
+\begin{DoxyCompactList}\small\item\em Gets Q1 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+\+Q2} (uint16\+\_\+t record\+\_\+\+ID)
+\begin{DoxyCompactList}\small\item\em Gets Q2 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). \end{DoxyCompactList}\item 
+int16\+\_\+t \textbf{ get\+\_\+\+Q3} (uint16\+\_\+t record\+\_\+\+ID)
+\begin{DoxyCompactList}\small\item\em Gets Q3 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+resolution} (uint16\+\_\+t record\+\_\+\+ID)
+\begin{DoxyCompactList}\small\item\em Gets resolution from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). \end{DoxyCompactList}\item 
+float \textbf{ get\+\_\+range} (uint16\+\_\+t record\+\_\+\+ID)
+\begin{DoxyCompactList}\small\item\em Gets range from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ FRS\+\_\+read\+\_\+word} (uint16\+\_\+t record\+\_\+\+ID, uint8\+\_\+t word\+\_\+number)
+\begin{DoxyCompactList}\small\item\em Reads meta data word from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID and word number. (See Ref. Manual 5.\+1 \& 6.\+3.\+7) \end{DoxyCompactList}\item 
+bool \textbf{ FRS\+\_\+read\+\_\+request} (uint16\+\_\+t record\+\_\+\+ID, uint16\+\_\+t read\+\_\+offset, uint16\+\_\+t block\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Requests meta data from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID. Contains Q points and other info. (See Ref. Manual 5.\+1 \& 6.\+3.\+6) \end{DoxyCompactList}\item 
+bool \textbf{ FRS\+\_\+read\+\_\+data} (uint16\+\_\+t record\+\_\+\+ID, uint8\+\_\+t start\+\_\+location, uint8\+\_\+t words\+\_\+to\+\_\+read)
+\begin{DoxyCompactList}\small\item\em Read meta data from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID. Contains Q points and other info. (See Ref. Manual 5.\+1 \& 6.\+3.\+7) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{class_b_n_o08x_a72d8919cb432a53f57ff63aa29d5f984} 
+static const constexpr uint16\+\_\+t {\bfseries FRS\+\_\+\+RECORDID\+\_\+\+ACCELEROMETER} = 0x\+E302
+\item 
+\label{class_b_n_o08x_a6dbd6b8c9d1450c97db1e46861c55132} 
+static const constexpr uint16\+\_\+t {\bfseries FRS\+\_\+\+RECORDID\+\_\+\+GYROSCOPE\+\_\+\+CALIBRATED} = 0x\+E306
+\item 
+\label{class_b_n_o08x_ab9519ab682fedb7224e4c0489c7d5619} 
+static const constexpr uint16\+\_\+t {\bfseries FRS\+\_\+\+RECORDID\+\_\+\+MAGNETIC\+\_\+\+FIELD\+\_\+\+CALIBRATED} = 0x\+E309
+\item 
+\label{class_b_n_o08x_a58e7e3a7bf08fbdb4b75b3a0034ed33e} 
+static const constexpr uint16\+\_\+t {\bfseries FRS\+\_\+\+RECORDID\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x\+E30B
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \textbf{ wait\+\_\+for\+\_\+device\+\_\+int} ()
+\begin{DoxyCompactList}\small\item\em Re-\/enables interrupts and waits for \doxyref{BNO08x}{p.}{class_b_n_o08x} to assert HINT pin. \end{DoxyCompactList}\item 
+bool \textbf{ receive\+\_\+packet} ()
+\begin{DoxyCompactList}\small\item\em Receives a SHTP packet via SPI. \end{DoxyCompactList}\item 
+void \textbf{ send\+\_\+packet} ()
+\begin{DoxyCompactList}\small\item\em Sends a queued SHTP packet via SPI. \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+packet} (uint8\+\_\+t channel\+\_\+number, uint8\+\_\+t data\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Queues an SHTP packet to be sent via SPI. \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+command} (uint8\+\_\+t command)
+\begin{DoxyCompactList}\small\item\em Queues a packet containing a command. \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+feature\+\_\+command} (uint8\+\_\+t report\+\_\+\+ID, uint16\+\_\+t time\+\_\+between\+\_\+reports)
+\begin{DoxyCompactList}\small\item\em Queues a packet containing a command with a request for sensor reports, reported periodically. (See Ref. Manual 6.\+5.\+4) \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+feature\+\_\+command} (uint8\+\_\+t report\+\_\+\+ID, uint16\+\_\+t time\+\_\+between\+\_\+reports, uint32\+\_\+t specific\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Queues a packet containing a command with a request for sensor reports, reported periodically. (See Ref. Manual 6.\+5.\+4) \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+calibrate\+\_\+command} (uint8\+\_\+t \+\_\+to\+\_\+calibrate)
+\begin{DoxyCompactList}\small\item\em Queues a packet containing a command to calibrate the specified sensor. \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+tare\+\_\+command} (uint8\+\_\+t command, uint8\+\_\+t axis=\textbf{ TARE\+\_\+\+AXIS\+\_\+\+ALL}, uint8\+\_\+t rotation\+\_\+vector\+\_\+basis=\textbf{ TARE\+\_\+\+ROTATION\+\_\+\+VECTOR})
+\begin{DoxyCompactList}\small\item\em Queues a packet containing a command related to zeroing sensor\textquotesingle{}s axes. (See Ref. Manual 6.\+4.\+4.\+1) \end{DoxyCompactList}\item 
+void \textbf{ queue\+\_\+request\+\_\+product\+\_\+id\+\_\+command} ()
+\begin{DoxyCompactList}\small\item\em Queues a packet containing the request product ID command. \end{DoxyCompactList}\item 
+void \textbf{ spi\+\_\+task} ()
+\begin{DoxyCompactList}\small\item\em Task responsible for SPI transactions. Executed when HINT in is asserted by \doxyref{BNO08x}{p.}{class_b_n_o08x}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \textbf{ spi\+\_\+task\+\_\+trampoline} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Static function used to launch spi task. \end{DoxyCompactList}\item 
+static void IRAM\+\_\+\+ATTR \textbf{ hint\+\_\+handler} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em HINT interrupt service routine, handles falling edge of \doxyref{BNO08x}{p.}{class_b_n_o08x} HINT pin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{class_b_n_o08x_a5b1f13a3170f1c8fdcc886353efa0c08} 
+volatile uint8\+\_\+t {\bfseries tx\+\_\+packet\+\_\+queued}
+\begin{DoxyCompactList}\small\item\em Whether or not a packet is currently waiting to be sent, a queued packet is sent on assertion of \doxyref{BNO08x}{p.}{class_b_n_o08x} HINT pin) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aee2d0bcb8e9d7bacacccacbb04ded661} 
+Semaphore\+Handle\+\_\+t {\bfseries tx\+\_\+semaphore}
+\begin{DoxyCompactList}\small\item\em Mutex semaphore used to prevent sending or receiving of packets if packet is currently being queued. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a7a85ccea09eadf865e8bbbf00d800e64} 
+uint8\+\_\+t {\bfseries rx\+\_\+buffer} [300]
+\begin{DoxyCompactList}\small\item\em buffer used to receive packet with \doxyref{receive\+\_\+packet()}{p.}{class_b_n_o08x_ae540799865934fcff54caed0772df071} \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a74d936708ba924b6ba21004ff9a0b30b} 
+uint8\+\_\+t {\bfseries tx\+\_\+buffer} [50]
+\begin{DoxyCompactList}\small\item\em buffer used for sending packet with \doxyref{send\+\_\+packet()}{p.}{class_b_n_o08x_a0ee58cedbc06d4a7db8821f40c0ee207} \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a908264b797fff9dc6679abde5e7584a5} 
+uint8\+\_\+t {\bfseries packet\+\_\+header\+\_\+rx} [4]
+\begin{DoxyCompactList}\small\item\em SHTP header received with \doxyref{receive\+\_\+packet()}{p.}{class_b_n_o08x_ae540799865934fcff54caed0772df071} \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_acbca88b37c8c5a590ca971b241dac64f} 
+uint8\+\_\+t {\bfseries commands} [20]
+\begin{DoxyCompactList}\small\item\em Command to be sent with \doxyref{send\+\_\+packet()}{p.}{class_b_n_o08x_a0ee58cedbc06d4a7db8821f40c0ee207} \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aa722dbc6f6f07c63e9ea2a9271614af3} 
+uint8\+\_\+t {\bfseries sequence\+\_\+number} [6]
+\begin{DoxyCompactList}\small\item\em Sequence num of each com channel, 6 in total. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a7bd032712a975e73e66bd72a3502baba} 
+uint32\+\_\+t {\bfseries meta\+\_\+data} [9]
+\begin{DoxyCompactList}\small\item\em First 9 bytes of meta data returned from FRS read operation (we don\textquotesingle{}t really need the rest) (See Ref. Manual 5.\+1) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ac1daa730e75d17e6afd1edaa288260ae} 
+uint8\+\_\+t {\bfseries command\+\_\+sequence\+\_\+number} = 0
+\begin{DoxyCompactList}\small\item\em Sequence num of command, sent within command packet. ~\newline
+ \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a6fbc6d086654b022a3ea53dfacd4fdf5} 
+uint16\+\_\+t {\bfseries packet\+\_\+length\+\_\+tx} = 0
+\begin{DoxyCompactList}\small\item\em Packet length to be sent with \doxyref{send\+\_\+packet()}{p.}{class_b_n_o08x_a0ee58cedbc06d4a7db8821f40c0ee207} \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_af65e3fd0bfdb5b82dcf775e2c061c65a} 
+uint16\+\_\+t {\bfseries packet\+\_\+length\+\_\+rx} = 0
+\begin{DoxyCompactList}\small\item\em Packet length received (calculated from packet\+\_\+header\+\_\+rx) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aeda443e9f608fccfec0e6770edc90c82} 
+\textbf{ bno08x\+\_\+config\+\_\+t} {\bfseries imu\+\_\+config} \{\}
+\begin{DoxyCompactList}\small\item\em IMU configuration settings. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a982f065df42f00e53fd87c840efdb0f1} 
+spi\+\_\+bus\+\_\+config\+\_\+t {\bfseries bus\+\_\+config} \{\}
+\begin{DoxyCompactList}\small\item\em SPI bus GPIO configuration settings. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a425a1f5a9f3232aadc685caaf4c2f82e} 
+spi\+\_\+device\+\_\+interface\+\_\+config\+\_\+t {\bfseries imu\+\_\+spi\+\_\+config} \{\}
+\begin{DoxyCompactList}\small\item\em SPI slave device settings. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_acc0ea091465fc9a5736f5e0c6a0ce8ef} 
+spi\+\_\+device\+\_\+handle\+\_\+t {\bfseries spi\+\_\+hdl} \{\}
+\begin{DoxyCompactList}\small\item\em SPI device handle. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ac16adc5f00b0039c98a4921f13895026} 
+spi\+\_\+transaction\+\_\+t {\bfseries spi\+\_\+transaction} \{\}
+\begin{DoxyCompactList}\small\item\em SPI transaction handle. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_abc972db20affbd0040b4e6c4892dd57b} 
+uint32\+\_\+t {\bfseries time\+\_\+stamp}
+\begin{DoxyCompactList}\small\item\em Report timestamp (see datasheet 1.\+3.\+5.\+3) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a75fb2f06c5bbe26e3f3c794934ef954c} 
+uint16\+\_\+t {\bfseries raw\+\_\+accel\+\_\+X}
+\item 
+\label{class_b_n_o08x_ab56e2ba505fa293d03e955137625c562} 
+uint16\+\_\+t {\bfseries raw\+\_\+accel\+\_\+Y}
+\item 
+\label{class_b_n_o08x_af254d245b368027df6952b7d7522bd35} 
+uint16\+\_\+t {\bfseries raw\+\_\+accel\+\_\+Z}
+\item 
+\label{class_b_n_o08x_a3365b7ebde01e284274e655c60343df9} 
+uint16\+\_\+t {\bfseries accel\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Raw acceleration readings (See SH-\/2 Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ae1f71a432cb15e75f522fa18f29f4d50} 
+uint16\+\_\+t {\bfseries raw\+\_\+lin\+\_\+accel\+\_\+X}
+\item 
+\label{class_b_n_o08x_aff3a5590471d1c9fc485a5610433915f} 
+uint16\+\_\+t {\bfseries raw\+\_\+lin\+\_\+accel\+\_\+Y}
+\item 
+\label{class_b_n_o08x_abc8add47f1babc66c812a015614143d3} 
+uint16\+\_\+t {\bfseries raw\+\_\+lin\+\_\+accel\+\_\+Z}
+\item 
+\label{class_b_n_o08x_a35e1635ef5edde8fc8640f978c6f2e3c} 
+uint16\+\_\+t {\bfseries accel\+\_\+lin\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Raw linear acceleration (See SH-\/2 Ref. Manual 6.\+5.\+10) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a19696327a056a448ed5ba706e747bbe5} 
+uint16\+\_\+t {\bfseries raw\+\_\+gyro\+\_\+X}
+\item 
+\label{class_b_n_o08x_a61df9f571555f5f682eb51f24a279489} 
+uint16\+\_\+t {\bfseries raw\+\_\+gyro\+\_\+Y}
+\item 
+\label{class_b_n_o08x_a03f567cda2a3cc966301e96732fca9ad} 
+uint16\+\_\+t {\bfseries raw\+\_\+gyro\+\_\+Z}
+\item 
+\label{class_b_n_o08x_a98ea35dd0fbd0c409d25fd8a6ed9f277} 
+uint16\+\_\+t {\bfseries gyro\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Raw gyro reading (See SH-\/2 Ref. Manual 6.\+5.\+13) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a69dc7e97875060213085ba964b3bd987} 
+uint16\+\_\+t {\bfseries raw\+\_\+quat\+\_\+I}
+\item 
+\label{class_b_n_o08x_a61ae05dc5572b326541bf8099f0c2a54} 
+uint16\+\_\+t {\bfseries raw\+\_\+quat\+\_\+J}
+\item 
+\label{class_b_n_o08x_a7720c44ed1c0f1a0663d2adc5e1a1ea1} 
+uint16\+\_\+t {\bfseries raw\+\_\+quat\+\_\+K}
+\item 
+\label{class_b_n_o08x_a867354267253ae828be4fae15c062db3} 
+uint16\+\_\+t {\bfseries raw\+\_\+quat\+\_\+real}
+\item 
+\label{class_b_n_o08x_a033d6cb1aa137743b69cc3e401df67b7} 
+uint16\+\_\+t {\bfseries raw\+\_\+quat\+\_\+radian\+\_\+accuracy}
+\item 
+\label{class_b_n_o08x_a36223f7124751fa71e860b2ef55dd2ac} 
+uint16\+\_\+t {\bfseries quat\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Raw quaternion reading (See SH-\/2 Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aa5bb03dbeabed729c012ec7164a3354f} 
+uint16\+\_\+t {\bfseries raw\+\_\+velocity\+\_\+gyro\+\_\+X}
+\item 
+\label{class_b_n_o08x_a4f188bf76ba862f07606d1351d28548f} 
+uint16\+\_\+t {\bfseries raw\+\_\+velocity\+\_\+gyro\+\_\+Y}
+\item 
+\label{class_b_n_o08x_ab49f9a6586d709bbd26280ef44a4bbf7} 
+uint16\+\_\+t {\bfseries raw\+\_\+velocity\+\_\+gyro\+\_\+Z}
+\begin{DoxyCompactList}\small\item\em Raw gyro angular velocity reading (See SH-\/2 Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_af45016be9ea523d80be8467b2907b499} 
+uint16\+\_\+t {\bfseries gravity\+\_\+X}
+\item 
+\label{class_b_n_o08x_af20dcd487a9fe8fa6243817d51e37be5} 
+uint16\+\_\+t {\bfseries gravity\+\_\+Y}
+\item 
+\label{class_b_n_o08x_afa1cf5c3afbb258d97c55c5fb187f2d6} 
+uint16\+\_\+t {\bfseries gravity\+\_\+Z}
+\item 
+\label{class_b_n_o08x_ae01698d287ea999179a11e2244902022} 
+uint16\+\_\+t {\bfseries gravity\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Gravity reading in m/s$^\wedge$2 (See SH-\/2 Ref. Manual 6.\+5.\+11) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_afdc5cdb65bd0b36528b5b671b9d27053} 
+uint16\+\_\+t {\bfseries raw\+\_\+uncalib\+\_\+gyro\+\_\+X}
+\item 
+\label{class_b_n_o08x_acc2c66e2985975266a286385ea855117} 
+uint16\+\_\+t {\bfseries raw\+\_\+uncalib\+\_\+gyro\+\_\+Y}
+\item 
+\label{class_b_n_o08x_afac9dd4161f4c0051255293680c9082b} 
+uint16\+\_\+t {\bfseries raw\+\_\+uncalib\+\_\+gyro\+\_\+Z}
+\item 
+\label{class_b_n_o08x_a8a2667f668317cee0a9fc4ef0accc3f5} 
+uint16\+\_\+t {\bfseries raw\+\_\+bias\+\_\+X}
+\item 
+\label{class_b_n_o08x_ac38ff5eb93d3c3db0af2504ba02fd93c} 
+uint16\+\_\+t {\bfseries raw\+\_\+bias\+\_\+Y}
+\item 
+\label{class_b_n_o08x_a0968eaed9b3d979a2caa1aba6e6b417a} 
+uint16\+\_\+t {\bfseries raw\+\_\+bias\+\_\+Z}
+\item 
+\label{class_b_n_o08x_a081c666a3f24016d0ec5c5edc49f2903} 
+uint16\+\_\+t {\bfseries uncalib\+\_\+gyro\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Uncalibrated gyro reading (See SH-\/2 Ref. Manual 6.\+5.\+14) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aa5bdf740161b7c37adcac0154a410118} 
+uint16\+\_\+t {\bfseries raw\+\_\+magf\+\_\+X}
+\item 
+\label{class_b_n_o08x_acd365418f24a6da61122c66d82086639} 
+uint16\+\_\+t {\bfseries raw\+\_\+magf\+\_\+Y}
+\item 
+\label{class_b_n_o08x_ab4862de31d0874b44b6745678e1c905e} 
+uint16\+\_\+t {\bfseries raw\+\_\+magf\+\_\+Z}
+\item 
+\label{class_b_n_o08x_ac5d4e151690774687efa951ca41c16ae} 
+uint16\+\_\+t {\bfseries magf\+\_\+accuracy}
+\begin{DoxyCompactList}\small\item\em Calibrated magnetic field reading in u\+Tesla (See SH-\/2 Ref. Manual 6.\+5.\+16) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a1171a5738a4e6831ec7fa32a29f15554} 
+uint8\+\_\+t {\bfseries tap\+\_\+detector}
+\begin{DoxyCompactList}\small\item\em Tap detector reading (See SH-\/2 Ref. Manual 6.\+5.\+27) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ad80a77973371b12d722ea39063c648be} 
+uint16\+\_\+t {\bfseries step\+\_\+count}
+\begin{DoxyCompactList}\small\item\em Step counter reading (See SH-\/2 Ref. Manual 6.\+5.\+29) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a1b12471e92536a79d0c425d77676f2e1} 
+uint8\+\_\+t {\bfseries stability\+\_\+classifier}
+\begin{DoxyCompactList}\small\item\em Stability status reading (See SH-\/2 Ref. Manual 6.\+5.\+31) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a75cea49c1c08ca28d9fa7e5ed61c6e7b} 
+uint8\+\_\+t {\bfseries activity\+\_\+classifier}
+\begin{DoxyCompactList}\small\item\em Activity status reading (See SH-\/2 Ref. Manual 6.\+5.\+36) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_af96e8cd070459f945ffbf01b98106e13} 
+uint8\+\_\+t $\ast$ {\bfseries activity\+\_\+confidences}
+\begin{DoxyCompactList}\small\item\em Confidence of read activities (See SH-\/2 Ref. Manual 6.\+5.\+36) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ad212b5028a31e857e76d251ced2724e1} 
+uint8\+\_\+t {\bfseries calibration\+\_\+status}
+\begin{DoxyCompactList}\small\item\em Calibration status of device (See SH-\/2 Ref. Manual 6.\+4.\+7.\+1 \& 6.\+4.\+7.\+2) ~\newline
+ \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a937cbdc4edaac72c8cad041d79de5701} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+accel\+\_\+X}
+\item 
+\label{class_b_n_o08x_ad83cecb8a5d2be01db6792755b6057e9} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+accel\+\_\+Y}
+\item 
+\label{class_b_n_o08x_a59a4d75f1302ab693b1b26e9ccaa5341} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+accel\+\_\+Z}
+\begin{DoxyCompactList}\small\item\em Raw accelerometer readings from MEMS sensor (See SH2 Ref. Manual 6.\+5.\+8) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a3d6b6257462951ea023af7076c80f6dd} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+gyro\+\_\+X}
+\item 
+\label{class_b_n_o08x_ab6b142416912a096886dd63ad0beb865} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+gyro\+\_\+Y}
+\item 
+\label{class_b_n_o08x_ac35d5b12721ab876eaeb1f714a9b3b1d} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+gyro\+\_\+Z}
+\begin{DoxyCompactList}\small\item\em Raw gyro readings from MEMS sensor (See SH-\/2 Ref. Manual 6.\+5.\+12) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ab587cdf991342b69b7fff3b33f537eb5} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+magf\+\_\+X}
+\item 
+\label{class_b_n_o08x_aad926054c81818fff611e10ed913706a} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+magf\+\_\+Y}
+\item 
+\label{class_b_n_o08x_a90f0cdf11decc276006f76a494d42ce3} 
+uint16\+\_\+t {\bfseries mems\+\_\+raw\+\_\+magf\+\_\+Z}
+\begin{DoxyCompactList}\small\item\em Raw magnetometer (compass) readings from MEMS sensor (See SH-\/2 Ref. Manual 6.\+5.\+15) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a615090aae15f1b0410a7e5ecb94957b5} 
+Task\+Handle\+\_\+t {\bfseries spi\+\_\+task\+\_\+hdl}
+\begin{DoxyCompactList}\small\item\em SPI task handle. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a496407fcd9c7c921bf5b3b062024b29d} 
+volatile bool {\bfseries int\+\_\+asserted}
+\begin{DoxyCompactList}\small\item\em Interrupt asserted flag, sets true after hint\+\_\+handler ISR launches SPI task and it has run to completion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{class_b_n_o08x_a6232920a05c0aba34e5560951a20ae87} 
+static \textbf{ bno08x\+\_\+config\+\_\+t} {\bfseries default\+\_\+imu\+\_\+config}
+\begin{DoxyCompactList}\small\item\em default imu config settings \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a4882dbc698d7b730f57e2401037766a9} 
+static bool {\bfseries isr\+\_\+service\+\_\+installed} = \{false\}
+\begin{DoxyCompactList}\small\item\em true of the isr service has been installed, only has to be done once regardless of how many devices are used \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a0b19c8f2de2b2bfe033da7f93cdd2608} 
+static const constexpr int16\+\_\+t {\bfseries ROTATION\+\_\+\+VECTOR\+\_\+\+Q1} = 14
+\begin{DoxyCompactList}\small\item\em Rotation vector Q point (See SH-\/2 Ref. Manual 6.\+5.\+18) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a923d65d8568cc31873ad56a3908e1939} 
+static const constexpr int16\+\_\+t {\bfseries ROTATION\+\_\+\+VECTOR\+\_\+\+ACCURACY\+\_\+\+Q1} = 12
+\begin{DoxyCompactList}\small\item\em Rotation vector accuracy estimate Q point (See SH-\/2 Ref. Manual 6.\+5.\+18) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a0564aaf5b20dc42b54db4fb3115ac1c7} 
+static const constexpr int16\+\_\+t {\bfseries ACCELEROMETER\+\_\+\+Q1} = 8
+\begin{DoxyCompactList}\small\item\em Acceleration Q point (See SH-\/2 Ref. Manual 6.\+5.\+9) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ad0d37fe07ced24f2c9afc21145a74e7b} 
+static const constexpr int16\+\_\+t {\bfseries LINEAR\+\_\+\+ACCELEROMETER\+\_\+\+Q1} = 8
+\begin{DoxyCompactList}\small\item\em Linear acceleration Q point (See SH-\/2 Ref. Manual 6.\+5.\+10) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aa3bec8effefa61cec6fa170e9d02c4dd} 
+static const constexpr int16\+\_\+t {\bfseries GYRO\+\_\+\+Q1} = 9
+\begin{DoxyCompactList}\small\item\em Gyro Q point (See SH-\/2 Ref. Manual 6.\+5.\+13) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a9fac9b811b7c2117675a784cb4df204c} 
+static const constexpr int16\+\_\+t {\bfseries MAGNETOMETER\+\_\+\+Q1} = 4
+\begin{DoxyCompactList}\small\item\em Magnetometer Q point (See SH-\/2 Ref. Manual 6.\+5.\+16) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aafe117561fe9138800073a04a778b4ce} 
+static const constexpr int16\+\_\+t {\bfseries ANGULAR\+\_\+\+VELOCITY\+\_\+\+Q1} = 10
+\begin{DoxyCompactList}\small\item\em Angular velocity Q point (See SH-\/2 Ref. Manual 6.\+5.\+44) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ae10722334dfce9635e76519598e165a2} 
+static const constexpr int16\+\_\+t {\bfseries GRAVITY\+\_\+\+Q1} = 8
+\begin{DoxyCompactList}\small\item\em Gravity Q point (See SH-\/2 Ref. Manual 6.\+5.\+11) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a53c4824accdff697948c10df30a15457} 
+static const constexpr uint64\+\_\+t {\bfseries HOST\+\_\+\+INT\+\_\+\+TIMEOUT\+\_\+\+US} = 150000\+ULL
+\begin{DoxyCompactList}\small\item\em Max wait between HINT being asserted by \doxyref{BNO08x}{p.}{class_b_n_o08x} before transaction is considered failed. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_acd5b44d705af1f9aaa271a59a9d2d595} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+ACCEL} = 0
+\begin{DoxyCompactList}\small\item\em Calibrate accelerometer command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aeac84719a1cc0f9c8d5a9a749391d4db} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+GYRO} = 1
+\begin{DoxyCompactList}\small\item\em Calibrate gyro command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ac00e8b59ae8d710cf79956eaafa97ddb} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+MAG} = 2
+\begin{DoxyCompactList}\small\item\em Calibrate magnetometer command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a955dcb60da150490e17367a871b3a3d2} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+PLANAR\+\_\+\+ACCEL} = 3
+\begin{DoxyCompactList}\small\item\em Calibrate planar acceleration command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_af53d9e99f163d97ef92fe989b1dd25cc} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+ACCEL\+\_\+\+GYRO\+\_\+\+MAG} = 4
+\begin{DoxyCompactList}\small\item\em Calibrate accelerometer, gyro, \& magnetometer command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a584bfa04a39feb93279ee673c340db54} 
+static const constexpr uint8\+\_\+t {\bfseries CALIBRATE\+\_\+\+STOP} = 5
+\begin{DoxyCompactList}\small\item\em Stop calibration command used by queue\+\_\+calibrate\+\_\+command. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a384a1efc9857ad938be3bb44f871539b} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+ERRORS} = 1
+\item 
+\label{class_b_n_o08x_a93dd073c0cc1f3ccfde552649f6ebccc} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+COUNTER} = 2
+\item 
+\label{class_b_n_o08x_a0a1756bc16ba3eac45f4229b1e350107} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+TARE} = 3
+\begin{DoxyCompactList}\small\item\em Command and response to tare command (See Sh2 Ref. Manual 6.\+4.\+4) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a30eb6d305a187d4d36546841e12176b9} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+INITIALIZE} = 4
+\begin{DoxyCompactList}\small\item\em Reinitialize sensor hub components See (SH2 Ref. Manual 6.\+4.\+5) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_af124a6c1d8b871f3181b6c85f1099cb2} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+DCD} = 6
+\begin{DoxyCompactList}\small\item\em Save DCD command (See SH2 Ref. Manual 6.\+4.\+7) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a8381dfe403ddff522f172cb16780731a} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+ME\+\_\+\+CALIBRATE} = 7
+\begin{DoxyCompactList}\small\item\em Command and response to configure ME calibration (See SH2 Ref. Manual 6.\+4.\+7) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a7a246989c94cd87f68166b20b7ad4c8b} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+DCD\+\_\+\+PERIOD\+\_\+\+SAVE} = 9
+\begin{DoxyCompactList}\small\item\em Configure DCD periodic saving (See SH2 Ref. Manual 6.\+4) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a308c8b5307d93a67b5b9066d44494aa5} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+OSCILLATOR} = 10
+\begin{DoxyCompactList}\small\item\em Retrieve oscillator type command (See SH2 Ref. Manual 6.\+4) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a4f580b3cb232a762ea7019ee7b04d419} 
+static const constexpr uint8\+\_\+t {\bfseries COMMAND\+\_\+\+CLEAR\+\_\+\+DCD} = 11
+\begin{DoxyCompactList}\small\item\em Clear DCD \& Reset command (See SH2 Ref. Manual 6.\+4) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a1e5b64caa514b7e4fe64ab214758b875} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+COMMAND\+\_\+\+RESPONSE} = 0x\+F1
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+9. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ab04695dd189412092254e52bd6e5a75a} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+COMMAND\+\_\+\+REQUEST} = 0x\+F2
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+8. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aeb760b095dcf808a413ef696f2608e43} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE} = 0x\+F3
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+7. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a74af7eacc35cc825940b647c2de0d368} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+FRS\+\_\+\+READ\+\_\+\+REQUEST} = 0x\+F4
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+6. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a0177134162e116501bc9483c6e4b76c3} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+RESPONSE} = 0x\+F8
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+2. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a542405639c28bd56bc4361b922763c95} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REQUEST} = 0x\+F9
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+3.\+1. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ae37d6f8431c8c465bfb0c662772b5cb9} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+BASE\+\_\+\+TIMESTAMP} = 0x\+FB
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 7.\+2.\+1. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a1d3bff4e20c2c3d47db322c9e34ef338} 
+static const constexpr uint8\+\_\+t {\bfseries SHTP\+\_\+\+REPORT\+\_\+\+SET\+\_\+\+FEATURE\+\_\+\+COMMAND} = 0x\+FD
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+4. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a476b35f11a2f096cdb70f7ee73cf2e90} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+ACCELEROMETER} = 0x01
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+9. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a29ab9f86763cce89e833392553f7abb4} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+GYROSCOPE} = 0x02
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+13. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a6f3bf6774ceb583c5c56f2ad80573834} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+MAGNETIC\+\_\+\+FIELD} = 0x03
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+16. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a53898b82dbac7ef27e1adb519dfcd686} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+LINEAR\+\_\+\+ACCELERATION} = 0x04
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+10. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ab0279e8622ed188ee48411e074fb7e9d} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x05
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+18. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aeeb54b0b516917f3ff58cb655ae707a8} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+GRAVITY} = 0x06
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+11. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ab94bfdbbffc0a7a255e752244b22322a} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+UNCALIBRATED\+\_\+\+GYRO} = 0x07
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+14. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ab3dc8b362050d438d8a05b26e86af638} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+GAME\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x08
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+19. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aec618850b70a4e32a5148b05281aa8f0} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+GEOMAGNETIC\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x09
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+20. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a8b55a8131c251bb234d5391b0cd6aa48} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+GYRO\+\_\+\+INTEGRATED\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x2A
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+44. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a437fed4cb82edd32f839d88679ff8ed9} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+TAP\+\_\+\+DETECTOR} = 0x10
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+27. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aaff9af63d5f35c05f0a1e485f3d97bc5} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+STEP\+\_\+\+COUNTER} = 0x11
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+29. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_afad93ba52698512205df714109cadcfc} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+STABILITY\+\_\+\+CLASSIFIER} = 0x13
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+31. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aa8d2d5c66b72af3966dca751e7343a97} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+RAW\+\_\+\+ACCELEROMETER} = 0x14
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+8. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aaed7faffc8f2bba8a2ae56933236f9f7} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+RAW\+\_\+\+GYROSCOPE} = 0x15
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+12. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_ac719a06278c239cc36f666b99a41b1c0} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+RAW\+\_\+\+MAGNETOMETER} = 0x16
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+15. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a001b45f56e347fb8e8149bcecbe2b40c} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+PERSONAL\+\_\+\+ACTIVITY\+\_\+\+CLASSIFIER} = 0x1E
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+36. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a263b8c25089c38f9ffa85493aef79606} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+AR\+\_\+\+VR\+\_\+\+STABILIZED\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x28
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+42. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a09dd6846e22801427b92b325385653e0} 
+static const constexpr uint8\+\_\+t {\bfseries SENSOR\+\_\+\+REPORTID\+\_\+\+AR\+\_\+\+VR\+\_\+\+STABILIZED\+\_\+\+GAME\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0x29
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+5.\+43. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a27df630f3e52b35552d2c1f2cf3496b0} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+NOW} = 0
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+4.\+4.\+1. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a115aef7b38ec0dec2085f6917d832912} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+PERSIST} = 1
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+4.\+4.\+2. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a59cde7dd301c94a20b84735c5d49008e} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+SET\+\_\+\+REORIENTATION} = 2
+\begin{DoxyCompactList}\small\item\em See SH2 Ref. Manual 6.\+4.\+4.\+3. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a1ef13f6f330810934416ad5fe0ee55b2} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+AXIS\+\_\+\+ALL} = 0x07
+\begin{DoxyCompactList}\small\item\em Tare all axes (used with tare now command) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aecb3e11c1ca5769fd60f42c17a105731} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+AXIS\+\_\+Z} = 0x04
+\begin{DoxyCompactList}\small\item\em Tar yaw axis only (used with tare now command) \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a8e2cfc25d0e34ae53a762b88cc3ac3c8} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+ROTATION\+\_\+\+VECTOR} = 0
+\begin{DoxyCompactList}\small\item\em Tare rotation vector. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_abaf1ec8bb197db1998a9ed3cec6180d5} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+GAME\+\_\+\+ROTATION\+\_\+\+VECTOR} = 1
+\begin{DoxyCompactList}\small\item\em Tare game rotation vector. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a225397a04d849e5647992ca80d68febb} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+GEOMAGNETIC\+\_\+\+ROTATION\+\_\+\+VECTOR} = 2
+\begin{DoxyCompactList}\small\item\em tare geomagnetic rotation vector \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a9ec354d75249f06f13599abf7bedfde0} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+GYRO\+\_\+\+INTEGRATED\+\_\+\+ROTATION\+\_\+\+VECTOR} = 3
+\begin{DoxyCompactList}\small\item\em Tare gyro integrated rotation vector. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a32204963cefc4ae64a80f43e71c8667a} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+AR\+\_\+\+VR\+\_\+\+STABILIZED\+\_\+\+ROTATION\+\_\+\+VECTOR} = 4
+\begin{DoxyCompactList}\small\item\em Tare ARVR stabilized rotation vector. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_aed8135fd5e7996ef06bf5968692ccd84} 
+static const constexpr uint8\+\_\+t {\bfseries TARE\+\_\+\+AR\+\_\+\+VR\+\_\+\+STABILIZED\+\_\+\+GAME\+\_\+\+ROTATION\+\_\+\+VECTOR} = 5
+\begin{DoxyCompactList}\small\item\em Tare ARVR stabilized game rotation vector. \end{DoxyCompactList}\item 
+\label{class_b_n_o08x_a2c98d5f2c406a3efd0b48c5666fa8c46} 
+static const constexpr char $\ast$ {\bfseries TAG} = \"{}BNO08x\"{}
+\begin{DoxyCompactList}\small\item\em Class tag used for serial print statements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\label{class_b_n_o08x_a40f7688e843d74b8bd526c6f5ff17845} 
+\index{BNO08x@{BNO08x}!BNO08x@{BNO08x}}
+\index{BNO08x@{BNO08x}!BNO08x@{BNO08x}}
+\doxysubsubsection{BNO08x()}
+{\footnotesize\ttfamily BNO08x\+::\+BNO08x (\begin{DoxyParamCaption}\item[{\textbf{ bno08x\+\_\+config\+\_\+t}}]{imu\+\_\+config = {\ttfamily \textbf{ default\+\_\+imu\+\_\+config}} }\end{DoxyParamCaption})}
+
+
+
+\doxyref{BNO08x}{p.}{class_b_n_o08x} imu constructor. 
+
+Construct a \doxyref{BNO08x}{p.}{class_b_n_o08x} object for managing a \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor. Initializes required GPIO pins, interrupts, SPI peripheral, and local task for SPI transactions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em imu\+\_\+config} & Configuration settings (optional), default settings can be seen in \doxyref{bno08x\+\_\+config\+\_\+t}{p.}{structbno08x__config__t} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Function Documentation}
+\label{class_b_n_o08x_aeffce374f558a167d5b5f19ad627e7cc} 
+\index{BNO08x@{BNO08x}!calibrate\_accelerometer@{calibrate\_accelerometer}}
+\index{calibrate\_accelerometer@{calibrate\_accelerometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibrate\_accelerometer()}
+{\footnotesize\ttfamily void BNO08x\+::calibrate\+\_\+accelerometer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to calibrate accelerometer. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afd0ca5f9b9741935543d143a5a43d128} 
+\index{BNO08x@{BNO08x}!calibrate\_all@{calibrate\_all}}
+\index{calibrate\_all@{calibrate\_all}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibrate\_all()}
+{\footnotesize\ttfamily void BNO08x\+::calibrate\+\_\+all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to calibrate accelerometer, gyro, and magnetometer. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a9ada90f8ab6dd33fa2d7c168d9234af1} 
+\index{BNO08x@{BNO08x}!calibrate\_gyro@{calibrate\_gyro}}
+\index{calibrate\_gyro@{calibrate\_gyro}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibrate\_gyro()}
+{\footnotesize\ttfamily void BNO08x\+::calibrate\+\_\+gyro (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to calibrate gyro. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ac26350b55095a346d72598ab8aa74b4a} 
+\index{BNO08x@{BNO08x}!calibrate\_magnetometer@{calibrate\_magnetometer}}
+\index{calibrate\_magnetometer@{calibrate\_magnetometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibrate\_magnetometer()}
+{\footnotesize\ttfamily void BNO08x\+::calibrate\+\_\+magnetometer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to calibrate magnetometer. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1c6c49c97bc098db89db1aaa37e18f26} 
+\index{BNO08x@{BNO08x}!calibrate\_planar\_accelerometer@{calibrate\_planar\_accelerometer}}
+\index{calibrate\_planar\_accelerometer@{calibrate\_planar\_accelerometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibrate\_planar\_accelerometer()}
+{\footnotesize\ttfamily void BNO08x\+::calibrate\+\_\+planar\+\_\+accelerometer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to calibrate planar accelerometer. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a71ca35f78b98d93d31eb0c187dc8543b} 
+\index{BNO08x@{BNO08x}!calibration\_complete@{calibration\_complete}}
+\index{calibration\_complete@{calibration\_complete}!BNO08x@{BNO08x}}
+\doxysubsubsection{calibration\_complete()}
+{\footnotesize\ttfamily bool BNO08x\+::calibration\+\_\+complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns true if calibration has completed. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afe39bfdede7b9a2b273983cb29a27d6e} 
+\index{BNO08x@{BNO08x}!clear\_tare@{clear\_tare}}
+\index{clear\_tare@{clear\_tare}!BNO08x@{BNO08x}}
+\doxysubsubsection{clear\_tare()}
+{\footnotesize\ttfamily void BNO08x\+::clear\+\_\+tare (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to clear persistent tare settings in non-\/volatile memory of \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+4.\+4.\+3) 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a367d525d1c0ba119b3dca3067bb5bccc} 
+\index{BNO08x@{BNO08x}!data\_available@{data\_available}}
+\index{data\_available@{data\_available}!BNO08x@{BNO08x}}
+\doxysubsubsection{data\_available()}
+{\footnotesize\ttfamily bool BNO08x\+::data\+\_\+available (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks if \doxyref{BNO08x}{p.}{class_b_n_o08x} has asserted interrupt and sent data. 
+
+\begin{DoxyReturn}{Returns}
+true if new data has been parsed and saved 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1d68494d911f7efbbb620d349fb9da0d} 
+\index{BNO08x@{BNO08x}!enable\_accelerometer@{enable\_accelerometer}}
+\index{enable\_accelerometer@{enable\_accelerometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_accelerometer()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+accelerometer (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable accelerometer reports (See Ref. Manual 6.\+5.\+9) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0960ce957058af565dd4c43ad6c40225} 
+\index{BNO08x@{BNO08x}!enable\_activity\_classifier@{enable\_activity\_classifier}}
+\index{enable\_activity\_classifier@{enable\_activity\_classifier}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_activity\_classifier()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+activity\+\_\+classifier (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{uint32\+\_\+t}]{activities\+\_\+to\+\_\+enable,  }\item[{uint8\+\_\+t(\&)}]{activity\+\_\+confidence\+\_\+vals[9] }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable activity classifier reports (See Ref. Manual 6.\+5.\+36) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+{\em activities\+\_\+to\+\_\+enable} & Desired activities to enable (0x1F enables all). \\
+\hline
+{\em activity\+\_\+confidence\+\_\+vals} & Returned activity level confidences. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad9e26658c53c728d7d10381db680765e} 
+\index{BNO08x@{BNO08x}!enable\_ARVR\_stabilized\_game\_rotation\_vector@{enable\_ARVR\_stabilized\_game\_rotation\_vector}}
+\index{enable\_ARVR\_stabilized\_game\_rotation\_vector@{enable\_ARVR\_stabilized\_game\_rotation\_vector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_ARVR\_stabilized\_game\_rotation\_vector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+\+ARVR\+\_\+stabilized\+\_\+game\+\_\+rotation\+\_\+vector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable ARVR stabilized game rotation vector reports (See Ref. Manual 6.\+5.\+43) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a04290cb6ba09b93d5a9ef337c13d1abb} 
+\index{BNO08x@{BNO08x}!enable\_ARVR\_stabilized\_rotation\_vector@{enable\_ARVR\_stabilized\_rotation\_vector}}
+\index{enable\_ARVR\_stabilized\_rotation\_vector@{enable\_ARVR\_stabilized\_rotation\_vector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_ARVR\_stabilized\_rotation\_vector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+\+ARVR\+\_\+stabilized\+\_\+rotation\+\_\+vector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable ARVR stabilized rotation vector reports (See Ref. Manual 6.\+5.\+42) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a639cb013ed17e0f33057742fac97f1a2} 
+\index{BNO08x@{BNO08x}!enable\_game\_rotation\_vector@{enable\_game\_rotation\_vector}}
+\index{enable\_game\_rotation\_vector@{enable\_game\_rotation\_vector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_game\_rotation\_vector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+game\+\_\+rotation\+\_\+vector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable game rotation vector reports (See Ref. Manual 6.\+5.\+19) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a2dc0cd5bc04ca7eb3b4fffd2a3a6f27a} 
+\index{BNO08x@{BNO08x}!enable\_gravity@{enable\_gravity}}
+\index{enable\_gravity@{enable\_gravity}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_gravity()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+gravity (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable gravity reading reports (See Ref. Manual 6.\+5.\+11) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a7619b598cc8e768c4df4805b2958a2c8} 
+\index{BNO08x@{BNO08x}!enable\_gyro@{enable\_gyro}}
+\index{enable\_gyro@{enable\_gyro}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_gyro()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+gyro (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable gyro reports (See Ref. Manual 6.\+5.\+13) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a09a0306abec5895dd0450b2fe970347c} 
+\index{BNO08x@{BNO08x}!enable\_gyro\_integrated\_rotation\_vector@{enable\_gyro\_integrated\_rotation\_vector}}
+\index{enable\_gyro\_integrated\_rotation\_vector@{enable\_gyro\_integrated\_rotation\_vector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_gyro\_integrated\_rotation\_vector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+gyro\+\_\+integrated\+\_\+rotation\+\_\+vector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6.\+5.\+44) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad3724e7e602feb2b695d2d88a61d5328} 
+\index{BNO08x@{BNO08x}!enable\_linear\_accelerometer@{enable\_linear\_accelerometer}}
+\index{enable\_linear\_accelerometer@{enable\_linear\_accelerometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_linear\_accelerometer()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+linear\+\_\+accelerometer (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable linear accelerometer reports (See Ref. Manual 6.\+5.\+10) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_acf4a83a44a221f6495263f00f1b8d849} 
+\index{BNO08x@{BNO08x}!enable\_magnetometer@{enable\_magnetometer}}
+\index{enable\_magnetometer@{enable\_magnetometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_magnetometer()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+magnetometer (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable magnetometer reports (See Ref. Manual 6.\+5.\+16) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad6adf3b24a8a559d3bb57e6abcef4ce8} 
+\index{BNO08x@{BNO08x}!enable\_raw\_accelerometer@{enable\_raw\_accelerometer}}
+\index{enable\_raw\_accelerometer@{enable\_raw\_accelerometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_raw\_accelerometer()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+raw\+\_\+accelerometer (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable raw accelerometer reports (See Ref. Manual 6.\+5.\+8) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_af984deb77c92746fe4d193457312be63} 
+\index{BNO08x@{BNO08x}!enable\_raw\_gyro@{enable\_raw\_gyro}}
+\index{enable\_raw\_gyro@{enable\_raw\_gyro}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_raw\_gyro()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+raw\+\_\+gyro (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable raw gyro reports (See Ref. Manual 6.\+5.\+12) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad1ca07ee06ef98d4e11a74dde18e9623} 
+\index{BNO08x@{BNO08x}!enable\_raw\_magnetometer@{enable\_raw\_magnetometer}}
+\index{enable\_raw\_magnetometer@{enable\_raw\_magnetometer}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_raw\_magnetometer()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+raw\+\_\+magnetometer (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable raw magnetometer reports (See Ref. Manual 6.\+5.\+15) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_abe9acd2eb1ce2f2e72b7a48c8d025cc4} 
+\index{BNO08x@{BNO08x}!enable\_rotation\_vector@{enable\_rotation\_vector}}
+\index{enable\_rotation\_vector@{enable\_rotation\_vector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_rotation\_vector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+rotation\+\_\+vector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable rotation vector reports (See Ref. Manual 6.\+5.\+18) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a5378a235e3114ccdc63b26bc3fae5dad} 
+\index{BNO08x@{BNO08x}!enable\_stability\_classifier@{enable\_stability\_classifier}}
+\index{enable\_stability\_classifier@{enable\_stability\_classifier}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_stability\_classifier()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+stability\+\_\+classifier (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable activity stability classifier reports (See Ref. Manual 6.\+5.\+31) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad550085fa1b51495ce3d8894538f33d5} 
+\index{BNO08x@{BNO08x}!enable\_step\_counter@{enable\_step\_counter}}
+\index{enable\_step\_counter@{enable\_step\_counter}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_step\_counter()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+step\+\_\+counter (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable step counter reports (See Ref. Manual 6.\+5.\+29) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a919c7d94226f4c6adbb8edf6fd1613a9} 
+\index{BNO08x@{BNO08x}!enable\_tap\_detector@{enable\_tap\_detector}}
+\index{enable\_tap\_detector@{enable\_tap\_detector}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_tap\_detector()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+tap\+\_\+detector (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable tap detector reports (See Ref. Manual 6.\+5.\+27) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ac7b5815c5ad8b83a34ad0855423601e8} 
+\index{BNO08x@{BNO08x}!enable\_uncalibrated\_gyro@{enable\_uncalibrated\_gyro}}
+\index{enable\_uncalibrated\_gyro@{enable\_uncalibrated\_gyro}!BNO08x@{BNO08x}}
+\doxysubsubsection{enable\_uncalibrated\_gyro()}
+{\footnotesize\ttfamily void BNO08x\+::enable\+\_\+uncalibrated\+\_\+gyro (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})}
+
+
+
+Sends command to enable uncalibrated gyro reports (See Ref. Manual 6.\+5.\+14) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ac9d9b6636745e8180807284da67c92a2} 
+\index{BNO08x@{BNO08x}!end\_calibration@{end\_calibration}}
+\index{end\_calibration@{end\_calibration}!BNO08x@{BNO08x}}
+\doxysubsubsection{end\_calibration()}
+{\footnotesize\ttfamily void BNO08x\+::end\+\_\+calibration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to end calibration procedure. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a40607e557eada666a5e1e416f42cd4a1} 
+\index{BNO08x@{BNO08x}!FRS\_read\_data@{FRS\_read\_data}}
+\index{FRS\_read\_data@{FRS\_read\_data}!BNO08x@{BNO08x}}
+\doxysubsubsection{FRS\_read\_data()}
+{\footnotesize\ttfamily bool BNO08x\+::\+FRS\+\_\+read\+\_\+data (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID,  }\item[{uint8\+\_\+t}]{start\+\_\+location,  }\item[{uint8\+\_\+t}]{words\+\_\+to\+\_\+read }\end{DoxyParamCaption})}
+
+
+
+Read meta data from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID. Contains Q points and other info. (See Ref. Manual 5.\+1 \& 6.\+3.\+7) 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to request meta data from. \\
+\hline
+{\em start\+\_\+location} & Start byte location. \\
+\hline
+{\em words\+\_\+to\+\_\+read} & Length of words to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if meta data read successfully. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_adf789e709ac1667656db757c8d559af9} 
+\index{BNO08x@{BNO08x}!FRS\_read\_request@{FRS\_read\_request}}
+\index{FRS\_read\_request@{FRS\_read\_request}!BNO08x@{BNO08x}}
+\doxysubsubsection{FRS\_read\_request()}
+{\footnotesize\ttfamily bool BNO08x\+::\+FRS\+\_\+read\+\_\+request (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID,  }\item[{uint16\+\_\+t}]{read\+\_\+offset,  }\item[{uint16\+\_\+t}]{block\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Requests meta data from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID. Contains Q points and other info. (See Ref. Manual 5.\+1 \& 6.\+3.\+6) 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to request meta data from. \\
+\hline
+{\em start\+\_\+location} & Start byte location. \\
+\hline
+{\em words\+\_\+to\+\_\+read} & Length of words to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if read request acknowledged (HINT was asserted) 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a27f5dce5c994be18a587fb622574ad41} 
+\index{BNO08x@{BNO08x}!FRS\_read\_word@{FRS\_read\_word}}
+\index{FRS\_read\_word@{FRS\_read\_word}!BNO08x@{BNO08x}}
+\doxysubsubsection{FRS\_read\_word()}
+{\footnotesize\ttfamily uint32\+\_\+t BNO08x\+::\+FRS\+\_\+read\+\_\+word (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID,  }\item[{uint8\+\_\+t}]{word\+\_\+number }\end{DoxyParamCaption})}
+
+
+
+Reads meta data word from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system) given the record ID and word number. (See Ref. Manual 5.\+1 \& 6.\+3.\+7) 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to request meta data from. \\
+\hline
+{\em word\+\_\+number} & Desired word to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Requested meta data word, 0 if failed. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a9329c6669282071622c3b3741b1b8142} 
+\index{BNO08x@{BNO08x}!get\_accel@{get\_accel}}
+\index{get\_accel@{get\_accel}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_accel()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+accel (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get full acceleration (total acceleration of device, units in m/s$^\wedge$2). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis acceleration. \\
+\hline
+{\em y} & Reference variable to save Y axis acceleration. \\
+\hline
+{\em z} & Reference variable to save Z axis acceleration. \\
+\hline
+{\em accuracy} & Reference variable to save reported acceleration accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a3fce726d5de821f97ed207036dae2900} 
+\index{BNO08x@{BNO08x}!get\_accel\_accuracy@{get\_accel\_accuracy}}
+\index{get\_accel\_accuracy@{get\_accel\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_accel\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+accel\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get accuracy of linear acceleration. 
+
+\begin{DoxyReturn}{Returns}
+Accuracy of linear acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_abce574112a9079d2cbc58cfc352b8a69} 
+\index{BNO08x@{BNO08x}!get\_accel\_X@{get\_accel\_X}}
+\index{get\_accel\_X@{get\_accel\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_accel\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+accel\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get x axis acceleration (total acceleration of device, units in m/s$^\wedge$2). 
+
+\begin{DoxyReturn}{Returns}
+The angular reported x axis acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afdf24bb3d54518b23972f21f007817c1} 
+\index{BNO08x@{BNO08x}!get\_accel\_Y@{get\_accel\_Y}}
+\index{get\_accel\_Y@{get\_accel\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_accel\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+accel\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get y axis acceleration (total acceleration of device, units in m/s$^\wedge$2). 
+
+\begin{DoxyReturn}{Returns}
+The angular reported y axis acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0a72477cb7a330fedbcb3e2126b882b1} 
+\index{BNO08x@{BNO08x}!get\_accel\_Z@{get\_accel\_Z}}
+\index{get\_accel\_Z@{get\_accel\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_accel\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+accel\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get z axis acceleration (total acceleration of device, units in m/s$^\wedge$2). 
+
+\begin{DoxyReturn}{Returns}
+The angular reported z axis acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4f7060b2d3c15b359b70b6346730446a} 
+\index{BNO08x@{BNO08x}!get\_activity\_classifier@{get\_activity\_classifier}}
+\index{get\_activity\_classifier@{get\_activity\_classifier}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_activity\_classifier()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+activity\+\_\+classifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the current activity classifier (Seee Ref. Manual 6.\+5.\+36) 
+
+\begin{DoxyReturn}{Returns}
+The current activity\+: 0 = unknown 1 = in vehicle 2 = on bicycle 3 = on foot 4 = still 5 = tilting 6 = walking 7 = runnning 8 = on stairs 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a386c46ac8965220ab7b9423df838dd4d} 
+\index{BNO08x@{BNO08x}!get\_gravity@{get\_gravity}}
+\index{get\_gravity@{get\_gravity}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gravity()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+gravity (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get full reported gravity vector, units in m/s$^\wedge$2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis gravity. \\
+\hline
+{\em y} & Reference variable to save Y axis axis gravity. \\
+\hline
+{\em z} & Reference variable to save Z axis axis gravity. \\
+\hline
+{\em accuracy} & Reference variable to save reported gravity accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_accd39f48e9f8ab8267df7184b5b7cd76} 
+\index{BNO08x@{BNO08x}!get\_gravity\_accuracy@{get\_gravity\_accuracy}}
+\index{get\_gravity\_accuracy@{get\_gravity\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gravity\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+gravity\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported gravity accuracy. 
+
+\begin{DoxyReturn}{Returns}
+Accuracy of reported gravity. ~\newline
+ 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a88679bccd9339b87ec35fc4fc4e745ae} 
+\index{BNO08x@{BNO08x}!get\_gravity\_X@{get\_gravity\_X}}
+\index{get\_gravity\_X@{get\_gravity\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gravity\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gravity\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported x axis gravity. 
+
+\begin{DoxyReturn}{Returns}
+x axis gravity in m/s$^\wedge$2 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a8a36db7f1c932f33e05e494632059801} 
+\index{BNO08x@{BNO08x}!get\_gravity\_Y@{get\_gravity\_Y}}
+\index{get\_gravity\_Y@{get\_gravity\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gravity\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gravity\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported y axis gravity. 
+
+\begin{DoxyReturn}{Returns}
+y axis gravity in m/s$^\wedge$2 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a5622b4d1754648ea7eb400c1adf9e807} 
+\index{BNO08x@{BNO08x}!get\_gravity\_Z@{get\_gravity\_Z}}
+\index{get\_gravity\_Z@{get\_gravity\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gravity\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gravity\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported z axis gravity. 
+
+\begin{DoxyReturn}{Returns}
+z axis gravity in m/s$^\wedge$2 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a811999653110858311c97a779c388e5d} 
+\index{BNO08x@{BNO08x}!get\_gyro\_accuracy@{get\_gyro\_accuracy}}
+\index{get\_gyro\_accuracy@{get\_gyro\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+gyro\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get calibrated gyro accuracy. 
+
+\begin{DoxyReturn}{Returns}
+Accuracy of calibrated gyro. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4d3746a376a22acb7a2641bb750c4c89} 
+\index{BNO08x@{BNO08x}!get\_gyro\_calibrated\_velocity@{get\_gyro\_calibrated\_velocity}}
+\index{get\_gyro\_calibrated\_velocity@{get\_gyro\_calibrated\_velocity}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_calibrated\_velocity()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+gyro\+\_\+calibrated\+\_\+velocity (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get full rotational velocity with drift compensation (units in Rad/s). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis angular velocity \\
+\hline
+{\em y} & Reference variable to save Y axis angular velocity \\
+\hline
+{\em z} & Reference variable to save Z axis angular velocity \\
+\hline
+{\em accuracy} & Reference variable to save reported gyro accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ab7977391191067282e7f734b9ee45059} 
+\index{BNO08x@{BNO08x}!get\_gyro\_calibrated\_velocity\_X@{get\_gyro\_calibrated\_velocity\_X}}
+\index{get\_gyro\_calibrated\_velocity\_X@{get\_gyro\_calibrated\_velocity\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_calibrated\_velocity\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get calibrated gyro x axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported x axis angular velocity from calibrated gyro (drift compensation applied). 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad4fab6e636e239d4b9273f158983ed89} 
+\index{BNO08x@{BNO08x}!get\_gyro\_calibrated\_velocity\_Y@{get\_gyro\_calibrated\_velocity\_Y}}
+\index{get\_gyro\_calibrated\_velocity\_Y@{get\_gyro\_calibrated\_velocity\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_calibrated\_velocity\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get calibrated gyro y axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported y axis angular velocity from calibrated gyro (drift compensation applied). 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a15a29c3bb476048b7229abcfb2b1d52a} 
+\index{BNO08x@{BNO08x}!get\_gyro\_calibrated\_velocity\_Z@{get\_gyro\_calibrated\_velocity\_Z}}
+\index{get\_gyro\_calibrated\_velocity\_Z@{get\_gyro\_calibrated\_velocity\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_calibrated\_velocity\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get calibrated gyro z axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported z axis angular velocity from calibrated gyro (drift compensation applied). 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afe6392012669e7ebd1a9e817e2bd313f} 
+\index{BNO08x@{BNO08x}!get\_gyro\_velocity@{get\_gyro\_velocity}}
+\index{get\_gyro\_velocity@{get\_gyro\_velocity}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_velocity()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+gyro\+\_\+velocity (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z }\end{DoxyParamCaption})}
+
+
+
+Full rotational velocity from gyro-\/integrated rotation vector (See Ref. Manual 6.\+5.\+44) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis angular velocity \\
+\hline
+{\em y} & Reference variable to save Y axis angular velocity \\
+\hline
+{\em z} & Reference variable to save Z axis angular velocity\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_acd376cd3e454a87198ec86accbf2ee00} 
+\index{BNO08x@{BNO08x}!get\_gyro\_velocity\_X@{get\_gyro\_velocity\_X}}
+\index{get\_gyro\_velocity\_X@{get\_gyro\_velocity\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_velocity\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+velocity\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get x axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) 
+
+\begin{DoxyReturn}{Returns}
+The reported x axis angular velocity. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_acd1819a81818f90dc105950b4a7d0b04} 
+\index{BNO08x@{BNO08x}!get\_gyro\_velocity\_Y@{get\_gyro\_velocity\_Y}}
+\index{get\_gyro\_velocity\_Y@{get\_gyro\_velocity\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_velocity\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+velocity\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get y axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) 
+
+\begin{DoxyReturn}{Returns}
+The reported y axis angular velocity. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ae2add976af256ec981248371a2f58207} 
+\index{BNO08x@{BNO08x}!get\_gyro\_velocity\_Z@{get\_gyro\_velocity\_Z}}
+\index{get\_gyro\_velocity\_Z@{get\_gyro\_velocity\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_gyro\_velocity\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+gyro\+\_\+velocity\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get z axis angular velocity from gyro-\/integrated rotation vector. (See Ref. Manual 6.\+5.\+44) 
+
+\begin{DoxyReturn}{Returns}
+The reported Z axis angular velocity. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad59b029d04341dbef72e059488951980} 
+\index{BNO08x@{BNO08x}!get\_linear\_accel@{get\_linear\_accel}}
+\index{get\_linear\_accel@{get\_linear\_accel}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_linear\_accel()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+linear\+\_\+accel (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get full linear acceleration (acceleration of the device minus gravity, units in m/s$^\wedge$2). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis acceleration. \\
+\hline
+{\em y} & Reference variable to save Y axis acceleration. \\
+\hline
+{\em z} & Reference variable to save Z axis acceleration. \\
+\hline
+{\em accuracy} & Reference variable to save reported linear acceleration accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a33fe3c2f47759cfae5f4b612ddd329ea} 
+\index{BNO08x@{BNO08x}!get\_linear\_accel\_accuracy@{get\_linear\_accel\_accuracy}}
+\index{get\_linear\_accel\_accuracy@{get\_linear\_accel\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_linear\_accel\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+linear\+\_\+accel\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get accuracy of linear acceleration. 
+
+\begin{DoxyReturn}{Returns}
+Accuracy of linear acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a763c3a9699a1081d430fd9b9b7bc49a3} 
+\index{BNO08x@{BNO08x}!get\_linear\_accel\_X@{get\_linear\_accel\_X}}
+\index{get\_linear\_accel\_X@{get\_linear\_accel\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_linear\_accel\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+linear\+\_\+accel\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get x axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) 
+
+\begin{DoxyReturn}{Returns}
+The angular reported x axis linear acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1033bdd65b42b6706d1dfc67ece66191} 
+\index{BNO08x@{BNO08x}!get\_linear\_accel\_Y@{get\_linear\_accel\_Y}}
+\index{get\_linear\_accel\_Y@{get\_linear\_accel\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_linear\_accel\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+linear\+\_\+accel\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get y axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) 
+
+\begin{DoxyReturn}{Returns}
+The angular reported y axis linear acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afdfa7d50362702da689c5d18bf17fd84} 
+\index{BNO08x@{BNO08x}!get\_linear\_accel\_Z@{get\_linear\_accel\_Z}}
+\index{get\_linear\_accel\_Z@{get\_linear\_accel\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_linear\_accel\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+linear\+\_\+accel\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get z axis linear acceleration (acceleration of device minus gravity, units in m/s$^\wedge$2) 
+
+\begin{DoxyReturn}{Returns}
+The angular reported z axis linear acceleration. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a35a224d519a2a243d0d526a34ecde5a8} 
+\index{BNO08x@{BNO08x}!get\_magf@{get\_magf}}
+\index{get\_magf@{get\_magf}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_magf()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+magf (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get the full magnetic field vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save reported x magnitude. \\
+\hline
+{\em y} & Reference variable to save reported y magnitude. \\
+\hline
+{\em x} & Reference variable to save reported z magnitude. \\
+\hline
+{\em accuracy} & Reference variable save reported accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a487391e6b2dd7f05084804d1fb94976f} 
+\index{BNO08x@{BNO08x}!get\_magf\_accuracy@{get\_magf\_accuracy}}
+\index{get\_magf\_accuracy@{get\_magf\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_magf\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+magf\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get accuracy of reported magnetic field vector. 
+
+\begin{DoxyReturn}{Returns}
+The accuracy of reported magnetic field vector. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a111601243b913751eb51c1f37cba4e7d} 
+\index{BNO08x@{BNO08x}!get\_magf\_X@{get\_magf\_X}}
+\index{get\_magf\_X@{get\_magf\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_magf\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+magf\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get X component of magnetic field vector. 
+
+\begin{DoxyReturn}{Returns}
+The reported X component of magnetic field vector. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a82ed8d7b9a5c25374839df75a3d220ea} 
+\index{BNO08x@{BNO08x}!get\_magf\_Y@{get\_magf\_Y}}
+\index{get\_magf\_Y@{get\_magf\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_magf\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+magf\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get Y component of magnetic field vector. 
+
+\begin{DoxyReturn}{Returns}
+The reported Y component of magnetic field vector. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ab4c48a91d2f8b29430abc17b7f015282} 
+\index{BNO08x@{BNO08x}!get\_magf\_Z@{get\_magf\_Z}}
+\index{get\_magf\_Z@{get\_magf\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_magf\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+magf\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get Z component of magnetic field vector. 
+
+\begin{DoxyReturn}{Returns}
+The reported Z component of magnetic field vector. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1b91f234d81c45f1f5ca2f27c9f0f6a3} 
+\index{BNO08x@{BNO08x}!get\_pitch@{get\_pitch}}
+\index{get\_pitch@{get\_pitch}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_pitch()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+pitch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about y axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the y axis in radians. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_af50010400cbd1445e9ddfa259384b412} 
+\index{BNO08x@{BNO08x}!get\_pitch\_deg@{get\_pitch\_deg}}
+\index{get\_pitch\_deg@{get\_pitch\_deg}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_pitch\_deg()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+pitch\+\_\+deg (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about y axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the y axis in degrees. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4421c43323945946ad605f8422958dcf} 
+\index{BNO08x@{BNO08x}!get\_Q1@{get\_Q1}}
+\index{get\_Q1@{get\_Q1}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_Q1()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+\+Q1 (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID }\end{DoxyParamCaption})}
+
+
+
+Gets Q1 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to get Q1 value for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Q1 value for requested sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a954dccdcbe8a8c4f1787f13ebb8d932b} 
+\index{BNO08x@{BNO08x}!get\_Q2@{get\_Q2}}
+\index{get\_Q2@{get\_Q2}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_Q2()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+\+Q2 (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID }\end{DoxyParamCaption})}
+
+
+
+Gets Q2 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to get Q2 value for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Q2 value for requested sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1590ba793668f9cb1a32a1f4dd07cb9a} 
+\index{BNO08x@{BNO08x}!get\_Q3@{get\_Q3}}
+\index{get\_Q3@{get\_Q3}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_Q3()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+\+Q3 (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID }\end{DoxyParamCaption})}
+
+
+
+Gets Q3 point from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). 
+
+Note that Q points from the data sheet can be used as well, using the ones stored in flash is optional.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to get Q3 value for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Q3 value for requested sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a51a6d594824de2292e70f788454f8a2d} 
+\index{BNO08x@{BNO08x}!get\_quat@{get\_quat}}
+\index{get\_quat@{get\_quat}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+quat (\begin{DoxyParamCaption}\item[{float \&}]{i,  }\item[{float \&}]{j,  }\item[{float \&}]{k,  }\item[{float \&}]{real,  }\item[{float \&}]{rad\+\_\+accuracy,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get the full quaternion reading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & Reference variable to save reported i component of quaternion. \\
+\hline
+{\em j} & Reference variable to save reported j component of quaternion. \\
+\hline
+{\em k} & Reference variable to save reported k component of quaternion. \\
+\hline
+{\em real} & Reference variable to save reported real component of quaternion. \\
+\hline
+{\em rad\+\_\+accuracy} & Reference variable to save reported raw quaternion radian accuracy. \\
+\hline
+{\em accuracy} & Reference variable to save reported quaternion accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a24ba760d064a1dc45f972c79b9c8d98d} 
+\index{BNO08x@{BNO08x}!get\_quat\_accuracy@{get\_quat\_accuracy}}
+\index{get\_quat\_accuracy@{get\_quat\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+quat\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get accuracy of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The accuracy of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a12c12a8e078b28480fb8828d306656f5} 
+\index{BNO08x@{BNO08x}!get\_quat\_I@{get\_quat\_I}}
+\index{get\_quat\_I@{get\_quat\_I}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_I()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+quat\+\_\+I (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get I component of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The I component of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a9f6bb642fa0297a7b9bcc94dd7374015} 
+\index{BNO08x@{BNO08x}!get\_quat\_J@{get\_quat\_J}}
+\index{get\_quat\_J@{get\_quat\_J}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_J()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+quat\+\_\+J (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get J component of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The J component of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a9f42c70c2337a0d831064a40ecfe2dd8} 
+\index{BNO08x@{BNO08x}!get\_quat\_K@{get\_quat\_K}}
+\index{get\_quat\_K@{get\_quat\_K}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_K()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+quat\+\_\+K (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get K component of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The K component of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a61b7d10a98afc6903fea6b2cede27630} 
+\index{BNO08x@{BNO08x}!get\_quat\_radian\_accuracy@{get\_quat\_radian\_accuracy}}
+\index{get\_quat\_radian\_accuracy@{get\_quat\_radian\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_radian\_accuracy()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+quat\+\_\+radian\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get radian accuracy of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The radian accuracy of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a5a556c5ec1baaa7f1156779dbe47a7b7} 
+\index{BNO08x@{BNO08x}!get\_quat\_real@{get\_quat\_real}}
+\index{get\_quat\_real@{get\_quat\_real}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_quat\_real()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+quat\+\_\+real (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get real component of reported quaternion. 
+
+\begin{DoxyReturn}{Returns}
+The real component of reported quaternion. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0fff04c42c9502615ad73cd1457cb9b0} 
+\index{BNO08x@{BNO08x}!get\_range@{get\_range}}
+\index{get\_range@{get\_range}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_range()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+range (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID }\end{DoxyParamCaption})}
+
+
+
+Gets range from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to get range value for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The range value for the requested sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1de356dd604c1dffcd1a32faeb4fafe2} 
+\index{BNO08x@{BNO08x}!get\_raw\_accel\_X@{get\_raw\_accel\_X}}
+\index{get\_raw\_accel\_X@{get\_raw\_accel\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_accel\_X()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+accel\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw accelerometer x axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw accelerometer x axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a96563de0eb597a52d595d19da827b1ac} 
+\index{BNO08x@{BNO08x}!get\_raw\_accel\_Y@{get\_raw\_accel\_Y}}
+\index{get\_raw\_accel\_Y@{get\_raw\_accel\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_accel\_Y()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+accel\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw accelerometer y axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw accelerometer y axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a718cdd910e5e7e03fd0a1ad04ee6f0ce} 
+\index{BNO08x@{BNO08x}!get\_raw\_accel\_Z@{get\_raw\_accel\_Z}}
+\index{get\_raw\_accel\_Z@{get\_raw\_accel\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_accel\_Z()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+accel\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw accelerometer z axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.\+5.\+8) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw accelerometer z axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_af1b2c3a383a84fc6dfaddae1052b44d4} 
+\index{BNO08x@{BNO08x}!get\_raw\_gyro\_X@{get\_raw\_gyro\_X}}
+\index{get\_raw\_gyro\_X@{get\_raw\_gyro\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_gyro\_X()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+gyro\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw gyroscope x axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw gyroscope x axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_aff7714441d242b3b9b0c03f94e0a9374} 
+\index{BNO08x@{BNO08x}!get\_raw\_gyro\_Y@{get\_raw\_gyro\_Y}}
+\index{get\_raw\_gyro\_Y@{get\_raw\_gyro\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_gyro\_Y()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+gyro\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw gyroscope y axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw gyroscope y axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a2e28b5a79c442a6baa2fa5165b9ce37d} 
+\index{BNO08x@{BNO08x}!get\_raw\_gyro\_Z@{get\_raw\_gyro\_Z}}
+\index{get\_raw\_gyro\_Z@{get\_raw\_gyro\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_gyro\_Z()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+gyro\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw gyroscope z axis reading from physical gyroscope MEMs sensor (See Ref. Manual 6.\+5.\+12) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw gyroscope z axis reading from physical MEMs sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_adf12600b39de41d258439a343fcc1ad8} 
+\index{BNO08x@{BNO08x}!get\_raw\_magf\_X@{get\_raw\_magf\_X}}
+\index{get\_raw\_magf\_X@{get\_raw\_magf\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_magf\_X()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+magf\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw magnetometer x axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw magnetometer x axis reading from physical magnetometer sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a2c842e43ceae19149f6525bcbc48f1cf} 
+\index{BNO08x@{BNO08x}!get\_raw\_magf\_Y@{get\_raw\_magf\_Y}}
+\index{get\_raw\_magf\_Y@{get\_raw\_magf\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_magf\_Y()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+magf\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw magnetometer y axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw magnetometer y axis reading from physical magnetometer sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a99c1bcc2ec3ca3d8feafd6dd61f9d269} 
+\index{BNO08x@{BNO08x}!get\_raw\_magf\_Z@{get\_raw\_magf\_Z}}
+\index{get\_raw\_magf\_Z@{get\_raw\_magf\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_raw\_magf\_Z()}
+{\footnotesize\ttfamily int16\+\_\+t BNO08x\+::get\+\_\+raw\+\_\+magf\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get raw magnetometer z axis reading from physical magnetometer sensor (See Ref. Manual 6.\+5.\+15) 
+
+\begin{DoxyReturn}{Returns}
+Reported raw magnetometer z axis reading from physical magnetometer sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a9cc47f0e5b7d679c80992c993a910ccf} 
+\index{BNO08x@{BNO08x}!get\_readings@{get\_readings}}
+\index{get\_readings@{get\_readings}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_readings()}
+{\footnotesize\ttfamily uint16\+\_\+t BNO08x\+::get\+\_\+readings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Waits for \doxyref{BNO08x}{p.}{class_b_n_o08x} HINT pin to assert, and parses the received data. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a11bb1b3fa44ad8f28c1492b5c07af886} 
+\index{BNO08x@{BNO08x}!get\_reset\_reason@{get\_reset\_reason}}
+\index{get\_reset\_reason@{get\_reset\_reason}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_reset\_reason()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+reset\+\_\+reason (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reason for the most recent reset. 
+
+\begin{DoxyReturn}{Returns}
+The reason for the most recent recent reset ( 1 = POR (power on reset), 2 = internal reset, 3 = watchdog timer, 4 = external reset 5 = other) 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1d6ea02d0d4b23ff6a15e9d5c6c92372} 
+\index{BNO08x@{BNO08x}!get\_resolution@{get\_resolution}}
+\index{get\_resolution@{get\_resolution}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_resolution()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+resolution (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{record\+\_\+\+ID }\end{DoxyParamCaption})}
+
+
+
+Gets resolution from \doxyref{BNO08x}{p.}{class_b_n_o08x} FRS (flash record system). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+\_\+\+ID} & Which record ID/ sensor to get resolution value for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resolution value for the requested sensor. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a89618eba08186ee8e679e7313907ddef} 
+\index{BNO08x@{BNO08x}!get\_roll@{get\_roll}}
+\index{get\_roll@{get\_roll}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_roll()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+roll (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about x axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the x axis in radians. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a7077b9a130f1dcf0192454e387968dd6} 
+\index{BNO08x@{BNO08x}!get\_roll\_deg@{get\_roll\_deg}}
+\index{get\_roll\_deg@{get\_roll\_deg}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_roll\_deg()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+roll\+\_\+deg (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about x axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the x axis in degrees. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0d148e00abcfeec48c689e3084a7e786} 
+\index{BNO08x@{BNO08x}!get\_stability\_classifier@{get\_stability\_classifier}}
+\index{get\_stability\_classifier@{get\_stability\_classifier}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_stability\_classifier()}
+{\footnotesize\ttfamily int8\+\_\+t BNO08x\+::get\+\_\+stability\+\_\+classifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the current stability classifier (Seee Ref. Manual 6.\+5.\+31) 
+
+\begin{DoxyReturn}{Returns}
+The current stability (0 = unknown, 1 = on table, 2 = stationary) 
+\end{DoxyReturn}
+\label{class_b_n_o08x_adaff49f3d80fdd19fd4210f0c56d41ef} 
+\index{BNO08x@{BNO08x}!get\_step\_count@{get\_step\_count}}
+\index{get\_step\_count@{get\_step\_count}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_step\_count()}
+{\footnotesize\ttfamily uint16\+\_\+t BNO08x\+::get\+\_\+step\+\_\+count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the counted amount of steps. 
+
+\begin{DoxyReturn}{Returns}
+The current amount of counted steps. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4797ec731de4c158716da1a7af9d1602} 
+\index{BNO08x@{BNO08x}!get\_tap\_detector@{get\_tap\_detector}}
+\index{get\_tap\_detector@{get\_tap\_detector}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_tap\_detector()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+tap\+\_\+detector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get if tap has occured. 
+
+\begin{DoxyReturn}{Returns}
+7 bit tap code indicated which axis taps have occurred. (See Ref. Manual 6.\+5.\+27) 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad9137777271421a58159f3fe5e05ed20} 
+\index{BNO08x@{BNO08x}!get\_time\_stamp@{get\_time\_stamp}}
+\index{get\_time\_stamp@{get\_time\_stamp}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_time\_stamp()}
+{\footnotesize\ttfamily uint32\+\_\+t BNO08x\+::get\+\_\+time\+\_\+stamp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Return timestamp of most recent report. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1bd3c33e70354bd35a78b83b6786b531} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro@{get\_uncalibrated\_gyro}}
+\index{get\_uncalibrated\_gyro@{get\_uncalibrated\_gyro}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro()}
+{\footnotesize\ttfamily void BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro (\begin{DoxyParamCaption}\item[{float \&}]{x,  }\item[{float \&}]{y,  }\item[{float \&}]{z,  }\item[{float \&}]{b\+\_\+x,  }\item[{float \&}]{b\+\_\+y,  }\item[{float \&}]{b\+\_\+z,  }\item[{uint8\+\_\+t \&}]{accuracy }\end{DoxyParamCaption})}
+
+
+
+Get full rotational velocity without drift compensation (units in Rad/s). An estimate of drift is given but not applied. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Reference variable to save X axis angular velocity \\
+\hline
+{\em y} & Reference variable to save Y axis angular velocity \\
+\hline
+{\em z} & Reference variable to save Z axis angular velocity \\
+\hline
+{\em b\+\_\+x} & Reference variable to save X axis drift estimate \\
+\hline
+{\em b\+\_\+y} & Reference variable to save Y axis drift estimate \\
+\hline
+{\em b\+\_\+z} & Reference variable to save Z axis drift estimate \\
+\hline
+{\em accuracy} & Reference variable to save reported gyro accuracy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a3285613f18b2f2f4c3f9e6d5c971af10} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_accuracy@{get\_uncalibrated\_gyro\_accuracy}}
+\index{get\_uncalibrated\_gyro\_accuracy@{get\_uncalibrated\_gyro\_accuracy}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_accuracy()}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro accuracy. 
+
+\begin{DoxyReturn}{Returns}
+Accuracy of uncalibrated gyro. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad228cdf352b7ea95e484da993045a47b} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_bias\_X@{get\_uncalibrated\_gyro\_bias\_X}}
+\index{get\_uncalibrated\_gyro\_bias\_X@{get\_uncalibrated\_gyro\_bias\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_bias\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro x axis drift estimate. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported x axis drift estimate. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a74725517129dd548c7a3de705d5861bd} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_bias\_Y@{get\_uncalibrated\_gyro\_bias\_Y}}
+\index{get\_uncalibrated\_gyro\_bias\_Y@{get\_uncalibrated\_gyro\_bias\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_bias\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro Y axis drift estimate. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported Y axis drift estimate. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a5050359272abd146ab3c7a6101effbd7} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_bias\_Z@{get\_uncalibrated\_gyro\_bias\_Z}}
+\index{get\_uncalibrated\_gyro\_bias\_Z@{get\_uncalibrated\_gyro\_bias\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_bias\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+bias\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro Z axis drift estimate. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported Z axis drift estimate. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a289ff66f51c94be62c4a556f3a5997bf} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_X@{get\_uncalibrated\_gyro\_X}}
+\index{get\_uncalibrated\_gyro\_X@{get\_uncalibrated\_gyro\_X}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_X()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+X (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro x axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported x axis angular velocity from uncalibrated gyro. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1874e4bd457bb5b6ecc2c64039b88ba4} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_Y@{get\_uncalibrated\_gyro\_Y}}
+\index{get\_uncalibrated\_gyro\_Y@{get\_uncalibrated\_gyro\_Y}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_Y()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+Y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro Y axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported Y axis angular velocity from uncalibrated gyro. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0a73633d8929ce4058b14cefc8cad717} 
+\index{BNO08x@{BNO08x}!get\_uncalibrated\_gyro\_Z@{get\_uncalibrated\_gyro\_Z}}
+\index{get\_uncalibrated\_gyro\_Z@{get\_uncalibrated\_gyro\_Z}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_uncalibrated\_gyro\_Z()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+uncalibrated\+\_\+gyro\+\_\+Z (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get uncalibrated gyro Z axis angular velocity measurement. 
+
+\begin{DoxyReturn}{Returns}
+The angular reported Z axis angular velocity from uncalibrated gyro. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a64d3e41750c6de9413d6982511f78f17} 
+\index{BNO08x@{BNO08x}!get\_yaw@{get\_yaw}}
+\index{get\_yaw@{get\_yaw}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_yaw()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+yaw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about z axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the z axis in radians. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_af80f7795656e695e036d3b1557aed94c} 
+\index{BNO08x@{BNO08x}!get\_yaw\_deg@{get\_yaw\_deg}}
+\index{get\_yaw\_deg@{get\_yaw\_deg}!BNO08x@{BNO08x}}
+\doxysubsubsection{get\_yaw\_deg()}
+{\footnotesize\ttfamily float BNO08x\+::get\+\_\+yaw\+\_\+deg (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the reported rotation about z axis. 
+
+\begin{DoxyReturn}{Returns}
+Rotation about the z axis in degrees. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a28cd1c0b3477571d87133234e6358503} 
+\index{BNO08x@{BNO08x}!hard\_reset@{hard\_reset}}
+\index{hard\_reset@{hard\_reset}!BNO08x@{BNO08x}}
+\doxysubsubsection{hard\_reset()}
+{\footnotesize\ttfamily bool BNO08x\+::hard\+\_\+reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Hard resets \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a804b95c58c30d36933fd251626b85bf7} 
+\index{BNO08x@{BNO08x}!hint\_handler@{hint\_handler}}
+\index{hint\_handler@{hint\_handler}!BNO08x@{BNO08x}}
+\doxysubsubsection{hint\_handler()}
+{\footnotesize\ttfamily void IRAM\+\_\+\+ATTR BNO08x\+::hint\+\_\+handler (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+HINT interrupt service routine, handles falling edge of \doxyref{BNO08x}{p.}{class_b_n_o08x} HINT pin. 
+
+ISR that launches SPI task to perform transaction upon assertion of \doxyref{BNO08x}{p.}{class_b_n_o08x} interrupt pin.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_aea8e2c6dd7a2c9899479a7f39fe94798} 
+\index{BNO08x@{BNO08x}!initialize@{initialize}}
+\index{initialize@{initialize}!BNO08x@{BNO08x}}
+\doxysubsubsection{initialize()}
+{\footnotesize\ttfamily bool BNO08x\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor. 
+
+Resets sensor and goes through initializing process outlined in \doxyref{BNO08x}{p.}{class_b_n_o08x} datasheet.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ac1b3de9b552c611ee9c455d7f19be698} 
+\index{BNO08x@{BNO08x}!mode\_on@{mode\_on}}
+\index{mode\_on@{mode\_on}!BNO08x@{BNO08x}}
+\doxysubsubsection{mode\_on()}
+{\footnotesize\ttfamily bool BNO08x\+::mode\+\_\+on (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns on/ brings \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor out of sleep mode using executable channel. 
+
+\begin{DoxyReturn}{Returns}
+True if exiting sleep mode was success. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a176ae0112325c05105eacb4566bbfa0b} 
+\index{BNO08x@{BNO08x}!mode\_sleep@{mode\_sleep}}
+\index{mode\_sleep@{mode\_sleep}!BNO08x@{BNO08x}}
+\doxysubsubsection{mode\_sleep()}
+{\footnotesize\ttfamily bool BNO08x\+::mode\+\_\+sleep (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Puts \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor into sleep/low power mode using executable channel. 
+
+\begin{DoxyReturn}{Returns}
+True if entering sleep mode was success. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a3762125be0025a335f0d918415f4ce18} 
+\index{BNO08x@{BNO08x}!parse\_command\_report@{parse\_command\_report}}
+\index{parse\_command\_report@{parse\_command\_report}!BNO08x@{BNO08x}}
+\doxysubsubsection{parse\_command\_report()}
+{\footnotesize\ttfamily uint16\+\_\+t BNO08x\+::parse\+\_\+command\+\_\+report (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parses received command report sent by \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+3.\+9) 
+
+\begin{DoxyReturn}{Returns}
+The command report ID, 0 if invalid. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a7ba1d779ed68edf30090dd0f938a5709} 
+\index{BNO08x@{BNO08x}!parse\_input\_report@{parse\_input\_report}}
+\index{parse\_input\_report@{parse\_input\_report}!BNO08x@{BNO08x}}
+\doxysubsubsection{parse\_input\_report()}
+{\footnotesize\ttfamily uint16\+\_\+t BNO08x\+::parse\+\_\+input\+\_\+report (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Parses received input report sent by \doxyref{BNO08x}{p.}{class_b_n_o08x}. 
+
+Unit responds with packet that contains the following\+:
+
+packet\+\_\+header\+\_\+rx[0\+:3]\+: First, a 4 byte header rx\+\_\+buffer[0\+:4]\+: Then a 5 byte timestamp of microsecond ticks since reading was taken rx\+\_\+buffer[5 + 0]\+: Then a feature report ID (0x01 for Accel, 0x05 for Rotation Vector, etc...) rx\+\_\+buffer[5 + 1]\+: Sequence number (See Ref.\+Manual 6.\+5.\+8.\+2) rx\+\_\+buffer[5 + 2]\+: Status rx\+\_\+buffer[3]\+: Delay rx\+\_\+buffer[4\+:5]\+: i/accel x/gyro x/etc rx\+\_\+buffer[6\+:7]\+: j/accel y/gyro y/etc rx\+\_\+buffer[8\+:9]\+: k/accel z/gyro z/etc rx\+\_\+buffer[10\+:11]\+: real/gyro temp/etc rx\+\_\+buffer[12\+:13]\+: Accuracy estimate
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a08f037df7b3c7e2fc3f0e968f4a5f68c} 
+\index{BNO08x@{BNO08x}!print\_header@{print\_header}}
+\index{print\_header@{print\_header}!BNO08x@{BNO08x}}
+\doxysubsubsection{print\_header()}
+{\footnotesize\ttfamily void BNO08x\+::print\+\_\+header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints the most recently received SHTP header to serial console with ESP\+\_\+\+LOG statement. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a27fb24e894f794ec6228ef142b6ff8d9} 
+\index{BNO08x@{BNO08x}!q\_to\_float@{q\_to\_float}}
+\index{q\_to\_float@{q\_to\_float}!BNO08x@{BNO08x}}
+\doxysubsubsection{q\_to\_float()}
+{\footnotesize\ttfamily float BNO08x\+::q\+\_\+to\+\_\+float (\begin{DoxyParamCaption}\item[{int16\+\_\+t}]{fixed\+\_\+point\+\_\+value,  }\item[{uint8\+\_\+t}]{q\+\_\+point }\end{DoxyParamCaption})}
+
+
+
+Converts a register value to a float using its associated Q point. (See {\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Q\+\_\+(number\+\_\+format)}}) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em q\+\_\+point} & Q point value associated with register. \\
+\hline
+{\em fixed\+\_\+point\+\_\+value} & The fixed point value to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ad097849616c5caab1fd3eb3632ee2b91} 
+\index{BNO08x@{BNO08x}!queue\_calibrate\_command@{queue\_calibrate\_command}}
+\index{queue\_calibrate\_command@{queue\_calibrate\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_calibrate\_command()}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+calibrate\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{sensor\+\_\+to\+\_\+calibrate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing a command to calibrate the specified sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sensor\+\_\+to\+\_\+calibrate} & The sensor to calibrate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a1742d6445ffb6e9297b8bf84dec24f22} 
+\index{BNO08x@{BNO08x}!queue\_command@{queue\_command}}
+\index{queue\_command@{queue\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_command()}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{command }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing a command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The command to be sent. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a6c004a16b146527aa9eeeb6ff37db281} 
+\index{BNO08x@{BNO08x}!queue\_feature\_command@{queue\_feature\_command}}
+\index{queue\_feature\_command@{queue\_feature\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_feature\_command()\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+feature\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{report\+\_\+\+ID,  }\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing a command with a request for sensor reports, reported periodically. (See Ref. Manual 6.\+5.\+4) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+\+ID} & ID of sensor report being requested. \\
+\hline
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_af0a0686a78c929aad43af2eaeba12878} 
+\index{BNO08x@{BNO08x}!queue\_feature\_command@{queue\_feature\_command}}
+\index{queue\_feature\_command@{queue\_feature\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_feature\_command()\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+feature\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{report\+\_\+\+ID,  }\item[{uint16\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{uint32\+\_\+t}]{specific\+\_\+config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing a command with a request for sensor reports, reported periodically. (See Ref. Manual 6.\+5.\+4) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+\+ID} & ID of sensor report to be enabled. \\
+\hline
+{\em time\+\_\+between\+\_\+reports} & Desired time between reports in miliseconds. \\
+\hline
+{\em specific\+\_\+config} & Specific config word (used with personal activity classifier)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a67d0b5302a60083cef1b31936e2b65d8} 
+\index{BNO08x@{BNO08x}!queue\_packet@{queue\_packet}}
+\index{queue\_packet@{queue\_packet}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_packet()}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+packet (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{channel\+\_\+number,  }\item[{uint8\+\_\+t}]{data\+\_\+length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues an SHTP packet to be sent via SPI. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ab5f200069a2f8cb74cb79c6f162da5a1} 
+\index{BNO08x@{BNO08x}!queue\_request\_product\_id\_command@{queue\_request\_product\_id\_command}}
+\index{queue\_request\_product\_id\_command@{queue\_request\_product\_id\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_request\_product\_id\_command()}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+request\+\_\+product\+\_\+id\+\_\+command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing the request product ID command. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4c6353e795f734ed28613f9a3d161ea2} 
+\index{BNO08x@{BNO08x}!queue\_tare\_command@{queue\_tare\_command}}
+\index{queue\_tare\_command@{queue\_tare\_command}!BNO08x@{BNO08x}}
+\doxysubsubsection{queue\_tare\_command()}
+{\footnotesize\ttfamily void BNO08x\+::queue\+\_\+tare\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{command,  }\item[{uint8\+\_\+t}]{axis = {\ttfamily \textbf{ TARE\+\_\+\+AXIS\+\_\+\+ALL}},  }\item[{uint8\+\_\+t}]{rotation\+\_\+vector\+\_\+basis = {\ttfamily \textbf{ TARE\+\_\+\+ROTATION\+\_\+\+VECTOR}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Queues a packet containing a command related to zeroing sensor\textquotesingle{}s axes. (See Ref. Manual 6.\+4.\+4.\+1) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & Tare command to be sent. ~\newline
+ \\
+\hline
+{\em axis} & Specified axis (can be z or all at once) \\
+\hline
+{\em rotation\+\_\+vector\+\_\+basis} & Which rotation vector type to zero axes of, \doxyref{BNO08x}{p.}{class_b_n_o08x} saves seperate data for Rotation Vector, Gaming Rotation Vector, etc..)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ae540799865934fcff54caed0772df071} 
+\index{BNO08x@{BNO08x}!receive\_packet@{receive\_packet}}
+\index{receive\_packet@{receive\_packet}!BNO08x@{BNO08x}}
+\doxysubsubsection{receive\_packet()}
+{\footnotesize\ttfamily bool BNO08x\+::receive\+\_\+packet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Receives a SHTP packet via SPI. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_affaaa35abbb872da5299ebab6e2c9b11} 
+\index{BNO08x@{BNO08x}!request\_calibration\_status@{request\_calibration\_status}}
+\index{request\_calibration\_status@{request\_calibration\_status}!BNO08x@{BNO08x}}
+\doxysubsubsection{request\_calibration\_status()}
+{\footnotesize\ttfamily void BNO08x\+::request\+\_\+calibration\+\_\+status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Requests ME calibration status from \doxyref{BNO08x}{p.}{class_b_n_o08x} (see Ref. Manual 6.\+4.\+7.\+2) 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_ae6e875a27ae74ebed806ee1a4576845a} 
+\index{BNO08x@{BNO08x}!run\_full\_calibration\_routine@{run\_full\_calibration\_routine}}
+\index{run\_full\_calibration\_routine@{run\_full\_calibration\_routine}!BNO08x@{BNO08x}}
+\doxysubsubsection{run\_full\_calibration\_routine()}
+{\footnotesize\ttfamily bool BNO08x\+::run\+\_\+full\+\_\+calibration\+\_\+routine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs full calibration routine. 
+
+Enables game rotation vector and magnetometer, starts ME calibration process. Waits for accuracy of returned quaternions and magnetic field vectors to be high, then saves calibration data and returns.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_aa16609de88bfb7b389348859aa0cee54} 
+\index{BNO08x@{BNO08x}!save\_calibration@{save\_calibration}}
+\index{save\_calibration@{save\_calibration}!BNO08x@{BNO08x}}
+\doxysubsubsection{save\_calibration()}
+{\footnotesize\ttfamily void BNO08x\+::save\+\_\+calibration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to save internal calibration data (See Ref. Manual 6.\+4.\+7). 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_afb2ffc4e7ff0498917bc14a83af306e2} 
+\index{BNO08x@{BNO08x}!save\_tare@{save\_tare}}
+\index{save\_tare@{save\_tare}!BNO08x@{BNO08x}}
+\doxysubsubsection{save\_tare()}
+{\footnotesize\ttfamily void BNO08x\+::save\+\_\+tare (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Sends command to save tare into non-\/volatile memory of \doxyref{BNO08x}{p.}{class_b_n_o08x} (See Ref. Manual 6.\+4.\+4.\+2) 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0ee58cedbc06d4a7db8821f40c0ee207} 
+\index{BNO08x@{BNO08x}!send\_packet@{send\_packet}}
+\index{send\_packet@{send\_packet}!BNO08x@{BNO08x}}
+\doxysubsubsection{send\_packet()}
+{\footnotesize\ttfamily void BNO08x\+::send\+\_\+packet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sends a queued SHTP packet via SPI. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a973a1b1785f3302ee1b2702c6a27646e} 
+\index{BNO08x@{BNO08x}!soft\_reset@{soft\_reset}}
+\index{soft\_reset@{soft\_reset}!BNO08x@{BNO08x}}
+\doxysubsubsection{soft\_reset()}
+{\footnotesize\ttfamily bool BNO08x\+::soft\+\_\+reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Soft resets \doxyref{BNO08x}{p.}{class_b_n_o08x} sensor using executable channel. 
+
+\begin{DoxyReturn}{Returns}
+True if reset was success. 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a2ecd4ed60f82730ae230c61687ec92bf} 
+\index{BNO08x@{BNO08x}!spi\_task@{spi\_task}}
+\index{spi\_task@{spi\_task}!BNO08x@{BNO08x}}
+\doxysubsubsection{spi\_task()}
+{\footnotesize\ttfamily void BNO08x\+::spi\+\_\+task (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Task responsible for SPI transactions. Executed when HINT in is asserted by \doxyref{BNO08x}{p.}{class_b_n_o08x}. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a0ce6d9db873555f1ebe7e095251eab74} 
+\index{BNO08x@{BNO08x}!spi\_task\_trampoline@{spi\_task\_trampoline}}
+\index{spi\_task\_trampoline@{spi\_task\_trampoline}!BNO08x@{BNO08x}}
+\doxysubsubsection{spi\_task\_trampoline()}
+{\footnotesize\ttfamily void BNO08x\+::spi\+\_\+task\+\_\+trampoline (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Static function used to launch spi task. 
+
+Used such that \doxyref{spi\+\_\+task()}{p.}{class_b_n_o08x_a2ecd4ed60f82730ae230c61687ec92bf} can be non-\/static class member.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a4549bbef48208bd9c745fc755b93012f} 
+\index{BNO08x@{BNO08x}!tare\_now@{tare\_now}}
+\index{tare\_now@{tare\_now}!BNO08x@{BNO08x}}
+\doxysubsubsection{tare\_now()}
+{\footnotesize\ttfamily void BNO08x\+::tare\+\_\+now (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{axis\+\_\+sel = {\ttfamily \textbf{ TARE\+\_\+\+AXIS\+\_\+\+ALL}},  }\item[{uint8\+\_\+t}]{rotation\+\_\+vector\+\_\+basis = {\ttfamily \textbf{ TARE\+\_\+\+ROTATION\+\_\+\+VECTOR}} }\end{DoxyParamCaption})}
+
+
+
+Sends command to tare an axis (See Ref. Manual 6.\+4.\+4.\+1) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis\+\_\+sel} & Which axes to zero, can be TARE\+\_\+\+AXIS\+\_\+\+ALL (all axes) or TARE\+\_\+\+AXIS\+\_\+Z (only yaw) \\
+\hline
+{\em rotation\+\_\+vector\+\_\+basis} & Which rotation vector type to zero axes can be TARE\+\_\+\+ROTATION\+\_\+\+VECTOR, TARE\+\_\+\+GAME\+\_\+\+ROTATION\+\_\+\+VECTOR, TARE\+\_\+\+GEOMAGNETIC\+\_\+\+ROTATION\+\_\+\+VECTOR, etc.. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_b_n_o08x_a988c45b4afa4dcd6a24610ff308c1faa} 
+\index{BNO08x@{BNO08x}!wait\_for\_device\_int@{wait\_for\_device\_int}}
+\index{wait\_for\_device\_int@{wait\_for\_device\_int}!BNO08x@{BNO08x}}
+\doxysubsubsection{wait\_for\_device\_int()}
+{\footnotesize\ttfamily bool BNO08x\+::wait\+\_\+for\+\_\+device\+\_\+int (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Re-\/enables interrupts and waits for \doxyref{BNO08x}{p.}{class_b_n_o08x} to assert HINT pin. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/development/git/esp32\+\_\+\+BNO08x/BNO08x.\+hpp\item 
+D\+:/development/git/esp32\+\_\+\+BNO08x/BNO08x.\+cpp\end{DoxyCompactItemize}

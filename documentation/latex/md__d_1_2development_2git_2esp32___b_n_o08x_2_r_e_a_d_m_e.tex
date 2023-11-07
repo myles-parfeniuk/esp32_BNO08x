@@ -1,0 +1,115 @@
+\chapter{README}
+\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e}\index{README@{README}}
+Table of Contents.
+
+
+
+
+\begin{DoxyEnumerate}
+\item {\texttt{ About}}  
+\item {\texttt{ Getting Started}} 
+\begin{DoxyItemize}
+\item {\texttt{ Wiring}} 
+\item {\texttt{ Adding to Project}} 
+\end{DoxyItemize}
+\item {\texttt{ Example}} 
+\item {\texttt{ Documentation}} 
+\item {\texttt{ Acknowledgements}} 
+\item {\texttt{ License}} 
+\item {\texttt{ Contact}} 
+\end{DoxyEnumerate}\doxysubsection{About}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md0}
+esp32\+\_\+\+BNO08x is a C++ component written for esp-\/idf version 5.\+1 to serve as a driver for the BNO085 or BNO080 IMU. ~\newline
+ This library is heavy influenced by the Spark\+Fun BNO080 Arduino Library, it is more or less a port. It supports access to all the same data that the \doxyref{BNO08x}{p.}{class_b_n_o08x} provides. ~\newline
+ Currently, only SPI is supported, there is no plans to support I2C (esp32 has I2C driver silicone bug, leading to unpredictable behavior). ~\newline
+ I may implement UART at some point in the future.\doxysubsection{Getting Started}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md1}
+({\texttt{ back to top}})\doxysubsubsection{Wiring}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md2}
+The default wiring is depicted below, it can be changed at driver initialization (see example section).  
+
+({\texttt{ back to top}})\doxysubsubsection{Adding to Project}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Create a \"{}components\"{} directory in the root workspace directory of your esp-\/idf project if it does not exist already. ~\newline
+
+
+In workspace directory\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ components}
+
+\end{DoxyCode}
+
+\item Cd into the components directory and clone the esp32\+\_\+\+BNO08x repo.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ components}
+\DoxyCodeLine{git\ clone\ https://github.com/myles-\/parfeniuk/esp32\_BNO08x.git}
+
+\end{DoxyCode}
+ 
+
+({\texttt{ back to top}})
+\end{DoxyEnumerate}\doxysubsubsection{Example}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}BNO08x.hpp"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \textcolor{keywordtype}{void}\ app\_main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ BNO08x\ imu;\ \textcolor{comment}{//create\ IMU\ object\ with\ default\ wiring\ scheme}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ //if\ a\ custom\ wiring\ scheme\ is\ desired:}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ //create\ config\ struct}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ bno08x\_config\_t\ imu\_config;\ }}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_mos\ =\ GPIO\_NUM\_X;}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_miso\ =\ GPIO\_NUM\_X;}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ //etc...}}
+\DoxyCodeLine{\textcolor{comment}{}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ BNO08x\ imu(imu\_config);}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ imu.initialize();\ \ \textcolor{comment}{//initialize\ IMU}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//enable\ gyro\ \&\ game\ rotation\ vector}}
+\DoxyCodeLine{\ \ \ \ imu.enable\_game\_rotation\_vector(100);}
+\DoxyCodeLine{\ \ \ \ imu.enable\_gyro(150);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}(1)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//print\ absolute\ heading\ in\ degrees\ and\ angular\ velocity\ in\ Rad/s}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(imu.data\_available())}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGW(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Velocity:\ x:\ \%.3f\ y:\ \%.3f\ z:\ \%.3f"{}},\ imu.get\_gyro\_calibrated\_velocity\_X(),\ imu.get\_gyro\_calibrated\_velocity\_Y(),\ imu.get\_gyro\_calibrated\_velocity\_Z());}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Euler\ Angle:\ pitch:\ \%.3f\ roll:\ \%.3f\ yaw:\ \%.3f"{}},\ imu.get\_pitch\_deg(),\ imu.get\_roll\_deg(),\ imu.get\_yaw\_deg());}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+({\texttt{ back to top}})\doxysubsection{Documentation}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md5}
+API documentation generated with doxygen can be found in the documentation directory of the master branch. ~\newline
+ 
+
+({\texttt{ back to top}})\doxysubsection{Acknowledgements}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md6}
+Special thanks to the original creators of the sparkfun BNO080 library. Developing this without a reference would have been much more time consuming. ~\newline
+ {\texttt{ https\+://github.\+com/sparkfun/\+Spark\+Fun\+\_\+\+BNO080\+\_\+\+Arduino\+\_\+\+Library}} ~\newline
+
+
+Special thanks to Anton Babiy, aka hw\+Birdy007 for helping with debugging SPI. ~\newline
+ {\texttt{ https\+://github.\+com/hw\+Birdy007}} ~\newline
+
+
+({\texttt{ back to top}})\doxysubsection{License}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md7}
+Distributed under the MIT License. See {\ttfamily LICENSE.\+md} for more information. 
+
+({\texttt{ back to top}})\doxysubsection{Contact}\label{md__d_1_2development_2git_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md8}
+Myles Parfeniuk -\/ {\texttt{ myles.\+parfenyuk@gmail.\+com}}
+
+Project Link\+: {\texttt{ https\+://github.\+com/myles-\/parfeniuk/esp32\+\_\+\+BNO08x.\+git}} 
+
+({\texttt{ back to top}})
