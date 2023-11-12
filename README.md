@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 ![image](esp32_BNO08x_banner.png)
 <summary>Table of Contents</summary>
 <ol>
@@ -12,7 +13,7 @@
     </ul>
 </li>
 <li><a href="#example">Example</a></li>
-<li><a href="#documentation">Example</a></li>
+<li><a href="#documentation">Documentation</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>  <!-- Added this line -->
 <li><a href="#license">License</a></li>
 <li><a href="#contact">Contact</a></li>
@@ -60,16 +61,16 @@ extern "C" void app_main(void)
 {
     BNO08x imu; //create IMU object with default wiring scheme
 
-    /*
-    //if a custom wiring scheme is desired:
-    //create config struct
-    bno08x_config_t imu_config; 
-    imu_config.io_mos = GPIO_NUM_X;
-    imu_config.io_miso = GPIO_NUM_X;
-    //etc...
+    //if a custom wiring scheme is desired instead of default:
 
-    BNO08x imu(imu_config);
+    /*
+    bno08x_config_t imu_config;     //create config struct
+    imu_config.io_mos = GPIO_NUM_X; //assign pin
+    imu_config.io_miso = GPIO_NUM_X; //assign pin
+    //etc...
+    BNO08x imu(imu_config); //pass config to BNO08x constructor
     */
+    
 
     imu.initialize();  //initialize IMU
 
@@ -83,7 +84,7 @@ extern "C" void app_main(void)
         if(imu.data_available())
         {
             ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", imu.get_gyro_calibrated_velocity_X(), imu.get_gyro_calibrated_velocity_Y(), imu.get_gyro_calibrated_velocity_Z());
-            ESP_LOGI("Main", "Euler Angle: pitch: %.3f roll: %.3f yaw: %.3f", imu.get_pitch_deg(), imu.get_roll_deg(), imu.get_yaw_deg());
+            ESP_LOGI("Main", "Euler Angle: roll (x): %.3f pitch (y): %.3f yaw: %.3f", imu.get_roll_deg(), imu.get_pitch_deg(), imu.get_yaw_deg());
         }
     }
 
