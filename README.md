@@ -84,7 +84,7 @@ extern "C" void app_main(void)
         if(imu.data_available())
         {
             ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", imu.get_gyro_calibrated_velocity_X(), imu.get_gyro_calibrated_velocity_Y(), imu.get_gyro_calibrated_velocity_Z());
-            ESP_LOGI("Main", "Euler Angle: roll (x): %.3f pitch (y): %.3f yaw: %.3f", imu.get_roll_deg(), imu.get_pitch_deg(), imu.get_yaw_deg());
+            ESP_LOGI("Main", "Euler Angle: x (roll): %.3f y (pitch): %.3f z (yaw): %.3f", imu.get_roll_deg(), imu.get_pitch_deg(), imu.get_yaw_deg());
         }
     }
 
