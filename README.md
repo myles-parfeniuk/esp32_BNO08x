@@ -50,6 +50,12 @@ The default wiring is depicted below, it can be changed at driver initialization
    cd components
    git clone https://github.com/myles-parfeniuk/esp32_BNO08x.git
    ```
+
+3. Ensure you clean your esp-idf project before rebuilding.  
+   Within esp-idf enabled terminal:
+   ```sh
+    idf.py fullclean
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Example
