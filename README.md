@@ -65,7 +65,7 @@ extern "C" void app_main(void)
 
     /*
     bno08x_config_t imu_config;     //create config struct
-    imu_config.io_mos = GPIO_NUM_X; //assign pin
+    imu_config.io_mosi = GPIO_NUM_X; //assign pin
     imu_config.io_miso = GPIO_NUM_X; //assign pin
     //etc...
     BNO08x imu(imu_config); //pass config to BNO08x constructor
