@@ -14,12 +14,18 @@
 </li>
 <li><a href="#example">Example</a></li>
 <li><a href="#documentation">Documentation</a></li>
+<li>
+    <a href="#program-flowcharts">Program Flowcharts</a>
+    <ul>
+    <li><a href="#sending-case">Sending Case</a></li>
+    <li><a href="#receiving-case">Receiving Case</a></li>
+    </ul>
+</li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>  <!-- Added this line -->
 <li><a href="#license">License</a></li>
 <li><a href="#contact">Contact</a></li>
 </ol>
 
-<!-- ABOUT -->
 ## About
 
 esp32_BNO08x is a C++ esp-idf v5.x component, intended to serve as a driver for both the BNO080 and BNO085 IMUs.  
@@ -102,8 +108,22 @@ extern "C" void app_main(void)
 API documentation generated with doxygen can be found in the documentation directory of the master branch.  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Acknowledgements
+## Program Flowcharts
+The following charts illustrate the program flow this library implements for sending and receiving data from BNO08x.  
+These are here to aid development for anyone looking to modify, fork, or contribute. 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Receiving Case
+This assumes the user as initialized the imu and has sent a command to enable a report (for ex. enable_game_rotation_vector).
+![image](esp32_BNO08x_receieve_flowchart.png)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Sending Case
+![image](esp32_BNO08x_send_flowchart.png)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Acknowledgements
 Special thanks to the original creators of the sparkfun BNO080 library. Developing this without a reference would have been much more time consuming.  
 https://github.com/sparkfun/SparkFun_BNO080_Arduino_Library  
 
