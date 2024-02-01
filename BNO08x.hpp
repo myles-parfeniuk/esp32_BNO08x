@@ -1,5 +1,4 @@
 #pragma once
-
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
@@ -43,6 +42,21 @@ typedef struct bno08x_config_t {
     bool debug_en;                     ///<Whether or not debugging print statements are enabled
 
     /// @brief Default IMU configuration settings
+    #ifdef ESP32C3_IMU_CONFIG
+    /// @brief Default IMU configuration settings for ESP32-C3
+    bno08x_config_t()
+            : spi_peripheral(SPI2_HOST)
+            , io_mosi(GPIO_NUM_4)
+            , io_miso(GPIO_NUM_19)
+            , io_sclk(GPIO_NUM_18)
+            , io_cs(GPIO_NUM_5)
+            , io_int(GPIO_NUM_6)
+            , io_rst(GPIO_NUM_7)
+            , io_wake(GPIO_NUM_8)
+            , sclk_speed(2000000UL) // 1MHz SCLK speed
+            , debug_en(false)
+    {}
+    #else
     bno08x_config_t()
             : spi_peripheral(SPI3_HOST)
             , io_mosi(GPIO_NUM_23)
@@ -54,12 +68,12 @@ typedef struct bno08x_config_t {
             , io_wake(GPIO_NUM_4)
             ,
             // sclk_speed(10000U), //clock slowed to see on AD2
-            sclk_speed(2000000U)
-            ,  // 1MHz SCLK speed
+            sclk_speed(2000000UL) // 1MHz SCLK speed
+            ,  
             debug_en(false)
 
     {}
-
+    #endif
 } bno08x_config_t;
 
 class BNO08x {
