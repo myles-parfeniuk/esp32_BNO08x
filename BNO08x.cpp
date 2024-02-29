@@ -51,16 +51,23 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     // SPI non-driver-controlled GPIO config
     // configure outputs
     gpio_config_t outputs_config;
-    outputs_config.pin_bit_mask = (1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst) |
-                                  (1ULL << imu_config.io_wake);  // configure CS, RST, and wake gpio pins
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+        outputs_config.pin_bit_mask = (1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst) |
+                                      (1ULL << imu_config.io_wake);  // configure CS, RST, and wake gpio pins
+    else
+        outputs_config.pin_bit_mask = (1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst);
+
     outputs_config.mode = GPIO_MODE_OUTPUT;
     outputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
     outputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
     outputs_config.intr_type = GPIO_INTR_DISABLE;
     gpio_config(&outputs_config);
     gpio_set_level(imu_config.io_cs, 1);
-    gpio_set_level(imu_config.io_wake, 1);
     gpio_set_level(imu_config.io_rst, 1);
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+        gpio_set_level(imu_config.io_wake, 1);
 
     // configure input (HINT pin)
     gpio_config_t inputs_config;
@@ -208,7 +215,10 @@ bool BNO08x::wait_for_device_int() {
  */
 bool BNO08x::hard_reset() {
     gpio_set_level(imu_config.io_cs, 1);
-    gpio_set_level(imu_config.io_wake, 1);
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+        gpio_set_level(imu_config.io_wake, 1);
+
     gpio_set_level(imu_config.io_rst, 0);  // set reset pin low
     vTaskDelay(50 / portTICK_PERIOD_MS);   // 10ns min, set to 50ms to let things stabilize(Anton)
     gpio_set_level(imu_config.io_rst, 1);  // bring out of reset

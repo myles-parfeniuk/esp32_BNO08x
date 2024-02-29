@@ -41,9 +41,9 @@ typedef struct bno08x_config_t {
     uint64_t sclk_speed;               ///<Desired SPI SCLK speed in Hz (max 3MHz)
     bool debug_en;                     ///<Whether or not debugging print statements are enabled
 
-    /// @brief Default IMU configuration settings
-    #ifdef ESP32C3_IMU_CONFIG
-    /// @brief Default IMU configuration settings for ESP32-C3
+#ifdef ESP32C3_IMU_CONFIG
+    /// @brief Default IMU configuration settings constructor for ESP32-C3, add
+    /// add_compile_definitions("ESP32C3_IMU_CONFIG") to CMakeList to use
     bno08x_config_t()
             : spi_peripheral(SPI2_HOST)
             , io_mosi(GPIO_NUM_4)
@@ -52,11 +52,11 @@ typedef struct bno08x_config_t {
             , io_cs(GPIO_NUM_5)
             , io_int(GPIO_NUM_6)
             , io_rst(GPIO_NUM_7)
-            , io_wake(GPIO_NUM_8)
-            , sclk_speed(2000000UL) // 1MHz SCLK speed
-            , debug_en(false)
-    {}
-    #else
+            , io_wake(GPIO_NUM_NC)
+            , sclk_speed(2000000UL)  // 2MHz SCLK speed
+            , debug_en(false) {}
+#else
+    /// @brief Default IMU configuration settings constructor for ESP32
     bno08x_config_t()
             : spi_peripheral(SPI3_HOST)
             , io_mosi(GPIO_NUM_23)
@@ -65,15 +65,28 @@ typedef struct bno08x_config_t {
             , io_cs(GPIO_NUM_33)
             , io_int(GPIO_NUM_26)
             , io_rst(GPIO_NUM_32)
-            , io_wake(GPIO_NUM_4)
-            ,
-            // sclk_speed(10000U), //clock slowed to see on AD2
-            sclk_speed(2000000UL) // 1MHz SCLK speed
-            ,  
-            debug_en(false)
+            , io_wake(GPIO_NUM_NC)
+            , sclk_speed(2000000UL)  // 2MHz SCLK speed
+            // , sclk_speed(10000U), //clock slowed to see on AD2
+            , debug_en(false)
 
     {}
-    #endif
+#endif
+    /// @brief Overloaded IMU configuration settings constructor for custom pin settings
+    bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso, gpio_num_t io_sclk,
+            gpio_num_t io_cs, gpio_num_t io_int, gpio_num_t io_rst, gpio_num_t io_wake, uint64_t sclk_speed, bool debug)
+            : spi_peripheral(spi_peripheral)
+            , io_mosi(io_mosi)
+            , io_miso(io_miso)
+            , io_sclk(io_sclk)
+            , io_cs(io_cs)
+            , io_int(io_int)
+            , io_rst(io_rst)
+            , io_wake(io_wake)
+            , sclk_speed(sclk_speed)
+            , debug_en(false)
+
+    {}
 } bno08x_config_t;
 
 class BNO08x {
