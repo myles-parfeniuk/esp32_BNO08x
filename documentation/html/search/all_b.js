@@ -5,5 +5,8 @@ var searchData=
   ['packet_5flength_5ftx_2',['packet_length_tx',['../class_b_n_o08x.html#a6fbc6d086654b022a3ea53dfacd4fdf5',1,'BNO08x']]],
   ['parse_5fcommand_5freport_3',['parse_command_report',['../class_b_n_o08x.html#a3762125be0025a335f0d918415f4ce18',1,'BNO08x']]],
   ['parse_5finput_5freport_4',['parse_input_report',['../class_b_n_o08x.html#a7ba1d779ed68edf30090dd0f938a5709',1,'BNO08x']]],
-  ['print_5fheader_5',['print_header',['../class_b_n_o08x.html#a08f037df7b3c7e2fc3f0e968f4a5f68c',1,'BNO08x']]]
+  ['print_5fheader_5',['print_header',['../class_b_n_o08x.html#a08f037df7b3c7e2fc3f0e968f4a5f68c',1,'BNO08x']]],
+  ['print_5fpacket_6',['print_packet',['../class_b_n_o08x.html#a0ef39163352bd7a54ac85952e8cb8516',1,'BNO08x']]],
+  ['program_20flowcharts_7',['Program Flowcharts',['../md_esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md6',1,'']]],
+  ['project_8',['Adding to Project',['../md_esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md3',1,'']]]
 ];

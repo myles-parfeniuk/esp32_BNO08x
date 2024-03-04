@@ -289,6 +289,8 @@ class BNO08x
         volatile uint8_t
                 tx_packet_queued; ///<Whether or not a packet is currently waiting to be sent, a queued packet is sent on assertion of BNO08x HINT pin)
         SemaphoreHandle_t tx_semaphore; ///<Mutex semaphore used to prevent sending or receiving of packets if packet is currently being queued
+        SemaphoreHandle_t
+                int_asserted_semaphore; ///<Binary semaphore used to synchronize spi_task() calling wait_for_device_int(), given after hint_handler ISR launches SPI task and it has run to completion
         uint8_t rx_buffer[300];         ///<buffer used to receive packet with receive_packet()
         uint8_t tx_buffer[50];          ///<buffer used for sending packet with send_packet()
         uint8_t packet_header_rx[4];    ///<SHTP header received with receive_packet()
@@ -340,13 +342,12 @@ class BNO08x
         static void spi_task_trampoline(void* arg);
         void spi_task();
 
-        volatile bool int_asserted; ///<Interrupt asserted flag, sets true after hint_handler ISR launches SPI task and it has run to completion
         static void IRAM_ATTR hint_handler(void* arg);
         static bool
                 isr_service_installed; ///<true of the isr service has been installed, only has to be done once regardless of how many devices are used
 
-        static const constexpr uint64_t HOST_INT_TIMEOUT_US =
-                150000ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in microseconds)
+        static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
+                150ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
 
         // Higher level calibration commands, used by queue_calibrate_command
         static const constexpr uint8_t CALIBRATE_ACCEL = 0;        ///<Calibrate accelerometer command used by queue_calibrate_command

@@ -18,5 +18,6 @@ var searchData=
   ['enable_5fstep_5fcounter_15',['enable_step_counter',['../class_b_n_o08x.html#ad550085fa1b51495ce3d8894538f33d5',1,'BNO08x']]],
   ['enable_5ftap_5fdetector_16',['enable_tap_detector',['../class_b_n_o08x.html#a919c7d94226f4c6adbb8edf6fd1613a9',1,'BNO08x']]],
   ['enable_5funcalibrated_5fgyro_17',['enable_uncalibrated_gyro',['../class_b_n_o08x.html#ac7b5815c5ad8b83a34ad0855423601e8',1,'BNO08x']]],
-  ['end_5fcalibration_18',['end_calibration',['../class_b_n_o08x.html#ac9d9b6636745e8180807284da67c92a2',1,'BNO08x']]]
+  ['end_5fcalibration_18',['end_calibration',['../class_b_n_o08x.html#ac9d9b6636745e8180807284da67c92a2',1,'BNO08x']]],
+  ['example_19',['Example',['../md_esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md4',1,'']]]
 ];

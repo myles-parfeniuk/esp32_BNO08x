@@ -14,9 +14,11 @@ bno08x_config_t BNO08x::default_imu_config;
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
     : tx_packet_queued(0U)
+    , tx_semaphore(xSemaphoreCreateRecursiveMutex())
+    , int_asserted_semaphore(xSemaphoreCreateBinary())
     , imu_config(imu_config)
     , calibration_status(1)
-    , int_asserted(false)
+
 {
     // clear all buffers
     memset(tx_buffer, 0, sizeof(tx_buffer));
@@ -103,7 +105,6 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     spi_transaction.flags = 0;
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 
-    tx_semaphore = xSemaphoreCreateRecursiveMutex();
     spi_task_hdl = NULL;
     xTaskCreate(&spi_task_trampoline, "spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
 }
@@ -190,31 +191,21 @@ bool BNO08x::initialize()
  */
 bool BNO08x::wait_for_device_int()
 {
-    int64_t start_time = esp_timer_get_time(); // get start time to manager timeout period
-    gpio_intr_enable(imu_config.io_int);       // re-enable interrupts
+    gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
     // wait until an interrupt has been asserted or timeout has occured
-    while (!int_asserted)
-    {
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-
-        if ((esp_timer_get_time() - start_time) > HOST_INT_TIMEOUT_US)
-            break;
-    }
-
-    if (int_asserted)
+    if (xSemaphoreTake(int_asserted_semaphore, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
     {
         if (imu_config.debug_en)
             ESP_LOGI(TAG, "int asserted");
 
-        int_asserted = false; // reset HINT ISR flag
         return true;
     }
-
-    if (!int_asserted)
+    else
+    {
         ESP_LOGE(TAG, "Interrupt to host device never asserted.");
-
-    return false;
+        return false;
+    }
 }
 
 /**
@@ -2445,9 +2436,8 @@ void BNO08x::spi_task()
         else
             receive_packet(); // receive packet
 
-        int_asserted = true; // SPI completed, set interrupt asserted flag as true
-
-        xSemaphoreGive(tx_semaphore); // give back the semaphore such that queue packet be blocked
+        xSemaphoreGive(int_asserted_semaphore); // SPI completed, give int_asserted_semaphore to notify wait_for_int()
+        xSemaphoreGive(tx_semaphore);           // give back the semaphore such that queue packet be blocked
     }
 }
 
