@@ -13,8 +13,7 @@ bno08x_config_t BNO08x::default_imu_config;
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : tx_packet_queued(0U)
-    , tx_semaphore(xSemaphoreCreateRecursiveMutex())
+    : tx_semaphore(xSemaphoreCreateBinary())
     , int_asserted_semaphore(xSemaphoreCreateBinary())
     , imu_config(imu_config)
     , calibration_status(1)
@@ -385,8 +384,6 @@ void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length)
     packet_length_tx = data_length + 4; // add 4 bytes for header
     uint8_t i = 0;
 
-    xSemaphoreTake(tx_semaphore, portMAX_DELAY);
-
     memset(tx_buffer, 0, sizeof(tx_buffer));
 
     tx_buffer[0] = packet_length_tx & 0xFF;           // packet length LSB
@@ -399,8 +396,6 @@ void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length)
     {
         tx_buffer[i + 4] = commands[i];
     }
-
-    tx_packet_queued = 1;
 
     xSemaphoreGive(tx_semaphore);
 }
@@ -423,8 +418,6 @@ void BNO08x::send_packet()
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-
-    tx_packet_queued = 0;
 }
 
 /**
@@ -996,10 +989,10 @@ uint16_t BNO08x::parse_command_report()
 /**
  * @brief Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_game_rotation_vector(uint16_t time_between_reports)
+void BNO08x::enable_game_rotation_vector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_GAME_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1009,10 +1002,10 @@ void BNO08x::enable_game_rotation_vector(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable rotation vector reports (See Ref. Manual 6.5.18)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_rotation_vector(uint16_t time_between_reports)
+void BNO08x::enable_rotation_vector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1022,10 +1015,10 @@ void BNO08x::enable_rotation_vector(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable ARVR stabilized rotation vector reports (See Ref. Manual 6.5.42)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_ARVR_stabilized_rotation_vector(uint16_t time_between_reports)
+void BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1035,10 +1028,10 @@ void BNO08x::enable_ARVR_stabilized_rotation_vector(uint16_t time_between_report
 /**
  * @brief Sends command to enable ARVR stabilized game rotation vector reports (See Ref. Manual 6.5.43)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint16_t time_between_reports)
+void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1048,10 +1041,10 @@ void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint16_t time_between_r
 /**
  * @brief Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6.5.44)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_gyro_integrated_rotation_vector(uint16_t time_between_reports)
+void BNO08x::enable_gyro_integrated_rotation_vector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_GYRO_INTEGRATED_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1061,10 +1054,10 @@ void BNO08x::enable_gyro_integrated_rotation_vector(uint16_t time_between_report
 /**
  * @brief Sends command to enable accelerometer reports (See Ref. Manual 6.5.9)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_accelerometer(uint16_t time_between_reports)
+void BNO08x::enable_accelerometer(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_ACCELEROMETER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1074,10 +1067,10 @@ void BNO08x::enable_accelerometer(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable linear accelerometer reports (See Ref. Manual 6.5.10)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_linear_accelerometer(uint16_t time_between_reports)
+void BNO08x::enable_linear_accelerometer(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_LINEAR_ACCELERATION, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1087,10 +1080,10 @@ void BNO08x::enable_linear_accelerometer(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable gravity reading reports (See Ref. Manual 6.5.11)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_gravity(uint16_t time_between_reports)
+void BNO08x::enable_gravity(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_GRAVITY, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1100,10 +1093,10 @@ void BNO08x::enable_gravity(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable gyro reports (See Ref. Manual 6.5.13)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_gyro(uint16_t time_between_reports)
+void BNO08x::enable_gyro(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_GYROSCOPE, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1113,10 +1106,10 @@ void BNO08x::enable_gyro(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable uncalibrated gyro reports (See Ref. Manual 6.5.14)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_uncalibrated_gyro(uint16_t time_between_reports)
+void BNO08x::enable_uncalibrated_gyro(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_UNCALIBRATED_GYRO, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1126,10 +1119,10 @@ void BNO08x::enable_uncalibrated_gyro(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable magnetometer reports (See Ref. Manual 6.5.16)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_magnetometer(uint16_t time_between_reports)
+void BNO08x::enable_magnetometer(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_MAGNETIC_FIELD, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1139,10 +1132,10 @@ void BNO08x::enable_magnetometer(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable tap detector reports (See Ref. Manual 6.5.27)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_tap_detector(uint16_t time_between_reports)
+void BNO08x::enable_tap_detector(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_TAP_DETECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1152,10 +1145,10 @@ void BNO08x::enable_tap_detector(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable step counter reports (See Ref. Manual 6.5.29)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_step_counter(uint16_t time_between_reports)
+void BNO08x::enable_step_counter(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_STEP_COUNTER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1165,10 +1158,10 @@ void BNO08x::enable_step_counter(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable activity stability classifier reports (See Ref. Manual 6.5.31)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_stability_classifier(uint16_t time_between_reports)
+void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_STABILITY_CLASSIFIER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1178,12 +1171,12 @@ void BNO08x::enable_stability_classifier(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable activity classifier reports (See Ref. Manual 6.5.36)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  *  @param activities_to_enable Desired activities to enable (0x1F enables all).
  *  @param activity_confidence_vals Returned activity level confidences.
  * @return void, nothing to return
  */
-void BNO08x::enable_activity_classifier(uint16_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
+void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
     queue_feature_command(SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, activities_to_enable);
@@ -1194,10 +1187,10 @@ void BNO08x::enable_activity_classifier(uint16_t time_between_reports, uint32_t 
 /**
  * @brief Sends command to enable raw accelerometer reports (See Ref. Manual 6.5.8)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_accelerometer(uint16_t time_between_reports)
+void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_RAW_ACCELEROMETER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1207,10 +1200,10 @@ void BNO08x::enable_raw_accelerometer(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable raw gyro reports (See Ref. Manual 6.5.12)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_gyro(uint16_t time_between_reports)
+void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_RAW_GYROSCOPE, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
@@ -1220,12 +1213,228 @@ void BNO08x::enable_raw_gyro(uint16_t time_between_reports)
 /**
  * @brief Sends command to enable raw magnetometer reports (See Ref. Manual 6.5.15)
  *
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_magnetometer(uint16_t time_between_reports)
+void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
 {
     queue_feature_command(SENSOR_REPORTID_RAW_MAGNETOMETER, time_between_reports);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable rotation vector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_rotation_vector()
+{
+    queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable game rotation vector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_game_rotation_vector()
+{
+    queue_feature_command(SENSOR_REPORTID_GAME_ROTATION_VECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable ARVR stabilized rotation vector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_ARVR_stabilized_rotation_vector()
+{
+    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable ARVR stabilized game rotation vector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_ARVR_stabilized_game_rotation_vector()
+{
+    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable gyro integrated rotation vector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_gyro_integrated_rotation_vector()
+{
+    queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable accelerometer reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_accelerometer()
+{
+    queue_feature_command(SENSOR_REPORTID_ACCELEROMETER, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable linear accelerometer reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_linear_accelerometer()
+{
+    queue_feature_command(SENSOR_REPORTID_LINEAR_ACCELERATION, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable gravity reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_gravity()
+{
+    queue_feature_command(SENSOR_REPORTID_GRAVITY, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable gyro reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_gyro()
+{
+    queue_feature_command(SENSOR_REPORTID_GYROSCOPE, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable uncalibrated gyro reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_uncalibrated_gyro()
+{
+    queue_feature_command(SENSOR_REPORTID_UNCALIBRATED_GYRO, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable magnetometer reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_magnetometer()
+{
+    queue_feature_command(SENSOR_REPORTID_MAGNETIC_FIELD, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable tap detector reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_tap_detector()
+{
+    queue_feature_command(SENSOR_REPORTID_TAP_DETECTOR, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable step counter reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_step_counter()
+{
+    queue_feature_command(SENSOR_REPORTID_STEP_COUNTER, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable stability reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_stability_classifier()
+{
+    queue_feature_command(SENSOR_REPORTID_STABILITY_CLASSIFIER, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable activity classifier reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_activity_classifier()
+{
+    queue_feature_command(SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable raw accelerometer reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_raw_accelerometer()
+{
+    queue_feature_command(SENSOR_REPORTID_RAW_ACCELEROMETER, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable raw gyro reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_raw_gyro()
+{
+    queue_feature_command(SENSOR_REPORTID_RAW_GYROSCOPE, 0);
+    wait_for_device_int();               // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+}
+
+/**
+ * @brief Sends command to disable raw magnetometer reports by setting report interval to 0.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_raw_magnetometer()
+{
+    queue_feature_command(SENSOR_REPORTID_RAW_MAGNETOMETER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -2335,33 +2544,32 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
  * Manual 6.5.4)
  *
  * @param report_ID ID of sensor report to be enabled.
- * @param time_between_reports Desired time between reports in miliseconds.
+ * @param time_between_reports Desired time between reports in microseconds.
  * @param specific_config Specific config word (used with personal activity classifier)
  *
  * @return void, nothing to return
  */
-void BNO08x::queue_feature_command(uint8_t report_ID, uint16_t time_between_reports, uint32_t specific_config)
+void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config)
 {
-    uint32_t us_between_reports = (uint32_t) time_between_reports * 1000UL;
     memset(commands, 0, sizeof(commands));
 
-    commands[0] = SHTP_REPORT_SET_FEATURE_COMMAND;   // Set feature command (See Ref. Manual 6.5.4)
-    commands[1] = report_ID;                         // Feature Report ID. 0x01 = Accelerometer, 0x05 = Rotation vector
-    commands[2] = 0;                                 // Feature flags
-    commands[3] = 0;                                 // Change sensitivity (LSB)
-    commands[4] = 0;                                 // Change sensitivity (MSB)
-    commands[5] = (us_between_reports >> 0) & 0xFF;  // Report interval (LSB) in microseconds. 0x7A120 = 500ms
-    commands[6] = (us_between_reports >> 8) & 0xFF;  // Report interval
-    commands[7] = (us_between_reports >> 16) & 0xFF; // Report interval
-    commands[8] = (us_between_reports >> 24) & 0xFF; // Report interval (MSB)
-    commands[9] = 0;                                 // Batch Interval (LSB)
-    commands[10] = 0;                                // Batch Interval
-    commands[11] = 0;                                // Batch Interval
-    commands[12] = 0;                                // Batch Interval (MSB)
-    commands[13] = (specific_config >> 0) & 0xFF;    // Sensor-specific config (LSB)
-    commands[14] = (specific_config >> 8) & 0xFF;    // Sensor-specific config
-    commands[15] = (specific_config >> 16) & 0xFF;   // Sensor-specific config
-    commands[16] = (specific_config >> 24) & 0xFF;   // Sensor-specific config (MSB)
+    commands[0] = SHTP_REPORT_SET_FEATURE_COMMAND;     // Set feature command (See Ref. Manual 6.5.4)
+    commands[1] = report_ID;                           // Feature Report ID. 0x01 = Accelerometer, 0x05 = Rotation vector
+    commands[2] = 0;                                   // Feature flags
+    commands[3] = 0;                                   // Change sensitivity (LSB)
+    commands[4] = 0;                                   // Change sensitivity (MSB)
+    commands[5] = (time_between_reports >> 0) & 0xFF;  // Report interval (LSB) in microseconds. 0x7A120 = 500ms
+    commands[6] = (time_between_reports >> 8) & 0xFF;  // Report interval
+    commands[7] = (time_between_reports >> 16) & 0xFF; // Report interval
+    commands[8] = (time_between_reports >> 24) & 0xFF; // Report interval (MSB)
+    commands[9] = 0;                                   // Batch Interval (LSB)
+    commands[10] = 0;                                  // Batch Interval
+    commands[11] = 0;                                  // Batch Interval
+    commands[12] = 0;                                  // Batch Interval (MSB)
+    commands[13] = (specific_config >> 0) & 0xFF;      // Sensor-specific config (LSB)
+    commands[14] = (specific_config >> 8) & 0xFF;      // Sensor-specific config
+    commands[15] = (specific_config >> 16) & 0xFF;     // Sensor-specific config
+    commands[16] = (specific_config >> 24) & 0xFF;     // Sensor-specific config (MSB)
 
     // Transmit packet on channel 2, 17 bytes
     queue_packet(CHANNEL_CONTROL, 17);
@@ -2401,7 +2609,7 @@ void BNO08x::queue_tare_command(uint8_t command, uint8_t axis, uint8_t rotation_
  *
  * @return void, nothing to return
  */
-void BNO08x::queue_feature_command(uint8_t report_ID, uint16_t time_between_reports)
+void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_reports)
 {
     queue_feature_command(report_ID, time_between_reports, 0); // No specific config
 }
@@ -2426,18 +2634,24 @@ void BNO08x::spi_task_trampoline(void* arg)
  */
 void BNO08x::spi_task()
 {
+    static uint64_t prev_time = 0;
+
     while (1)
     {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);     // block until notified by ISR
-        xSemaphoreTake(tx_semaphore, portMAX_DELAY); // wait if queue_packet is executing
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR
 
-        if (tx_packet_queued != 0)
-            send_packet(); // send packet
+        if(imu_config.debug_en)
+        {
+            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (esp_timer_get_time() - prev_time));
+            prev_time = esp_timer_get_time();
+        }
+
+        if (xSemaphoreTake(tx_semaphore, 0) == pdTRUE) // check for packet pending to be sent, non-blocking semaphore take
+            send_packet();                             // send packet
         else
             receive_packet(); // receive packet
 
         xSemaphoreGive(int_asserted_semaphore); // SPI completed, give int_asserted_semaphore to notify wait_for_int()
-        xSemaphoreGive(tx_semaphore);           // give back the semaphore such that queue packet be blocked
     }
 }
 

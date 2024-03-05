@@ -87,8 +87,8 @@ In workspace directory\+: ~\newline
 \DoxyCodeLine{\ \ \ \ imu.\mbox{\hyperlink{class_b_n_o08x_aea8e2c6dd7a2c9899479a7f39fe94798}{initialize}}();\ \ \textcolor{comment}{//initialize\ IMU}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//enable\ gyro\ \&\ game\ rotation\ vector}}
-\DoxyCodeLine{\ \ \ \ imu.\mbox{\hyperlink{class_b_n_o08x_a639cb013ed17e0f33057742fac97f1a2}{enable\_game\_rotation\_vector}}(100);}
-\DoxyCodeLine{\ \ \ \ imu.\mbox{\hyperlink{class_b_n_o08x_a7619b598cc8e768c4df4805b2958a2c8}{enable\_gyro}}(150);}
+\DoxyCodeLine{\ \ \ \ imu.\mbox{\hyperlink{class_b_n_o08x_abe04c38b5bd52d331bd8aefae1f51947}{enable\_game\_rotation\_vector}}(100000);\ \textcolor{comment}{//100,000us\ ==\ 100ms\ report\ interval}}
+\DoxyCodeLine{\ \ \ \ imu.\mbox{\hyperlink{class_b_n_o08x_ad7b322681b9ec5f57edb09e336b988c0}{enable\_gyro}}(150000);\ \textcolor{comment}{//150,000us\ ==\ 150ms\ report\ interval\ }}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}(1)}
 \DoxyCodeLine{\ \ \ \ \{}

@@ -87,8 +87,8 @@ extern "C" void app_main(void)
     imu.initialize();  //initialize IMU
 
     //enable gyro & game rotation vector
-    imu.enable_game_rotation_vector(100);
-    imu.enable_gyro(150);
+    imu.enable_game_rotation_vector(100000UL); //100,000us == 100ms report interval
+    imu.enable_gyro(150000UL); //150,000us == 150ms report interval 
 
     while(1)
     {

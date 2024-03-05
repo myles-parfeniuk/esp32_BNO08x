@@ -125,24 +125,43 @@ class BNO08x
         void end_calibration();
         void save_calibration();
 
-        void enable_rotation_vector(uint16_t time_between_reports);
-        void enable_game_rotation_vector(uint16_t time_between_reports);
-        void enable_ARVR_stabilized_rotation_vector(uint16_t time_between_reports);
-        void enable_ARVR_stabilized_game_rotation_vector(uint16_t time_between_reports);
-        void enable_gyro_integrated_rotation_vector(uint16_t timeBetweenReports);
-        void enable_accelerometer(uint16_t time_between_reports);
-        void enable_linear_accelerometer(uint16_t time_between_reports);
-        void enable_gravity(uint16_t time_between_reports);
-        void enable_gyro(uint16_t time_between_reports);
-        void enable_uncalibrated_gyro(uint16_t time_between_reports);
-        void enable_magnetometer(uint16_t time_between_reports);
-        void enable_tap_detector(uint16_t time_between_reports);
-        void enable_step_counter(uint16_t time_between_reports);
-        void enable_stability_classifier(uint16_t time_between_reports);
-        void enable_activity_classifier(uint16_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
-        void enable_raw_accelerometer(uint16_t time_between_reports);
-        void enable_raw_gyro(uint16_t time_between_reports);
-        void enable_raw_magnetometer(uint16_t time_between_reports);
+        void enable_rotation_vector(uint32_t time_between_reports);
+        void enable_game_rotation_vector(uint32_t time_between_reports);
+        void enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports);
+        void enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports);
+        void enable_gyro_integrated_rotation_vector(uint32_t time_between_reports);
+        void enable_accelerometer(uint32_t time_between_reports);
+        void enable_linear_accelerometer(uint32_t time_between_reports);
+        void enable_gravity(uint32_t time_between_reports);
+        void enable_gyro(uint32_t time_between_reports);
+        void enable_uncalibrated_gyro(uint32_t time_between_reports);
+        void enable_magnetometer(uint32_t time_between_reports);
+        void enable_tap_detector(uint32_t time_between_reports);
+        void enable_step_counter(uint32_t time_between_reports);
+        void enable_stability_classifier(uint32_t time_between_reports);
+        void enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_raw_accelerometer(uint32_t time_between_reports);
+        void enable_raw_gyro(uint32_t time_between_reports);
+        void enable_raw_magnetometer(uint32_t time_between_reports);
+
+        void disable_rotation_vector();
+        void disable_game_rotation_vector();
+        void disable_ARVR_stabilized_rotation_vector();
+        void disable_ARVR_stabilized_game_rotation_vector();
+        void disable_gyro_integrated_rotation_vector();
+        void disable_accelerometer();
+        void disable_linear_accelerometer();
+        void disable_gravity();
+        void disable_gyro();
+        void disable_uncalibrated_gyro();
+        void disable_magnetometer();
+        void disable_tap_detector();
+        void disable_step_counter();
+        void disable_stability_classifier();
+        void disable_activity_classifier();
+        void disable_raw_accelerometer();
+        void disable_raw_gyro();
+        void disable_raw_magnetometer();
 
         void tare_now(uint8_t axis_sel = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void save_tare();
@@ -278,17 +297,15 @@ class BNO08x
         void send_packet();
         void queue_packet(uint8_t channel_number, uint8_t data_length);
         void queue_command(uint8_t command);
-        void queue_feature_command(uint8_t report_ID, uint16_t time_between_reports);
-        void queue_feature_command(uint8_t report_ID, uint16_t time_between_reports, uint32_t specific_config);
+        void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports);
+        void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config);
         void queue_calibrate_command(uint8_t _to_calibrate);
         void queue_tare_command(uint8_t command, uint8_t axis = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void queue_request_product_id_command();
 
         static bno08x_config_t default_imu_config; ///< default imu config settings
 
-        volatile uint8_t
-                tx_packet_queued; ///<Whether or not a packet is currently waiting to be sent, a queued packet is sent on assertion of BNO08x HINT pin)
-        SemaphoreHandle_t tx_semaphore; ///<Mutex semaphore used to prevent sending or receiving of packets if packet is currently being queued
+         SemaphoreHandle_t tx_semaphore; ///<Used to indicate to spi_task() whether or not a packet is currently waiting to be sent.
         SemaphoreHandle_t
                 int_asserted_semaphore; ///<Binary semaphore used to synchronize spi_task() calling wait_for_device_int(), given after hint_handler ISR launches SPI task and it has run to completion
         uint8_t rx_buffer[300];         ///<buffer used to receive packet with receive_packet()
