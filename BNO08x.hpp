@@ -64,6 +64,22 @@ typedef struct bno08x_config_t
             , debug_en(false)
         {
         }
+#elif defined(ESP32C6_IMU_CONFIG)
+        /// @brief Default IMU configuration settings constructor for ESP32-C6, add
+        /// add_compile_definitions("ESP32C6_IMU_CONFIG") to CMakeList to use
+        bno08x_config_t()
+            : spi_peripheral(SPI2_HOST)
+            , io_mosi(GPIO_NUM_22)
+            , io_miso(GPIO_NUM_21)
+            , io_sclk(GPIO_NUM_23)
+            , io_cs(GPIO_NUM_6)
+            , io_int(GPIO_NUM_4)
+            , io_rst(GPIO_NUM_5)
+            , io_wake(GPIO_NUM_NC)
+            , sclk_speed(2000000UL)    // 2MHz SCLK speed
+            , debug_en(false)
+        {
+        }
 #else
         /// @brief Default IMU configuration settings constructor for ESP32
         bno08x_config_t()
