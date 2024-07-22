@@ -7,24 +7,21 @@ bno08x_config_t BNO08x::default_imu_config;
  * @brief BNO08x imu constructor.
  *
  * Construct a BNO08x object for managing a BNO08x sensor.
- * Initializes required GPIO pins, interrupts, SPI peripheral, and local task for SPI transactions.
+ * Initializes required GPIO pins, interrupts, SPI peripheral, and two local tasks for SPI transactions and data processing.
  *
  * @param imu_config Configuration settings (optional), default settings can be seen in bno08x_config_t
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : tx_semaphore(xSemaphoreCreateBinary())
-    , int_asserted_semaphore(xSemaphoreCreateBinary())
+    : evt_grp_spi(xEventGroupCreate())
+    , queue_rx_data(xQueueCreate(1, sizeof(bno08x_rx_packet_t)))
+    , queue_tx_data(xQueueCreate(1, sizeof(bno08x_tx_packet_t)))
+    , queue_frs_read_data(xQueueCreate(1, RX_DATA_LENGTH * sizeof(uint8_t)))
     , imu_config(imu_config)
     , calibration_status(1)
 
 {
-    // clear all buffers
-    memset(tx_buffer, 0, sizeof(tx_buffer));
-    memset(rx_buffer, 0, sizeof(rx_buffer));
-    memset(packet_header_rx, 0, sizeof(packet_header_rx));
-    memset(commands, 0, sizeof(commands));
-    memset(sequence_number, 0, sizeof(sequence_number));
+    uint8_t tx_buffer[50] = {0};
 
     // SPI bus config
     bus_config.mosi_io_num = imu_config.io_mosi; // assign mosi gpio pin
@@ -96,7 +93,6 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
 
     // do first SPI operation into nowhere before BNO085 reset to let periphiral stabilize (Anton B.)
-    memset(tx_buffer, 0, sizeof(tx_buffer));
     spi_transaction.length = 8;
     spi_transaction.rxlength = 0;
     spi_transaction.tx_buffer = tx_buffer;
@@ -104,8 +100,10 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     spi_transaction.flags = 0;
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 
+    data_proc_task_hdl = NULL;
     spi_task_hdl = NULL;
-    xTaskCreate(&spi_task_trampoline, "spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
+    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", 4096, this, 7, &data_proc_task_hdl); // launch data processing task
+    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl);                         // launch SPI task
 }
 
 /**
@@ -149,36 +147,11 @@ bool BNO08x::initialize()
     }
 
     // receive product ID report
-    if (!wait_for_device_int())
+    if (!wait_for_data())
     {
         ESP_LOGE(TAG, "Failed to receive product ID report.");
         return false;
     }
-
-    if (rx_buffer[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
-    {
-        uint32_t sw_part_number =
-                ((uint32_t) rx_buffer[7] << 24) | ((uint32_t) rx_buffer[6] << 16) | ((uint32_t) rx_buffer[5] << 8) | ((uint32_t) rx_buffer[4]);
-        uint32_t sw_build_number =
-                ((uint32_t) rx_buffer[11] << 24) | ((uint32_t) rx_buffer[10] << 16) | ((uint32_t) rx_buffer[9] << 8) | ((uint32_t) rx_buffer[8]);
-        uint16_t sw_version_patch = ((uint16_t) rx_buffer[13] << 8) | ((uint16_t) rx_buffer[12]);
-
-        // print product ID info packet
-        ESP_LOGI(TAG,
-                "Successfully initialized....\n\r"
-                "                ---------------------------\n\r"
-                "                Product ID: 0x%" PRIx32 "\n\r"
-                "                SW Version Major: 0x%" PRIx32 "\n\r"
-                "                SW Version Minor: 0x%" PRIx32 "\n\r"
-                "                SW Part Number:   0x%" PRIx32 "\n\r"
-                "                SW Build Number:  0x%" PRIx32 "\n\r"
-                "                SW Version Patch: 0x%" PRIx32 "\n\r"
-                "                ---------------------------\n\r",
-                (uint32_t) rx_buffer[0], (uint32_t) rx_buffer[2], (uint32_t) rx_buffer[3], sw_part_number, sw_build_number,
-                (uint32_t) sw_version_patch);
-    }
-    else
-        return false;
 
     return true;
 }
@@ -186,14 +159,13 @@ bool BNO08x::initialize()
 /**
  * @brief Re-enables interrupts and waits for BNO08x to assert HINT pin.
  *
- * @return void, nothing to return
+ * @return True if the bno08x hint pin has been asserted within HOST_INT_TIMEOUT_MS.
  */
 bool BNO08x::wait_for_device_int()
 {
     gpio_intr_enable(imu_config.io_int); // re-enable interrupts
-
     // wait until an interrupt has been asserted or timeout has occured
-    if (xSemaphoreTake(int_asserted_semaphore, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
         if (imu_config.debug_en)
             ESP_LOGI(TAG, "int asserted");
@@ -205,6 +177,31 @@ bool BNO08x::wait_for_device_int()
         ESP_LOGE(TAG, "Interrupt to host device never asserted.");
         return false;
     }
+}
+
+/**
+ * @brief Waits for a valid packet to be received or HOST_INT_TIMEOUT_MS to elapse.
+ *
+ * @return True if valid packet has been received within HOST_INT_TIMEOUT_MS.
+ */
+bool BNO08x::wait_for_data()
+{
+    if (wait_for_device_int())
+    {
+        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT, pdTRUE, pdTRUE, 0))
+        {
+            if (imu_config.debug_en)
+                ESP_LOGI(TAG, "Valid packet received.");
+
+            return true;
+        }
+        else
+        {
+            ESP_LOGE(TAG, "Invalid packet received.");
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -240,11 +237,11 @@ bool BNO08x::hard_reset()
 bool BNO08x::soft_reset()
 {
     bool success = false;
+    uint8_t commands[20] = {0};
 
-    memset(commands, 0, sizeof(commands));
     commands[0] = 1;
 
-    queue_packet(CHANNEL_EXECUTABLE, 1);
+    queue_packet(CHANNEL_EXECUTABLE, 1, commands);
     success = wait_for_device_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
     success = wait_for_device_int(); // receive advertisement message;
@@ -262,12 +259,13 @@ bool BNO08x::soft_reset()
  */
 uint8_t BNO08x::get_reset_reason()
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
+
     commands[0] = SHTP_REPORT_PRODUCT_ID_REQUEST; // Request the product ID and reset info
     commands[1] = 0;                              // Reserved
 
     // Transmit packet on channel 2, 2 bytes
-    queue_packet(CHANNEL_CONTROL, 2);
+    queue_packet(CHANNEL_CONTROL, 2, commands);
     wait_for_device_int();
 
     if (wait_for_device_int())
@@ -287,11 +285,11 @@ uint8_t BNO08x::get_reset_reason()
 bool BNO08x::mode_on()
 {
     bool success = false;
+    uint8_t commands[20] = {0};
 
-    memset(commands, 0, sizeof(commands));
     commands[0] = 2;
 
-    queue_packet(CHANNEL_EXECUTABLE, 1);
+    queue_packet(CHANNEL_EXECUTABLE, 1, commands);
     success = wait_for_device_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
     success = wait_for_device_int(); // receive advertisement message;
@@ -309,11 +307,11 @@ bool BNO08x::mode_on()
 bool BNO08x::mode_sleep()
 {
     bool success = false;
+    uint8_t commands[20] = {0};
 
-    memset(commands, 0, sizeof(commands));
     commands[0] = 3;
 
-    queue_packet(CHANNEL_EXECUTABLE, 1);
+    queue_packet(CHANNEL_EXECUTABLE, 1, commands);
     success = wait_for_device_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
     success = wait_for_device_int(); // receive advertisement message;
@@ -324,22 +322,20 @@ bool BNO08x::mode_sleep()
 }
 
 /**
- * @brief Receives a SHTP packet via SPI.
+ * @brief Receives a SHTP packet via SPI and sends it to data_proc_task()
  *
  * @return void, nothing to return
  */
 bool BNO08x::receive_packet()
 {
-    uint8_t dummy_header_tx[4];
-
-    memset(packet_header_rx, 0, sizeof(packet_header_rx));
-    memset(dummy_header_tx, 0, sizeof(dummy_header_tx));
+    bno08x_rx_packet_t packet;
+    uint8_t dummy_header_tx[4] = {0};
 
     if (gpio_get_level(imu_config.io_int)) // ensure INT pin is low
         return false;
 
     // setup transaction to receive first 4 bytes (packet header)
-    spi_transaction.rx_buffer = packet_header_rx;
+    spi_transaction.rx_buffer = packet.header;
     spi_transaction.tx_buffer = dummy_header_tx;
     spi_transaction.length = 4 * 8;
     spi_transaction.rxlength = 4 * 8;
@@ -349,27 +345,29 @@ bool BNO08x::receive_packet()
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive first 4 bytes (packet header)
 
     // calculate length of packet from received header
-    packet_length_rx = (((uint16_t) packet_header_rx[1]) << 8) | ((uint16_t) packet_header_rx[0]);
-    packet_length_rx &= ~(1 << 15); // Clear the MSbit
+    packet.length = (((uint16_t) packet.header[1]) << 8) | ((uint16_t) packet.header[0]);
+    packet.length &= ~(1 << 15); // Clear the MSbit
 
     if (imu_config.debug_en)
-        ESP_LOGW(TAG, "packet rx length: %d", packet_length_rx);
+        ESP_LOGW(TAG, "packet rx length: %d", packet.length);
 
-    if (packet_length_rx == 0)
+    if (packet.length == 0)
         return false;
 
-    packet_length_rx -= 4; // remove 4 header bytes from packet length (we already read those)
+    packet.length -= 4; // remove 4 header bytes from packet length (we already read those)
 
     // setup transacton to read the data packet
-    spi_transaction.rx_buffer = rx_buffer;
+    spi_transaction.rx_buffer = packet.body;
     spi_transaction.tx_buffer = NULL;
-    spi_transaction.length = packet_length_rx * 8;
-    spi_transaction.rxlength = packet_length_rx * 8;
+    spi_transaction.length = packet.length * 8;
+    spi_transaction.rxlength = packet.length * 8;
     spi_transaction.flags = 0;
 
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive rest of packet
 
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
+
+    xQueueSend(queue_rx_data, &packet, 0); //send received data to data_proc_task
 
     return true;
 }
@@ -379,38 +377,41 @@ bool BNO08x::receive_packet()
  *
  * @return void, nothing to return
  */
-void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length)
+void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* commands)
 {
-    packet_length_tx = data_length + 4; // add 4 bytes for header
-    uint8_t i = 0;
 
-    memset(tx_buffer, 0, sizeof(tx_buffer));
+    static uint8_t sequence_number[6] = {0}; // Sequence num of each com channel, 6 in total
+    bno08x_tx_packet_t packet;
 
-    tx_buffer[0] = packet_length_tx & 0xFF;           // packet length LSB
-    tx_buffer[1] = packet_length_tx >> 8;             // packet length MSB
-    tx_buffer[2] = channel_number;                    // channel number to write to
-    tx_buffer[3] = sequence_number[channel_number]++; // increment and send sequence number (packet counter)
+    packet.length = data_length + 4; // add 4 bytes for header
+
+    packet.body[0] = packet.length & 0xFF;              // packet length LSB
+    packet.body[1] = packet.length >> 8;                // packet length MSB
+    packet.body[2] = channel_number;                    // channel number to write to
+    packet.body[3] = sequence_number[channel_number]++; // increment and send sequence number (packet counter)
 
     // save commands to send to tx_buffer
-    for (i = 0; i < data_length; i++)
+    for (int i = 0; i < data_length; i++)
     {
-        tx_buffer[i + 4] = commands[i];
+        packet.body[i + 4] = commands[i];
     }
 
-    xSemaphoreGive(tx_semaphore);
+    xQueueSend(queue_tx_data, &packet, 0);
 }
 
 /**
  * @brief Sends a queued SHTP packet via SPI.
+ * 
+ * @param packet The packet queued to be sent.
  *
  * @return void, nothing to return
  */
-void BNO08x::send_packet()
+void BNO08x::send_packet(bno08x_tx_packet_t* packet)
 {
     // setup transaction to send packet
-    spi_transaction.length = packet_length_tx * 8;
+    spi_transaction.length = packet->length * 8;
     spi_transaction.rxlength = 0;
-    spi_transaction.tx_buffer = tx_buffer;
+    spi_transaction.tx_buffer = packet->body;
     spi_transaction.rx_buffer = NULL;
     spi_transaction.flags = 0;
 
@@ -424,15 +425,19 @@ void BNO08x::send_packet()
  * @brief Queues a packet containing a command.
  *
  * @param command The command to be sent.
+ * @param commands Command data array, pre-packed with exception of first 3 elements (command info)
+ * 
  * @return void, nothing to return
  */
-void BNO08x::queue_command(uint8_t command)
+void BNO08x::queue_command(uint8_t command, uint8_t* commands)
 {
+    static uint8_t command_sequence_number = 0; // Sequence num of command, sent within command packet.
+
     commands[0] = SHTP_REPORT_COMMAND_REQUEST; // Command Request
     commands[1] = command_sequence_number++;   // Increments automatically each function call
     commands[2] = command;                     // Command
 
-    queue_packet(CHANNEL_CONTROL, 12);
+    queue_packet(CHANNEL_CONTROL, 12, commands);
 }
 
 /**
@@ -442,9 +447,11 @@ void BNO08x::queue_command(uint8_t command)
  */
 void BNO08x::queue_request_product_id_command()
 {
+    uint8_t commands[20] = {0};
+
     commands[0] = SHTP_REPORT_PRODUCT_ID_REQUEST; // request product ID and reset info
     commands[1] = 0;                              // reserved
-    queue_packet(CHANNEL_CONTROL, 2);
+    queue_packet(CHANNEL_CONTROL, 2, commands);
 }
 
 /**
@@ -515,7 +522,7 @@ void BNO08x::calibrate_planar_accelerometer()
  */
 void BNO08x::queue_calibrate_command(uint8_t sensor_to_calibrate)
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     switch (sensor_to_calibrate)
     {
@@ -552,7 +559,7 @@ void BNO08x::queue_calibrate_command(uint8_t sensor_to_calibrate)
 
     calibration_status = 1;
 
-    queue_command(COMMAND_ME_CALIBRATE);
+    queue_command(COMMAND_ME_CALIBRATE, commands);
 }
 
 /**
@@ -562,12 +569,12 @@ void BNO08x::queue_calibrate_command(uint8_t sensor_to_calibrate)
  */
 void BNO08x::request_calibration_status()
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     commands[6] = 0x01; // P3 - 0x01 - Subcommand: Get ME Calibration
 
     // Using this commands packet, send a command
-    queue_command(COMMAND_ME_CALIBRATE);
+    queue_command(COMMAND_ME_CALIBRATE, commands);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -604,12 +611,12 @@ void BNO08x::end_calibration()
  */
 void BNO08x::save_calibration()
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     // Using this shtpData packet, send a command
-    queue_command(COMMAND_DCD);          // Save DCD command
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    queue_command(COMMAND_DCD, commands); // Save DCD command
+    wait_for_device_int();                // wait for next interrupt such that command is sent
+    vTaskDelay(50 / portTICK_PERIOD_MS);  // allow some time for command to be executed
 }
 
 /**
@@ -717,49 +724,99 @@ bool BNO08x::run_full_calibration_routine()
  */
 bool BNO08x::data_available()
 {
-    return (get_readings() != 0);
+    return wait_for_data();
 }
 
 /**
- * @brief Waits for BNO08x HINT pin to assert, and parses the received data.
- *
- * @return void, nothing to return
+ * @brief Parses a packet received from bno08x, updating any data according to received reports.
+ * 
+ * @param packet The packet to be parsed.
+ * @return 0 if invalid packet.
  */
-uint16_t BNO08x::get_readings()
+uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 {
-    if (wait_for_device_int())
+    if (imu_config.debug_en)
+        ESP_LOGE(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
+
+    if (packet->body[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
+    {
+        return parse_product_id_report(packet);
+    }
+
+    if (packet->body[0] == SHTP_REPORT_FRS_READ_RESPONSE)
+    {
+        return parse_frs_read_response_report(packet);
+    }
+
+    // Check to see if this packet is a sensor reporting its data to us
+    if (packet->header[2] == CHANNEL_REPORTS && packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
     {
         if (imu_config.debug_en)
-            ESP_LOGE(
-                    TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet_header_rx[0], packet_header_rx[1], packet_header_rx[2], packet_header_rx[3]);
+            ESP_LOGI(TAG, "RX'd packet, channel report");
 
-        // Check to see if this packet is a sensor reporting its data to us
-        if (packet_header_rx[2] == CHANNEL_REPORTS && rx_buffer[0] == SHTP_REPORT_BASE_TIMESTAMP)
-        {
-            if (imu_config.debug_en)
-                ESP_LOGI(TAG, "RX'd packet, channel report");
+        return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
+                                           // report is found
+    }
+    else if (packet->header[2] == CHANNEL_CONTROL)
+    {
+        if (imu_config.debug_en)
+            ESP_LOGI(TAG, "RX'd packet, channel control");
 
-            return parse_input_report(); // This will update the rawAccelX, etc variables depending on which feature
-                                         // report is found
-        }
-        else if (packet_header_rx[2] == CHANNEL_CONTROL)
-        {
-            if (imu_config.debug_en)
-                ESP_LOGI(TAG, "RX'd packet, channel control");
+        return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
+    }
+    else if (packet->header[2] == CHANNEL_GYRO)
+    {
+        if (imu_config.debug_en)
+            ESP_LOGI(TAG, "Rx packet, channel gyro");
 
-            return parse_command_report(); // This will update responses to commands, calibrationStatus, etc.
-        }
-        else if (packet_header_rx[2] == CHANNEL_GYRO)
-        {
-            if (imu_config.debug_en)
-                ESP_LOGI(TAG, "Rx packet, channel gyro");
-
-            return parse_input_report(); // This will update the rawAccelX, etc variables depending on which feature
-                                         // report is found
-        }
+        return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
+                                           // report is found
     }
 
     return 0;
+}
+
+/**
+ * @brief Parses product id report and prints device info.
+ * 
+ * @param packet The packet containing product id report.
+ * @return 1, always valid.
+ */
+uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
+{
+    uint32_t sw_part_number = ((uint32_t) packet->body[7] << 24) | ((uint32_t) packet->body[6] << 16) | ((uint32_t) packet->body[5] << 8) |
+                              ((uint32_t) packet->body[4]);
+    uint32_t sw_build_number = ((uint32_t) packet->body[11] << 24) | ((uint32_t) packet->body[10] << 16) | ((uint32_t) packet->body[9] << 8) |
+                               ((uint32_t) packet->body[8]);
+    uint16_t sw_version_patch = ((uint16_t) packet->body[13] << 8) | ((uint16_t) packet->body[12]);
+
+    // print product ID info packet
+    ESP_LOGI(TAG,
+            "Successfully initialized....\n\r"
+            "                ---------------------------\n\r"
+            "                Product ID: 0x%" PRIx32 "\n\r"
+            "                SW Version Major: 0x%" PRIx32 "\n\r"
+            "                SW Version Minor: 0x%" PRIx32 "\n\r"
+            "                SW Part Number:   0x%" PRIx32 "\n\r"
+            "                SW Build Number:  0x%" PRIx32 "\n\r"
+            "                SW Version Patch: 0x%" PRIx32 "\n\r"
+            "                ---------------------------\n\r",
+            (uint32_t) packet->body[0], (uint32_t) packet->body[2], (uint32_t) packet->body[3], sw_part_number, sw_build_number,
+            (uint32_t) sw_version_patch);
+
+    return 1;
+}
+
+/**
+ * @brief Sends packet to be parsed to meta data function call (frs_read_word()) through queue.
+ * 
+ * @param packet The packet containing the frs read report.
+ * @return 1, always valid.
+ */
+uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
+{
+    xQueueSend(queue_frs_read_data, &packet->body, 0);
+    return 1;
 }
 
 /**
@@ -767,96 +824,96 @@ uint16_t BNO08x::get_readings()
  *
  * Unit responds with packet that contains the following:
  *
- * packet_header_rx[0:3]: First, a 4 byte header
- * rx_buffer[0:4]: Then a 5 byte timestamp of microsecond ticks since reading was taken
- * rx_buffer[5 + 0]: Then a feature report ID (0x01 for Accel, 0x05 for Rotation Vector, etc...)
- * rx_buffer[5 + 1]: Sequence number (See Ref.Manual 6.5.8.2)
- * rx_buffer[5 + 2]: Status
- * rx_buffer[3]: Delay
- * rx_buffer[4:5]: i/accel x/gyro x/etc
- * rx_buffer[6:7]: j/accel y/gyro y/etc
- * rx_buffer[8:9]: k/accel z/gyro z/etc
- * rx_buffer[10:11]: real/gyro temp/etc
- * rx_buffer[12:13]: Accuracy estimate
+ * packet->header[0:3]: First, a 4 byte header
+ * packet->body[0:4]: Then a 5 byte timestamp of microsecond ticks since reading was taken
+ * packet->body[5 + 0]: Then a feature report ID (0x01 for Accel, 0x05 for Rotation Vector, etc...)
+ * packet->body[5 + 1]: Sequence number (See Ref.Manual 6.5.8.2)
+ * packet->body[5 + 2]: Status
+ * packet->body[3]: Delay
+ * packet->body[4:5]: i/accel x/gyro x/etc
+ * packet->body[6:7]: j/accel y/gyro y/etc
+ * packet->body[8:9]: k/accel z/gyro z/etc
+ * packet->body[10:11]: real/gyro temp/etc
+ * packet->body[12:13]: Accuracy estimate
  *
- * @return void, nothing to return
+ * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0 if invalid.
  */
-uint16_t BNO08x::parse_input_report()
+uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 {
     uint16_t i = 0;
     uint8_t status = 0;
     uint8_t command = 0;
 
     // Calculate the number of data bytes in this packet
-    uint16_t data_length = ((uint16_t) packet_header_rx[1] << 8 | packet_header_rx[0]);
+    uint16_t data_length = ((uint16_t) packet->header[1] << 8 | packet->header[0]);
     data_length &= ~(1 << 15); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
     // Ignore it for now. TODO catch this as an error and exit
 
     data_length -= 4; // Remove the header bytes from the data count
-    time_stamp = ((uint32_t) rx_buffer[4] << (8 * 3)) | ((uint32_t) rx_buffer[3] << (8 * 2)) | ((uint32_t) rx_buffer[2] << (8 * 1)) |
-                 ((uint32_t) rx_buffer[1] << (8 * 0));
+    time_stamp = ((uint32_t) packet->body[4] << (8 * 3)) | ((uint32_t) packet->body[3] << (8 * 2)) | ((uint32_t) packet->body[2] << (8 * 1)) |
+                 ((uint32_t) packet->body[1] << (8 * 0));
 
     // The gyro-integrated input reports are sent via the special gyro channel and do no include the usual ID, sequence,
     // and status fields
-    if (packet_header_rx[2] == CHANNEL_GYRO)
+    if (packet->header[2] == CHANNEL_GYRO)
     {
-        raw_quat_I = (uint16_t) rx_buffer[1] << 8 | rx_buffer[0];
-        raw_quat_J = (uint16_t) rx_buffer[3] << 8 | rx_buffer[2];
-        raw_quat_K = (uint16_t) rx_buffer[5] << 8 | rx_buffer[4];
-        raw_quat_real = (uint16_t) rx_buffer[7] << 8 | rx_buffer[6];
-        raw_velocity_gyro_X = (uint16_t) rx_buffer[9] << 8 | rx_buffer[8];
-        raw_velocity_gyro_Y = (uint16_t) rx_buffer[11] << 8 | rx_buffer[10];
-        raw_velocity_gyro_Z = (uint16_t) rx_buffer[13] << 8 | rx_buffer[12];
+        raw_quat_I = (uint16_t) packet->body[1] << 8 | packet->body[0];
+        raw_quat_J = (uint16_t) packet->body[3] << 8 | packet->body[2];
+        raw_quat_K = (uint16_t) packet->body[5] << 8 | packet->body[4];
+        raw_quat_real = (uint16_t) packet->body[7] << 8 | packet->body[6];
+        raw_velocity_gyro_X = (uint16_t) packet->body[9] << 8 | packet->body[8];
+        raw_velocity_gyro_Y = (uint16_t) packet->body[11] << 8 | packet->body[10];
+        raw_velocity_gyro_Z = (uint16_t) packet->body[13] << 8 | packet->body[12];
 
-        return SENSOR_REPORTID_GYRO_INTEGRATED_ROTATION_VECTOR;
+        return SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR;
     }
 
-    status = rx_buffer[5 + 2] & 0x03; // Get status bits
-    uint16_t data1 = (uint16_t) rx_buffer[5 + 5] << 8 | rx_buffer[5 + 4];
-    uint16_t data2 = (uint16_t) rx_buffer[5 + 7] << 8 | rx_buffer[5 + 6];
-    uint16_t data3 = (uint16_t) rx_buffer[5 + 9] << 8 | rx_buffer[5 + 8];
+    status = packet->body[5 + 2] & 0x03; // Get status bits
+    uint16_t data1 = (uint16_t) packet->body[5 + 5] << 8 | packet->body[5 + 4];
+    uint16_t data2 = (uint16_t) packet->body[5 + 7] << 8 | packet->body[5 + 6];
+    uint16_t data3 = (uint16_t) packet->body[5 + 9] << 8 | packet->body[5 + 8];
     uint16_t data4 = 0;
     uint16_t data5 = 0;
     uint16_t data6 = 0;
 
     if (data_length - 5 > 9)
     {
-        data4 = (uint16_t) rx_buffer[5 + 11] << 8 | rx_buffer[5 + 10];
+        data4 = (uint16_t) packet->body[5 + 11] << 8 | packet->body[5 + 10];
     }
     if (data_length - 5 > 11)
     {
-        data5 = (uint16_t) rx_buffer[5 + 13] << 8 | rx_buffer[5 + 12];
+        data5 = (uint16_t) packet->body[5 + 13] << 8 | packet->body[5 + 12];
     }
     if (data_length - 5 > 13)
     {
-        data6 = (uint16_t) rx_buffer[5 + 15] << 8 | rx_buffer[5 + 14];
+        data6 = (uint16_t) packet->body[5 + 15] << 8 | packet->body[5 + 14];
     }
 
     // Store these generic values to their proper global variable
-    switch (rx_buffer[5])
+    switch (packet->body[5])
     {
-    case SENSOR_REPORTID_ACCELEROMETER:
+    case SENSOR_REPORT_ID_ACCELEROMETER:
         accel_accuracy = status;
         raw_accel_X = data1;
         raw_accel_Y = data2;
         raw_accel_Z = data3;
         break;
 
-    case SENSOR_REPORTID_LINEAR_ACCELERATION:
+    case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
         accel_lin_accuracy = status;
         raw_lin_accel_X = data1;
         raw_lin_accel_Y = data2;
         raw_lin_accel_Z = data3;
         break;
 
-    case SENSOR_REPORTID_GYROSCOPE:
+    case SENSOR_REPORT_ID_GYROSCOPE:
         gyro_accuracy = status;
         raw_gyro_X = data1;
         raw_gyro_Y = data2;
         raw_gyro_Z = data3;
         break;
 
-    case SENSOR_REPORTID_UNCALIBRATED_GYRO:
+    case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
         uncalib_gyro_accuracy = status;
         raw_uncalib_gyro_X = data1;
         raw_uncalib_gyro_Y = data2;
@@ -866,47 +923,47 @@ uint16_t BNO08x::parse_input_report()
         raw_bias_Z = data6;
         break;
 
-    case SENSOR_REPORTID_MAGNETIC_FIELD:
+    case SENSOR_REPORT_ID_MAGNETIC_FIELD:
         magf_accuracy = status;
         raw_magf_X = data1;
         raw_magf_Y = data2;
         raw_magf_Z = data3;
         break;
 
-    case SENSOR_REPORTID_TAP_DETECTOR:
-        tap_detector = rx_buffer[5 + 4]; // Byte 4 only
+    case SENSOR_REPORT_ID_TAP_DETECTOR:
+        tap_detector = packet->body[5 + 4]; // Byte 4 only
         break;
 
-    case SENSOR_REPORTID_STEP_COUNTER:
+    case SENSOR_REPORT_ID_STEP_COUNTER:
         step_count = data3; // Bytes 8/9
         break;
 
-    case SENSOR_REPORTID_STABILITY_CLASSIFIER:
-        stability_classifier = rx_buffer[5 + 4]; // Byte 4 only
+    case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
+        stability_classifier = packet->body[5 + 4]; // Byte 4 only
         break;
 
-    case SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER:
-        activity_classifier = rx_buffer[5 + 5]; // Most likely state
+    case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
+        activity_classifier = packet->body[5 + 5]; // Most likely state
 
         // Load activity classification confidences into the array
-        for (i = 0; i < 9; i++)                             // Hardcoded to max of 9. TODO - bring in array size
-            activity_confidences[i] = rx_buffer[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
-                                                            // byte
+        for (i = 0; i < 9; i++)                                // Hardcoded to max of 9. TODO - bring in array size
+            activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
+                                                               // byte
         break;
 
-    case SENSOR_REPORTID_RAW_ACCELEROMETER:
+    case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
         mems_raw_accel_X = data1;
         mems_raw_accel_Y = data2;
         mems_raw_accel_Z = data3;
         break;
 
-    case SENSOR_REPORTID_RAW_GYROSCOPE:
+    case SENSOR_REPORT_ID_RAW_GYROSCOPE:
         mems_raw_gyro_X = data1;
         mems_raw_gyro_Y = data2;
         mems_raw_gyro_Z = data3;
         break;
 
-    case SENSOR_REPORTID_RAW_MAGNETOMETER:
+    case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
         mems_raw_magf_X = data1;
         mems_raw_magf_Y = data2;
         mems_raw_magf_Z = data3;
@@ -915,13 +972,13 @@ uint16_t BNO08x::parse_input_report()
     case SHTP_REPORT_COMMAND_RESPONSE:
         // The BNO080 responds with this report to command requests. It's up to use to remember which command we
         // issued.
-        command = rx_buffer[5 + 2]; // This is the Command byte of the response
+        command = packet->body[5 + 2]; // This is the Command byte of the response
 
         if (command == COMMAND_ME_CALIBRATE)
-            calibration_status = rx_buffer[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
+            calibration_status = packet->body[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
         break;
 
-    case SENSOR_REPORTID_GRAVITY:
+    case SENSOR_REPORT_ID_GRAVITY:
         gravity_accuracy = status;
         gravity_X = data1;
         gravity_Y = data2;
@@ -929,9 +986,9 @@ uint16_t BNO08x::parse_input_report()
         break;
 
     default:
-        if (rx_buffer[5] == SENSOR_REPORTID_ROTATION_VECTOR || rx_buffer[5] == SENSOR_REPORTID_GAME_ROTATION_VECTOR ||
-                rx_buffer[5] == SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR ||
-                rx_buffer[5] == SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR)
+        if (packet->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || packet->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||
+                packet->body[5] == SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR ||
+                packet->body[5] == SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR)
         {
             quat_accuracy = status;
             raw_quat_I = data1;
@@ -954,7 +1011,7 @@ uint16_t BNO08x::parse_input_report()
     }
 
     // TODO additional feature reports may be strung together. Parse them all.
-    return rx_buffer[5];
+    return packet->body[5];
 }
 
 /**
@@ -962,20 +1019,20 @@ uint16_t BNO08x::parse_input_report()
  *
  * @return The command report ID, 0 if invalid.
  */
-uint16_t BNO08x::parse_command_report()
+uint16_t BNO08x::parse_command_report(bno08x_rx_packet_t* packet)
 {
     uint8_t command = 0;
 
-    if (rx_buffer[0] == SHTP_REPORT_COMMAND_RESPONSE)
+    if (packet->body[0] == SHTP_REPORT_COMMAND_RESPONSE)
     {
         // The BNO080 responds with this report to command requests. It's up to use to remember which command we issued.
-        command = rx_buffer[2]; // This is the Command byte of the response
+        command = packet->body[2]; // This is the Command byte of the response
 
         if (command == COMMAND_ME_CALIBRATE)
         {
-            calibration_status = rx_buffer[5 + 0]; // R0 - Status (0 = success, non-zero = fail)
+            calibration_status = packet->body[5 + 0]; // R0 - Status (0 = success, non-zero = fail)
         }
-        return rx_buffer[0];
+        return packet->body[0];
     }
     else
     {
@@ -994,7 +1051,7 @@ uint16_t BNO08x::parse_command_report()
  */
 void BNO08x::enable_game_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_GAME_ROTATION_VECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1007,7 +1064,7 @@ void BNO08x::enable_game_rotation_vector(uint32_t time_between_reports)
  */
 void BNO08x::enable_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1020,7 +1077,7 @@ void BNO08x::enable_rotation_vector(uint32_t time_between_reports)
  */
 void BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1033,7 +1090,7 @@ void BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_report
  */
 void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1046,7 +1103,7 @@ void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_r
  */
 void BNO08x::enable_gyro_integrated_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_GYRO_INTEGRATED_ROTATION_VECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1059,7 +1116,7 @@ void BNO08x::enable_gyro_integrated_rotation_vector(uint32_t time_between_report
  */
 void BNO08x::enable_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_ACCELEROMETER, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_ACCELEROMETER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1072,7 +1129,7 @@ void BNO08x::enable_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_linear_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_LINEAR_ACCELERATION, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_LINEAR_ACCELERATION, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1085,7 +1142,7 @@ void BNO08x::enable_linear_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_gravity(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_GRAVITY, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_GRAVITY, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1098,7 +1155,7 @@ void BNO08x::enable_gravity(uint32_t time_between_reports)
  */
 void BNO08x::enable_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_GYROSCOPE, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_GYROSCOPE, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1111,7 +1168,7 @@ void BNO08x::enable_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_uncalibrated_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_UNCALIBRATED_GYRO, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1124,7 +1181,7 @@ void BNO08x::enable_uncalibrated_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_magnetometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_MAGNETIC_FIELD, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_MAGNETIC_FIELD, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1137,7 +1194,7 @@ void BNO08x::enable_magnetometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_tap_detector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_TAP_DETECTOR, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_TAP_DETECTOR, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1150,7 +1207,7 @@ void BNO08x::enable_tap_detector(uint32_t time_between_reports)
  */
 void BNO08x::enable_step_counter(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_STEP_COUNTER, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_STEP_COUNTER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1163,7 +1220,7 @@ void BNO08x::enable_step_counter(uint32_t time_between_reports)
  */
 void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_STABILITY_CLASSIFIER, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1179,7 +1236,7 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
-    queue_feature_command(SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, activities_to_enable);
+    queue_feature_command(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, activities_to_enable);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1192,7 +1249,7 @@ void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t 
  */
 void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_ACCELEROMETER, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_ACCELEROMETER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1205,7 +1262,7 @@ void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_GYROSCOPE, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_GYROSCOPE, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1218,7 +1275,7 @@ void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_MAGNETOMETER, time_between_reports);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_MAGNETOMETER, time_between_reports);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1230,7 +1287,7 @@ void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
  */
 void BNO08x::disable_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1242,7 +1299,7 @@ void BNO08x::disable_rotation_vector()
  */
 void BNO08x::disable_game_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORTID_GAME_ROTATION_VECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1254,7 +1311,7 @@ void BNO08x::disable_game_rotation_vector()
  */
 void BNO08x::disable_ARVR_stabilized_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1266,7 +1323,7 @@ void BNO08x::disable_ARVR_stabilized_rotation_vector()
  */
 void BNO08x::disable_ARVR_stabilized_game_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1278,7 +1335,7 @@ void BNO08x::disable_ARVR_stabilized_game_rotation_vector()
  */
 void BNO08x::disable_gyro_integrated_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORTID_ROTATION_VECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1290,7 +1347,7 @@ void BNO08x::disable_gyro_integrated_rotation_vector()
  */
 void BNO08x::disable_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORTID_ACCELEROMETER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_ACCELEROMETER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1302,7 +1359,7 @@ void BNO08x::disable_accelerometer()
  */
 void BNO08x::disable_linear_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORTID_LINEAR_ACCELERATION, 0);
+    queue_feature_command(SENSOR_REPORT_ID_LINEAR_ACCELERATION, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1314,7 +1371,7 @@ void BNO08x::disable_linear_accelerometer()
  */
 void BNO08x::disable_gravity()
 {
-    queue_feature_command(SENSOR_REPORTID_GRAVITY, 0);
+    queue_feature_command(SENSOR_REPORT_ID_GRAVITY, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1326,7 +1383,7 @@ void BNO08x::disable_gravity()
  */
 void BNO08x::disable_gyro()
 {
-    queue_feature_command(SENSOR_REPORTID_GYROSCOPE, 0);
+    queue_feature_command(SENSOR_REPORT_ID_GYROSCOPE, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1338,7 +1395,7 @@ void BNO08x::disable_gyro()
  */
 void BNO08x::disable_uncalibrated_gyro()
 {
-    queue_feature_command(SENSOR_REPORTID_UNCALIBRATED_GYRO, 0);
+    queue_feature_command(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1350,7 +1407,7 @@ void BNO08x::disable_uncalibrated_gyro()
  */
 void BNO08x::disable_magnetometer()
 {
-    queue_feature_command(SENSOR_REPORTID_MAGNETIC_FIELD, 0);
+    queue_feature_command(SENSOR_REPORT_ID_MAGNETIC_FIELD, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1362,7 +1419,7 @@ void BNO08x::disable_magnetometer()
  */
 void BNO08x::disable_tap_detector()
 {
-    queue_feature_command(SENSOR_REPORTID_TAP_DETECTOR, 0);
+    queue_feature_command(SENSOR_REPORT_ID_TAP_DETECTOR, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1374,7 +1431,7 @@ void BNO08x::disable_tap_detector()
  */
 void BNO08x::disable_step_counter()
 {
-    queue_feature_command(SENSOR_REPORTID_STEP_COUNTER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_STEP_COUNTER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1386,7 +1443,7 @@ void BNO08x::disable_step_counter()
  */
 void BNO08x::disable_stability_classifier()
 {
-    queue_feature_command(SENSOR_REPORTID_STABILITY_CLASSIFIER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1398,7 +1455,7 @@ void BNO08x::disable_stability_classifier()
  */
 void BNO08x::disable_activity_classifier()
 {
-    queue_feature_command(SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1410,7 +1467,7 @@ void BNO08x::disable_activity_classifier()
  */
 void BNO08x::disable_raw_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_ACCELEROMETER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_ACCELEROMETER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1422,7 +1479,7 @@ void BNO08x::disable_raw_accelerometer()
  */
 void BNO08x::disable_raw_gyro()
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_GYROSCOPE, 0);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_GYROSCOPE, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -1434,7 +1491,7 @@ void BNO08x::disable_raw_gyro()
  */
 void BNO08x::disable_raw_magnetometer()
 {
-    queue_feature_command(SENSOR_REPORTID_RAW_MAGNETOMETER, 0);
+    queue_feature_command(SENSOR_REPORT_ID_RAW_MAGNETOMETER, 0);
     wait_for_device_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
@@ -2280,11 +2337,12 @@ uint8_t BNO08x::get_activity_classifier()
 }
 
 /**
- * @brief Prints the most recently received SHTP header to serial console with ESP_LOG statement.
+ * @brief Prints the header of the passed SHTP packet to serial console with ESP_LOG statement.
  *
+ * @param packet The packet containing the header to be printed.
  * @return void, nothing to return
  */
-void BNO08x::print_header()
+void BNO08x::print_header(bno08x_rx_packet_t* packet)
 {
     // print most recent header
     ESP_LOGI(TAG,
@@ -2294,33 +2352,39 @@ void BNO08x::print_header()
             "                       Channel Number:  %d\n\r"
             "                       Sequence Number: %d\n\r"
             "                       Channel Type: %s\n\r",
-            (int) packet_header_rx[0], (int) packet_header_rx[1], (int) packet_header_rx[2], (int) packet_header_rx[3], (int) (packet_length_rx + 4),
-            (int) packet_header_rx[2], (int) packet_header_rx[3],
-            (packet_header_rx[2] == 0)   ? "Command"
-            : (packet_header_rx[2] == 1) ? "Executable"
-            : (packet_header_rx[2] == 2) ? "Control"
-            : (packet_header_rx[2] == 3) ? "Sensor-report"
-            : (packet_header_rx[2] == 4) ? "Wake-report"
-            : (packet_header_rx[2] == 5) ? "Gyro-vector"
-                                         : "Unknown");
+            (int) packet->header[0], (int) packet->header[1], (int) packet->header[2], (int) packet->header[3], (int) (packet->length + 4),
+            (int) packet->header[2], (int) packet->header[3],
+            (packet->header[2] == 0)   ? "Command"
+            : (packet->header[2] == 1) ? "Executable"
+            : (packet->header[2] == 2) ? "Control"
+            : (packet->header[2] == 3) ? "Sensor-report"
+            : (packet->header[2] == 4) ? "Wake-report"
+            : (packet->header[2] == 5) ? "Gyro-vector"
+                                       : "Unknown");
 }
 
-void BNO08x::print_packet()
+/**
+ * @brief Prints the passed SHTP packet to serial console with ESP_LOG statement.
+ *
+ * @param packet The packet to be printed.
+ * @return void, nothing to return
+ */
+void BNO08x::print_packet(bno08x_rx_packet_t* packet)
 {
     uint8_t i = 0;
     uint16_t print_length = 0;
     char packet_string[600];
     char byte_string[8];
 
-    if (packet_length_rx > 40)
+    if (packet->length > 40)
         print_length = 40;
     else
-        print_length = packet_length_rx;
+        print_length = packet->length;
 
     sprintf(packet_string, "                 Body: \n\r                       ");
     for (i = 0; i < print_length; i++)
     {
-        sprintf(byte_string, " 0x%02X ", rx_buffer[i]);
+        sprintf(byte_string, " 0x%02X ", packet->body[i]);
         strcat(packet_string, byte_string);
 
         if ((i + 1) % 6 == 0) // add a newline every 6 bytes
@@ -2335,15 +2399,15 @@ void BNO08x::print_packet()
             "                       Sequence Number: %d\n\r"
             "                       Channel Type: %s\n\r"
             "%s",
-            (int) packet_header_rx[0], (int) packet_header_rx[1], (int) packet_header_rx[2], (int) packet_header_rx[3], (int) (packet_length_rx + 4),
-            (int) packet_header_rx[2], (int) packet_header_rx[3],
-            (packet_header_rx[2] == 0)   ? "Command"
-            : (packet_header_rx[2] == 1) ? "Executable"
-            : (packet_header_rx[2] == 2) ? "Control"
-            : (packet_header_rx[2] == 3) ? "Sensor-report"
-            : (packet_header_rx[2] == 4) ? "Wake-report"
-            : (packet_header_rx[2] == 5) ? "Gyro-vector"
-                                         : "Unknown",
+            (int) packet->header[0], (int) packet->header[1], (int) packet->header[2], (int) packet->header[3], (int) (packet->length + 4),
+            (int) packet->header[2], (int) packet->header[3],
+            (packet->header[2] == 0)   ? "Command"
+            : (packet->header[2] == 1) ? "Executable"
+            : (packet->header[2] == 2) ? "Control"
+            : (packet->header[2] == 3) ? "Sensor-report"
+            : (packet->header[2] == 4) ? "Wake-report"
+            : (packet->header[2] == 5) ? "Gyro-vector"
+                                       : "Unknown",
             packet_string);
 }
 
@@ -2459,7 +2523,7 @@ uint32_t BNO08x::FRS_read_word(uint16_t record_ID, uint8_t word_number)
  */
 bool BNO08x::FRS_read_request(uint16_t record_ID, uint16_t read_offset, uint16_t block_size)
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     commands[0] = SHTP_REPORT_FRS_READ_REQUEST; // FRS Read Request
     commands[1] = 0;                            // Reserved
@@ -2471,7 +2535,7 @@ bool BNO08x::FRS_read_request(uint16_t record_ID, uint16_t read_offset, uint16_t
     commands[7] = (block_size >> 8) & 0xFF;     // Block size MSB
 
     // Transmit packet on channel 2, 8 bytes
-    queue_packet(CHANNEL_CONTROL, 8);
+    queue_packet(CHANNEL_CONTROL, 8, commands);
     return wait_for_device_int();
 }
 
@@ -2489,49 +2553,53 @@ bool BNO08x::FRS_read_request(uint16_t record_ID, uint16_t read_offset, uint16_t
  */
 bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t words_to_read)
 {
-    uint32_t data_0 = 0;
-    uint32_t data_1 = 0;
-    uint8_t data_length = 0;
-    uint8_t FRS_status = 0;
-    uint8_t attempt_count = 0;
-    uint16_t i = 0;
+    uint8_t counter;
+    uint8_t packet_body[RX_DATA_LENGTH];
+    uint8_t data_length;
+    uint8_t frs_status;
+    uint32_t data_0;
+    uint32_t data_1;
+    uint8_t spot = 0;
 
     if (FRS_read_request(record_ID, start_location, words_to_read))
     {
-        vTaskDelay(5 / portTICK_PERIOD_MS);
-        for (attempt_count = 0; attempt_count < 10; attempt_count++)
+        while (1)
         {
-            if (wait_for_device_int())
+            while (1)
             {
-                if (rx_buffer[0] != SHTP_REPORT_FRS_READ_RESPONSE)
-                    return false;
+                counter = 0;
 
-                if (!(((((uint16_t) rx_buffer[13]) << 8) | rx_buffer[12]) == record_ID))
-                    return false;
+                while (!wait_for_device_int())
+                {
+                    counter++;
+
+                    if (counter > 100)
+                        return false;
+                }
+
+                if (xQueueReceive(queue_frs_read_data, &packet_body, 0))
+                {
+                    if ((((uint16_t) packet_body[13] << 8) | (uint16_t) packet_body[12]) == record_ID)
+                        break;
+                }
             }
 
-            data_length = rx_buffer[1] >> 4;
-            FRS_status = rx_buffer[1] & 0x0F;
+            data_length = packet_body[1] >> 4;
+            frs_status = packet_body[1] & 0x0F;
 
-            data_0 = (uint32_t) rx_buffer[7] << 24 | (uint32_t) rx_buffer[6] << 16 | (uint32_t) rx_buffer[5] << 8 | (uint32_t) rx_buffer[4];
-            data_1 = (uint32_t) rx_buffer[11] << 24 | (uint32_t) rx_buffer[10] << 16 | (uint32_t) rx_buffer[9] << 8 | (uint32_t) rx_buffer[8];
+            data_0 = (uint32_t) packet_body[7] << 24 | (uint32_t) packet_body[6] << 16 | (uint32_t) packet_body[5] << 8 | (uint32_t) packet_body[4];
+            data_1 = (uint32_t) packet_body[11] << 24 | (uint32_t) packet_body[10] << 16 | (uint32_t) packet_body[9] << 8 | (uint32_t) packet_body[8];
 
-            // save meta data words to their respective buffer
             if (data_length > 0)
-                meta_data[i++] = data_0;
+                meta_data[spot++] = data_0;
 
             if (data_length > 1)
-                meta_data[i++] = data_1;
+                meta_data[spot++] = data_1;
 
-            if (i >= 9)
-            {
-                if (imu_config.debug_en)
-                    ESP_LOGW(TAG, "meta_data array overrun, returning from FRS_read_request()");
-
+            if (spot >= MAX_METADATA_LENGTH)
                 return true;
-            }
 
-            if (FRS_status == 3 || FRS_status == 6 || FRS_status == 7)
+            if (frs_status == 3 || frs_status == 6 || frs_status == 7)
                 return true;
         }
     }
@@ -2551,7 +2619,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
  */
 void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config)
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     commands[0] = SHTP_REPORT_SET_FEATURE_COMMAND;     // Set feature command (See Ref. Manual 6.5.4)
     commands[1] = report_ID;                           // Feature Report ID. 0x01 = Accelerometer, 0x05 = Rotation vector
@@ -2572,7 +2640,7 @@ void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_repo
     commands[16] = (specific_config >> 24) & 0xFF;     // Sensor-specific config (MSB)
 
     // Transmit packet on channel 2, 17 bytes
-    queue_packet(CHANNEL_CONTROL, 17);
+    queue_packet(CHANNEL_CONTROL, 17, commands);
 }
 
 /**
@@ -2587,7 +2655,7 @@ void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_repo
  */
 void BNO08x::queue_tare_command(uint8_t command, uint8_t axis, uint8_t rotation_vector_basis)
 {
-    memset(commands, 0, sizeof(commands));
+    uint8_t commands[20] = {0};
 
     commands[3] = command;
 
@@ -2597,7 +2665,7 @@ void BNO08x::queue_tare_command(uint8_t command, uint8_t axis, uint8_t rotation_
         commands[5] = rotation_vector_basis;
     }
 
-    queue_command(COMMAND_TARE);
+    queue_command(COMMAND_TARE, commands);
 }
 
 /**
@@ -2618,7 +2686,8 @@ void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_repo
  * @brief Static function used to launch spi task.
  *
  * Used such that spi_task() can be non-static class member.
- *
+ * 
+ * @param arg void pointer to BNO08x imu object
  * @return void, nothing to return
  */
 void BNO08x::spi_task_trampoline(void* arg)
@@ -2635,23 +2704,57 @@ void BNO08x::spi_task_trampoline(void* arg)
 void BNO08x::spi_task()
 {
     static uint64_t prev_time = 0;
+    bno08x_tx_packet_t tx_packet;
 
     while (1)
     {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR
-
-        if(imu_config.debug_en)
+        if (imu_config.debug_en)
         {
             ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (esp_timer_get_time() - prev_time));
             prev_time = esp_timer_get_time();
         }
 
-        if (xSemaphoreTake(tx_semaphore, 0) == pdTRUE) // check for packet pending to be sent, non-blocking semaphore take
-            send_packet();                             // send packet
+        if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
+            send_packet(&tx_packet);                     // send packet
         else
             receive_packet(); // receive packet
 
-        xSemaphoreGive(int_asserted_semaphore); // SPI completed, give int_asserted_semaphore to notify wait_for_int()
+        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT); // SPI completed,  notify wait_for_int()
+    }
+}
+
+/**
+ * @brief Static function used to launch data processing task.
+ *
+ * Used such that data_proc_task() can be non-static class member.
+ * 
+ * @param arg void pointer to BNO08x imu object
+ * @return void, nothing to return
+ */
+void BNO08x::data_proc_task_trampoline(void* arg)
+{
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    imu->data_proc_task();       // launch data processing task task from object
+}
+
+/**
+ * @brief Task responsible parsing packets. Executed when SPI task sends a packet to be parsed, notifies wait_for_data() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::data_proc_task()
+{
+    bno08x_rx_packet_t packet;
+
+    while (1)
+    {
+        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) //receive packet from spi_task()
+        {
+            if (parse_packet(&packet) != 0) //check if packet is valid
+                xEventGroupSetBits(
+                        evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT); // indicate valid packet has been received and processed to wait_for_data()
+        }
     }
 }
 

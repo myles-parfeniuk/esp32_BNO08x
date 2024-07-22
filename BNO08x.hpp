@@ -6,8 +6,9 @@
 #include <esp_rom_gpio.h>
 #include <esp_timer.h>
 #include <freertos/FreeRTOS.h>
-#include <freertos/semphr.h>
 #include <freertos/task.h>
+#include <freertos/event_groups.h>
+#include <freertos/queue.h>
 #include <rom/ets_sys.h>
 
 #include <inttypes.h>
@@ -76,7 +77,7 @@ typedef struct bno08x_config_t
             , io_int(GPIO_NUM_4)
             , io_rst(GPIO_NUM_5)
             , io_wake(GPIO_NUM_NC)
-            , sclk_speed(2000000UL)    // 2MHz SCLK speed
+            , sclk_speed(2000000UL) // 2MHz SCLK speed
             , debug_en(false)
         {
         }
@@ -184,9 +185,6 @@ class BNO08x
         void clear_tare();
 
         bool data_available();
-        uint16_t parse_input_report();
-        uint16_t parse_command_report();
-        uint16_t get_readings();
 
         uint32_t get_time_stamp();
 
@@ -267,9 +265,6 @@ class BNO08x
         int8_t get_stability_classifier();
         uint8_t get_activity_classifier();
 
-        void print_header();
-        void print_packet();
-
         // Metadata functions
         int16_t get_Q1(uint16_t record_ID);
         int16_t get_Q2(uint16_t record_ID);
@@ -282,10 +277,14 @@ class BNO08x
 
         // Record IDs from figure 29, page 29 reference manual
         // These are used to read the metadata for each sensor type
-        static const constexpr uint16_t FRS_RECORDID_ACCELEROMETER = 0xE302;
-        static const constexpr uint16_t FRS_RECORDID_GYROSCOPE_CALIBRATED = 0xE306;
-        static const constexpr uint16_t FRS_RECORDID_MAGNETIC_FIELD_CALIBRATED = 0xE309;
-        static const constexpr uint16_t FRS_RECORDID_ROTATION_VECTOR = 0xE30B;
+        static const constexpr uint16_t FRS_RECORD_ID_ACCELEROMETER =
+                0xE302; ///< Accelerometer record ID, to be passed in metadata functions like get_Q1()
+        static const constexpr uint16_t FRS_RECORD_ID_GYROSCOPE_CALIBRATED =
+                0xE306; ///< Calirated gyroscope record ID, to be passed in metadata functions like get_Q1()
+        static const constexpr uint16_t FRS_RECORD_ID_MAGNETIC_FIELD_CALIBRATED =
+                0xE309; ///< Calibrated magnetometer record ID, to be passed in metadata functions like get_Q1()
+        static const constexpr uint16_t FRS_RECORD_ID_ROTATION_VECTOR =
+                0xE30B; ///< Rotation vector record ID, to be passed in metadata functions like get_Q1()
 
         static const constexpr uint8_t TARE_AXIS_ALL = 0x07; ///< Tare all axes (used with tare now command)
         static const constexpr uint8_t TARE_AXIS_Z = 0x04;   ///< Tar yaw axis only (used with tare now command)
@@ -308,31 +307,52 @@ class BNO08x
         static const constexpr int16_t GRAVITY_Q1 = 8;                   ///< Gravity Q point (See SH-2 Ref. Manual 6.5.11)
 
     private:
+        /// @brief Holds data that is received over spi.
+        typedef struct bno08x_rx_packet_t
+        {
+                uint8_t header[4]; ///< Header of SHTP packet.
+                uint8_t body[300]; /// Body of SHTP packet.
+                uint16_t length;   ///< Packet length in bytes.
+        } bno08x_rx_packet_t;
+
+        /// @brief Holds data that is sent over spi.
+        typedef struct bno08x_tx_packet_t
+        {
+                uint8_t body[50]; ///< Body of SHTP the packet (header + body)
+                uint16_t length;  ///< Packet length in bytes.
+        } bno08x_tx_packet_t;
+
         bool wait_for_device_int();
+        bool wait_for_data();
         bool receive_packet();
-        void send_packet();
-        void queue_packet(uint8_t channel_number, uint8_t data_length);
-        void queue_command(uint8_t command);
+        void send_packet(bno08x_tx_packet_t* packet);
+        void queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* commands);
+        void queue_command(uint8_t command, uint8_t* commands);
         void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports);
         void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config);
         void queue_calibrate_command(uint8_t _to_calibrate);
         void queue_tare_command(uint8_t command, uint8_t axis = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void queue_request_product_id_command();
 
+        uint16_t parse_packet(bno08x_rx_packet_t* packet);
+        uint16_t parse_product_id_report(bno08x_rx_packet_t* packet);
+        uint16_t parse_frs_read_response_report(bno08x_rx_packet_t* packet);
+        uint16_t parse_input_report(bno08x_rx_packet_t* packet);
+        uint16_t parse_command_report(bno08x_rx_packet_t* packet);
+
+        // for debug
+        void print_header(bno08x_rx_packet_t* packet);
+        void print_packet(bno08x_rx_packet_t* packet);
+
         static bno08x_config_t default_imu_config; ///< default imu config settings
 
-         SemaphoreHandle_t tx_semaphore; ///<Used to indicate to spi_task() whether or not a packet is currently waiting to be sent.
-        SemaphoreHandle_t
-                int_asserted_semaphore; ///<Binary semaphore used to synchronize spi_task() calling wait_for_device_int(), given after hint_handler ISR launches SPI task and it has run to completion
-        uint8_t rx_buffer[300];         ///<buffer used to receive packet with receive_packet()
-        uint8_t tx_buffer[50];          ///<buffer used for sending packet with send_packet()
-        uint8_t packet_header_rx[4];    ///<SHTP header received with receive_packet()
-        uint8_t commands[20];           ///<Command to be sent with send_packet()
-        uint8_t sequence_number[6];     ///<Sequence num of each com channel, 6 in total
+        EventGroupHandle_t
+                evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
+        QueueHandle_t queue_rx_data; ///<Packet queue used to send data received from bno08x from spi_task to data_proc_task.
+        QueueHandle_t queue_tx_data; ///<Packet queue used to send data to be sent over SPI from sending functions to spi_task.
+        QueueHandle_t queue_frs_read_data; ///<Queue used to send packet body from data_proc_task to frs read functions.
+
         uint32_t meta_data[9]; ///<First 9 bytes of meta data returned from FRS read operation (we don't really need the rest) (See Ref. Manual 5.1)
-        uint8_t command_sequence_number = 0; ///<Sequence num of command, sent within command packet.
-        uint16_t packet_length_tx = 0;       ///<Packet length to be sent with send_packet()
-        uint16_t packet_length_rx = 0;       ///<Packet length received (calculated from packet_header_rx)
 
         bno08x_config_t imu_config{};                   ///<IMU configuration settings
         spi_bus_config_t bus_config{};                  ///<SPI bus GPIO configuration settings
@@ -371,16 +391,27 @@ class BNO08x
                 mems_raw_magf_Z; ///<Raw magnetometer (compass) readings from MEMS sensor (See SH-2 Ref. Manual 6.5.15)
 
         // spi task
-        TaskHandle_t spi_task_hdl; ///<SPI task handle
+        TaskHandle_t spi_task_hdl; ///<spi_task() handle
         static void spi_task_trampoline(void* arg);
         void spi_task();
+
+        // data processing task
+        TaskHandle_t data_proc_task_hdl; ///<data_proc_task() task handle
+        static void data_proc_task_trampoline(void* arg);
+        void data_proc_task();
 
         static void IRAM_ATTR hint_handler(void* arg);
         static bool
                 isr_service_installed; ///<true of the isr service has been installed, only has to be done once regardless of how many devices are used
 
+        static const constexpr uint16_t RX_DATA_LENGTH = 300; ///<length buffer containing data received over spi
+        static const constexpr uint16_t MAX_METADATA_LENGTH = 9; ///<max length of metadata used in frs read operations
+
         static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
-                150ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+                300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+
+        static const constexpr uint32_t EVT_GRP_SPI_HINT_BIT = (1 << 0);
+        static const constexpr uint32_t EVT_GRP_SPI_RX_DATA_RDY_BIT = (1 << 1);
 
         // Higher level calibration commands, used by queue_calibrate_command
         static const constexpr uint8_t CALIBRATE_ACCEL = 0;        ///<Calibrate accelerometer command used by queue_calibrate_command
@@ -413,25 +444,25 @@ class BNO08x
         static const constexpr uint8_t SHTP_REPORT_SET_FEATURE_COMMAND = 0xFD; ///< See SH2 Ref. Manual 6.5.4
 
         // Sensor report IDs, used when enabling and reading BNO08x reports
-        static const constexpr uint8_t SENSOR_REPORTID_ACCELEROMETER = 0x01;                         ///< See SH2 Ref. Manual 6.5.9
-        static const constexpr uint8_t SENSOR_REPORTID_GYROSCOPE = 0x02;                             ///< See SH2 Ref. Manual 6.5.13
-        static const constexpr uint8_t SENSOR_REPORTID_MAGNETIC_FIELD = 0x03;                        ///< See SH2 Ref. Manual 6.5.16
-        static const constexpr uint8_t SENSOR_REPORTID_LINEAR_ACCELERATION = 0x04;                   ///< See SH2 Ref. Manual 6.5.10
-        static const constexpr uint8_t SENSOR_REPORTID_ROTATION_VECTOR = 0x05;                       ///< See SH2 Ref. Manual 6.5.18
-        static const constexpr uint8_t SENSOR_REPORTID_GRAVITY = 0x06;                               ///< See SH2 Ref. Manual 6.5.11
-        static const constexpr uint8_t SENSOR_REPORTID_UNCALIBRATED_GYRO = 0x07;                     ///< See SH2 Ref. Manual 6.5.14
-        static const constexpr uint8_t SENSOR_REPORTID_GAME_ROTATION_VECTOR = 0x08;                  ///< See SH2 Ref. Manual 6.5.19
-        static const constexpr uint8_t SENSOR_REPORTID_GEOMAGNETIC_ROTATION_VECTOR = 0x09;           ///< See SH2 Ref. Manual 6.5.20
-        static const constexpr uint8_t SENSOR_REPORTID_GYRO_INTEGRATED_ROTATION_VECTOR = 0x2A;       ///< See SH2 Ref. Manual 6.5.44
-        static const constexpr uint8_t SENSOR_REPORTID_TAP_DETECTOR = 0x10;                          ///< See SH2 Ref. Manual 6.5.27
-        static const constexpr uint8_t SENSOR_REPORTID_STEP_COUNTER = 0x11;                          ///< See SH2 Ref. Manual 6.5.29
-        static const constexpr uint8_t SENSOR_REPORTID_STABILITY_CLASSIFIER = 0x13;                  ///< See SH2 Ref. Manual 6.5.31
-        static const constexpr uint8_t SENSOR_REPORTID_RAW_ACCELEROMETER = 0x14;                     ///< See SH2 Ref. Manual 6.5.8
-        static const constexpr uint8_t SENSOR_REPORTID_RAW_GYROSCOPE = 0x15;                         ///< See SH2 Ref. Manual 6.5.12
-        static const constexpr uint8_t SENSOR_REPORTID_RAW_MAGNETOMETER = 0x16;                      ///< See SH2 Ref. Manual 6.5.15
-        static const constexpr uint8_t SENSOR_REPORTID_PERSONAL_ACTIVITY_CLASSIFIER = 0x1E;          ///< See SH2 Ref. Manual 6.5.36
-        static const constexpr uint8_t SENSOR_REPORTID_AR_VR_STABILIZED_ROTATION_VECTOR = 0x28;      ///< See SH2 Ref. Manual 6.5.42
-        static const constexpr uint8_t SENSOR_REPORTID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR = 0x29; ///< See SH2 Ref. Manual 6.5.43
+        static const constexpr uint8_t SENSOR_REPORT_ID_ACCELEROMETER = 0x01;                         ///< See SH2 Ref. Manual 6.5.9
+        static const constexpr uint8_t SENSOR_REPORT_ID_GYROSCOPE = 0x02;                             ///< See SH2 Ref. Manual 6.5.13
+        static const constexpr uint8_t SENSOR_REPORT_ID_MAGNETIC_FIELD = 0x03;                        ///< See SH2 Ref. Manual 6.5.16
+        static const constexpr uint8_t SENSOR_REPORT_ID_LINEAR_ACCELERATION = 0x04;                   ///< See SH2 Ref. Manual 6.5.10
+        static const constexpr uint8_t SENSOR_REPORT_ID_ROTATION_VECTOR = 0x05;                       ///< See SH2 Ref. Manual 6.5.18
+        static const constexpr uint8_t SENSOR_REPORT_ID_GRAVITY = 0x06;                               ///< See SH2 Ref. Manual 6.5.11
+        static const constexpr uint8_t SENSOR_REPORT_ID_UNCALIBRATED_GYRO = 0x07;                     ///< See SH2 Ref. Manual 6.5.14
+        static const constexpr uint8_t SENSOR_REPORT_ID_GAME_ROTATION_VECTOR = 0x08;                  ///< See SH2 Ref. Manual 6.5.19
+        static const constexpr uint8_t SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR = 0x09;           ///< See SH2 Ref. Manual 6.5.20
+        static const constexpr uint8_t SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR = 0x2A;       ///< See SH2 Ref. Manual 6.5.44
+        static const constexpr uint8_t SENSOR_REPORT_ID_TAP_DETECTOR = 0x10;                          ///< See SH2 Ref. Manual 6.5.27
+        static const constexpr uint8_t SENSOR_REPORT_ID_STEP_COUNTER = 0x11;                          ///< See SH2 Ref. Manual 6.5.29
+        static const constexpr uint8_t SENSOR_REPORT_ID_STABILITY_CLASSIFIER = 0x13;                  ///< See SH2 Ref. Manual 6.5.31
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_ACCELEROMETER = 0x14;                     ///< See SH2 Ref. Manual 6.5.8
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_GYROSCOPE = 0x15;                         ///< See SH2 Ref. Manual 6.5.12
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_MAGNETOMETER = 0x16;                      ///< See SH2 Ref. Manual 6.5.15
+        static const constexpr uint8_t SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER = 0x1E;          ///< See SH2 Ref. Manual 6.5.36
+        static const constexpr uint8_t SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR = 0x28;      ///< See SH2 Ref. Manual 6.5.42
+        static const constexpr uint8_t SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR = 0x29; ///< See SH2 Ref. Manual 6.5.43
 
         // Tare commands used by queue_tare_command
         static const constexpr uint8_t TARE_NOW = 0;               ///< See SH2 Ref. Manual 6.4.4.1
