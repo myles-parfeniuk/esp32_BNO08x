@@ -7,13 +7,14 @@ bno08x_config_t BNO08x::default_imu_config;
  * @brief BNO08x imu constructor.
  *
  * Construct a BNO08x object for managing a BNO08x sensor.
- * Initializes required GPIO pins, interrupts, SPI peripheral, and two local tasks for SPI transactions and data processing.
+ * Initializes required GPIO pins, interrupts, SPI peripheral.
  *
  * @param imu_config Configuration settings (optional), default settings can be seen in bno08x_config_t
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
     : evt_grp_spi(xEventGroupCreate())
+    , evt_grp_report_en(xEventGroupCreate())
     , queue_rx_data(xQueueCreate(1, sizeof(bno08x_rx_packet_t)))
     , queue_tx_data(xQueueCreate(1, sizeof(bno08x_tx_packet_t)))
     , queue_frs_read_data(xQueueCreate(1, RX_DATA_LENGTH * sizeof(uint8_t)))
@@ -99,22 +100,24 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     spi_transaction.rx_buffer = NULL;
     spi_transaction.flags = 0;
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
-
-    data_proc_task_hdl = NULL;
-    spi_task_hdl = NULL;
-    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", 4096, this, 7, &data_proc_task_hdl); // launch data processing task
-    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl);                         // launch SPI task
 }
 
 /**
  * @brief Initializes BNO08x sensor
  *
  * Resets sensor and goes through initializing process outlined in BNO08x datasheet.
+ * Launches two tasks, one to manage SPI transactions, another to process any received data.
  *
  * @return void, nothing to return
  */
 bool BNO08x::initialize()
 {
+    // launch tasks
+    data_proc_task_hdl = NULL;
+    spi_task_hdl = NULL;
+    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", 4096, this, 7, &data_proc_task_hdl); // launch data processing task
+    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl);                         // launch SPI task
+
     // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
     if (!hard_reset())
     {
@@ -127,7 +130,7 @@ bool BNO08x::initialize()
     }
 
     // The BNO080 will then transmit an unsolicited Initialize Response (see SH2 Ref. Manual 6.4.5.2)
-    if (!wait_for_device_int())
+    if (!wait_for_host_int())
     {
         ESP_LOGE(TAG, "Failed to receive initialize response on boot.");
         return false;
@@ -139,8 +142,9 @@ bool BNO08x::initialize()
 
     // queue request for product ID command
     queue_request_product_id_command();
+
     // transmit request for product ID
-    if (!wait_for_device_int())
+    if (!wait_for_host_int())
     {
         ESP_LOGE(TAG, "Failed to send product ID report request");
         return false;
@@ -157,13 +161,18 @@ bool BNO08x::initialize()
 }
 
 /**
- * @brief Re-enables interrupts and waits for BNO08x to assert HINT pin.
+ * @brief Waits for BNO08x to assert HINT pin or timeout to elapse.
+ *
+ * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
  *
  * @return True if the bno08x hint pin has been asserted within HOST_INT_TIMEOUT_MS.
  */
-bool BNO08x::wait_for_device_int()
+bool BNO08x::wait_for_host_int()
 {
-    gpio_intr_enable(imu_config.io_int); // re-enable interrupts
+    // if no reports are enabled we can assume interrupts are disabled (see spi_task())
+    if (xEventGroupGetBits(evt_grp_report_en) == 0)
+        gpio_intr_enable(imu_config.io_int); // re-enable interrupts
+
     // wait until an interrupt has been asserted or timeout has occured
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
@@ -186,7 +195,7 @@ bool BNO08x::wait_for_device_int()
  */
 bool BNO08x::wait_for_data()
 {
-    if (wait_for_device_int())
+    if (wait_for_host_int())
     {
         if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT, pdTRUE, pdTRUE, 0))
         {
@@ -220,7 +229,7 @@ bool BNO08x::hard_reset()
     vTaskDelay(50 / portTICK_PERIOD_MS);  // 10ns min, set to 50ms to let things stabilize(Anton)
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
 
-    if (!wait_for_device_int()) // wait for BNO08x to assert INT pin
+    if (!wait_for_host_int()) // wait for BNO08x to assert INT pin
     {
         ESP_LOGE(TAG, "Reset Failed, interrupt to host device never asserted.");
         return false;
@@ -242,11 +251,11 @@ bool BNO08x::soft_reset()
     commands[0] = 1;
 
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_device_int();
+    success = wait_for_host_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive advertisement message;
+    success = wait_for_host_int(); // receive advertisement message;
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive initialize message
+    success = wait_for_host_int(); // receive initialize message
 
     return success;
 }
@@ -266,9 +275,9 @@ uint8_t BNO08x::get_reset_reason()
 
     // Transmit packet on channel 2, 2 bytes
     queue_packet(CHANNEL_CONTROL, 2, commands);
-    wait_for_device_int();
+    wait_for_host_int();
 
-    if (wait_for_device_int())
+    if (wait_for_host_int())
     {
         if (commands[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE)
             return (commands[1]);
@@ -290,11 +299,11 @@ bool BNO08x::mode_on()
     commands[0] = 2;
 
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_device_int();
+    success = wait_for_host_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive advertisement message;
+    success = wait_for_host_int(); // receive advertisement message;
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive initialize message
+    success = wait_for_host_int(); // receive initialize message
 
     return success;
 }
@@ -312,11 +321,11 @@ bool BNO08x::mode_sleep()
     commands[0] = 3;
 
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_device_int();
+    success = wait_for_host_int();
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive advertisement message;
+    success = wait_for_host_int(); // receive advertisement message;
     vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_device_int(); // receive initialize message
+    success = wait_for_host_int(); // receive initialize message
 
     return success;
 }
@@ -367,9 +376,56 @@ bool BNO08x::receive_packet()
 
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
 
-    xQueueSend(queue_rx_data, &packet, 0); //send received data to data_proc_task
+    xQueueSend(queue_rx_data, &packet, 0); // send received data to data_proc_task
 
     return true;
+}
+
+/**
+ * @brief Enables a sensor report for a given ID.
+ *
+ * @param report_ID The report ID of the sensor, i.e. SENSOR_REPORT_ID_X
+ * @param time_between_reports The desired time in microseconds between each report. The BNO08x will send reports according to this interval.
+ * @param report_evt_grp_bit The event group bit for the respective report, to indicate to spi_task() it's enabled, i.e. EVT_GRP_RPT_X
+ *
+ * If no reports were enabled prior to call, this function will re-enable interrupts on hint pin.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit)
+{
+    queue_feature_command(report_ID, time_between_reports);
+    if (wait_for_host_int()) // wait for next interrupt such that command is sent
+    {
+        xEventGroupSetBits(evt_grp_report_en, report_evt_grp_bit);
+
+        // if no reports were enabled before this one, we can assume hint interrupt was disabled, re-enable to read reports
+        if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
+            gpio_intr_enable(imu_config.io_int);
+    }
+}
+
+/**
+ * @brief Disables a sensor report for a given ID by setting its time interval to 0.
+ *
+ * @param report_ID The report ID of the sensor, i.e. SENSOR_REPORT_ID_X
+ * @param report_evt_grp_bit The event group bit for the respective report, to indicate to spi_task() it's disabled, i.e. EVT_GRP_RPT_X
+ *
+ * If no reports are enabled after disabling, this function will disable interrupts on hint pin.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit)
+{
+    queue_feature_command(report_ID, 0);
+    if (wait_for_host_int()) // wait for next interrupt such that command is sent
+    {
+        xEventGroupClearBits(evt_grp_report_en, report_evt_grp_bit);
+
+        // no reports enabled, disable hint to avoid wasting processing time
+        if ((xEventGroupGetBits(evt_grp_report_en)) == 0)
+            gpio_intr_disable(imu_config.io_int);
+    }
 }
 
 /**
@@ -401,7 +457,7 @@ void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* 
 
 /**
  * @brief Sends a queued SHTP packet via SPI.
- * 
+ *
  * @param packet The packet queued to be sent.
  *
  * @return void, nothing to return
@@ -426,7 +482,7 @@ void BNO08x::send_packet(bno08x_tx_packet_t* packet)
  *
  * @param command The command to be sent.
  * @param commands Command data array, pre-packed with exception of first 3 elements (command info)
- * 
+ *
  * @return void, nothing to return
  */
 void BNO08x::queue_command(uint8_t command, uint8_t* commands)
@@ -462,7 +518,7 @@ void BNO08x::queue_request_product_id_command()
 void BNO08x::calibrate_all()
 {
     queue_calibrate_command(CALIBRATE_ACCEL_GYRO_MAG);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -474,7 +530,7 @@ void BNO08x::calibrate_all()
 void BNO08x::calibrate_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_ACCEL);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -486,7 +542,7 @@ void BNO08x::calibrate_accelerometer()
 void BNO08x::calibrate_gyro()
 {
     queue_calibrate_command(CALIBRATE_GYRO);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -498,7 +554,7 @@ void BNO08x::calibrate_gyro()
 void BNO08x::calibrate_magnetometer()
 {
     queue_calibrate_command(CALIBRATE_MAG);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -510,7 +566,7 @@ void BNO08x::calibrate_magnetometer()
 void BNO08x::calibrate_planar_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_PLANAR_ACCEL);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -575,7 +631,7 @@ void BNO08x::request_calibration_status()
 
     // Using this commands packet, send a command
     queue_command(COMMAND_ME_CALIBRATE, commands);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -600,7 +656,7 @@ bool BNO08x::calibration_complete()
 void BNO08x::end_calibration()
 {
     queue_calibrate_command(CALIBRATE_STOP); // Disables all calibrations
-    wait_for_device_int();                   // wait for next interrupt such that command is sent
+    wait_for_host_int();                   // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS);     // allow some time for command to be executed
 }
 
@@ -615,7 +671,7 @@ void BNO08x::save_calibration()
 
     // Using this shtpData packet, send a command
     queue_command(COMMAND_DCD, commands); // Save DCD command
-    wait_for_device_int();                // wait for next interrupt such that command is sent
+    wait_for_host_int();                // wait for next interrupt such that command is sent
     vTaskDelay(50 / portTICK_PERIOD_MS);  // allow some time for command to be executed
 }
 
@@ -724,12 +780,18 @@ bool BNO08x::run_full_calibration_routine()
  */
 bool BNO08x::data_available()
 {
+    if (xEventGroupGetBits(evt_grp_report_en) == 0)
+    {
+        ESP_LOGE(TAG, "No reports enabled.");
+        return false;
+    }
+
     return wait_for_data();
 }
 
 /**
  * @brief Parses a packet received from bno08x, updating any data according to received reports.
- * 
+ *
  * @param packet The packet to be parsed.
  * @return 0 if invalid packet.
  */
@@ -778,7 +840,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 
 /**
  * @brief Parses product id report and prints device info.
- * 
+ *
  * @param packet The packet containing product id report.
  * @return 1, always valid.
  */
@@ -809,7 +871,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 
 /**
  * @brief Sends packet to be parsed to meta data function call (frs_read_word()) through queue.
- * 
+ *
  * @param packet The packet containing the frs read report.
  * @return 1, always valid.
  */
@@ -987,8 +1049,8 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 
     default:
         if (packet->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || packet->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||
-                packet->body[5] == SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR ||
-                packet->body[5] == SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR)
+                packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR ||
+                packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR)
         {
             quat_accuracy = status;
             raw_quat_I = data1;
@@ -1051,9 +1113,7 @@ uint16_t BNO08x::parse_command_report(bno08x_rx_packet_t* packet)
  */
 void BNO08x::enable_game_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, time_between_reports, EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1064,9 +1124,7 @@ void BNO08x::enable_game_rotation_vector(uint32_t time_between_reports)
  */
 void BNO08x::enable_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_ROTATION_VECTOR, time_between_reports, EVT_GRP_RPT_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1077,9 +1135,7 @@ void BNO08x::enable_rotation_vector(uint32_t time_between_reports)
  */
 void BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR, time_between_reports, EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1090,9 +1146,7 @@ void BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_report
  */
 void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR, time_between_reports, EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1103,9 +1157,7 @@ void BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_r
  */
 void BNO08x::enable_gyro_integrated_rotation_vector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, time_between_reports, EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1116,9 +1168,7 @@ void BNO08x::enable_gyro_integrated_rotation_vector(uint32_t time_between_report
  */
 void BNO08x::enable_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_ACCELEROMETER, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_ACCELEROMETER, time_between_reports, EVT_GRP_RPT_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1129,9 +1179,7 @@ void BNO08x::enable_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_linear_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_LINEAR_ACCELERATION, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_LINEAR_ACCELERATION, time_between_reports, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1142,9 +1190,7 @@ void BNO08x::enable_linear_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_gravity(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_GRAVITY, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_GRAVITY, time_between_reports, EVT_GRP_RPT_GRAVITY_BIT);
 }
 
 /**
@@ -1155,9 +1201,7 @@ void BNO08x::enable_gravity(uint32_t time_between_reports)
  */
 void BNO08x::enable_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_GYROSCOPE, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_GYROSCOPE, time_between_reports, EVT_GRP_RPT_GYRO_BIT);
 }
 
 /**
@@ -1168,9 +1212,7 @@ void BNO08x::enable_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_uncalibrated_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, time_between_reports, EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT);
 }
 
 /**
@@ -1181,9 +1223,7 @@ void BNO08x::enable_uncalibrated_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_magnetometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_MAGNETIC_FIELD, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_MAGNETIC_FIELD, time_between_reports, EVT_GRP_RPT_MAGNETOMETER_BIT);
 }
 
 /**
@@ -1194,9 +1234,7 @@ void BNO08x::enable_magnetometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_tap_detector(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_TAP_DETECTOR, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_TAP_DETECTOR, time_between_reports, EVT_GRP_RPT_TAP_DETECTOR_BIT);
 }
 
 /**
@@ -1207,9 +1245,7 @@ void BNO08x::enable_tap_detector(uint32_t time_between_reports)
  */
 void BNO08x::enable_step_counter(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_STEP_COUNTER, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_STEP_COUNTER, time_between_reports, EVT_GRP_RPT_STEP_COUNTER_BIT);
 }
 
 /**
@@ -1220,9 +1256,7 @@ void BNO08x::enable_step_counter(uint32_t time_between_reports)
  */
 void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT);
 }
 
 /**
@@ -1236,9 +1270,7 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
-    queue_feature_command(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, activities_to_enable);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT);
 }
 
 /**
@@ -1249,9 +1281,7 @@ void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t 
  */
 void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_ACCELEROMETER, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_RAW_ACCELEROMETER, time_between_reports, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1262,9 +1292,7 @@ void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
  */
 void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_GYROSCOPE, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_RAW_GYROSCOPE, time_between_reports, EVT_GRP_RPT_RAW_GYRO_BIT);
 }
 
 /**
@@ -1275,9 +1303,7 @@ void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
  */
 void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_MAGNETOMETER, time_between_reports);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    enable_report(SENSOR_REPORT_ID_RAW_MAGNETOMETER, time_between_reports, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT);
 }
 
 /**
@@ -1287,9 +1313,7 @@ void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
  */
 void BNO08x::disable_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_ROTATION_VECTOR, EVT_GRP_RPT_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1299,9 +1323,7 @@ void BNO08x::disable_rotation_vector()
  */
 void BNO08x::disable_game_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1311,9 +1333,7 @@ void BNO08x::disable_game_rotation_vector()
  */
 void BNO08x::disable_ARVR_stabilized_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_ROTATION_VECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR, EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1323,9 +1343,7 @@ void BNO08x::disable_ARVR_stabilized_rotation_vector()
  */
 void BNO08x::disable_ARVR_stabilized_game_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_AR_VR_STABILIZED_GAME_ROTATION_VECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR, EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1335,9 +1353,7 @@ void BNO08x::disable_ARVR_stabilized_game_rotation_vector()
  */
 void BNO08x::disable_gyro_integrated_rotation_vector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_ROTATION_VECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT);
 }
 
 /**
@@ -1347,9 +1363,7 @@ void BNO08x::disable_gyro_integrated_rotation_vector()
  */
 void BNO08x::disable_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORT_ID_ACCELEROMETER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_ACCELEROMETER, EVT_GRP_RPT_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1359,9 +1373,7 @@ void BNO08x::disable_accelerometer()
  */
 void BNO08x::disable_linear_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORT_ID_LINEAR_ACCELERATION, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_LINEAR_ACCELERATION, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1371,9 +1383,7 @@ void BNO08x::disable_linear_accelerometer()
  */
 void BNO08x::disable_gravity()
 {
-    queue_feature_command(SENSOR_REPORT_ID_GRAVITY, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_GRAVITY, EVT_GRP_RPT_GRAVITY_BIT);
 }
 
 /**
@@ -1383,9 +1393,7 @@ void BNO08x::disable_gravity()
  */
 void BNO08x::disable_gyro()
 {
-    queue_feature_command(SENSOR_REPORT_ID_GYROSCOPE, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_GYROSCOPE, EVT_GRP_RPT_GYRO_BIT);
 }
 
 /**
@@ -1395,9 +1403,7 @@ void BNO08x::disable_gyro()
  */
 void BNO08x::disable_uncalibrated_gyro()
 {
-    queue_feature_command(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_UNCALIBRATED_GYRO, EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT);
 }
 
 /**
@@ -1407,9 +1413,7 @@ void BNO08x::disable_uncalibrated_gyro()
  */
 void BNO08x::disable_magnetometer()
 {
-    queue_feature_command(SENSOR_REPORT_ID_MAGNETIC_FIELD, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_MAGNETIC_FIELD, EVT_GRP_RPT_MAGNETOMETER_BIT);
 }
 
 /**
@@ -1419,9 +1423,7 @@ void BNO08x::disable_magnetometer()
  */
 void BNO08x::disable_tap_detector()
 {
-    queue_feature_command(SENSOR_REPORT_ID_TAP_DETECTOR, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_TAP_DETECTOR, EVT_GRP_RPT_TAP_DETECTOR_BIT);
 }
 
 /**
@@ -1431,9 +1433,7 @@ void BNO08x::disable_tap_detector()
  */
 void BNO08x::disable_step_counter()
 {
-    queue_feature_command(SENSOR_REPORT_ID_STEP_COUNTER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_STEP_COUNTER, EVT_GRP_RPT_STEP_COUNTER_BIT);
 }
 
 /**
@@ -1443,9 +1443,7 @@ void BNO08x::disable_step_counter()
  */
 void BNO08x::disable_stability_classifier()
 {
-    queue_feature_command(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_STABILITY_CLASSIFIER, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT);
 }
 
 /**
@@ -1455,9 +1453,7 @@ void BNO08x::disable_stability_classifier()
  */
 void BNO08x::disable_activity_classifier()
 {
-    queue_feature_command(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT);
 }
 
 /**
@@ -1467,9 +1463,7 @@ void BNO08x::disable_activity_classifier()
  */
 void BNO08x::disable_raw_accelerometer()
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_ACCELEROMETER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_RAW_ACCELEROMETER, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT);
 }
 
 /**
@@ -1479,9 +1473,7 @@ void BNO08x::disable_raw_accelerometer()
  */
 void BNO08x::disable_raw_gyro()
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_GYROSCOPE, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT);
 }
 
 /**
@@ -1491,9 +1483,7 @@ void BNO08x::disable_raw_gyro()
  */
 void BNO08x::disable_raw_magnetometer()
 {
-    queue_feature_command(SENSOR_REPORT_ID_RAW_MAGNETOMETER, 0);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    disable_report(SENSOR_REPORT_ID_RAW_MAGNETOMETER, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT);
 }
 
 /**
@@ -1507,7 +1497,7 @@ void BNO08x::disable_raw_magnetometer()
 void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 {
     queue_tare_command(TARE_NOW, axis_sel, rotation_vector_basis);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -1519,7 +1509,7 @@ void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 void BNO08x::save_tare()
 {
     queue_tare_command(TARE_PERSIST);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -1531,7 +1521,7 @@ void BNO08x::save_tare()
 void BNO08x::clear_tare()
 {
     queue_tare_command(TARE_SET_REORIENTATION);
-    wait_for_device_int();               // wait for next interrupt such that command is sent
+    wait_for_host_int();               // wait for next interrupt such that command is sent
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -2536,7 +2526,7 @@ bool BNO08x::FRS_read_request(uint16_t record_ID, uint16_t read_offset, uint16_t
 
     // Transmit packet on channel 2, 8 bytes
     queue_packet(CHANNEL_CONTROL, 8, commands);
-    return wait_for_device_int();
+    return wait_for_host_int();
 }
 
 /**
@@ -2569,7 +2559,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
             {
                 counter = 0;
 
-                while (!wait_for_device_int())
+                while (!wait_for_host_int())
                 {
                     counter++;
 
@@ -2686,7 +2676,7 @@ void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_repo
  * @brief Static function used to launch spi task.
  *
  * Used such that spi_task() can be non-static class member.
- * 
+ *
  * @param arg void pointer to BNO08x imu object
  * @return void, nothing to return
  */
@@ -2708,7 +2698,12 @@ void BNO08x::spi_task()
 
     while (1)
     {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR
+        /*only re-enable interrupts if there are reports enabled, if no reports are enabled 
+         interrupts will be re-enabled upon the next user call to wait_for_host_int()*/
+        if (xEventGroupGetBits(evt_grp_report_en) != 0)
+            gpio_intr_enable(imu_config.io_int);
+
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR (hint_handler)
         if (imu_config.debug_en)
         {
             ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (esp_timer_get_time() - prev_time));
@@ -2720,7 +2715,7 @@ void BNO08x::spi_task()
         else
             receive_packet(); // receive packet
 
-        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT); // SPI completed,  notify wait_for_int()
+        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT); // SPI completed,  notify wait_for_host_int()
     }
 }
 
@@ -2728,7 +2723,7 @@ void BNO08x::spi_task()
  * @brief Static function used to launch data processing task.
  *
  * Used such that data_proc_task() can be non-static class member.
- * 
+ *
  * @param arg void pointer to BNO08x imu object
  * @return void, nothing to return
  */
@@ -2749,9 +2744,9 @@ void BNO08x::data_proc_task()
 
     while (1)
     {
-        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) //receive packet from spi_task()
+        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) // receive packet from spi_task()
         {
-            if (parse_packet(&packet) != 0) //check if packet is valid
+            if (parse_packet(&packet) != 0) // check if packet is valid
                 xEventGroupSetBits(
                         evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT); // indicate valid packet has been received and processed to wait_for_data()
         }
