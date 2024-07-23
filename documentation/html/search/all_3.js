@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['data_5favailable_0',['data_available',['../class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc',1,'BNO08x']]],
+  ['data_5fproc_5ftask_1',['data_proc_task',['../class_b_n_o08x.html#ab4373e9b87837ea9fcbc0b536338c7b8',1,'BNO08x']]],
+  ['data_5fproc_5ftask_5fhdl_2',['data_proc_task_hdl',['../class_b_n_o08x.html#af9b6fbf35e7cd55d517d30c6429a21a4',1,'BNO08x']]],
+  ['data_5fproc_5ftask_5ftrampoline_3',['data_proc_task_trampoline',['../class_b_n_o08x.html#a0ae135d7bf7a5f047a1d1aa5cc07e520',1,'BNO08x']]],
+  ['default_5fimu_5fconfig_4',['default_imu_config',['../class_b_n_o08x.html#a6232920a05c0aba34e5560951a20ae87',1,'BNO08x']]],
+  ['disable_5faccelerometer_5',['disable_accelerometer',['../class_b_n_o08x.html#ad5c991150895b80bee68c933059a4058',1,'BNO08x']]],
+  ['disable_5factivity_5fclassifier_6',['disable_activity_classifier',['../class_b_n_o08x.html#a4fdc39294922a9553d84cd96bdae4376',1,'BNO08x']]],
+  ['disable_5farvr_5fstabilized_5fgame_5frotation_5fvector_7',['disable_ARVR_stabilized_game_rotation_vector',['../class_b_n_o08x.html#ab187fe50fcfbb04bec9e80eb0fccf61c',1,'BNO08x']]],
+  ['disable_5farvr_5fstabilized_5frotation_5fvector_8',['disable_ARVR_stabilized_rotation_vector',['../class_b_n_o08x.html#aa59e3d8953c96dc1cc5958a1ac628df4',1,'BNO08x']]],
+  ['disable_5fgame_5frotation_5fvector_9',['disable_game_rotation_vector',['../class_b_n_o08x.html#a7665cce95e791c89161ec863f49c0392',1,'BNO08x']]],
+  ['disable_5fgravity_10',['disable_gravity',['../class_b_n_o08x.html#a5e63a9e68dbe2968b37dcb6dae04de6f',1,'BNO08x']]],
+  ['disable_5fgyro_11',['disable_gyro',['../class_b_n_o08x.html#a8296089e2fdbd7d2e85f364cf063af82',1,'BNO08x']]],
+  ['disable_5fgyro_5fintegrated_5frotation_5fvector_12',['disable_gyro_integrated_rotation_vector',['../class_b_n_o08x.html#aac0a00bed7825d8a2c357a48c3626931',1,'BNO08x']]],
+  ['disable_5flinear_5faccelerometer_13',['disable_linear_accelerometer',['../class_b_n_o08x.html#afbd2b02d5abe7084ce9de49ee2c9142f',1,'BNO08x']]],
+  ['disable_5fmagnetometer_14',['disable_magnetometer',['../class_b_n_o08x.html#a6671b082d20dda8bf5c53cb47db0c338',1,'BNO08x']]],
+  ['disable_5fraw_5faccelerometer_15',['disable_raw_accelerometer',['../class_b_n_o08x.html#a171d78f4b00598b04c8ca54da16c508b',1,'BNO08x']]],
+  ['disable_5fraw_5fgyro_16',['disable_raw_gyro',['../class_b_n_o08x.html#a75ef3d09f1ee016999c459e43e9e8c44',1,'BNO08x']]],
+  ['disable_5fraw_5fmagnetometer_17',['disable_raw_magnetometer',['../class_b_n_o08x.html#add29c84038558c28bcfca37865cf9244',1,'BNO08x']]],
+  ['disable_5freport_18',['disable_report',['../class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693',1,'BNO08x']]],
+  ['disable_5frotation_5fvector_19',['disable_rotation_vector',['../class_b_n_o08x.html#a1ebd456d2a67a22b5ba0911a95915921',1,'BNO08x']]],
+  ['disable_5fstability_5fclassifier_20',['disable_stability_classifier',['../class_b_n_o08x.html#ab307ed3352e04c9e998ab4dd066f8932',1,'BNO08x']]],
+  ['disable_5fstep_5fcounter_21',['disable_step_counter',['../class_b_n_o08x.html#a427550a4ba25252912436b899124e157',1,'BNO08x']]],
+  ['disable_5ftap_5fdetector_22',['disable_tap_detector',['../class_b_n_o08x.html#a16f83d1e85576a51abf2c65e5de58cd2',1,'BNO08x']]],
+  ['disable_5funcalibrated_5fgyro_23',['disable_uncalibrated_gyro',['../class_b_n_o08x.html#aaf28212a5f1960c62a73282976142cfc',1,'BNO08x']]],
+  ['documentation_24',['Documentation',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]]
+];

@@ -1,5 +1,5 @@
 <a name="readme-top"></a>
-![image](esp32_BNO08x_banner.png)
+![image](README_images/esp32_BNO08x_banner.png)
 <summary>Table of Contents</summary>
 <ol>
 <li>
@@ -37,7 +37,7 @@ The default wiring is depicted below, it can be changed at driver initialization
 
 If your ESP does not have the GPIO pin numbers depicted below, you **must change the default GPIO settings in menuconfig**. See the Menuconfig section. 
 
-![image](esp32_BNO08x_wiring.png)
+![image](README_images/esp32_BNO08x_wiring.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Adding to Project
@@ -73,10 +73,10 @@ To access the menu:
     idf.py menuconfig
 
 2. Scroll down to the esp_BNO08x menu and enter it, if you're using vsCode you may have to use the "j" and "k" keys instead of the arrow keys.
-    ![image](esp32_BNO08x_menuconfig_1.png)
+    ![image](README_images/esp32_BNO08x_menuconfig_1.png)
 
 3. Modify whatever settings you'd like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default SCLK frequency and host peripheral to be modified.
-    ![image](esp32_BNO08x_menuconfig_2.png)
+    ![image](README_images/esp32_BNO08x_menuconfig_2.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Examples
@@ -198,7 +198,7 @@ API documentation generated with doxygen can be found in the documentation direc
 The following charts illustrate the program flow this library implements for sending and receiving data from BNO08x.  
 These are here to aid development for anyone looking to modify, fork, or contribute.  
 
-![image](esp32_BNO08x_flowchart.png)
+![image](README_images/esp32_BNO08x_flowchart.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 

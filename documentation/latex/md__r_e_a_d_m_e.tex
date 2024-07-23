@@ -1,0 +1,173 @@
+\chapter{README}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{README@{README}}
+Table of Contents.
+
+\label{md__r_e_a_d_m_e_readme-top}%
+\Hypertarget{md__r_e_a_d_m_e_readme-top}%
+ 
+
+
+\begin{DoxyEnumerate}
+\item \href{\#about}{\texttt{ About}}  
+\item \href{\#getting-started}{\texttt{ Getting Started}} 
+\begin{DoxyItemize}
+\item \href{\#wiring}{\texttt{ Wiring}} 
+\item \href{\#adding-to-project}{\texttt{ Adding to Project}} 
+\item \href{\#menuconfig}{\texttt{ Menuconfig}} 
+\item \href{\#examples}{\texttt{ Examples}} 
+\end{DoxyItemize}
+\item \href{\#documentation}{\texttt{ Documentation}} 
+\item \href{\#program-flowcharts}{\texttt{ Program Flowcharts}} 
+\item \href{\#acknowledgements}{\texttt{ Acknowledgements}} 
+\item \href{\#license}{\texttt{ License}} 
+\item \href{\#contact}{\texttt{ Contact}} 
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md0}{}\doxysubsection{\texorpdfstring{About}{About}}\label{md__r_e_a_d_m_e_autotoc_md0}
+esp32\+\_\+\+BNO08x is a C++ component for esp-\/idf v5.\+x, serving as a driver for both BNO080 and BNO085 IMUs. ~\newline
+
+
+Originally based on the Spark\+Fun BNO080 Arduino Library, it has since diverged significantly in implementation while retaining all original features and more, including callback functions enabled by its multi-\/tasked approach.
+
+Currently, only SPI is supported. There are no plans to support I2C due to unpredictable behavior caused by an esp32 I2C driver silicon bug. UART support may be implemented in the future.\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysubsection{\texorpdfstring{Getting Started}{Getting Started}}\label{md__r_e_a_d_m_e_autotoc_md1}
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{Wiring}{Wiring}}\label{md__r_e_a_d_m_e_autotoc_md2}
+The default wiring is depicted below, it can be changed at driver initialization (see example section). ~\newline
+
+
+If your ESP does not have the GPIO pin numbers depicted below, you {\bfseries{must change the default GPIO settings in menuconfig}}. See the Menuconfig section.
+
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{Adding to Project}{Adding to Project}}\label{md__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Create a "{}components"{} directory in the root workspace directory of your esp-\/idf project if it does not exist already. ~\newline
+
+
+In workspace directory\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ components}
+
+\end{DoxyCode}
+
+\item Cd into the components directory and clone the esp32\+\_\+\+BNO08x repo.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ components}
+\DoxyCodeLine{git\ clone\ https://github.com/myles-\/parfeniuk/esp32\_BNO08x.git}
+
+\end{DoxyCode}
+
+\item Ensure you clean your esp-\/idf project before rebuilding. ~\newline
+ Within esp-\/idf enabled terminal\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ fullclean}
+
+\end{DoxyCode}
+ 
+\end{DoxyEnumerate}
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Menuconfig}{Menuconfig}}\label{md__r_e_a_d_m_e_autotoc_md4}
+This library provides a menuconfig menu configured in Kconfig.\+projbuild. It contains settings to control the default GPIO and a few other things. ~\newline
+
+
+To access the menu\+:
+
+
+\begin{DoxyEnumerate}
+\item Within esp-\/idf enabled terminal, execute the menuconfig command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ idf.py\ menuconfig}
+\DoxyCodeLine{}
+\DoxyCodeLine{2.\ Scroll\ down\ to\ the\ esp\_BNO08x\ menu\ and\ enter\ it,\ if\ you're\ using\ vsCode\ you\ may\ have\ to\ use\ the\ "{}j"{}\ and\ "{}k"{}\ keys\ instead\ of\ the\ arrow\ keys.}
+\DoxyCodeLine{\ \ \ \ ![image](esp32\_BNO08x\_menuconfig\_1.png)}
+\DoxyCodeLine{}
+\DoxyCodeLine{3.\ Modify\ whatever\ settings\ you'd\ like\ from\ the\ sub\ menus.\ The\ GPIO\ Configuration\ menu\ allows\ for\ the\ default\ GPIO\ pins\ to\ be\ modified,\ the\ SPI\ Configuration\ menu\ allows\ for\ the\ default\ SCLK\ frequency\ and\ host\ peripheral\ to\ be\ modified.}
+\DoxyCodeLine{\ \ \ \ ![image](esp32\_BNO08x\_menuconfig\_2.png)}
+\DoxyCodeLine{<p\ align="{}right"{}>(<a\ href="{}\#readme-\/top"{}>back\ to\ top</a>)</p>}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\#\#\ Examples}
+\DoxyCodeLine{There\ are\ two\ ways\ data\ returned\ from\ the\ BNO08x\ can\ be\ accessed\ with\ this\ library:}
+\DoxyCodeLine{}
+\DoxyCodeLine{1.\ Polling\ Method\ with\ \`{}data\_available()`\ Function:}
+\DoxyCodeLine{\ \ -\/\ Use\ the\ \`{}data\_available()`\ function\ to\ poll\ for\ new\ data,\ similar\ to\ the\ SparkFun\ library.}
+\DoxyCodeLine{\ \ -\/\ Behavior:\ It\ is\ a\ blocking\ function\ that\ returns\ \`{}true`\ when\ new\ data\ is\ received\ or\ \`{}false`\ if\ a\ timeout\ occurs.}
+\DoxyCodeLine{\ \ -\/\ See\ the\ **Polling\ Example**\ below.}
+\DoxyCodeLine{}
+\DoxyCodeLine{2.\ Callback\ Registration\ with\ \`{}register\_cb()`\ Function:}
+\DoxyCodeLine{\ \ -\/\ Register\ callback\ functions\ that\ automatically\ execute\ upon\ receiving\ new\ data.}
+\DoxyCodeLine{\ \ -\/\ Behavior:\ The\ registered\ callback\ will\ be\ invoked\ whenever\ new\ data\ is\ available.}
+\DoxyCodeLine{\ \ -\/\ See\ the\ **Call-\/Back\ Function\ Example**\ below.\ }
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\#\#\#\#\ Polling\ Example}
+
+\end{DoxyCode}
+ cpp \#include \texorpdfstring{$<$}{<}stdio.\+h\texorpdfstring{$>$}{>} \#include "{}\+BNO08x.\+hpp"{}
+\end{DoxyEnumerate}
+
+extern "{}\+C"{} void app\+\_\+main(void) \{ \doxylink{class_b_n_o08x}{BNO08x} imu; //create IMU object with default wiring scheme float x, y, z = 0;
+
+//if a custom wiring scheme is desired instead of default\+:
+
+/\texorpdfstring{$\ast$}{*} \doxylink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t} imu\+\_\+config; //create config struct imu\+\_\+config.\+io\+\_\+mosi = GPIO\+\_\+\+NUM\+\_\+X; //assign pin imu\+\_\+config.\+io\+\_\+miso = GPIO\+\_\+\+NUM\+\_\+X; //assign pin //etc... \doxylink{class_b_n_o08x}{BNO08x} imu(imu\+\_\+config); //pass config to \doxylink{class_b_n_o08x}{BNO08x} constructor \texorpdfstring{$\ast$}{*}/
+
+imu.\+initialize(); //initialize IMU
+
+//enable gyro \& game rotation vector imu.\+enable\+\_\+game\+\_\+rotation\+\_\+vector(100000\+UL); //100,000us == 100ms report interval imu.\+enable\+\_\+gyro(150000\+UL); //150,000us == 150ms report interval
+
+while(1) \{ //print absolute heading in degrees and angular velocity in Rad/s if(imu.\+data\+\_\+available()) \{ x = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+X(); y = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+Y(); z = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+Z(); ESP\+\_\+\+LOGW("{}\+Main"{}, "{}\+Velocity\+: x\+: \%.\+3f y\+: \%.\+3f z\+: \%.\+3f"{}, x, y, z);
+
+x = imu.\+get\+\_\+roll\+\_\+deg(); y = imu.\+get\+\_\+pitch\+\_\+deg(); z = imu.\+get\+\_\+yaw\+\_\+deg(); ESP\+\_\+\+LOGI("{}\+Main"{}, "{}\+Euler Angle\+: x (roll)\+: \%.\+3f y (pitch)\+: \%.\+3f z (yaw)\+: \%.\+3f"{}, x, y, z); \} \}
+
+\} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\#\#\#\ Call-\/Back\ Function\ Example}
+
+\end{DoxyCode}
+ cpp \#include \texorpdfstring{$<$}{<}stdio.\+h\texorpdfstring{$>$}{>} \#include "{}\+BNO08x.\+hpp"{}
+
+extern "{}\+C"{} void app\+\_\+main(void) \{ \doxylink{class_b_n_o08x}{BNO08x} imu; // create IMU object with default wiring scheme
+
+// if a custom wiring scheme is desired instead of default\+:
+
+/\texorpdfstring{$\ast$}{*} \doxylink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t} imu\+\_\+config; //create config struct imu\+\_\+config.\+io\+\_\+mosi = GPIO\+\_\+\+NUM\+\_\+X; //assign pin imu\+\_\+config.\+io\+\_\+miso = GPIO\+\_\+\+NUM\+\_\+X; //assign pin //etc... \doxylink{class_b_n_o08x}{BNO08x} imu(imu\+\_\+config); //pass config to \doxylink{class_b_n_o08x}{BNO08x} constructor \texorpdfstring{$\ast$}{*}/
+
+imu.\+initialize(); // initialize IMU
+
+// enable gyro \& game rotation vector imu.\+enable\+\_\+game\+\_\+rotation\+\_\+vector(100000\+UL); // 100,000us == 100ms report interval imu.\+enable\+\_\+gyro(150000\+UL); // 150,000us == 150ms report interval
+
+// register a callback function (in this case a lambda function, but it doesn\textquotesingle{}t have to be) imu.\+register\+\_\+cb( \mbox{[}\&imu\mbox{]}() \{ // callback function contents, executed whenever new data is parsed // print absolute heading in degrees and angular velocity in Rad/s float x, y, z = 0; x = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+X(); y = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+Y(); z = imu.\+get\+\_\+gyro\+\_\+calibrated\+\_\+velocity\+\_\+\+Z(); ESP\+\_\+\+LOGW("{}\+Main"{}, "{}\+Velocity\+: x\+: \%.\+3f y\+: \%.\+3f z\+: \%.\+3f"{}, x, y, z);
+
+x = imu.\+get\+\_\+roll\+\_\+deg(); y = imu.\+get\+\_\+pitch\+\_\+deg(); z = imu.\+get\+\_\+yaw\+\_\+deg(); ESP\+\_\+\+LOGI("{}\+Main"{}, "{}\+Euler Angle\+: x (roll)\+: \%.\+3f y (pitch)\+: \%.\+3f z (yaw)\+: \%.\+3f"{}, x, y, z); \});
+
+while (1) \{ v\+Task\+Delay(300 / port\+TICK\+\_\+\+PERIOD\+\_\+\+MS); // delay here is irrelevant, we just don\textquotesingle{}t want to trip cpu watchdog \} \} \`{}\`{}\`{} 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{\texorpdfstring{Documentation}{Documentation}}\label{md__r_e_a_d_m_e_autotoc_md5}
+API documentation generated with doxygen can be found in the documentation directory of the master branch. ~\newline
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{\texorpdfstring{Program Flowcharts}{Program Flowcharts}}\label{md__r_e_a_d_m_e_autotoc_md6}
+The following charts illustrate the program flow this library implements for sending and receiving data from \doxylink{class_b_n_o08x}{BNO08x}. ~\newline
+ These are here to aid development for anyone looking to modify, fork, or contribute. ~\newline
+
+
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{\texorpdfstring{Acknowledgements}{Acknowledgements}}\label{md__r_e_a_d_m_e_autotoc_md7}
+Special thanks to the original creators of the sparkfun BNO080 library. Developing this without a reference would have been much more time consuming. ~\newline
+ \href{https://github.com/sparkfun/SparkFun_BNO080_Arduino_Library}{\texttt{ https\+://github.\+com/sparkfun/\+Spark\+Fun\+\_\+\+BNO080\+\_\+\+Arduino\+\_\+\+Library}} ~\newline
+
+
+Special thanks to Anton Babiy, aka hw\+Birdy007 for helping with debugging SPI. ~\newline
+ \href{https://github.com/hwBirdy007}{\texttt{ https\+://github.\+com/hw\+Birdy007}} ~\newline
+
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysubsection{\texorpdfstring{License}{License}}\label{md__r_e_a_d_m_e_autotoc_md8}
+Distributed under the MIT License. See {\ttfamily LICENSE.\+md} for more information. 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{Contact}{Contact}}\label{md__r_e_a_d_m_e_autotoc_md9}
+Myles Parfeniuk -\/ \href{mailto:myles.parfenyuk@gmail.com}{\texttt{ myles.\+parfenyuk@gmail.\+com}}
+
+Project Link\+: \href{https://github.com/myles-parfeniuk/esp32_BNO08x.git}{\texttt{ https\+://github.\+com/myles-\/parfeniuk/esp32\+\_\+\+BNO08x.\+git}} 
+
+(\href{\#readme-top}{\texttt{ back to top}})

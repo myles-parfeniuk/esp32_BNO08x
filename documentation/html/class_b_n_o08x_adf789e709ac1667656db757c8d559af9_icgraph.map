@@ -1,0 +1,19 @@
+<map id="BNO08x::FRS_read_request" name="BNO08x::FRS_read_request">
+<area shape="rect" id="Node000001" title="Requests meta data from BNO08x FRS (flash record system) given the record ID. Contains Q points and o..." alt="" coords="816,81,1002,108"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a40607e557eada666a5e1e416f42cd4a1" title="Read meta data from BNO08x FRS (flash record system) given the record ID. Contains Q points and other..." alt="" coords="599,81,768,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="800,97,768,97,768,92,800,92"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a27f5dce5c994be18a587fb622574ad41" title="Reads meta data word from BNO08x FRS (flash record system) given the record ID and word number...." alt="" coords="381,81,551,108"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="584,97,552,97,552,92,584,92"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a4421c43323945946ad605f8422958dcf" title="Gets Q1 point from BNO08x FRS (flash record system)." alt="" coords="213,31,333,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="397,79,326,61,327,55,399,74"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a0fff04c42c9502615ad73cd1457cb9b0" title="Gets range from BNO08x FRS (flash record system)." alt="" coords="17,5,153,32"/>
+<area shape="poly" id="edge8_Node000003_Node000005" title=" " alt="" coords="434,74,388,45,361,31,332,21,287,13,240,9,153,12,153,7,240,4,287,7,334,16,363,26,391,40,437,70"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a1d6ea02d0d4b23ff6a15e9d5c6c92372" title="Gets resolution from BNO08x FRS (flash record system)." alt="" coords="5,56,165,83"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="365,91,165,77,165,72,365,85"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a954dccdcbe8a8c4f1787f13ebb8d932b" title="Gets Q2 point from BNO08x FRS (flash record system)." alt="" coords="213,132,333,159"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="399,115,327,134,326,129,397,110"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a1590ba793668f9cb1a32a1f4dd07cb9a" title="Gets Q3 point from BNO08x FRS (flash record system)." alt="" coords="213,183,333,209"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="431,119,334,173,309,185,307,180,332,168,428,114"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="197,37,153,30,154,25,198,31"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="198,57,166,61,165,56,197,52"/>
+</map>

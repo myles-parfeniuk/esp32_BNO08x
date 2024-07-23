@@ -1,0 +1,12 @@
+<map id="BNO08x::enable_raw_magnetometer" name="BNO08x::enable_raw_magnetometer">
+<area shape="rect" id="Node000001" title="Sends command to enable raw magnetometer reports (See Ref. Manual 6.5.15)" alt="" coords="5,88,149,131"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41613e65ea9beef883184b7ef67affdd" title="Enables a sensor report for a given ID." alt="" coords="197,96,353,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,107,181,107,181,112,149,112"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="409,29,568,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="325,93,393,74,395,79,327,98"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="401,96,576,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="354,107,386,107,386,112,354,112"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="401,147,576,173"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="335,121,415,140,414,145,334,126"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="448,29,446,19,453,10,467,5,489,3,512,5,525,11,523,16,510,10,489,8,469,10,456,15,451,21,453,28"/>
+</map>

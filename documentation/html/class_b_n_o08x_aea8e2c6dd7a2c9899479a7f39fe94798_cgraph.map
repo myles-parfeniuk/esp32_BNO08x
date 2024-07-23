@@ -1,0 +1,39 @@
+<map id="BNO08x::initialize" name="BNO08x::initialize">
+<area shape="rect" id="Node000001" title="Initializes BNO08x sensor." alt="" coords="5,307,131,333"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a0ae135d7bf7a5f047a1d1aa5cc07e520" title="Static function used to launch data processing task." alt="" coords="192,148,360,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,304,231,198,234,202,90,308"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#a11bb1b3fa44ad8f28c1492b5c07af886" title="Requests product ID, prints the returned info over serial, and returns the reason for the most resent..." alt="" coords="187,256,365,283"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="125,303,203,284,204,289,127,309"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x sensor." alt="" coords="206,332,346,359"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="131,325,191,332,190,338,131,330"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a0ce6d9db873555f1ebe7e095251eab74" title="Static function used to launch spi task." alt="" coords="179,383,373,409"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="97,331,180,368,202,375,200,380,178,373,95,336"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#ab4373e9b87837ea9fcbc0b536338c7b8" title="Task responsible parsing packets. Executed when SPI task sends a packet to be parsed,..." alt="" coords="425,113,592,140"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,151,417,141,418,146,360,157"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a67a697595d6a4d4638a53c6b4a5ef0cd" title="Parses a packet received from bno08x, updating any data according to received reports." alt="" coords="648,113,805,140"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,124,633,124,633,129,593,129"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a4f66045a0528a0c17c52421ea51612e7" title="Parses received command report sent by BNO08x (See Ref. Manual 6.3.9)" alt="" coords="857,5,1031,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="751,110,856,58,868,52,871,57,858,62,754,115"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a51b360d795563b55559f11efb40be36a" title="Sends packet to be parsed to meta data function call (frs_read_word()) through queue." alt="" coords="862,72,1026,115"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="805,112,847,106,847,111,806,117"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a8d9db3e1b6208c2661e1c543deefa53d" title="Parses received input report sent by BNO08x." alt="" coords="871,139,1017,181"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="806,136,856,144,855,149,805,141"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a29cfd7fc2816483ebebe9d55b677a036" title="Parses product id report and prints device info." alt="" coords="864,205,1024,248"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="768,138,810,158,834,175,858,191,868,196,866,201,855,196,831,179,807,162,765,143"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#ab5f200069a2f8cb74cb79c6f162da5a1" title="Queues a packet containing the request product ID command." alt="" coords="427,164,590,207"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="314,253,432,210,434,215,316,258"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#a4f12de628073f44b2a3fab2688cf1caf" title="Waits for a valid or invalid packet to be received or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="432,231,586,257"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="365,257,416,251,416,257,366,262"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="421,281,596,308"/>
+<area shape="poly" id="edge12_Node000009_Node000013" title=" " alt="" coords="366,276,406,281,405,286,365,282"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="647,172,806,199"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="591,183,631,183,631,188,591,188"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="421,332,596,359"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="346,343,405,343,405,348,346,348"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#a2ecd4ed60f82730ae230c61687ec92bf" title="Task responsible for SPI transactions. Executed when HINT in is asserted by BNO08x." alt="" coords="445,383,572,409"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="373,393,429,393,429,399,373,399"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#ae540799865934fcff54caed0772df071" title="Receives a SHTP packet via SPI and sends it to data_proc_task()" alt="" coords="644,357,809,384"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="573,386,628,379,629,385,573,391"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#a2c359a44a2c8e83ecb258a340e2d0e1a" title="Sends a queued SHTP packet via SPI." alt="" coords="650,408,803,435"/>
+<area shape="poly" id="edge18_Node000017_Node000019" title=" " alt="" coords="573,401,635,408,634,413,573,406"/>
+</map>

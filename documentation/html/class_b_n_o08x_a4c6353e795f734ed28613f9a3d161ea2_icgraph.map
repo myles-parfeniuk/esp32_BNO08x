@@ -1,0 +1,9 @@
+<map id="BNO08x::queue_tare_command" name="BNO08x::queue_tare_command">
+<area shape="rect" id="Node000001" title="Queues a packet containing a command related to zeroing sensor&#39;s axes. (See Ref. Manual 6...." alt="" coords="189,48,331,91"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#afe39bfdede7b9a2b273983cb29a27d6e" title="Sends command to clear persistent tare settings in non&#45;volatile memory of BNO08x (See Ref...." alt="" coords="5,5,141,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,49,124,35,126,30,174,43"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#afb2ffc4e7ff0498917bc14a83af306e2" title="Sends command to save tare into non&#45;volatile memory of BNO08x (See Ref. Manual 6.4...." alt="" coords="6,56,140,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,72,140,72,140,67,173,67"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a4549bbef48208bd9c745fc755b93012f" title="Sends command to tare an axis (See Ref. Manual 6.4.4.1)" alt="" coords="8,107,138,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,95,126,109,124,104,173,90"/>
+</map>

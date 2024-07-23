@@ -1,0 +1,66 @@
+<map id="BNO08x::run_full_calibration_routine" name="BNO08x::run_full_calibration_routine">
+<area shape="rect" id="Node000001" title="Runs full calibration routine." alt="" coords="5,455,191,497"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#afd0ca5f9b9741935543d143a5a43d128" title="Sends command to calibrate accelerometer, gyro, and magnetometer." alt="" coords="268,152,416,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,454,114,400,140,328,158,290,180,253,206,218,237,189,252,179,255,183,240,193,210,222,184,256,163,292,145,330,120,401,106,455"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a71ca35f78b98d93d31eb0c187dc8543b" title="Returns true if calibration has completed." alt="" coords="273,320,411,363"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="122,452,174,412,237,372,258,363,260,368,240,377,177,417,126,456"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Checks if BNO08x has asserted interrupt and sent data." alt="" coords="262,387,422,413"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="155,452,238,423,265,415,266,420,239,428,156,457"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#abe04c38b5bd52d331bd8aefae1f51947" title="Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)" alt="" coords="264,203,420,245"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="105,453,123,411,151,358,189,303,212,278,237,255,249,247,252,252,240,259,216,281,193,306,156,361,128,414,110,455"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a3c32120bcd0987c3ca1bb72910586b59" title="Sends command to enable magnetometer reports (See Ref. Manual 6.5.16)" alt="" coords="239,269,445,296"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="109,453,129,420,158,380,195,340,237,306,247,300,250,305,240,310,198,344,162,383,134,423,113,456"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a487391e6b2dd7f05084804d1fb94976f" title="Get accuracy of reported magnetic field vector." alt="" coords="246,437,438,464"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="191,464,231,460,231,465,191,469"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a111601243b913751eb51c1f37cba4e7d" title="Get X component of magnetic field vector." alt="" coords="269,792,415,819"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="105,497,118,554,142,631,160,671,182,710,209,747,240,778,256,788,253,793,237,782,205,750,178,713,156,673,137,632,113,556,100,499"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#a82ed8d7b9a5c25374839df75a3d220ea" title="Get Y component of magnetic field vector." alt="" coords="268,488,416,515"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="191,483,253,489,252,495,191,488"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#ab4c48a91d2f8b29430abc17b7f015282" title="Get Z component of magnetic field vector." alt="" coords="269,539,415,565"/>
+<area shape="poly" id="edge22_Node000001_Node000019" title=" " alt="" coords="156,495,239,524,266,532,265,537,238,529,155,500"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x.html#a24ba760d064a1dc45f972c79b9c8d98d" title="Get accuracy of reported quaternion." alt="" coords="248,843,436,869"/>
+<area shape="poly" id="edge24_Node000001_Node000020" title=" " alt="" coords="104,497,113,563,136,652,153,701,176,748,205,791,240,829,245,832,242,836,237,833,201,794,172,750,149,703,131,654,108,564,99,498"/>
+<area shape="rect" id="Node000021" href="$class_b_n_o08x.html#a12c12a8e078b28480fb8828d306656f5" title="Get I component of reported quaternion." alt="" coords="273,589,411,616"/>
+<area shape="poly" id="edge25_Node000001_Node000021" title=" " alt="" coords="125,496,176,536,240,575,259,583,257,587,237,580,173,541,121,500"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x.html#a9f6bb642fa0297a7b9bcc94dd7374015" title="Get J component of reported quaternion." alt="" coords="271,640,413,667"/>
+<area shape="poly" id="edge27_Node000001_Node000022" title=" " alt="" coords="115,496,165,561,200,596,240,626,258,634,256,639,237,630,197,600,161,565,111,499"/>
+<area shape="rect" id="Node000023" href="$class_b_n_o08x.html#a9f42c70c2337a0d831064a40ecfe2dd8" title="Get K component of reported quaternion." alt="" coords="270,691,414,717"/>
+<area shape="poly" id="edge29_Node000001_Node000023" title=" " alt="" coords="110,496,129,536,157,585,194,635,216,657,240,676,257,686,254,690,237,681,212,661,190,638,152,588,124,538,105,499"/>
+<area shape="rect" id="Node000024" href="$class_b_n_o08x.html#a5a556c5ec1baaa7f1156779dbe47a7b7" title="Get real component of reported quaternion." alt="" coords="264,741,420,768"/>
+<area shape="poly" id="edge31_Node000001_Node000024" title=" " alt="" coords="107,497,123,545,149,608,188,673,213,702,240,727,251,734,248,739,237,731,209,706,184,676,145,610,118,547,102,499"/>
+<area shape="rect" id="Node000025" href="$class_b_n_o08x.html#affaaa35abbb872da5299ebab6e2c9b11" title="Requests ME calibration status from BNO08x (see Ref. Manual 6.4.7.2)" alt="" coords="493,123,680,165"/>
+<area shape="poly" id="edge33_Node000001_Node000025" title=" " alt="" coords="98,454,106,389,128,300,145,254,169,210,199,170,237,138,268,121,301,110,336,103,371,100,440,104,503,116,502,121,440,110,371,106,337,108,303,115,270,126,240,142,203,174,174,213,150,256,133,302,111,389,103,454"/>
+<area shape="rect" id="Node000026" href="$class_b_n_o08x.html#aa16609de88bfb7b389348859aa0cee54" title="Sends command to save internal calibration data (See Ref. Manual 6.4.7)." alt="" coords="502,5,672,32"/>
+<area shape="poly" id="edge36_Node000001_Node000026" title=" " alt="" coords="98,454,107,385,128,290,146,239,170,189,200,142,237,102,264,81,294,64,358,38,424,24,486,16,486,22,425,29,360,44,296,68,267,85,240,106,204,146,174,192,151,241,134,292,112,386,103,454"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#ad097849616c5caab1fd3eb3632ee2b91" title="Queues a packet containing a command to calibrate the specified sensor." alt="" coords="502,56,671,99"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="380,149,492,108,510,102,512,107,494,113,382,154"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="729,144,905,171"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="416,170,539,177,680,175,719,171,719,176,680,180,539,182,415,175"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a5cc58139e4d5f0587b90e249ceb476f9" title="Queues a packet containing a command." alt="" coords="728,64,906,91"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="671,75,713,75,713,80,671,80"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="954,64,1113,91"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="906,75,938,75,938,80,906,80"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#a4f12de628073f44b2a3fab2688cf1caf" title="Waits for a valid or invalid packet to be received or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="510,387,664,413"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="422,397,494,397,494,403,422,403"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a41613e65ea9beef883184b7ef67affdd" title="Enables a sensor report for a given ID." alt="" coords="509,240,665,267"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="420,231,493,240,493,245,420,236"/>
+<area shape="poly" id="edge14_Node000011_Node000006" title=" " alt="" coords="634,237,679,219,703,203,727,187,756,174,758,179,730,192,706,208,682,224,636,242"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="737,225,897,268"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="665,248,722,247,722,252,665,254"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="729,292,905,319"/>
+<area shape="poly" id="edge13_Node000011_Node000013" title=" " alt="" coords="650,265,740,285,739,291,648,270"/>
+<area shape="poly" id="edge12_Node000012_Node000012" title=" " alt="" coords="776,225,774,215,781,206,795,201,817,199,840,201,854,207,852,212,839,206,817,204,797,206,784,211,779,217,781,224"/>
+<area shape="poly" id="edge16_Node000014_Node000011" title=" " alt="" coords="445,268,492,262,493,267,446,273"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="520,640,654,667"/>
+<area shape="poly" id="edge19_Node000016_Node000017" title=" " alt="" coords="414,790,444,778,479,755,512,728,562,677,566,681,515,732,482,759,446,782,416,795"/>
+<area shape="poly" id="edge21_Node000018_Node000017" title=" " alt="" coords="417,512,446,524,482,547,515,574,566,626,562,630,512,578,479,552,444,529,415,517"/>
+<area shape="poly" id="edge23_Node000019_Node000017" title=" " alt="" coords="410,563,446,575,503,601,552,629,550,634,501,606,444,580,409,569"/>
+<area shape="poly" id="edge26_Node000021_Node000017" title=" " alt="" coords="411,614,505,634,504,639,409,619"/>
+<area shape="poly" id="edge28_Node000022_Node000017" title=" " alt="" coords="413,651,504,651,504,656,413,656"/>
+<area shape="poly" id="edge30_Node000023_Node000017" title=" " alt="" coords="409,687,504,668,505,673,411,693"/>
+<area shape="poly" id="edge32_Node000024_Node000017" title=" " alt="" coords="409,738,444,727,501,701,550,673,552,677,503,705,446,732,410,743"/>
+<area shape="poly" id="edge34_Node000025_Node000004" title=" " alt="" coords="662,120,753,93,754,98,663,125"/>
+<area shape="poly" id="edge35_Node000025_Node000006" title=" " alt="" coords="681,147,714,149,714,154,680,152"/>
+<area shape="poly" id="edge37_Node000026_Node000004" title=" " alt="" coords="643,30,748,57,747,62,641,35"/>
+<area shape="poly" id="edge38_Node000026_Node000006" title=" " alt="" coords="658,30,682,42,698,56,708,70,716,85,730,101,777,134,774,138,727,105,712,88,703,73,694,60,679,46,656,35"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BNO08x::get_quat_K" name="BNO08x::get_quat_K">
+<area shape="rect" id="Node000001" title="Get K component of reported quaternion." alt="" coords="5,5,150,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="198,5,332,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,16,182,16,182,21,150,21"/>
+</map>

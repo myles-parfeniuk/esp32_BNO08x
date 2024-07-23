@@ -1,0 +1,33 @@
+<map id="BNO08x::queue_command" name="BNO08x::queue_command">
+<area shape="rect" id="Node000001" title="Queues a packet containing a command." alt="" coords="739,425,917,452"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ad097849616c5caab1fd3eb3632ee2b91" title="Queues a packet containing a command to calibrate the specified sensor." alt="" coords="513,149,682,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="804,416,616,194,620,191,808,412"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#a4c6353e795f734ed28613f9a3d161ea2" title="Queues a packet containing a command related to zeroing sensor&#39;s axes. (See Ref. Manual 6...." alt="" coords="527,381,669,424"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="724,425,669,416,670,411,725,420"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#affaaa35abbb872da5299ebab6e2c9b11" title="Requests ME calibration status from BNO08x (see Ref. Manual 6.4.7.2)" alt="" coords="504,451,691,493"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="725,456,692,461,691,456,724,451"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#aa16609de88bfb7b389348859aa0cee54" title="Sends command to save internal calibration data (See Ref. Manual 6.4.7)." alt="" coords="513,524,683,551"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="789,462,692,508,644,526,642,521,690,503,787,457"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#aeffce374f558a167d5b5f19ad627e7cc" title="Sends command to calibrate accelerometer." alt="" coords="239,5,456,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="567,140,518,91,487,67,455,46,427,35,429,30,457,42,490,62,521,87,571,136"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#afd0ca5f9b9741935543d143a5a43d128" title="Sends command to calibrate accelerometer, gyro, and magnetometer." alt="" coords="274,56,421,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="548,143,504,119,455,97,419,86,420,81,457,92,506,114,551,139"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a9ada90f8ab6dd33fa2d7c168d9234af1" title="Sends command to calibrate gyro." alt="" coords="268,107,427,133"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="497,153,416,137,417,131,498,148"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#ac26350b55095a346d72598ab8aa74b4a" title="Sends command to calibrate magnetometer." alt="" coords="239,157,456,184"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="498,173,457,173,457,168,498,168"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a1c6c49c97bc098db89db1aaa37e18f26" title="Sends command to calibrate planar accelerometer." alt="" coords="263,208,432,251"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="498,197,433,212,432,207,497,191"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#ac9d9b6636745e8180807284da67c92a2" title="Sends command to end calibration procedure." alt="" coords="265,275,430,301"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="559,204,512,236,457,265,424,277,422,271,455,260,509,231,556,199"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="5,469,191,512"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="261,84,240,97,202,139,171,189,148,242,130,296,110,397,103,469,97,468,104,396,125,295,143,240,167,186,198,136,237,93,258,79"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#afe39bfdede7b9a2b273983cb29a27d6e" title="Sends command to clear persistent tare settings in non&#45;volatile memory of BNO08x (See Ref...." alt="" coords="280,325,415,352"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="511,381,455,367,409,355,410,350,457,361,512,376"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#afb2ffc4e7ff0498917bc14a83af306e2" title="Sends command to save tare into non&#45;volatile memory of BNO08x (See Ref. Manual 6.4...." alt="" coords="281,376,414,403"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="511,401,414,396,415,390,511,395"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a4549bbef48208bd9c745fc755b93012f" title="Sends command to tare an axis (See Ref. Manual 6.4.4.1)" alt="" coords="282,427,413,453"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="511,418,413,433,412,428,511,413"/>
+<area shape="poly" id="edge14_Node000014_Node000005" title=" " alt="" coords="488,479,191,490,191,485,488,473"/>
+<area shape="poly" id="edge16_Node000015_Node000005" title=" " alt="" coords="497,531,191,502,191,497,497,525"/>
+</map>

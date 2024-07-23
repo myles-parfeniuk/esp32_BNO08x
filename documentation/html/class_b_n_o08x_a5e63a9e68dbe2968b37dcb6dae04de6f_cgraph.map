@@ -1,0 +1,10 @@
+<map id="BNO08x::disable_gravity" name="BNO08x::disable_gravity">
+<area shape="rect" id="Node000001" title="Sends command to disable gravity reports by setting report interval to 0." alt="" coords="5,67,169,93"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="217,67,376,93"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,77,201,77,201,83,169,83"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="432,29,591,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,67,416,61,417,66,377,72"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="424,96,599,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="377,88,409,93,408,98,376,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="471,29,469,19,476,10,490,5,512,3,535,5,549,11,546,16,533,10,512,8,491,10,479,15,474,21,476,28"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BNO08x::spi_task_trampoline" name="BNO08x::spi_task_trampoline">
+<area shape="rect" id="Node000001" title="Static function used to launch spi task." alt="" coords="179,5,373,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#aea8e2c6dd7a2c9899479a7f39fe94798" title="Initializes BNO08x sensor." alt="" coords="5,5,131,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,21,131,21,131,16,163,16"/>
+</map>

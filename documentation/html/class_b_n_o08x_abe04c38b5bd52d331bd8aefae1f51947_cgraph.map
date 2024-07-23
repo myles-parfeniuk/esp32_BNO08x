@@ -1,0 +1,12 @@
+<map id="BNO08x::enable_game_rotation_vector" name="BNO08x::enable_game_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)" alt="" coords="5,88,161,131"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41613e65ea9beef883184b7ef67affdd" title="Enables a sensor report for a given ID." alt="" coords="209,96,365,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,107,193,107,193,112,161,112"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="421,29,580,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="337,93,405,74,407,79,339,98"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="413,96,588,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="366,107,398,107,398,112,366,112"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="413,147,588,173"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="347,121,427,140,426,145,346,126"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="460,29,458,19,465,10,479,5,501,3,524,5,537,11,535,16,522,10,501,8,481,10,468,15,463,21,465,28"/>
+</map>

@@ -1,0 +1,42 @@
+<map id="BNO08x::enable_report" name="BNO08x::enable_report">
+<area shape="rect" id="Node000001" title="Enables a sensor report for a given ID." alt="" coords="512,576,668,603"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a2795c6579cf03e22f62a5eadc88dee91" title="Sends command to enable accelerometer reports (See Ref. Manual 6.5.9)" alt="" coords="249,5,454,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="584,561,571,447,547,292,530,214,511,143,488,85,462,46,447,35,451,30,466,42,493,82,516,141,535,213,552,291,576,447,589,560"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#ad7b83cac874c092583f8513d3bb69bbf" title="Sends command to enable activity classifier reports (See Ref. Manual 6.5.36)" alt="" coords="270,56,433,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="582,561,567,461,541,326,524,258,506,197,485,146,462,112,448,101,432,93,434,88,451,97,466,109,489,144,511,195,530,257,546,325,572,460,588,560"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a5680148a41cb9cc96d1911150c46d2b8" title="Sends command to enable ARVR stabilized game rotation vector reports (See Ref. Manual 6...." alt="" coords="265,123,438,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="585,561,579,488,560,390,544,338,523,287,496,238,462,195,436,176,440,172,466,191,501,235,528,284,549,336,565,389,584,487,591,560"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a8a5f3b985989e846e831f70f7733d0bc" title="Sends command to enable ARVR stabilized rotation vector reports (See Ref. Manual 6...." alt="" coords="272,205,431,264"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="583,561,572,503,550,427,534,387,514,347,491,311,462,278,430,256,433,252,466,274,495,307,519,345,539,385,555,425,577,501,588,560"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#abe04c38b5bd52d331bd8aefae1f51947" title="Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)" alt="" coords="274,288,429,331"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="580,562,566,514,542,456,508,396,487,369,462,345,428,326,431,321,466,341,491,365,512,393,547,453,571,513,585,560"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a030eae12c3586acf09b48e94630b2544" title="Sends command to enable gravity reading reports (See Ref. Manual 6.5.11)" alt="" coords="271,355,432,381"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="577,563,560,525,536,479,503,433,462,396,431,380,433,376,466,391,507,430,541,476,565,522,582,561"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#ad7b322681b9ec5f57edb09e336b988c0" title="Sends command to enable gyro reports (See Ref. Manual 6.5.13)" alt="" coords="277,405,426,432"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="571,564,527,504,497,472,463,446,425,431,427,426,465,442,501,468,531,500,575,561"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#a7388c67de3906ad05b233fd7eff0514d" title="Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6...." alt="" coords="277,456,426,515"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="549,571,463,529,425,514,427,509,465,524,551,566"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#ae1435b83ca83bc51b75f3303afe87f7b" title="Sends command to enable linear accelerometer reports (See Ref. Manual 6.5.10)" alt="" coords="274,539,429,581"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="496,580,429,572,429,567,497,575"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#a3c32120bcd0987c3ca1bb72910586b59" title="Sends command to enable magnetometer reports (See Ref. Manual 6.5.16)" alt="" coords="248,605,455,632"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="497,603,455,609,455,603,496,598"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a3042301cf0f51657c82b1127dce230f4" title="Sends command to enable raw accelerometer reports (See Ref. Manual 6.5.8)" alt="" coords="280,656,423,699"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="547,612,465,646,424,660,422,655,463,642,545,607"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a8d8e75f0234287cb89cbec553cffe52c" title="Sends command to enable raw gyro reports (See Ref. Manual 6.5.12)" alt="" coords="264,723,439,749"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="572,617,527,666,498,692,465,713,438,725,436,720,463,708,494,687,523,662,568,613"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a14ebec501b8d004a38648a9a1f7a2c9e" title="Sends command to enable raw magnetometer reports (See Ref. Manual 6.5.15)" alt="" coords="280,773,423,816"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="578,618,535,691,503,730,465,764,425,783,422,779,463,759,500,726,531,687,574,615"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#ab4c1d5cde156af09b7e88913f3af62c7" title="Sends command to enable rotation vector reports (See Ref. Manual 6.5.18)" alt="" coords="268,840,435,883"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="584,619,570,665,546,722,511,780,490,807,466,830,436,847,434,843,462,826,486,803,507,777,541,719,565,663,579,617"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#ab0a60844b36fb140cad588a65b3a9655" title="Sends command to enable activity stability classifier reports (See Ref. Manual 6.5...." alt="" coords="267,907,436,949"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="588,619,577,677,555,752,539,791,519,829,495,865,466,897,438,914,435,910,462,893,491,862,515,827,534,789,550,750,572,676,583,618"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#a5a0b0f5b8e962247a3b8aee8f1dc8e9f" title="Sends command to enable step counter reports (See Ref. Manual 6.5.29)" alt="" coords="277,973,426,1016"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="590,619,583,688,564,781,548,830,527,878,500,923,466,963,448,977,427,986,425,981,445,972,462,959,495,920,522,876,543,828,559,779,578,687,585,618"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#ab4c8e37c730ddb168f78c29bd7ae6566" title="Sends command to enable tap detector reports (See Ref. Manual 6.5.27)" alt="" coords="281,1040,422,1083"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="592,618,589,699,583,752,573,809,557,868,535,927,505,982,466,1030,446,1045,423,1054,421,1050,443,1040,462,1026,500,979,530,924,552,867,567,808,578,751,584,698,587,618"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x.html#a7fe5de95b1f51da44247a87317fd0c75" title="Sends command to enable uncalibrated gyro reports (See Ref. Manual 6.5.14)" alt="" coords="239,1107,464,1133"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="588,618,574,724,549,868,533,940,513,1006,491,1060,466,1097,450,1108,447,1104,462,1093,486,1057,508,1004,528,939,544,867,569,723,583,618"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="5,443,191,485"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="261,335,240,345,204,368,172,394,120,444,117,441,168,390,201,364,237,340,258,330"/>
+<area shape="poly" id="edge12_Node000012_Node000007" title=" " alt="" coords="251,602,237,596,200,571,165,542,114,487,118,484,169,538,203,567,240,591,253,597"/>
+</map>

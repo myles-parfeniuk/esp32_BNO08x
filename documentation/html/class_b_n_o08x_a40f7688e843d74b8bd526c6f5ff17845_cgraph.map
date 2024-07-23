@@ -1,0 +1,5 @@
+<map id="BNO08x::BNO08x" name="BNO08x::BNO08x">
+<area shape="rect" id="Node000001" title="BNO08x imu constructor." alt="" coords="5,5,133,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a804b95c58c30d36933fd251626b85bf7" title="HINT interrupt service routine, handles falling edge of BNO08x HINT pin." alt="" coords="181,5,329,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,16,165,16,165,21,133,21"/>
+</map>

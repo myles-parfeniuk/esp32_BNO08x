@@ -1,0 +1,10 @@
+<map id="BNO08x::disable_accelerometer" name="BNO08x::disable_accelerometer">
+<area shape="rect" id="Node000001" title="Sends command to disable accelerometer reports by setting report interval to 0." alt="" coords="5,67,214,93"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="262,67,421,93"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,77,246,77,246,83,214,83"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="477,29,636,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="421,67,461,61,462,66,422,72"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="469,96,644,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="422,88,454,93,453,98,421,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="516,29,514,19,521,10,535,5,557,3,580,5,594,11,591,16,578,10,557,8,536,10,524,15,519,21,521,28"/>
+</map>

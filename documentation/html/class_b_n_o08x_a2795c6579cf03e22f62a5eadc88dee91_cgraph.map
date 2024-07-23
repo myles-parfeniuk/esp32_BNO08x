@@ -1,0 +1,12 @@
+<map id="BNO08x::enable_accelerometer" name="BNO08x::enable_accelerometer">
+<area shape="rect" id="Node000001" title="Sends command to enable accelerometer reports (See Ref. Manual 6.5.9)" alt="" coords="5,96,211,123"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41613e65ea9beef883184b7ef67affdd" title="Enables a sensor report for a given ID." alt="" coords="259,96,415,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,107,243,107,243,112,211,112"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="471,29,630,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="387,93,455,74,457,79,389,98"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="463,96,638,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="416,107,448,107,448,112,416,112"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="463,147,638,173"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="397,121,477,140,476,145,396,126"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="510,29,508,19,515,10,529,5,551,3,574,5,587,11,585,16,572,10,551,8,531,10,518,15,513,21,515,28"/>
+</map>

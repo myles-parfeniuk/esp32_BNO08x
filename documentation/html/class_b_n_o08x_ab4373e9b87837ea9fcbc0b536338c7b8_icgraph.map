@@ -1,0 +1,7 @@
+<map id="BNO08x::data_proc_task" name="BNO08x::data_proc_task">
+<area shape="rect" id="Node000001" title="Task responsible parsing packets. Executed when SPI task sends a packet to be parsed,..." alt="" coords="394,13,561,40"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a0ae135d7bf7a5f047a1d1aa5cc07e520" title="Static function used to launch data processing task." alt="" coords="179,5,346,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="378,29,347,29,347,24,378,24"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#aea8e2c6dd7a2c9899479a7f39fe94798" title="Initializes BNO08x sensor." alt="" coords="5,13,131,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="163,29,131,29,131,24,163,24"/>
+</map>

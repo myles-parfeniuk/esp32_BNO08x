@@ -1,0 +1,70 @@
+<map id="BNO08x::wait_for_rx_done" name="BNO08x::wait_for_rx_done">
+<area shape="rect" id="Node000001" title="Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="936,1233,1111,1260"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41613e65ea9beef883184b7ef67affdd" title="Enables a sensor report for a given ID." alt="" coords="725,605,882,632"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1010,1220,807,633,812,631,1015,1218"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x.html#a40607e557eada666a5e1e416f42cd4a1" title="Read meta data from BNO08x FRS (flash record system) given the record ID. Contains Q points and other..." alt="" coords="719,1157,888,1184"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="972,1230,887,1199,851,1187,853,1182,889,1193,974,1225"/>
+<area shape="rect" id="Node000029" href="$class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x sensor." alt="" coords="734,1208,873,1235"/>
+<area shape="poly" id="edge31_Node000001_Node000029" title=" " alt="" coords="920,1237,873,1232,874,1227,921,1232"/>
+<area shape="rect" id="Node000031" href="$class_b_n_o08x.html#ac1b3de9b552c611ee9c455d7f19be698" title="Turns on/ brings BNO08x sensor out of sleep mode using executable channel." alt="" coords="738,1259,869,1285"/>
+<area shape="poly" id="edge33_Node000001_Node000031" title=" " alt="" coords="921,1261,870,1267,869,1262,920,1256"/>
+<area shape="rect" id="Node000032" href="$class_b_n_o08x.html#a176ae0112325c05105eacb4566bbfa0b" title="Puts BNO08x sensor into sleep/low power mode using executable channel." alt="" coords="729,1309,878,1336"/>
+<area shape="poly" id="edge34_Node000001_Node000032" title=" " alt="" coords="974,1269,889,1300,853,1311,851,1306,887,1295,972,1264"/>
+<area shape="rect" id="Node000033" href="$class_b_n_o08x.html#a973a1b1785f3302ee1b2702c6a27646e" title="Soft resets BNO08x sensor using executable channel." alt="" coords="736,1360,871,1387"/>
+<area shape="poly" id="edge35_Node000001_Node000033" title=" " alt="" coords="998,1273,949,1312,889,1350,861,1362,859,1357,886,1346,946,1308,994,1269"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2795c6579cf03e22f62a5eadc88dee91" title="Sends command to enable accelerometer reports (See Ref. Manual 6.5.9)" alt="" coords="456,5,661,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="797,590,784,472,759,308,741,224,721,149,697,87,683,63,669,46,655,35,658,30,673,42,688,61,702,85,726,147,747,223,764,307,789,471,802,590"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#ad7b83cac874c092583f8513d3bb69bbf" title="Sends command to enable activity classifier reports (See Ref. Manual 6.5.36)" alt="" coords="477,56,640,99"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="796,590,780,485,753,341,735,269,716,203,693,149,669,112,656,101,639,93,642,88,659,97,673,109,698,146,721,201,741,267,758,340,785,484,801,590"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a5680148a41cb9cc96d1911150c46d2b8" title="Sends command to enable ARVR stabilized game rotation vector reports (See Ref. Manual 6...." alt="" coords="473,123,645,181"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="799,590,793,512,774,407,757,350,735,295,706,242,669,195,644,176,647,172,673,191,710,239,740,292,762,349,779,406,798,512,804,589"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a8a5f3b985989e846e831f70f7733d0bc" title="Sends command to enable ARVR stabilized rotation vector reports (See Ref. Manual 6...." alt="" coords="479,205,638,264"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="796,590,786,526,764,443,747,399,726,355,700,314,670,278,637,256,640,252,673,274,705,311,731,352,752,396,769,441,791,525,802,589"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#abe04c38b5bd52d331bd8aefae1f51947" title="Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)" alt="" coords="481,288,636,331"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="794,591,780,538,756,472,720,403,697,372,670,345,636,325,638,321,673,341,701,369,724,400,761,469,785,536,799,589"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#a030eae12c3586acf09b48e94630b2544" title="Sends command to enable gravity reading reports (See Ref. Manual 6.5.11)" alt="" coords="479,355,639,381"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="792,592,776,548,750,494,715,440,694,416,670,396,638,380,640,375,673,391,698,412,719,437,755,492,780,545,797,590"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#ad7b322681b9ec5f57edb09e336b988c0" title="Sends command to enable gyro reports (See Ref. Manual 6.5.13)" alt="" coords="485,405,633,432"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="787,592,768,558,742,518,709,479,670,446,632,430,634,425,673,442,713,475,746,515,773,555,792,590"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a7388c67de3906ad05b233fd7eff0514d" title="Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6...." alt="" coords="485,456,633,515"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="772,598,726,563,670,529,632,512,634,507,673,524,729,559,776,593"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#ae1435b83ca83bc51b75f3303afe87f7b" title="Sends command to enable linear accelerometer reports (See Ref. Manual 6.5.10)" alt="" coords="482,539,636,581"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="730,604,636,581,637,576,731,599"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a3c32120bcd0987c3ca1bb72910586b59" title="Sends command to enable magnetometer reports (See Ref. Manual 6.5.16)" alt="" coords="456,605,662,632"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="710,621,662,621,662,616,710,616"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a3042301cf0f51657c82b1127dce230f4" title="Sends command to enable raw accelerometer reports (See Ref. Manual 6.5.8)" alt="" coords="487,656,630,699"/>
+<area shape="poly" id="edge14_Node000002_Node000014" title=" " alt="" coords="730,639,631,663,630,658,729,634"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a8d8e75f0234287cb89cbec553cffe52c" title="Sends command to enable raw gyro reports (See Ref. Manual 6.5.12)" alt="" coords="471,723,646,749"/>
+<area shape="poly" id="edge15_Node000002_Node000015" title=" " alt="" coords="777,644,730,680,672,713,640,725,638,720,670,708,727,676,774,640"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a14ebec501b8d004a38648a9a1f7a2c9e" title="Sends command to enable raw magnetometer reports (See Ref. Manual 6.5.15)" alt="" coords="487,773,630,816"/>
+<area shape="poly" id="edge16_Node000002_Node000016" title=" " alt="" coords="787,647,740,705,708,737,673,764,632,782,630,777,670,759,705,733,736,702,783,643"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#ab4c1d5cde156af09b7e88913f3af62c7" title="Sends command to enable rotation vector reports (See Ref. Manual 6.5.18)" alt="" coords="476,840,642,883"/>
+<area shape="poly" id="edge17_Node000002_Node000017" title=" " alt="" coords="795,647,778,688,751,737,717,787,673,830,644,846,641,842,670,826,713,784,747,734,773,686,790,645"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#ab0a60844b36fb140cad588a65b3a9655" title="Sends command to enable activity stability classifier reports (See Ref. Manual 6.5...." alt="" coords="475,907,643,949"/>
+<area shape="poly" id="edge18_Node000002_Node000018" title=" " alt="" coords="799,648,785,701,761,768,724,837,701,869,673,897,645,914,642,909,670,893,697,865,720,834,756,766,780,699,794,647"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#a5a0b0f5b8e962247a3b8aee8f1dc8e9f" title="Sends command to enable step counter reports (See Ref. Manual 6.5.29)" alt="" coords="485,973,633,1016"/>
+<area shape="poly" id="edge19_Node000002_Node000019" title=" " alt="" coords="802,648,792,713,770,797,754,842,732,886,706,927,673,963,655,976,634,986,632,981,652,972,670,959,701,924,727,884,749,840,765,796,787,712,797,647"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x.html#ab4c8e37c730ddb168f78c29bd7ae6566" title="Sends command to enable tap detector reports (See Ref. Manual 6.5.27)" alt="" coords="488,1040,629,1083"/>
+<area shape="poly" id="edge20_Node000002_Node000020" title=" " alt="" coords="804,648,798,724,779,826,762,881,740,935,710,985,673,1030,653,1044,631,1054,629,1049,651,1040,670,1026,706,982,735,933,757,879,774,825,793,723,799,647"/>
+<area shape="rect" id="Node000021" href="$class_b_n_o08x.html#a7fe5de95b1f51da44247a87317fd0c75" title="Sends command to enable uncalibrated gyro reports (See Ref. Manual 6.5.14)" alt="" coords="446,1107,671,1133"/>
+<area shape="poly" id="edge21_Node000002_Node000021" title=" " alt="" coords="801,648,785,748,757,883,740,951,720,1012,698,1062,673,1097,657,1108,654,1104,669,1093,693,1060,715,1010,734,949,752,882,779,747,796,647"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="213,443,398,485"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="468,335,447,345,412,368,379,394,328,444,324,441,375,390,409,364,445,340,466,330"/>
+<area shape="poly" id="edge13_Node000013_Node000008" title=" " alt="" coords="459,602,445,596,407,571,373,542,322,487,325,484,376,538,410,567,447,591,461,597"/>
+<area shape="rect" id="Node000023" href="$class_b_n_o08x.html#a27f5dce5c994be18a587fb622574ad41" title="Reads meta data word from BNO08x FRS (flash record system) given the record ID and word number...." alt="" coords="474,1157,644,1184"/>
+<area shape="poly" id="edge23_Node000022_Node000023" title=" " alt="" coords="704,1173,644,1173,644,1168,704,1168"/>
+<area shape="rect" id="Node000024" href="$class_b_n_o08x.html#a4421c43323945946ad605f8422958dcf" title="Gets Q1 point from BNO08x FRS (flash record system)." alt="" coords="245,1107,366,1133"/>
+<area shape="poly" id="edge24_Node000023_Node000024" title=" " alt="" coords="473,1156,365,1135,366,1129,474,1151"/>
+<area shape="rect" id="Node000025" href="$class_b_n_o08x.html#a0fff04c42c9502615ad73cd1457cb9b0" title="Gets range from BNO08x FRS (flash record system)." alt="" coords="17,1081,153,1108"/>
+<area shape="poly" id="edge29_Node000023_Node000025" title=" " alt="" coords="458,1154,445,1148,429,1134,420,1120,412,1107,397,1097,366,1086,334,1079,267,1073,204,1076,149,1083,148,1078,203,1071,267,1068,334,1074,367,1081,399,1092,416,1104,425,1117,433,1131,447,1143,460,1149"/>
+<area shape="rect" id="Node000026" href="$class_b_n_o08x.html#a1d6ea02d0d4b23ff6a15e9d5c6c92372" title="Gets resolution from BNO08x FRS (flash record system)." alt="" coords="5,1132,165,1159"/>
+<area shape="poly" id="edge30_Node000023_Node000026" title=" " alt="" coords="458,1168,165,1152,165,1147,458,1163"/>
+<area shape="rect" id="Node000027" href="$class_b_n_o08x.html#a954dccdcbe8a8c4f1787f13ebb8d932b" title="Gets Q2 point from BNO08x FRS (flash record system)." alt="" coords="245,1208,366,1235"/>
+<area shape="poly" id="edge27_Node000023_Node000027" title=" " alt="" coords="474,1190,366,1212,365,1207,473,1185"/>
+<area shape="rect" id="Node000028" href="$class_b_n_o08x.html#a1590ba793668f9cb1a32a1f4dd07cb9a" title="Gets Q3 point from BNO08x FRS (flash record system)." alt="" coords="245,1259,366,1285"/>
+<area shape="poly" id="edge28_Node000023_Node000028" title=" " alt="" coords="460,1192,447,1198,433,1210,424,1223,415,1236,399,1249,367,1263,365,1258,397,1244,411,1232,420,1220,429,1206,445,1194,458,1187"/>
+<area shape="poly" id="edge25_Node000024_Node000025" title=" " alt="" coords="229,1114,153,1105,153,1100,230,1109"/>
+<area shape="poly" id="edge26_Node000024_Node000026" title=" " alt="" coords="230,1131,165,1139,165,1134,229,1126"/>
+<area shape="rect" id="Node000030" href="$class_b_n_o08x.html#aea8e2c6dd7a2c9899479a7f39fe94798" title="Initializes BNO08x sensor." alt="" coords="496,1208,621,1235"/>
+<area shape="poly" id="edge32_Node000029_Node000030" title=" " alt="" coords="718,1224,622,1224,622,1219,718,1219"/>
+</map>

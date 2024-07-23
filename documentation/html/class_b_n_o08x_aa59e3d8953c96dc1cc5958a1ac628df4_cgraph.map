@@ -1,0 +1,10 @@
+<map id="BNO08x::disable_ARVR_stabilized_rotation_vector" name="BNO08x::disable_ARVR_stabilized_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to disable ARVR stabilized rotation vector reports by setting report interval to 0." alt="" coords="5,51,168,109"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="216,67,375,93"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,77,200,77,200,83,168,83"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="431,29,590,72"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,67,415,61,416,66,376,72"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="423,96,598,123"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="376,88,408,93,407,98,375,93"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="470,29,468,19,475,10,489,5,511,3,534,5,548,11,545,16,532,10,511,8,490,10,478,15,473,21,475,28"/>
+</map>
