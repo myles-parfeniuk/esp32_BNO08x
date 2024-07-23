@@ -1,4 +1,5 @@
 #pragma once
+//esp-idf includes
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
@@ -11,10 +12,13 @@
 #include <freertos/queue.h>
 #include <rom/ets_sys.h>
 
+//standard library includes
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
 #include <cstring>
+#include <functional>
+#include <vector>
 
 /// @brief SHTP protocol channels
 enum channels_t
@@ -185,6 +189,7 @@ class BNO08x
         void clear_tare();
 
         bool data_available();
+        void register_cb(std::function<void()> cb_fxn);
 
         uint32_t get_time_stamp();
 
@@ -349,6 +354,8 @@ class BNO08x
 
         static bno08x_config_t default_imu_config; ///< default imu config settings
 
+
+
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
         EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
@@ -357,6 +364,8 @@ class BNO08x
         QueueHandle_t queue_tx_data;       ///<Packet queue used to send data to be sent over SPI from sending functions to spi_task.
         QueueHandle_t queue_frs_read_data; ///<Queue used to send packet body from data_proc_task to frs read functions.
         QueueHandle_t queue_reset_reason; ///<Queue used to send reset reason from product id report to reset_reason() function
+
+        std::vector<std::function<void()>> cb_list; //Vector for storing any call-back functions added with register_cb()
 
         uint32_t meta_data[9]; ///<First 9 bytes of meta data returned from FRS read operation (we don't really need the rest) (See Ref. Manual 5.1)
 

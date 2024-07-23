@@ -310,7 +310,7 @@ bool BNO08x::soft_reset()
 }
 
 /**
- * @brief Requests product ID, prints the returned info over serial, and returns the reason for the most resent reset. 
+ * @brief Requests product ID, prints the returned info over serial, and returns the reason for the most resent reset.
  *
  * @return The reason for the most recent recent reset ( 1 = POR (power on reset), 2 = internal reset, 3 = watchdog
  * timer, 4 = external reset 5 = other)
@@ -328,7 +328,7 @@ uint8_t BNO08x::get_reset_reason()
     {
         // receive product ID report
         if (wait_for_data())
-            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS/portTICK_PERIOD_MS);
+            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS);
         else
             ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
@@ -848,6 +848,17 @@ bool BNO08x::data_available()
     }
 
     return wait_for_data();
+}
+
+/**
+ * @brief Registers a callback to execute when new data from a report is received.
+ *
+ * @param cb_fxn Pointer to the call-back function should be of void return type and void input parameters. 
+ * @return void, nothing to return
+ */
+void BNO08x::register_cb(std::function<void()> cb_fxn)
+{
+    cb_list.push_back(cb_fxn);
 }
 
 /**
@@ -2810,8 +2821,14 @@ void BNO08x::data_proc_task()
     {
         if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) // receive packet from spi_task()
         {
-            if (parse_packet(&packet) != 0)                                   // check if packet is valid
+            if (parse_packet(&packet) != 0) // check if packet is valid
+            {
+                //execute any registered callbacks 
+                for(auto& cb_fxn : cb_list)
+                    cb_fxn(); 
+
                 xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET); // indicate valid packet to wait_for_data()
+            }
             else
                 xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET); // indicated invalid packet to wait_for_data()
         }
