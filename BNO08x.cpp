@@ -183,7 +183,7 @@ bool BNO08x::wait_for_data()
     // check to see receive operation has finished
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
-        // wait until processing is done
+        // wait until processing is done, this should never go to timeout; however, it will be set slightly after EVT_GRP_SPI_RX_DONE_BIT
         if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET | EVT_GRP_SPI_RX_INVALID_PACKET, pdFALSE, pdFALSE,
                     HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
         {
