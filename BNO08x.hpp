@@ -322,7 +322,8 @@ class BNO08x
                 uint16_t length;  ///< Packet length in bytes.
         } bno08x_tx_packet_t;
 
-        bool wait_for_host_int();
+        bool wait_for_rx_done();
+        bool wait_for_tx_done();
         bool wait_for_data();
         bool receive_packet();
         void send_packet(bno08x_tx_packet_t* packet);
@@ -355,6 +356,7 @@ class BNO08x
         QueueHandle_t queue_rx_data;       ///<Packet queue used to send data received from bno08x from spi_task to data_proc_task.
         QueueHandle_t queue_tx_data;       ///<Packet queue used to send data to be sent over SPI from sending functions to spi_task.
         QueueHandle_t queue_frs_read_data; ///<Queue used to send packet body from data_proc_task to frs read functions.
+        QueueHandle_t queue_reset_reason; ///<Queue used to send reset reason from product id report to reset_reason() function
 
         uint32_t meta_data[9]; ///<First 9 bytes of meta data returned from FRS read operation (we don't really need the rest) (See Ref. Manual 5.1)
 
@@ -414,31 +416,44 @@ class BNO08x
         static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
                 300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
 
-        static const constexpr EventBits_t EVT_GRP_SPI_HINT_BIT =
-                (1 << 0); ///< When this bit is set, the hint pin has asserted and the spi task has run to completion.
-        static const constexpr EventBits_t EVT_GRP_SPI_RX_DATA_RDY_BIT =
+        // evt_grp_spi bits
+        static const constexpr EventBits_t EVT_GRP_SPI_RX_DONE_BIT =
+                (1 << 0); ///<When this bit is set it indicates a receive procedure has completed.
+        static const constexpr EventBits_t EVT_GRP_SPI_RX_VALID_PACKET =
                 (1 << 1); ///< When this bit is set, it indicates a valid packet has been received and processed.
+        static const constexpr EventBits_t EVT_GRP_SPI_RX_INVALID_PACKET =
+                (1 << 2);                                                  ///<When this bit is set, it indicates an invalid packet has been received.
+        static const constexpr EventBits_t EVT_GRP_SPI_TX_DONE = (1 << 3); ///<When this bit is set, it indicates a queued packet has been sent.
 
+        // evt_grp_report_en bits
         static const constexpr EventBits_t EVT_GRP_RPT_ROTATION_VECTOR_BIT = (1 << 0);      ///< When set, rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT = (1 << 1); ///< When set, game rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT =
                 (1 << 2); ///< When set, ARVR stabilized rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT =
                 (1 << 3); ///< When set, ARVR stabilized game rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT = (1 << 4); ///< When set, gyro integrator rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1 << 5); ///< When set, accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1 << 6); ///< When set, linear accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1 << 7); ///< When set, gravity reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_BIT = (1 << 8); ///< When set, gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT = (1 << 9); ///< When set, uncalibrated gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_MAGNETOMETER_BIT = (1 << 10); ///< When set, magnetometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1 << 11); ///< When set, tap detector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1 << 12); ///< When set, step counter reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT =
+                (1 << 4); ///< When set, gyro integrator rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1 << 5);         ///< When set, accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1 << 6);  ///< When set, linear accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1 << 7);               ///< When set, gravity reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_BIT = (1 << 8);                  ///< When set, gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT = (1 << 9);     ///< When set, uncalibrated gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_MAGNETOMETER_BIT = (1 << 10);         ///< When set, magnetometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1 << 11);         ///< When set, tap detector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1 << 12);         ///< When set, step counter reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT = (1 << 13); ///< When set, stability classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1 << 14); ///< When set, activity classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1 << 15); ///< When set, raw accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1 << 16); ///< When set, raw gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1 << 17); ///< When set, raw magnetometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1 << 14);  ///< When set, activity classifier reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1 << 15);    ///< When set, raw accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1 << 16);             ///< When set, raw gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1 << 17);     ///< When set, raw magnetometer reports are active.
+
+        static const constexpr EventBits_t EVT_GRP_RPT_ALL_BITS =
+                EVT_GRP_RPT_ROTATION_VECTOR_BIT | EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT | EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT |
+                EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT | EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT | EVT_GRP_RPT_ACCELEROMETER_BIT |
+                EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT | EVT_GRP_RPT_GRAVITY_BIT | EVT_GRP_RPT_GYRO_BIT | EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT |
+                EVT_GRP_RPT_MAGNETOMETER_BIT | EVT_GRP_RPT_TAP_DETECTOR_BIT | EVT_GRP_RPT_STEP_COUNTER_BIT | EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT |
+                EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT | EVT_GRP_RPT_RAW_ACCELEROMETER_BIT | EVT_GRP_RPT_RAW_GYRO_BIT | EVT_GRP_RPT_RAW_MAGNETOMETER_BIT;
 
         // Higher level calibration commands, used by queue_calibrate_command
         static const constexpr uint8_t CALIBRATE_ACCEL = 0;        ///<Calibrate accelerometer command used by queue_calibrate_command

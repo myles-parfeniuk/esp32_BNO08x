@@ -18,6 +18,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , queue_rx_data(xQueueCreate(1, sizeof(bno08x_rx_packet_t)))
     , queue_tx_data(xQueueCreate(1, sizeof(bno08x_tx_packet_t)))
     , queue_frs_read_data(xQueueCreate(1, RX_DATA_LENGTH * sizeof(uint8_t)))
+    , queue_reset_reason(xQueueCreate(1, sizeof(uint32_t)))
     , imu_config(imu_config)
     , calibration_status(1)
 
@@ -118,96 +119,120 @@ bool BNO08x::initialize()
     xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", 4096, this, 7, &data_proc_task_hdl); // launch data processing task
     xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl);                         // launch SPI task
 
-    // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
     if (!hard_reset())
-    {
-        ESP_LOGE(TAG, "Failed to receive advertisement message on boot.");
         return false;
-    }
-    else
+
+    if (get_reset_reason() != 0)
     {
-        ESP_LOGI(TAG, "Received advertisement message.");
+        ESP_LOGI(TAG, "Successfully initialized....");
+        return true;
     }
 
-    // The BNO080 will then transmit an unsolicited Initialize Response (see SH2 Ref. Manual 6.4.5.2)
-    if (!wait_for_host_int())
-    {
-        ESP_LOGE(TAG, "Failed to receive initialize response on boot.");
-        return false;
-    }
-    else
-    {
-        ESP_LOGI(TAG, "Received initialize response.");
-    }
-
-    // queue request for product ID command
-    queue_request_product_id_command();
-
-    // transmit request for product ID
-    if (!wait_for_host_int())
-    {
-        ESP_LOGE(TAG, "Failed to send product ID report request");
-        return false;
-    }
-
-    // receive product ID report
-    if (!wait_for_data())
-    {
-        ESP_LOGE(TAG, "Failed to receive product ID report.");
-        return false;
-    }
-
-    return true;
+    return false;
 }
 
 /**
- * @brief Waits for BNO08x to assert HINT pin or timeout to elapse.
+ * @brief Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse.
+ *
+ * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
+ * This function is for when the validity of packets is not a concern, it is for flushing packets
+ * we do not care about.
+ *
+ * @return True if data has been received over SPI within HOST_INT_TIMEOUT_MS.
+ */
+bool BNO08x::wait_for_rx_done()
+{
+    bool success = false;
+
+    // if no reports are enabled we can assume interrupts are disabled (see spi_task())
+    if (xEventGroupGetBits(evt_grp_report_en) == 0)
+        gpio_intr_enable(imu_config.io_int); // re-enable interrupts
+
+    // wait until an interrupt has been asserted and data received or timeout has occured
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    {
+        if (imu_config.debug_en)
+            ESP_LOGI(TAG, "int asserted");
+
+        success = true;
+    }
+    else
+    {
+        ESP_LOGE(TAG, "Interrupt to host device never asserted.");
+        success = false;
+    }
+
+    return success;
+}
+
+/**
+ * @brief Waits for a valid or invalid packet to be received or HOST_INT_TIMEOUT_MS to elapse.
  *
  * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
  *
- * @return True if the bno08x hint pin has been asserted within HOST_INT_TIMEOUT_MS.
+ * @return True if valid packet has been received within HOST_INT_TIMEOUT_MS, false if otherwise.
  */
-bool BNO08x::wait_for_host_int()
+bool BNO08x::wait_for_data()
+{
+    bool success = false;
+
+    // if no reports are enabled we can assume interrupts are disabled (see spi_task())
+    if (xEventGroupGetBits(evt_grp_report_en) == 0)
+        gpio_intr_enable(imu_config.io_int); // re-enable interrupts
+
+    // check to see receive operation has finished
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    {
+        // wait until processing is done
+        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET | EVT_GRP_SPI_RX_INVALID_PACKET, pdFALSE, pdFALSE,
+                    HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+        {
+            // only return true if packet is valid
+            if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET)
+            {
+                if (imu_config.debug_en)
+                    ESP_LOGI(TAG, "Valid packet received.");
+                success = true;
+            }
+            else
+            {
+                ESP_LOGE(TAG, "Invalid packet received.");
+            }
+        }
+    }
+    else
+    {
+        ESP_LOGE(TAG, "Interrupt to host device never asserted.");
+    }
+
+    xEventGroupClearBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET | EVT_GRP_SPI_RX_INVALID_PACKET);
+    return success;
+}
+
+/**
+ * @brief Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse.
+ *
+ * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
+ *
+ * @return True if packet was sent within HOST_INT_TIMEOUT_MS, false if otherwise.
+ */
+bool BNO08x::wait_for_tx_done()
 {
     // if no reports are enabled we can assume interrupts are disabled (see spi_task())
     if (xEventGroupGetBits(evt_grp_report_en) == 0)
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
-    // wait until an interrupt has been asserted or timeout has occured
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
+
         if (imu_config.debug_en)
-            ESP_LOGI(TAG, "int asserted");
+            ESP_LOGI(TAG, "Packet sent successfully.");
 
         return true;
     }
     else
     {
-        ESP_LOGE(TAG, "Interrupt to host device never asserted.");
-        return false;
-    }
-}
-
-/**
- * @brief Waits for a valid packet to be received or HOST_INT_TIMEOUT_MS to elapse.
- *
- * @return True if valid packet has been received within HOST_INT_TIMEOUT_MS.
- */
-bool BNO08x::wait_for_data()
-{
-    if (wait_for_host_int())
-    {
-        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT, pdTRUE, pdTRUE, 0))
-        {
-            if (imu_config.debug_en)
-                ESP_LOGI(TAG, "Valid packet received.");
-
-            return true;
-        }
-        else
-        {
-            ESP_LOGE(TAG, "Invalid packet received.");
-        }
+        ESP_LOGE(TAG, "Packet failed to send.");
     }
 
     return false;
@@ -220,6 +245,10 @@ bool BNO08x::wait_for_data()
  */
 bool BNO08x::hard_reset()
 {
+    bool success = false;
+    // resetting disables all reports
+    xEventGroupClearBits(evt_grp_report_en, EVT_GRP_RPT_ALL_BITS);
+
     gpio_set_level(imu_config.io_cs, 1);
 
     if (imu_config.io_wake != GPIO_NUM_NC)
@@ -229,13 +258,28 @@ bool BNO08x::hard_reset()
     vTaskDelay(50 / portTICK_PERIOD_MS);  // 10ns min, set to 50ms to let things stabilize(Anton)
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
 
-    if (!wait_for_host_int()) // wait for BNO08x to assert INT pin
+    // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
+    if (!wait_for_rx_done()) // wait for receive operation to complete
     {
         ESP_LOGE(TAG, "Reset Failed, interrupt to host device never asserted.");
-        return false;
+    }
+    else
+    {
+        ESP_LOGI(TAG, "Received advertisement message.");
+
+        // The BNO080 will then transmit an unsolicited Initialize Response (see SH2 Ref. Manual 6.4.5.2)
+        if (!wait_for_rx_done())
+        {
+            ESP_LOGE(TAG, "Failed to receive initialize response on boot.");
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Received initialize response.");
+            success = true;
+        }
     }
 
-    return true;
+    return success;
 }
 
 /**
@@ -248,42 +292,48 @@ bool BNO08x::soft_reset()
     bool success = false;
     uint8_t commands[20] = {0};
 
-    commands[0] = 1;
+    // reseting resets all reports
+    xEventGroupClearBits(evt_grp_report_en, EVT_GRP_RPT_ALL_BITS);
 
+    commands[0] = 1;
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_host_int();
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive advertisement message;
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive initialize message
+    success = wait_for_tx_done();
+
+    // flush any packets received
+    for (int i = 0; i < 3; i++)
+    {
+        wait_for_rx_done();
+        vTaskDelay(20 / portTICK_PERIOD_MS);
+    }
 
     return success;
 }
 
 /**
- * @brief Get the reason for the most recent reset.
+ * @brief Requests product ID, prints the returned info over serial, and returns the reason for the most resent reset. 
  *
  * @return The reason for the most recent recent reset ( 1 = POR (power on reset), 2 = internal reset, 3 = watchdog
  * timer, 4 = external reset 5 = other)
  */
 uint8_t BNO08x::get_reset_reason()
 {
-    uint8_t commands[20] = {0};
+    uint32_t reset_reason = 0;
 
-    commands[0] = SHTP_REPORT_PRODUCT_ID_REQUEST; // Request the product ID and reset info
-    commands[1] = 0;                              // Reserved
-
-    // Transmit packet on channel 2, 2 bytes
-    queue_packet(CHANNEL_CONTROL, 2, commands);
-    wait_for_host_int();
-
-    if (wait_for_host_int())
+    // queue request for product ID command
+    queue_request_product_id_command();
+    // wait for transmit to finish
+    if (!wait_for_tx_done())
+        ESP_LOGE(TAG, "Failed to send product ID report request");
+    else
     {
-        if (commands[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE)
-            return (commands[1]);
+        // receive product ID report
+        if (wait_for_data())
+            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS/portTICK_PERIOD_MS);
+        else
+            ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
 
-    return 0;
+    return reset_reason;
 }
 
 /**
@@ -297,13 +347,15 @@ bool BNO08x::mode_on()
     uint8_t commands[20] = {0};
 
     commands[0] = 2;
-
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_host_int();
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive advertisement message;
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive initialize message
+    success = wait_for_tx_done();
+
+    // flush any packets received
+    for (int i = 0; i < 3; i++)
+    {
+        wait_for_rx_done();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
 
     return success;
 }
@@ -319,13 +371,15 @@ bool BNO08x::mode_sleep()
     uint8_t commands[20] = {0};
 
     commands[0] = 3;
-
     queue_packet(CHANNEL_EXECUTABLE, 1, commands);
-    success = wait_for_host_int();
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive advertisement message;
-    vTaskDelay(20 / portTICK_PERIOD_MS);
-    success = wait_for_host_int(); // receive initialize message
+    success = wait_for_tx_done();
+
+    // flush any packets received
+    for (int i = 0; i < 3; i++)
+    {
+        wait_for_rx_done();
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
 
     return success;
 }
@@ -377,6 +431,7 @@ bool BNO08x::receive_packet()
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
 
     xQueueSend(queue_rx_data, &packet, 0); // send received data to data_proc_task
+    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT);
 
     return true;
 }
@@ -395,7 +450,7 @@ bool BNO08x::receive_packet()
 void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit)
 {
     queue_feature_command(report_ID, time_between_reports);
-    if (wait_for_host_int()) // wait for next interrupt such that command is sent
+    if (wait_for_tx_done()) // wait for transmit operation to complete
     {
         xEventGroupSetBits(evt_grp_report_en, report_evt_grp_bit);
 
@@ -403,6 +458,10 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
         if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
             gpio_intr_enable(imu_config.io_int);
     }
+
+    // flush the first few reports returned to ensure new data
+    for (int i = 0; i < 3; i++)
+        wait_for_rx_done();
 }
 
 /**
@@ -418,7 +477,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
 void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit)
 {
     queue_feature_command(report_ID, 0);
-    if (wait_for_host_int()) // wait for next interrupt such that command is sent
+    if (wait_for_tx_done()) // wait for transmit operation to complete
     {
         xEventGroupClearBits(evt_grp_report_en, report_evt_grp_bit);
 
@@ -475,6 +534,8 @@ void BNO08x::send_packet(bno08x_tx_packet_t* packet)
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
+
+    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE);
 }
 
 /**
@@ -518,7 +579,7 @@ void BNO08x::queue_request_product_id_command()
 void BNO08x::calibrate_all()
 {
     queue_calibrate_command(CALIBRATE_ACCEL_GYRO_MAG);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -530,7 +591,7 @@ void BNO08x::calibrate_all()
 void BNO08x::calibrate_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_ACCEL);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -542,7 +603,7 @@ void BNO08x::calibrate_accelerometer()
 void BNO08x::calibrate_gyro()
 {
     queue_calibrate_command(CALIBRATE_GYRO);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -554,7 +615,7 @@ void BNO08x::calibrate_gyro()
 void BNO08x::calibrate_magnetometer()
 {
     queue_calibrate_command(CALIBRATE_MAG);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -566,7 +627,7 @@ void BNO08x::calibrate_magnetometer()
 void BNO08x::calibrate_planar_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_PLANAR_ACCEL);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -631,7 +692,7 @@ void BNO08x::request_calibration_status()
 
     // Using this commands packet, send a command
     queue_command(COMMAND_ME_CALIBRATE, commands);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -656,7 +717,7 @@ bool BNO08x::calibration_complete()
 void BNO08x::end_calibration()
 {
     queue_calibrate_command(CALIBRATE_STOP); // Disables all calibrations
-    wait_for_host_int();                   // wait for next interrupt such that command is sent
+    wait_for_tx_done();                      // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS);     // allow some time for command to be executed
 }
 
@@ -671,7 +732,7 @@ void BNO08x::save_calibration()
 
     // Using this shtpData packet, send a command
     queue_command(COMMAND_DCD, commands); // Save DCD command
-    wait_for_host_int();                // wait for next interrupt such that command is sent
+    wait_for_tx_done();                   // wait for transmit operation to complete
     vTaskDelay(50 / portTICK_PERIOD_MS);  // allow some time for command to be executed
 }
 
@@ -846,6 +907,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
  */
 uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 {
+    uint32_t reset_reason = (uint32_t) packet->body[1];
     uint32_t sw_part_number = ((uint32_t) packet->body[7] << 24) | ((uint32_t) packet->body[6] << 16) | ((uint32_t) packet->body[5] << 8) |
                               ((uint32_t) packet->body[4]);
     uint32_t sw_build_number = ((uint32_t) packet->body[11] << 24) | ((uint32_t) packet->body[10] << 16) | ((uint32_t) packet->body[9] << 8) |
@@ -854,7 +916,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 
     // print product ID info packet
     ESP_LOGI(TAG,
-            "Successfully initialized....\n\r"
+            "Product ID Info:                           \n\r"
             "                ---------------------------\n\r"
             "                Product ID: 0x%" PRIx32 "\n\r"
             "                SW Version Major: 0x%" PRIx32 "\n\r"
@@ -866,6 +928,8 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
             (uint32_t) packet->body[0], (uint32_t) packet->body[2], (uint32_t) packet->body[3], sw_part_number, sw_build_number,
             (uint32_t) sw_version_patch);
 
+    xQueueSend(queue_reset_reason, &reset_reason, 0);
+
     return 1;
 }
 
@@ -873,7 +937,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
  * @brief Sends packet to be parsed to meta data function call (frs_read_word()) through queue.
  *
  * @param packet The packet containing the frs read report.
- * @return 1, always valid.
+ * @return 1, always valid, parsing for this happens in frs_read_word()
  */
 uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
 {
@@ -1497,7 +1561,7 @@ void BNO08x::disable_raw_magnetometer()
 void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 {
     queue_tare_command(TARE_NOW, axis_sel, rotation_vector_basis);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -1509,7 +1573,7 @@ void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 void BNO08x::save_tare()
 {
     queue_tare_command(TARE_PERSIST);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -1521,7 +1585,7 @@ void BNO08x::save_tare()
 void BNO08x::clear_tare()
 {
     queue_tare_command(TARE_SET_REORIENTATION);
-    wait_for_host_int();               // wait for next interrupt such that command is sent
+    wait_for_tx_done();                  // wait for transmit operation to complete
     vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
 }
 
@@ -2493,10 +2557,12 @@ float BNO08x::get_range(uint16_t record_ID)
  */
 uint32_t BNO08x::FRS_read_word(uint16_t record_ID, uint8_t word_number)
 {
+    uint32_t frs_read = 0;
+
     if (FRS_read_data(record_ID, word_number, 1)) // start at desired word and only read one 1 word
-        return (meta_data[0]);
-    else
-        return 0; // FRS read failed
+        frs_read = meta_data[0];
+
+    return frs_read;
 }
 
 /**
@@ -2526,7 +2592,7 @@ bool BNO08x::FRS_read_request(uint16_t record_ID, uint16_t read_offset, uint16_t
 
     // Transmit packet on channel 2, 8 bytes
     queue_packet(CHANNEL_CONTROL, 8, commands);
-    return wait_for_host_int();
+    return wait_for_tx_done();
 }
 
 /**
@@ -2559,7 +2625,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
             {
                 counter = 0;
 
-                while (!wait_for_host_int())
+                while (!wait_for_rx_done())
                 {
                     counter++;
 
@@ -2567,7 +2633,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
                         return false;
                 }
 
-                if (xQueueReceive(queue_frs_read_data, &packet_body, 0))
+                if (xQueueReceive(queue_frs_read_data, &packet_body, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
                 {
                     if ((((uint16_t) packet_body[13] << 8) | (uint16_t) packet_body[12]) == record_ID)
                         break;
@@ -2698,8 +2764,8 @@ void BNO08x::spi_task()
 
     while (1)
     {
-        /*only re-enable interrupts if there are reports enabled, if no reports are enabled 
-         interrupts will be re-enabled upon the next user call to wait_for_host_int()*/
+        /*only re-enable interrupts if there are reports enabled, if no reports are enabled
+         interrupts will be re-enabled upon the next user call to wait_for_tx_done(), wait_for_rx_done(), or wait_for_data()*/
         if (xEventGroupGetBits(evt_grp_report_en) != 0)
             gpio_intr_enable(imu_config.io_int);
 
@@ -2714,8 +2780,6 @@ void BNO08x::spi_task()
             send_packet(&tx_packet);                     // send packet
         else
             receive_packet(); // receive packet
-
-        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_HINT_BIT); // SPI completed,  notify wait_for_host_int()
     }
 }
 
@@ -2746,9 +2810,10 @@ void BNO08x::data_proc_task()
     {
         if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) // receive packet from spi_task()
         {
-            if (parse_packet(&packet) != 0) // check if packet is valid
-                xEventGroupSetBits(
-                        evt_grp_spi, EVT_GRP_SPI_RX_DATA_RDY_BIT); // indicate valid packet has been received and processed to wait_for_data()
+            if (parse_packet(&packet) != 0)                                   // check if packet is valid
+                xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET); // indicate valid packet to wait_for_data()
+            else
+                xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET); // indicated invalid packet to wait_for_data()
         }
     }
 }
