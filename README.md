@@ -10,7 +10,8 @@
     <ul>
     <li><a href="#wiring">Wiring</a></li>
     <li><a href="#adding-to-project">Adding to Project</a></li>
-    <li><a href="#Examples">Examples</a></li>
+    <li><a href="#menuconfig">Menuconfig</a></li>
+    <li><a href="#examples">Examples</a></li>
     </ul>
 </li>
 <li><a href="#documentation">Documentation</a></li>
@@ -32,7 +33,10 @@ Currently, only SPI is supported. There are no plans to support I2C due to unpre
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Wiring
-The default wiring is depicted below, it can be changed at driver initialization (see example section).
+The default wiring is depicted below, it can be changed at driver initialization (see example section).  
+
+If your ESP does not have the GPIO pin numbers depicted below, you **must change the default GPIO settings in menuconfig**. See the Menuconfig section. 
+
 ![image](esp32_BNO08x_wiring.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -57,6 +61,22 @@ The default wiring is depicted below, it can be changed at driver initialization
    ```sh
     idf.py fullclean
    ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Menuconfig
+This library provides a menuconfig menu configured in Kconfig.projbuild. It contains settings to control the default GPIO and a few other things.  
+
+To access the menu:
+
+1. Within esp-idf enabled terminal, execute the menuconfig command:
+    ```sh
+    idf.py menuconfig
+
+2. Scroll down to the esp_BNO08x menu and enter it, if you're using vsCode you may have to use the "j" and "k" keys instead of the arrow keys.
+    ![image](esp32_BNO08x_menuconfig_1.png)
+
+3. Modify whatever settings you'd like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default SCLK frequency and host peripheral to be modified.
+    ![image](esp32_BNO08x_menuconfig_2.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Examples

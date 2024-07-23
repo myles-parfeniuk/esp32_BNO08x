@@ -1,0 +1,90 @@
+menu "esp32_BNO08x"
+
+    menu "GPIO Configuration"
+        
+        config ESP32_BNO08X_GPIO_HINT
+            int "INT GPIO NUM" 
+            range 0 50
+            default 26
+            help
+                Host interrupt GPIO pin connected to BNO08x INT pin.
+
+                    
+        config ESP32_BNO08X_GPIO_RST
+            int "RST GPIO NUM" 
+            range 0 50
+            default 32 
+            help
+                Reset GPIO pin connected to BNO08x RST pin.
+                
+        config ESP32_BNO08X_GPIO_CS
+            int "CS GPIO NUM"
+            range 0 50
+            default 33
+            help
+                Chip select GPIO pin connected to BNO08x CS pin.
+        
+        config ESP32_BNO08X_GPIO_SCL
+            int "SCL GPIO NUM" 
+            range 0 50
+            default 18
+            help
+                Clock GPIO pin connected to BNO08x SCL pin.
+
+            config ESP32_BNO08X_GPIO_DI
+                int "DI GPIO NUM" 
+                range 0 50
+                default 23
+                help
+                    MOSI GPIO pin connected to BNO08x DI pin.
+
+        config ESP32_BNO08X_GPIO_SDA
+            int "SDA GPIO NUM" 
+            range 0 50
+            default 19
+            help
+                MISO GPIO pin connected to BNO08x SDA pin.
+
+        config ESP32_BNO08X_GPIO_WAKE
+            int "WAKE GPIO NUM (optional, -1 == unused)" 
+            range -1 50
+            default -1
+            help
+                Wake GPIO pin, connected to BNO08x P0 pin (optional)
+
+    endmenu # GPIO Config
+
+    menu "SPI Configuration"
+
+        config ESP32_BNO08x_SPI_HOST
+            int "SPI Host Peripheral" 
+            range 0 2
+            default 2
+            help
+                SPI controller peripheral inside ESP32. 
+
+
+        config ESP32_BNO08X_SCL_SPEED_HZ
+            int "SCL SPEED (HZ)" 
+            range 10000 3000000
+            default 2000000
+            help
+                SPI clock speed in Hz, default 2MHz.
+
+    endmenu #SPI Configuration
+
+    config ESP32_BNO08X_DATA_PROC_TASK_SZ
+        int "Callback task size, (data_proc_task())"
+        range 1024 20480
+        default 4096
+        help
+            Stack size of task responsible for parsing packets and executing callbacks.
+            Note that callbacks should remain as short as possible, pass the data out of
+            the callback with a queue or save it to different variables for longer operations.
+
+        config ESP32_BNO08x_DEBUG_STATEMENTS
+            bool "Print debug statements."
+            default "n"
+            help
+                Print the various debug statements scattered throughout the code when running. 
+endmenu

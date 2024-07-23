@@ -35,10 +35,10 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     // SPI slave device specific config
     imu_spi_config.mode = 0x3; // set mode to 3 as per BNO08x datasheet (CPHA second edge, CPOL bus high when idle)
 
-    if (imu_config.sclk_speed > 3000000) // max sclk speed of 3MHz for BNO08x
+    if (imu_config.sclk_speed > 3000000UL) // max sclk speed of 3MHz for BNO08x
     {
-        ESP_LOGE(TAG, "Max clock speed exceeded, %lld overwritten with 3000000Hz", imu_config.sclk_speed);
-        imu_config.sclk_speed = 3000000;
+        ESP_LOGE(TAG, "Max clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
+        imu_config.sclk_speed = 3000000UL;
     }
 
     imu_spi_config.clock_source = SPI_CLK_SRC_DEFAULT;
@@ -74,7 +74,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     gpio_config_t inputs_config;
     inputs_config.pin_bit_mask = (1ULL << imu_config.io_int);
     inputs_config.mode = GPIO_MODE_INPUT;
-    inputs_config.pull_up_en = GPIO_PULLUP_ENABLE;
+    inputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
     inputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
     inputs_config.intr_type = GPIO_INTR_NEGEDGE;
     gpio_config(&inputs_config);
@@ -116,8 +116,9 @@ bool BNO08x::initialize()
     // launch tasks
     data_proc_task_hdl = NULL;
     spi_task_hdl = NULL;
-    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", 4096, this, 7, &data_proc_task_hdl); // launch data processing task
-    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl);                         // launch SPI task
+    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7,
+            &data_proc_task_hdl);                                                       // launch data processing task
+    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
 
     if (!hard_reset())
         return false;
@@ -151,8 +152,9 @@ bool BNO08x::wait_for_rx_done()
     // wait until an interrupt has been asserted and data received or timeout has occured
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
-        if (imu_config.debug_en)
-            ESP_LOGI(TAG, "int asserted");
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGI(TAG, "int asserted");
+        #endif
 
         success = true;
     }
@@ -190,8 +192,10 @@ bool BNO08x::wait_for_data()
             // only return true if packet is valid
             if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET)
             {
-                if (imu_config.debug_en)
-                    ESP_LOGI(TAG, "Valid packet received.");
+                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "Valid packet received.");
+                #endif
+
                 success = true;
             }
             else
@@ -224,9 +228,9 @@ bool BNO08x::wait_for_tx_done()
 
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
-
-        if (imu_config.debug_en)
-            ESP_LOGI(TAG, "Packet sent successfully.");
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGI(TAG, "Packet sent successfully.");
+        #endif 
 
         return true;
     }
@@ -411,8 +415,9 @@ bool BNO08x::receive_packet()
     packet.length = (((uint16_t) packet.header[1]) << 8) | ((uint16_t) packet.header[0]);
     packet.length &= ~(1 << 15); // Clear the MSbit
 
-    if (imu_config.debug_en)
-        ESP_LOGW(TAG, "packet rx length: %d", packet.length);
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+    ESP_LOGW(TAG, "packet rx length: %d", packet.length);
+    #endif 
 
     if (packet.length == 0)
         return false;
@@ -853,7 +858,7 @@ bool BNO08x::data_available()
 /**
  * @brief Registers a callback to execute when new data from a report is received.
  *
- * @param cb_fxn Pointer to the call-back function should be of void return type and void input parameters. 
+ * @param cb_fxn Pointer to the call-back function should be of void return type and void input parameters.
  * @return void, nothing to return
  */
 void BNO08x::register_cb(std::function<void()> cb_fxn)
@@ -869,8 +874,9 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  */
 uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 {
-    if (imu_config.debug_en)
-        ESP_LOGE(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+    ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
+    #endif 
 
     if (packet->body[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
     {
@@ -885,23 +891,26 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
     // Check to see if this packet is a sensor reporting its data to us
     if (packet->header[2] == CHANNEL_REPORTS && packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
     {
-        if (imu_config.debug_en)
-            ESP_LOGI(TAG, "RX'd packet, channel report");
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGI(TAG, "RX'd packet, channel report");
+        #endif 
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
     }
     else if (packet->header[2] == CHANNEL_CONTROL)
     {
-        if (imu_config.debug_en)
-            ESP_LOGI(TAG, "RX'd packet, channel control");
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGI(TAG, "RX'd packet, channel control");
+        #endif
 
         return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
     }
     else if (packet->header[2] == CHANNEL_GYRO)
     {
-        if (imu_config.debug_en)
-            ESP_LOGI(TAG, "Rx packet, channel gyro");
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGI(TAG, "Rx packet, channel gyro");
+        #endif
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
@@ -2770,7 +2779,11 @@ void BNO08x::spi_task_trampoline(void* arg)
  */
 void BNO08x::spi_task()
 {
-    static uint64_t prev_time = 0;
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+    static uint64_t prev_time = esp_timer_get_time();
+    static uint64_t current_time = 0;
+    #endif
+
     bno08x_tx_packet_t tx_packet;
 
     while (1)
@@ -2781,11 +2794,12 @@ void BNO08x::spi_task()
             gpio_intr_enable(imu_config.io_int);
 
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR (hint_handler)
-        if (imu_config.debug_en)
-        {
-            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (esp_timer_get_time() - prev_time));
-            prev_time = esp_timer_get_time();
-        }
+
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        current_time = esp_timer_get_time();
+        ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
+        prev_time = current_time; 
+        #endif 
 
         if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
             send_packet(&tx_packet);                     // send packet
@@ -2823,9 +2837,9 @@ void BNO08x::data_proc_task()
         {
             if (parse_packet(&packet) != 0) // check if packet is valid
             {
-                //execute any registered callbacks 
-                for(auto& cb_fxn : cb_list)
-                    cb_fxn(); 
+                // execute any registered callbacks
+                for (auto& cb_fxn : cb_list)
+                    cb_fxn();
 
                 xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET); // indicate valid packet to wait_for_data()
             }

@@ -1,5 +1,5 @@
 #pragma once
-//esp-idf includes
+// esp-idf includes
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
@@ -12,7 +12,7 @@
 #include <freertos/queue.h>
 #include <rom/ets_sys.h>
 
-//standard library includes
+// standard library includes
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
@@ -50,62 +50,28 @@ typedef struct bno08x_config_t
         gpio_num_t io_int;                /// Host interrupt pin (connects to BNO08x INT pin)
         gpio_num_t io_rst;                /// Reset pin (connects to BNO08x RST pin)
         gpio_num_t io_wake;               ///<Wake pin (optional, connects to BNO08x P0)
-        uint64_t sclk_speed;              ///<Desired SPI SCLK speed in Hz (max 3MHz)
-        bool debug_en;                    ///<Whether or not debugging print statements are enabled
+        uint32_t sclk_speed;              ///<Desired SPI SCLK speed in Hz (max 3MHz)
 
-#ifdef ESP32C3_IMU_CONFIG
-        /// @brief Default IMU configuration settings constructor for ESP32-C3, add
-        /// add_compile_definitions("ESP32C3_IMU_CONFIG") to CMakeList to use
+        /// @brief Default IMU configuration settings constructor.
+        /// To modify default GPIO pins, run "idf.py menuconfig" esp32_BNO08x->GPIO Configuration.
+        /// Alternatively, edit the default values in "Kconfig.projbuild"
         bno08x_config_t()
-            : spi_peripheral(SPI2_HOST)
-            , io_mosi(GPIO_NUM_4)
-            , io_miso(GPIO_NUM_19)
-            , io_sclk(GPIO_NUM_18)
-            , io_cs(GPIO_NUM_5)
-            , io_int(GPIO_NUM_6)
-            , io_rst(GPIO_NUM_7)
-            , io_wake(GPIO_NUM_NC)
-            , sclk_speed(2000000UL) // 2MHz SCLK speed
-            , debug_en(false)
-        {
-        }
-#elif defined(ESP32C6_IMU_CONFIG)
-        /// @brief Default IMU configuration settings constructor for ESP32-C6, add
-        /// add_compile_definitions("ESP32C6_IMU_CONFIG") to CMakeList to use
-        bno08x_config_t()
-            : spi_peripheral(SPI2_HOST)
-            , io_mosi(GPIO_NUM_22)
-            , io_miso(GPIO_NUM_21)
-            , io_sclk(GPIO_NUM_23)
-            , io_cs(GPIO_NUM_6)
-            , io_int(GPIO_NUM_4)
-            , io_rst(GPIO_NUM_5)
-            , io_wake(GPIO_NUM_NC)
-            , sclk_speed(2000000UL) // 2MHz SCLK speed
-            , debug_en(false)
-        {
-        }
-#else
-        /// @brief Default IMU configuration settings constructor for ESP32
-        bno08x_config_t()
-            : spi_peripheral(SPI3_HOST)
-            , io_mosi(GPIO_NUM_23)
-            , io_miso(GPIO_NUM_19)
-            , io_sclk(GPIO_NUM_18)
-            , io_cs(GPIO_NUM_33)
-            , io_int(GPIO_NUM_26)
-            , io_rst(GPIO_NUM_32)
-            , io_wake(GPIO_NUM_NC)
-            , sclk_speed(2000000UL) // 2MHz SCLK speed
-            // , sclk_speed(10000U), //clock slowed to see on AD2
-            , debug_en(false)
+            : spi_peripheral((spi_host_device_t)CONFIG_ESP32_BNO08x_SPI_HOST)
+            , io_mosi((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_DI) // default:
+            , io_miso((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_SDA) // default:
+            , io_sclk((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_SCL) // default:
+            , io_cs((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_CS) // default:
+            , io_int((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_HINT) // default:
+            , io_rst((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_RST) // default:
+            , io_wake((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_WAKE) // default: -1 (unused)
+            , sclk_speed((uint32_t)CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MH
 
         {
         }
-#endif
+
         /// @brief Overloaded IMU configuration settings constructor for custom pin settings
         bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso, gpio_num_t io_sclk, gpio_num_t io_cs,
-                gpio_num_t io_int, gpio_num_t io_rst, gpio_num_t io_wake, uint64_t sclk_speed, bool debug)
+                gpio_num_t io_int, gpio_num_t io_rst, gpio_num_t io_wake, uint32_t sclk_speed)
             : spi_peripheral(spi_peripheral)
             , io_mosi(io_mosi)
             , io_miso(io_miso)
@@ -115,8 +81,6 @@ typedef struct bno08x_config_t
             , io_rst(io_rst)
             , io_wake(io_wake)
             , sclk_speed(sclk_speed)
-            , debug_en(false)
-
         {
         }
 } bno08x_config_t;
@@ -354,8 +318,6 @@ class BNO08x
 
         static bno08x_config_t default_imu_config; ///< default imu config settings
 
-
-
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
         EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
@@ -363,9 +325,9 @@ class BNO08x
         QueueHandle_t queue_rx_data;       ///<Packet queue used to send data received from bno08x from spi_task to data_proc_task.
         QueueHandle_t queue_tx_data;       ///<Packet queue used to send data to be sent over SPI from sending functions to spi_task.
         QueueHandle_t queue_frs_read_data; ///<Queue used to send packet body from data_proc_task to frs read functions.
-        QueueHandle_t queue_reset_reason; ///<Queue used to send reset reason from product id report to reset_reason() function
+        QueueHandle_t queue_reset_reason;  ///<Queue used to send reset reason from product id report to reset_reason() function
 
-        std::vector<std::function<void()>> cb_list; //Vector for storing any call-back functions added with register_cb()
+        std::vector<std::function<void()>> cb_list; // Vector for storing any call-back functions added with register_cb()
 
         uint32_t meta_data[9]; ///<First 9 bytes of meta data returned from FRS read operation (we don't really need the rest) (See Ref. Manual 5.1)
 
