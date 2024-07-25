@@ -452,9 +452,9 @@ bool BNO08x::receive_packet()
  *
  * @return void, nothing to return
  */
-void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit)
+void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config)
 {
-    queue_feature_command(report_ID, time_between_reports);
+    queue_feature_command(report_ID, time_between_reports, special_config);
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
         xEventGroupSetBits(evt_grp_report_en, report_evt_grp_bit);
@@ -494,6 +494,10 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
 
 /**
  * @brief Queues an SHTP packet to be sent via SPI.
+ * 
+ * @param SHTP channel number
+ * @param data_length data length in bytes
+ * @param commands array containing data to be sent
  *
  * @return void, nothing to return
  */
@@ -770,10 +774,10 @@ bool BNO08x::run_full_calibration_routine()
     calibrate_all(); // Turn on cal for Accel, Gyro, and Mag
 
     // Enable Game Rotation Vector output
-    enable_game_rotation_vector(100); // Send data update every 100ms
+    enable_game_rotation_vector(100000UL); // Send data update every 100ms
 
     // Enable Magnetic Field output
-    enable_magnetometer(100); // Send data update every 100ms
+    enable_magnetometer(100000UL); // Send data update every 100ms
 
     while (1)
     {
@@ -1354,7 +1358,7 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
 void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
-    enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT);
+    enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, activities_to_enable);
 }
 
 /**
@@ -2742,20 +2746,6 @@ void BNO08x::queue_tare_command(uint8_t command, uint8_t axis, uint8_t rotation_
     }
 
     queue_command(COMMAND_TARE, commands);
-}
-
-/**
- * @brief Queues a packet containing a command with a request for sensor reports, reported periodically. (See Ref.
- * Manual 6.5.4)
- *
- * @param report_ID ID of sensor report being requested.
- * @param time_between_reports Desired time between reports.
- *
- * @return void, nothing to return
- */
-void BNO08x::queue_feature_command(uint8_t report_ID, uint32_t time_between_reports)
-{
-    queue_feature_command(report_ID, time_between_reports, 0); // No specific config
 }
 
 /**

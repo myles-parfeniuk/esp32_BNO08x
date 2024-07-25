@@ -56,15 +56,15 @@ typedef struct bno08x_config_t
         /// To modify default GPIO pins, run "idf.py menuconfig" esp32_BNO08x->GPIO Configuration.
         /// Alternatively, edit the default values in "Kconfig.projbuild"
         bno08x_config_t()
-            : spi_peripheral((spi_host_device_t)CONFIG_ESP32_BNO08x_SPI_HOST)
-            , io_mosi((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_DI) // default:
-            , io_miso((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_SDA) // default:
-            , io_sclk((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_SCL) // default:
-            , io_cs((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_CS) // default:
-            , io_int((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_HINT) // default:
-            , io_rst((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_RST) // default:
-            , io_wake((gpio_num_t)CONFIG_ESP32_BNO08X_GPIO_WAKE) // default: -1 (unused)
-            , sclk_speed((uint32_t)CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MH
+            : spi_peripheral((spi_host_device_t) CONFIG_ESP32_BNO08x_SPI_HOST)
+            , io_mosi((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_DI)       // default:
+            , io_miso((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SDA)      // default:
+            , io_sclk((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SCL)      // default:
+            , io_cs((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_CS)         // default:
+            , io_int((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_HINT)      // default:
+            , io_rst((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_RST)       // default:
+            , io_wake((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_WAKE)     // default: -1 (unused)
+            , sclk_speed((uint32_t) CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MH
 
         {
         }
@@ -255,6 +255,18 @@ class BNO08x
         static const constexpr uint16_t FRS_RECORD_ID_ROTATION_VECTOR =
                 0xE30B; ///< Rotation vector record ID, to be passed in metadata functions like get_Q1()
 
+        // Activity classifier bits
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_UNKNOWN_EN = (1 << 0);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_IN_VEHICLE_EN = (1 << 1);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_BICYCLE_EN = (1 << 2);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_FOOT_EN = (1 << 3);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_STILL_EN = (1 << 4);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_TILTING_EN = (1 << 5);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_WALKING_EN = (1 << 6);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_RUNNING_EN = (1 << 7);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_STAIRS_EN = (1 << 8);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ALL_EN = 0x1F;
+
         static const constexpr uint8_t TARE_AXIS_ALL = 0x07; ///< Tare all axes (used with tare now command)
         static const constexpr uint8_t TARE_AXIS_Z = 0x04;   ///< Tar yaw axis only (used with tare now command)
 
@@ -296,12 +308,11 @@ class BNO08x
         bool wait_for_data();
         bool receive_packet();
         void send_packet(bno08x_tx_packet_t* packet);
-        void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit);
+        void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config = 0);
         void disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit);
         void queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* commands);
         void queue_command(uint8_t command, uint8_t* commands);
-        void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports);
-        void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config);
+        void queue_feature_command(uint8_t report_ID, uint32_t time_between_reports, uint32_t specific_config = 0);
         void queue_calibrate_command(uint8_t _to_calibrate);
         void queue_tare_command(uint8_t command, uint8_t axis = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void queue_request_product_id_command();
