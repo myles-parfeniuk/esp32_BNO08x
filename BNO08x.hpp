@@ -57,14 +57,14 @@ typedef struct bno08x_config_t
         /// Alternatively, edit the default values in "Kconfig.projbuild"
         bno08x_config_t()
             : spi_peripheral((spi_host_device_t) CONFIG_ESP32_BNO08x_SPI_HOST)
-            , io_mosi((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_DI)       // default:
-            , io_miso((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SDA)      // default:
-            , io_sclk((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SCL)      // default:
-            , io_cs((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_CS)         // default:
-            , io_int((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_HINT)      // default:
-            , io_rst((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_RST)       // default:
+            , io_mosi((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_DI)       // default: 23
+            , io_miso((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SDA)      // default: 19
+            , io_sclk((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SCL)      // default: 18
+            , io_cs((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_CS)         // default: 33
+            , io_int((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_HINT)      // default: 26
+            , io_rst((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_RST)       // default: 32
             , io_wake((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_WAKE)     // default: -1 (unused)
-            , sclk_speed((uint32_t) CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MH
+            , sclk_speed((uint32_t) CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MHz
 
         {
         }
