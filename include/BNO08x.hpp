@@ -575,4 +575,6 @@ class BNO08x
         static const constexpr uint8_t TARE_SET_REORIENTATION = 2U; ///< See SH2 Ref. Manual 6.4.4.3
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
+
+        friend class BNO08xTestHelper; //allow test helper to access private members for unit tests
 };
