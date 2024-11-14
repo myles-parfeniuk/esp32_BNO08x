@@ -438,7 +438,7 @@ bool BNO08x::wait_for_rx_done()
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
     // wait until an interrupt has been asserted and data received or timeout has occured
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
     {
 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "int asserted");
@@ -471,11 +471,11 @@ bool BNO08x::wait_for_data()
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
     // check to see receive operation has finished
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
     {
         // wait until processing is done, this should never go to timeout; however, it will be set slightly after EVT_GRP_SPI_RX_DONE_BIT
-        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT, pdFALSE, pdFALSE,
-                    HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+        if (xEventGroupWaitBits(
+                    evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT, pdFALSE, pdFALSE, HOST_INT_TIMEOUT_MS))
         {
             // only return true if packet is valid
             if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET_BIT)
@@ -514,7 +514,7 @@ bool BNO08x::wait_for_tx_done()
     if (xEventGroupGetBits(evt_grp_report_en) == 0)
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
     {
 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "Packet sent successfully.");
@@ -547,7 +547,7 @@ bool BNO08x::hard_reset()
         gpio_set_level(imu_config.io_wake, 1);
 
     gpio_set_level(imu_config.io_rst, 0); // set reset pin low
-    vTaskDelay(50 / portTICK_PERIOD_MS);  // 10ns min, set to 50ms to let things stabilize(Anton)
+    vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
 
     // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
@@ -592,11 +592,7 @@ bool BNO08x::soft_reset()
     success = wait_for_tx_done();
 
     // flush any packets received
-    for (int i = 0; i < 3; i++)
-    {
-        wait_for_rx_done();
-        vTaskDelay(20 / portTICK_PERIOD_MS);
-    }
+    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
 
     return success;
 }
@@ -620,7 +616,7 @@ IMUResetReason BNO08x::get_reset_reason()
     {
         // receive product ID report
         if (wait_for_data())
-            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS);
+            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS);
         else
             ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
@@ -643,11 +639,7 @@ bool BNO08x::mode_on()
     success = wait_for_tx_done();
 
     // flush any packets received
-    for (int i = 0; i < 3; i++)
-    {
-        wait_for_rx_done();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
+    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
 
     return success;
 }
@@ -667,11 +659,7 @@ bool BNO08x::mode_sleep()
     success = wait_for_tx_done();
 
     // flush any packets received
-    for (int i = 0; i < 3; i++)
-    {
-        wait_for_rx_done();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
+    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
 
     return success;
 }
@@ -753,8 +741,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
     }
 
     // flush the first few reports returned to ensure new data
-    for (int i = 0; i < 3; i++)
-        wait_for_rx_done();
+    flush_rx_packets(3, 0);
 }
 
 /**
@@ -835,6 +822,15 @@ void BNO08x::send_packet(bno08x_tx_packet_t* packet)
     xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
 }
 
+void BNO08x::flush_rx_packets(uint8_t flush_count, TickType_t delay)
+{
+    for (int i = 0; i < flush_count; i++)
+    {
+        wait_for_rx_done();
+        vTaskDelay(delay);
+    }
+}
+
 /**
  * @brief Queues a packet containing a command.
  *
@@ -877,7 +873,7 @@ void BNO08x::calibrate_all()
 {
     queue_calibrate_command(CALIBRATE_ACCEL_GYRO_MAG);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -889,7 +885,7 @@ void BNO08x::calibrate_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_ACCEL);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -901,7 +897,7 @@ void BNO08x::calibrate_gyro()
 {
     queue_calibrate_command(CALIBRATE_GYRO);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -913,7 +909,7 @@ void BNO08x::calibrate_magnetometer()
 {
     queue_calibrate_command(CALIBRATE_MAG);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -925,7 +921,7 @@ void BNO08x::calibrate_planar_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_PLANAR_ACCEL);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -990,7 +986,7 @@ void BNO08x::request_calibration_status()
     // Using this commands packet, send a command
     queue_command(COMMAND_ME_CALIBRATE, commands);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -1015,7 +1011,7 @@ void BNO08x::end_calibration()
 {
     queue_calibrate_command(CALIBRATE_STOP); // Disables all calibrations
     wait_for_tx_done();                      // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS);     // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS);     // allow some time for command to be executed
 }
 
 /**
@@ -1030,7 +1026,7 @@ void BNO08x::save_calibration()
     // Using this shtpData packet, send a command
     queue_command(COMMAND_DCD, commands); // Save DCD command
     wait_for_tx_done();                   // wait for transmit operation to complete
-    vTaskDelay(50 / portTICK_PERIOD_MS);  // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS);  // allow some time for command to be executed
 }
 
 /**
@@ -1874,7 +1870,7 @@ void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 {
     queue_tare_command(TARE_NOW, axis_sel, rotation_vector_basis);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -1886,7 +1882,7 @@ void BNO08x::save_tare()
 {
     queue_tare_command(TARE_PERSIST);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -1898,7 +1894,7 @@ void BNO08x::clear_tare()
 {
     queue_tare_command(TARE_SET_REORIENTATION);
     wait_for_tx_done();                  // wait for transmit operation to complete
-    vTaskDelay(12 / portTICK_PERIOD_MS); // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
 /**
@@ -2945,7 +2941,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
                         return false;
                 }
 
-                if (xQueueReceive(queue_frs_read_data, &packet_body, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+                if (xQueueReceive(queue_frs_read_data, &packet_body, HOST_INT_TIMEOUT_MS))
                 {
                     if ((((uint16_t) packet_body[13] << 8) | (uint16_t) packet_body[12]) == record_ID)
                         break;
@@ -3195,6 +3191,9 @@ esp_err_t BNO08x::kill_all_tasks()
     static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10;
     uint8_t kill_count = 0;
     bno08x_rx_packet_t dummy_packet;
+    sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_count, 0);
+
+    memset(&dummy_packet, 0, sizeof(dummy_packet));
 
     xEventGroupClearBits(
             evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks

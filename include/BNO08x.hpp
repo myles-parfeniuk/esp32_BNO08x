@@ -307,7 +307,6 @@ class BNO08x
         static const constexpr int16_t GRAVITY_Q1 = 8;                   ///< Gravity Q point (See SH-2 Ref. Manual 6.5.11)
 
     private:
-
         /// @brief Holds data that is received over spi.
         typedef struct bno08x_rx_packet_t
         {
@@ -326,15 +325,15 @@ class BNO08x
         /// @brief Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).
         typedef struct bno08x_init_status_t
         {
-                bool gpio_outputs; ///< True if GPIO outputs have been initialized.
-                bool gpio_inputs;  ///< True if GPIO inputs have been initialized.
-                bool isr_service;  ///< True if global ISR service has been initialized.
-                bool isr_handler; ///< True if HINT ISR handler has been initialized.
-                uint8_t task_count; ///< How many successfully initialized tasks (max of TSK_CNT)
-                bool data_proc_task;  ///< True if xTaskCreate has been called successfully for data_proc_task.
-                bool spi_task;  ///< True if xTaskCreate has been called successfully for spi_task.
-                bool spi_bus;  ///< True if spi_bus_initialize() has been called successfully.
-                bool spi_device; ///< True if spi_bus_add_device() has been called successfully.
+                bool gpio_outputs;   ///< True if GPIO outputs have been initialized.
+                bool gpio_inputs;    ///< True if GPIO inputs have been initialized.
+                bool isr_service;    ///< True if global ISR service has been initialized.
+                bool isr_handler;    ///< True if HINT ISR handler has been initialized.
+                uint8_t task_count;  ///< How many successfully initialized tasks (max of TSK_CNT)
+                bool data_proc_task; ///< True if xTaskCreate has been called successfully for data_proc_task.
+                bool spi_task;       ///< True if xTaskCreate has been called successfully for spi_task.
+                bool spi_bus;        ///< True if spi_bus_initialize() has been called successfully.
+                bool spi_device;     ///< True if spi_bus_add_device() has been called successfully.
 
                 bno08x_init_status_t()
                     : gpio_outputs(false)
@@ -368,6 +367,7 @@ class BNO08x
         bool wait_for_data();
         bool receive_packet();
         void send_packet(bno08x_tx_packet_t* packet);
+        void flush_rx_packets(uint8_t flush_count, TickType_t delay);
         void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config = 0);
         void disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit);
         void queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* commands);
@@ -421,7 +421,8 @@ class BNO08x
         spi_device_interface_config_t imu_spi_config{}; ///<SPI slave device settings
         spi_device_handle_t spi_hdl{};                  ///<SPI device handle
         spi_transaction_t spi_transaction{};            ///<SPI transaction handle
-        bno08x_init_status_t init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization. 
+        bno08x_init_status_t
+                init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization.
 
         // These are the raw sensor values (without Q applied) pulled from the user requested Input Report
         uint32_t time_stamp; ///<Report timestamp (see datasheet 1.3.5.3)
@@ -460,8 +461,17 @@ class BNO08x
         static const constexpr uint16_t RX_DATA_LENGTH = 300U;    ///<length buffer containing data received over spi
         static const constexpr uint16_t MAX_METADATA_LENGTH = 9U; ///<max length of metadata used in frs read operations
 
-        static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
-                300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+        static const constexpr TickType_t HOST_INT_TIMEOUT_MS =
+                300UL /
+                portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+
+        static const constexpr TickType_t HARD_RESET_DELAY_MS =
+                200UL /
+                portTICK_PERIOD_MS; ///<How long RST pin is held low during hard reset (min 10ns according to datasheet, but should be longer for stable operation)
+
+        static const constexpr TickType_t CMD_EXECUTION_DELAY_MS = 10UL / portTICK_PERIOD_MS; ///<How long to delay after queueing command to allow it to execute (for ex. after sending command to enable report).
+
+        static const constexpr TickType_t FLUSH_PKT_DELAY_MS = 20UL / portTICK_PERIOD_MS; ///<How long to delay between wait_for_rx_done() calls when flush_rx_packets() is called.
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of
 
