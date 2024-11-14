@@ -5,5 +5,9 @@
 
 class BNO08xTestHelper
 {
-    
+    public: 
+        static void set_test_imu(BNO08x *imu);
+        static BNO08x* get_test_imu();
+    private:
+        static BNO08x *test_imu;
 };

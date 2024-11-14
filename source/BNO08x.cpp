@@ -22,7 +22,6 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , imu_config(imu_config)
     , calibration_status(1)
 {
-
 }
 
 BNO08x::~BNO08x()
@@ -30,9 +29,17 @@ BNO08x::~BNO08x()
     // disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
     gpio_intr_disable(imu_config.io_int);
 
-    // delete tasks if they have been created
-    if (spi_task_hdl != NULL && data_proc_task_hdl != NULL)
-        ESP_ERROR_CHECK(kill_all_tasks());
+    // delete any tasks if they have been created
+    ESP_ERROR_CHECK(kill_all_tasks());
+
+    // deinitialize spi if has been initialized
+    ESP_ERROR_CHECK(deinit_spi());
+
+    // deinitialize hint ISR if it has been initialized
+    ESP_ERROR_CHECK(deinit_hint_isr());
+
+    // deinitialize GPIO if they have been initialized
+    ESP_ERROR_CHECK(deinit_gpio());
 
     // delete queues
     vQueueDelete(queue_rx_data);
@@ -59,20 +66,20 @@ BNO08x::~BNO08x()
  */
 bool BNO08x::initialize()
 {
-    //initialize configuration arguments
-    if(initialize_config_args() != ESP_OK)
-        return false; 
+    // initialize configuration arguments
+    if (init_config_args() != ESP_OK)
+        return false;
 
-    //initialize GPIO
-    if(initialize_gpio() != ESP_OK)
-        return false; 
+    // initialize GPIO
+    if (init_gpio() != ESP_OK)
+        return false;
 
-    // intialize HINT ISR
-    if (initialize_hint_isr() != ESP_OK)
+    // initialize HINT ISR
+    if (init_hint_isr() != ESP_OK)
         return false;
 
     // initialize SPI
-    if (initialize_spi() != ESP_OK)
+    if (init_spi() != ESP_OK)
         return false;
 
     // launch tasks
@@ -83,45 +90,46 @@ bool BNO08x::initialize()
     if (!hard_reset())
         return false;
 
-    if (get_reset_reason() != 0)
+    if (get_reset_reason() == IMUResetReason::UNDEFINED)
     {
-        ESP_LOGI(TAG, "Successfully initialized....");
-        return true;
+        ESP_LOGE(TAG, "Initialization failed, undefined reset reason returned after reset.");
+        return false;
     }
 
-    return false;
+    ESP_LOGI(TAG, "Successfully initialized....");
+    return true;
 }
 
-esp_err_t BNO08x::initialize_config_args()
+esp_err_t BNO08x::init_config_args()
 {
-    if((imu_config.io_cs == GPIO_NUM_NC)) 
+    if ((imu_config.io_cs == GPIO_NUM_NC))
     {
-        ESP_LOGE(TAG, "CS GPIO cannot be unassigned.");
-        return ESP_ERR_INVALID_ARG; 
+        ESP_LOGE(TAG, "Initialization failed, CS GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG;
     }
 
-    if((imu_config.io_miso == GPIO_NUM_NC)) 
+    if ((imu_config.io_miso == GPIO_NUM_NC))
     {
-        ESP_LOGE(TAG, "MISO GPIO cannot be unassigned.");
-        return ESP_ERR_INVALID_ARG; 
+        ESP_LOGE(TAG, "Initialization failed, MISO GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG;
     }
 
-    if((imu_config.io_mosi == GPIO_NUM_NC)) 
+    if ((imu_config.io_mosi == GPIO_NUM_NC))
     {
-        ESP_LOGE(TAG, "MOSI GPIO cannot be unassigned.");
-        return ESP_ERR_INVALID_ARG; 
+        ESP_LOGE(TAG, "Initialization failed, MOSI GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG;
     }
 
-    if((imu_config.io_sclk == GPIO_NUM_NC)) 
+    if ((imu_config.io_sclk == GPIO_NUM_NC))
     {
-        ESP_LOGE(TAG, "SCLK GPIO cannot be unassigned.");
-        return ESP_ERR_INVALID_ARG; 
+        ESP_LOGE(TAG, "Initialization failed, SCLK GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG;
     }
 
-    if((imu_config.io_rst == GPIO_NUM_NC)) 
+    if ((imu_config.io_rst == GPIO_NUM_NC))
     {
         ESP_LOGE(TAG, "RST GPIO cannot be unassigned.");
-        return ESP_ERR_INVALID_ARG; 
+        return ESP_ERR_INVALID_ARG;
     }
 
     // SPI bus config
@@ -146,16 +154,36 @@ esp_err_t BNO08x::initialize_config_args()
     imu_spi_config.command_bits = 0;                       // 0 command bits, not using this system
     imu_spi_config.spics_io_num = -1;                      // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
                                                            // driver, it must be handled via calls to gpio pins
-    imu_spi_config.queue_size = static_cast<int>(CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ);                         // set max allowable queued SPI transactions
+    imu_spi_config.queue_size = static_cast<int>(CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ); // set max allowable queued SPI transactions
 
-    return ESP_OK; 
+    return ESP_OK;
 }
 
-esp_err_t BNO08x::initialize_gpio()
+esp_err_t BNO08x::init_gpio_inputs()
 {
     esp_err_t ret = ESP_OK;
 
-    /*GPIO config for pins not controlled by SPI peripheral*/
+    // configure input(s) (HINT)
+    gpio_config_t inputs_config;
+    inputs_config.pin_bit_mask = (1ULL << imu_config.io_int);
+    inputs_config.mode = GPIO_MODE_INPUT;
+    inputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
+    inputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    inputs_config.intr_type = GPIO_INTR_NEGEDGE;
+
+    ret = gpio_config(&inputs_config);
+
+    if (ret != ESP_OK)
+        ESP_LOGE(TAG, "Initialization failed, failed to configure HINT gpio.");
+    else
+        init_status.gpio_inputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
+
+    return ret;
+}
+
+esp_err_t BNO08x::init_gpio_outputs()
+{
+    esp_err_t ret = ESP_OK;
 
     // configure output(s) (CS, RST, and WAKE)
     gpio_config_t outputs_config;
@@ -171,26 +199,26 @@ esp_err_t BNO08x::initialize_gpio()
 
     ret = gpio_config(&outputs_config);
     if (ret != ESP_OK)
-    {
-        ESP_LOGE(TAG, "Failed to configure CS, RST, and WAKE (if used) gpio.");
-        return ret;
-    }
+        ESP_LOGE(TAG, "Initialization failed, failed to configure CS, RST, and WAKE (if used) gpio.");
+    else
+        init_status.gpio_outputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
 
-    //configure input(s) (HINT)
-    gpio_config_t inputs_config;
-    inputs_config.pin_bit_mask = (1ULL << imu_config.io_int);
-    inputs_config.mode = GPIO_MODE_INPUT;
-    inputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
-    inputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    inputs_config.intr_type = GPIO_INTR_NEGEDGE;
+    return ret;
+}
 
-    ret = gpio_config(&inputs_config);
+esp_err_t BNO08x::init_gpio()
+{
+    esp_err_t ret = ESP_OK;
 
+    /*GPIO config for pins not controlled by SPI peripheral*/
+
+    ret = init_gpio_outputs();
     if (ret != ESP_OK)
-    {
-        ESP_LOGE(TAG, "Failed to configure HINT gpio.");
         return ret;
-    }
+
+    ret = init_gpio_inputs();
+    if (ret != ESP_OK)
+        return ret;
 
     gpio_set_level(imu_config.io_cs, 1);
     gpio_set_level(imu_config.io_rst, 1);
@@ -201,7 +229,7 @@ esp_err_t BNO08x::initialize_gpio()
     return ret;
 }
 
-esp_err_t BNO08x::initialize_hint_isr()
+esp_err_t BNO08x::init_hint_isr()
 {
     esp_err_t ret = ESP_OK;
 
@@ -211,15 +239,24 @@ esp_err_t BNO08x::initialize_hint_isr()
 
     if (ret != ESP_OK)
     {
-        ESP_LOGE(TAG, "Failed to install global ISR service.");
+        ESP_LOGE(TAG, "Initialization failed, failed to install global ISR service.");
         return ret;
+    }
+    else
+    {
+        init_status.isr_service = true; // set isr service to initialized such that deconstructor knows to clean it up (this will be ignored if
+                                        // imu_config.install_isr_service == false)
     }
 
     ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
     if (ret != ESP_OK)
     {
-        ESP_LOGE(TAG, "Add hint_handler ISR.");
+        ESP_LOGE(TAG, "Initialization failed, failed to add hint_handler ISR.");
         return ret;
+    }
+    else
+    {
+        init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
     }
 
     gpio_intr_disable(imu_config.io_int); // disable interrupts initially before reset
@@ -227,7 +264,7 @@ esp_err_t BNO08x::initialize_hint_isr()
     return ret;
 }
 
-esp_err_t BNO08x::initialize_spi()
+esp_err_t BNO08x::init_spi()
 {
     esp_err_t ret = ESP_OK;
     uint8_t tx_buffer[50] = {0}; // for dummy transaction to stabilize SPI peripheral
@@ -236,16 +273,24 @@ esp_err_t BNO08x::initialize_spi()
     ret = spi_bus_initialize(imu_config.spi_peripheral, &bus_config, SPI_DMA_CH_AUTO);
     if (ret != ESP_OK)
     {
-        ESP_LOGE(TAG, "SPI bus failed to initialize.");
+        ESP_LOGE(TAG, "Initialization failed, SPI bus failed to initialize.");
         return ret;
+    }
+    else
+    {
+        init_status.spi_bus = true;
     }
 
     // add the imu device to the bus
     ret = spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
     if (ret != ESP_OK)
     {
-        ESP_LOGE(TAG, "Failed to add device to SPI bus.");
+        ESP_LOGE(TAG, "Initialization failed, failed to add device to SPI bus.");
         return ret;
+    }
+    else
+    {
+        init_status.spi_device = true;
     }
 
     // do first SPI operation into nowhere before BNO085 reset to let periphiral stabilize (Anton B.)
@@ -255,6 +300,122 @@ esp_err_t BNO08x::initialize_spi()
     spi_transaction.rx_buffer = NULL;
     spi_transaction.flags = 0;
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
+
+    return ret;
+}
+
+esp_err_t BNO08x::deinit_gpio()
+{
+    esp_err_t ret = ESP_OK;
+
+    if (init_status.gpio_inputs)
+    {
+        ret = deinit_gpio_inputs();
+        if (ret != ESP_OK)
+            return ret;
+    }
+
+    if (init_status.gpio_outputs)
+    {
+        ret = deinit_gpio_outputs();
+        if (ret != ESP_OK)
+            return ret;
+    }
+
+    return ret;
+}
+
+esp_err_t BNO08x::deinit_gpio_inputs()
+{
+    esp_err_t ret = ESP_OK;
+
+    ret = gpio_reset_pin(imu_config.io_int);
+    if (ret != ESP_OK)
+        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio HINT pin to default state.");
+
+    return ret;
+}
+
+esp_err_t BNO08x::deinit_gpio_outputs()
+{
+    esp_err_t ret = ESP_OK;
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+    {
+        ret = gpio_reset_pin(imu_config.io_wake);
+        if (ret != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Deconstruction failed, could reset gpio WAKE pin to default state.");
+            return ret;
+        }
+    }
+
+    ret = gpio_reset_pin(imu_config.io_cs);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio CS pin to default state.");
+        return ret;
+    }
+
+    ret = gpio_reset_pin(imu_config.io_rst);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio RST pin to default state.");
+        return ret;
+    }
+
+    return ret;
+}
+
+esp_err_t BNO08x::deinit_hint_isr()
+{
+    esp_err_t ret = ESP_OK;
+
+    if (init_status.isr_handler)
+    {
+        ret = gpio_isr_handler_remove(imu_config.io_int);
+        if (ret != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Deconstruction failed, could not remove hint ISR handler.");
+            return ret;
+        }
+    }
+
+    if (init_status.isr_service)
+    {
+        // only remove the ISR service if it was requested to be installed by user
+        if (imu_config.install_isr_service)
+        {
+            gpio_uninstall_isr_service();
+        }
+    }
+
+    return ret;
+}
+
+esp_err_t BNO08x::deinit_spi()
+{
+    esp_err_t ret = ESP_OK;
+
+    if (init_status.spi_device)
+    {
+        ret = spi_bus_remove_device(spi_hdl);
+        if (ret != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Deconstruction failed, could not remove spi device.");
+            return ret;
+        }
+    }
+
+    if (init_status.spi_bus)
+    {
+        ret = spi_bus_free(imu_config.spi_peripheral);
+        if (ret != ESP_OK)
+        {
+            ESP_LOGE(TAG, "Deconstruction failed, could free SPI peripheral.");
+            return ret;
+        }
+    }
 
     return ret;
 }
@@ -446,7 +607,7 @@ bool BNO08x::soft_reset()
  * @return The reason for the most recent recent reset ( 1 = POR (power on reset), 2 = internal reset, 3 = watchdog
  * timer, 4 = external reset 5 = other)
  */
-uint8_t BNO08x::get_reset_reason()
+IMUResetReason BNO08x::get_reset_reason()
 {
     uint32_t reset_reason = 0;
 
@@ -464,7 +625,7 @@ uint8_t BNO08x::get_reset_reason()
             ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
 
-    return reset_reason;
+    return static_cast<IMUResetReason>(reset_reason);
 }
 
 /**
@@ -3002,18 +3163,31 @@ esp_err_t BNO08x::launch_tasks()
     task_created = xTaskCreate(
             &data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7, &data_proc_task_hdl);
 
-    if (task_created == pdTRUE)
-        task_created = xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
-
     if (task_created != pdTRUE)
     {
-        ESP_LOGE(TAG, "Tasks failed to launch.");
+        ESP_LOGE(TAG, "Initialization failed, data_proc_task failed to launch.");
         return ESP_ERR_INVALID_STATE;
     }
     else
     {
-        return ESP_OK;
+        init_status.data_proc_task = true;
+        init_status.task_count++;
     }
+
+    task_created = xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
+
+    if (task_created != pdTRUE)
+    {
+        ESP_LOGE(TAG, "Initialization failed, spi_task failed to launch.");
+        return ESP_ERR_INVALID_STATE;
+    }
+    else
+    {
+        init_status.spi_task = true;
+        init_status.task_count++;
+    }
+
+    return ESP_OK;
 }
 
 esp_err_t BNO08x::kill_all_tasks()
@@ -3024,17 +3198,24 @@ esp_err_t BNO08x::kill_all_tasks()
 
     xEventGroupClearBits(
             evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks
-    xTaskNotifyGive(spi_task_hdl);                           // notify spi task for self deletion
-    xQueueSend(queue_rx_data, &dummy_packet, 0);             // send a dummy packet to wake up data_proc task for self-deletion
 
-    for (uint8_t i = 0; i < TASK_CNT; i++)
-        if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
-            kill_count++;
-
-    if (kill_count != TASK_CNT)
+    if (init_status.task_count != 0)
     {
-        ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
-        return ESP_ERR_TIMEOUT;
+        if (init_status.spi_task)
+            xTaskNotifyGive(spi_task_hdl); // notify spi task for self deletion
+
+        if (init_status.data_proc_task)
+            xQueueSend(queue_rx_data, &dummy_packet, 0); // send a dummy packet to wake up data_proc task for self-deletion
+
+        for (uint8_t i = 0; i < init_status.task_count; i++)
+            if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+                kill_count++;
+
+        if (kill_count != init_status.task_count)
+        {
+            ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+            return ESP_ERR_TIMEOUT;
+        }
     }
 
     return ESP_OK;

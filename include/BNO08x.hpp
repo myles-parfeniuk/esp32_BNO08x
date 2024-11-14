@@ -21,7 +21,7 @@
 #include <functional>
 #include <vector>
 
-//macros
+// macros
 #define CHECK_TASKS_RUNNING(evt_grp_task_flow, running_bit) ((xEventGroupGetBits(evt_grp_task_flow) & (running_bit)) != 0)
 
 /// @brief SHTP protocol channels
@@ -41,6 +41,17 @@ enum class IMUAccuracy
     LOW = 1,
     MED,
     HIGH
+};
+
+/// @brief Reason for previous IMU reset (returned by get_reset_reason())
+enum class IMUResetReason
+{
+    UNDEFINED, ///< Undefined reset reason, this should never occur and is an error.
+    POR,       ///< Previous reset was due to power on reset.
+    INT_RST,   ///< Previous reset was due to internal reset.
+    WTD,       ///< Previous reset was due to watchdog timer.
+    EXT_RST,   ///< Previous reset was due to external reset.
+    OTHER      ///< Previous reset was due to power other reason.
 };
 
 /// @brief IMU configuration settings passed into constructor
@@ -63,14 +74,14 @@ typedef struct bno08x_config_t
         bno08x_config_t(bool install_isr_service = true)
             : spi_peripheral((spi_host_device_t) CONFIG_ESP32_BNO08x_SPI_HOST)
             , io_mosi(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_DI))       // default: 23
-            , io_miso(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_SDA))      // default: 19
-            , io_sclk(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_SCL))      // default: 18
+            , io_miso(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_SDA))      // default: 19
+            , io_sclk(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_SCL))      // default: 18
             , io_cs(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_CS))         // default: 33
             , io_int(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_HINT))      // default: 26
             , io_rst(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_RST))       // default: 32
-            , io_wake(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_WAKE))     // default: -1 (unused)
+            , io_wake(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_WAKE))     // default: -1 (unused)
             , sclk_speed(static_cast<uint32_t>(CONFIG_ESP32_BNO08X_SCL_SPEED_HZ)) // default: 2MHz
-            , install_isr_service(install_isr_service) // default: true
+            , install_isr_service(install_isr_service)                            // default: true
 
         {
         }
@@ -96,12 +107,12 @@ class BNO08x
 {
     public:
         BNO08x(bno08x_config_t imu_config = bno08x_config_t());
-        ~BNO08x(); 
+        ~BNO08x();
         bool initialize();
 
         bool hard_reset();
         bool soft_reset();
-        uint8_t get_reset_reason();
+        IMUResetReason get_reset_reason();
 
         bool mode_sleep();
         bool mode_on();
@@ -255,36 +266,36 @@ class BNO08x
         // Record IDs from figure 29, page 29 reference manual
         // These are used to read the metadata for each sensor type
         static const constexpr uint16_t FRS_RECORD_ID_ACCELEROMETER =
-                0xE302; ///< Accelerometer record ID, to be passed in metadata functions like get_Q1()
+                0xE302U; ///< Accelerometer record ID, to be passed in metadata functions like get_Q1()
         static const constexpr uint16_t FRS_RECORD_ID_GYROSCOPE_CALIBRATED =
-                0xE306; ///< Calirated gyroscope record ID, to be passed in metadata functions like get_Q1()
+                0xE306U; ///< Calirated gyroscope record ID, to be passed in metadata functions like get_Q1()
         static const constexpr uint16_t FRS_RECORD_ID_MAGNETIC_FIELD_CALIBRATED =
-                0xE309; ///< Calibrated magnetometer record ID, to be passed in metadata functions like get_Q1()
+                0xE309U; ///< Calibrated magnetometer record ID, to be passed in metadata functions like get_Q1()
         static const constexpr uint16_t FRS_RECORD_ID_ROTATION_VECTOR =
-                0xE30B; ///< Rotation vector record ID, to be passed in metadata functions like get_Q1()
+                0xE30BU; ///< Rotation vector record ID, to be passed in metadata functions like get_Q1()
 
         // Activity classifier bits
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_UNKNOWN_EN = (1 << 0);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_IN_VEHICLE_EN = (1 << 1);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_BICYCLE_EN = (1 << 2);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_FOOT_EN = (1 << 3);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_STILL_EN = (1 << 4);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_TILTING_EN = (1 << 5);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_WALKING_EN = (1 << 6);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_RUNNING_EN = (1 << 7);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_STAIRS_EN = (1 << 8);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ALL_EN = 0x1F;
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_UNKNOWN_EN = (1U << 0U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_IN_VEHICLE_EN = (1U << 1U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_BICYCLE_EN = (1U << 2U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_FOOT_EN = (1U << 3U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_STILL_EN = (1U << 4U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_TILTING_EN = (1U << 5U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_WALKING_EN = (1U << 6U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_RUNNING_EN = (1U << 7U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_STAIRS_EN = (1U << 8U);
+        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ALL_EN = 0x1FU;
 
-        static const constexpr uint8_t TARE_AXIS_ALL = 0x07; ///< Tare all axes (used with tare now command)
-        static const constexpr uint8_t TARE_AXIS_Z = 0x04;   ///< Tar yaw axis only (used with tare now command)
+        static const constexpr uint8_t TARE_AXIS_ALL = 0x07U; ///< Tare all axes (used with tare now command)
+        static const constexpr uint8_t TARE_AXIS_Z = 0x04U;   ///< Tar yaw axis only (used with tare now command)
 
         // Which rotation vector to tare, BNO08x saves them seperately
-        static const constexpr uint8_t TARE_ROTATION_VECTOR = 0;                      ///<Tare rotation vector
-        static const constexpr uint8_t TARE_GAME_ROTATION_VECTOR = 1;                 ///<Tare game rotation vector
-        static const constexpr uint8_t TARE_GEOMAGNETIC_ROTATION_VECTOR = 2;          ///< tare geomagnetic rotation vector
-        static const constexpr uint8_t TARE_GYRO_INTEGRATED_ROTATION_VECTOR = 3;      ///<Tare gyro integrated rotation vector
-        static const constexpr uint8_t TARE_ARVR_STABILIZED_ROTATION_VECTOR = 4;      ///< Tare ARVR stabilized rotation vector
-        static const constexpr uint8_t TARE_ARVR_STABILIZED_GAME_ROTATION_VECTOR = 5; ///<Tare ARVR stabilized game rotation vector
+        static const constexpr uint8_t TARE_ROTATION_VECTOR = 0U;                      ///<Tare rotation vector
+        static const constexpr uint8_t TARE_GAME_ROTATION_VECTOR = 1U;                 ///<Tare game rotation vector
+        static const constexpr uint8_t TARE_GEOMAGNETIC_ROTATION_VECTOR = 2U;          ///< tare geomagnetic rotation vector
+        static const constexpr uint8_t TARE_GYRO_INTEGRATED_ROTATION_VECTOR = 3U;      ///<Tare gyro integrated rotation vector
+        static const constexpr uint8_t TARE_ARVR_STABILIZED_ROTATION_VECTOR = 4U;      ///< Tare ARVR stabilized rotation vector
+        static const constexpr uint8_t TARE_ARVR_STABILIZED_GAME_ROTATION_VECTOR = 5U; ///<Tare ARVR stabilized game rotation vector
 
         static const constexpr int16_t ROTATION_VECTOR_Q1 = 14;          ///< Rotation vector Q point (See SH-2 Ref. Manual 6.5.18)
         static const constexpr int16_t ROTATION_VECTOR_ACCURACY_Q1 = 12; ///< Rotation vector accuracy estimate Q point (See SH-2 Ref. Manual 6.5.18)
@@ -296,6 +307,7 @@ class BNO08x
         static const constexpr int16_t GRAVITY_Q1 = 8;                   ///< Gravity Q point (See SH-2 Ref. Manual 6.5.11)
 
     private:
+
         /// @brief Holds data that is received over spi.
         typedef struct bno08x_rx_packet_t
         {
@@ -311,10 +323,45 @@ class BNO08x
                 uint16_t length;  ///< Packet length in bytes.
         } bno08x_tx_packet_t;
 
-        esp_err_t initialize_config_args(); 
-        esp_err_t initialize_gpio(); 
-        esp_err_t initialize_hint_isr(); 
-        esp_err_t initialize_spi(); 
+        /// @brief Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).
+        typedef struct bno08x_init_status_t
+        {
+                bool gpio_outputs; ///< True if GPIO outputs have been initialized.
+                bool gpio_inputs;  ///< True if GPIO inputs have been initialized.
+                bool isr_service;  ///< True if global ISR service has been initialized.
+                bool isr_handler; ///< True if HINT ISR handler has been initialized.
+                uint8_t task_count; ///< How many successfully initialized tasks (max of TSK_CNT)
+                bool data_proc_task;  ///< True if xTaskCreate has been called successfully for data_proc_task.
+                bool spi_task;  ///< True if xTaskCreate has been called successfully for spi_task.
+                bool spi_bus;  ///< True if spi_bus_initialize() has been called successfully.
+                bool spi_device; ///< True if spi_bus_add_device() has been called successfully.
+
+                bno08x_init_status_t()
+                    : gpio_outputs(false)
+                    , gpio_inputs(false)
+                    , isr_service(false)
+                    , isr_handler(false)
+                    , task_count(0)
+                    , data_proc_task(false)
+                    , spi_task(false)
+                    , spi_bus(false)
+                    , spi_device(false)
+                {
+                }
+        } bno08x_init_status_t;
+
+        esp_err_t init_config_args();
+        esp_err_t init_gpio();
+        esp_err_t init_gpio_inputs();
+        esp_err_t init_gpio_outputs();
+        esp_err_t init_hint_isr();
+        esp_err_t init_spi();
+
+        esp_err_t deinit_gpio();
+        esp_err_t deinit_gpio_inputs();
+        esp_err_t deinit_gpio_outputs();
+        esp_err_t deinit_hint_isr();
+        esp_err_t deinit_spi();
 
         bool wait_for_rx_done();
         bool wait_for_tx_done();
@@ -348,12 +395,12 @@ class BNO08x
         // data processing task
         TaskHandle_t data_proc_task_hdl; ///<data_proc_task() task handle
         static void data_proc_task_trampoline(void* arg);
-        void data_proc_task(); 
-        
+        void data_proc_task();
+
         // task control
         SemaphoreHandle_t sem_kill_tasks; ///<semaphore to count amount of killed tasks
         esp_err_t launch_tasks();
-        esp_err_t kill_all_tasks(); 
+        esp_err_t kill_all_tasks();
 
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
@@ -374,6 +421,7 @@ class BNO08x
         spi_device_interface_config_t imu_spi_config{}; ///<SPI slave device settings
         spi_device_handle_t spi_hdl{};                  ///<SPI device handle
         spi_transaction_t spi_transaction{};            ///<SPI transaction handle
+        bno08x_init_status_t init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization. 
 
         // These are the raw sensor values (without Q applied) pulled from the user requested Input Report
         uint32_t time_stamp; ///<Report timestamp (see datasheet 1.3.5.3)
@@ -407,49 +455,51 @@ class BNO08x
 
         static void IRAM_ATTR hint_handler(void* arg);
 
-        static const constexpr uint16_t RX_DATA_LENGTH = 300;    ///<length buffer containing data received over spi
-        static const constexpr uint16_t MAX_METADATA_LENGTH = 9; ///<max length of metadata used in frs read operations
+        static const constexpr uint8_t TASK_CNT = 2U; ///<Total amount of tasks utilized by BNO08x driver library
+
+        static const constexpr uint16_t RX_DATA_LENGTH = 300U;    ///<length buffer containing data received over spi
+        static const constexpr uint16_t MAX_METADATA_LENGTH = 9U; ///<max length of metadata used in frs read operations
 
         static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
                 300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
 
-        static const constexpr uint8_t TASK_CNT = 2; ///<total amount of tasks utilized by BNO08x driver library
-        static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; 
+        static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of
 
         // evt_grp_spi bits
         static const constexpr EventBits_t EVT_GRP_SPI_RX_DONE_BIT =
-                (1 << 0); ///<When this bit is set it indicates a receive procedure has completed.
+                (1U << 0U); ///<When this bit is set it indicates a receive procedure has completed.
         static const constexpr EventBits_t EVT_GRP_SPI_RX_VALID_PACKET_BIT =
-                (1 << 1); ///< When this bit is set, it indicates a valid packet has been received and processed.
+                (1U << 1U); ///< When this bit is set, it indicates a valid packet has been received and processed.
         static const constexpr EventBits_t EVT_GRP_SPI_RX_INVALID_PACKET_BIT =
-                (1 << 2);                                                  ///<When this bit is set, it indicates an invalid packet has been received.
+                (1U << 2U); ///<When this bit is set, it indicates an invalid packet has been received.
         static const constexpr EventBits_t EVT_GRP_SPI_TX_DONE_BIT = (1 << 3); ///<When this bit is set, it indicates a queued packet has been sent.
 
         // evt_grp_report_en bits
         static const constexpr EventBits_t EVT_GRP_RPT_ROTATION_VECTOR_BIT = (1 << 0);      ///< When set, rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT = (1 << 1); ///< When set, game rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT =
-                (1 << 2); ///< When set, ARVR stabilized rotation vector reports are active.
+                (1U << 2U); ///< When set, ARVR stabilized rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT =
-                (1 << 3); ///< When set, ARVR stabilized game rotation vector reports are active.
+                (1U << 3U); ///< When set, ARVR stabilized game rotation vector reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_GYRO_ROTATION_VECTOR_BIT =
-                (1 << 4); ///< When set, gyro integrator rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1 << 5);         ///< When set, accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1 << 6);  ///< When set, linear accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1 << 7);               ///< When set, gravity reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_BIT = (1 << 8);                  ///< When set, gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT = (1 << 9);     ///< When set, uncalibrated gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_MAGNETOMETER_BIT = (1 << 10);         ///< When set, magnetometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1 << 11);         ///< When set, tap detector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1 << 12);         ///< When set, step counter reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT = (1 << 13); ///< When set, stability classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1 << 14);  ///< When set, activity classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1 << 15);    ///< When set, raw accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1 << 16);             ///< When set, raw gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1 << 17);     ///< When set, raw magnetometer reports are active.
+                (1U << 4U); ///< When set, gyro integrator rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1U << 5U);         ///< When set, accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1U << 6U);  ///< When set, linear accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1U << 7U);               ///< When set, gravity reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_BIT = (1U << 8U);                  ///< When set, gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT = (1U << 9U);     ///< When set, uncalibrated gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_MAGNETOMETER_BIT = (1U << 10U);         ///< When set, magnetometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1U << 11U);         ///< When set, tap detector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1U << 12U);         ///< When set, step counter reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT = (1U << 13U); ///< When set, stability classifier reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1U << 14U);  ///< When set, activity classifier reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1U << 15U);    ///< When set, raw accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1U << 16U);             ///< When set, raw gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1U << 17U);     ///< When set, raw magnetometer reports are active.
 
         // evt_grp_task_flow bits
-        static const constexpr EventBits_t EVT_GRP_TSK_FLW_RUNNING_BIT= (1 << 0);      ///< When set, data_proc_task and spi_task are active, when 0 they are pending deletion or deleted.
+        static const constexpr EventBits_t EVT_GRP_TSK_FLW_RUNNING_BIT =
+                (1U << 0U); ///< When set, data_proc_task and spi_task are active, when 0 they are pending deletion or deleted.
 
         static const constexpr EventBits_t EVT_GRP_RPT_ALL_BITS =
                 EVT_GRP_RPT_ROTATION_VECTOR_BIT | EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT | EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT |
@@ -459,60 +509,60 @@ class BNO08x
                 EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT | EVT_GRP_RPT_RAW_ACCELEROMETER_BIT | EVT_GRP_RPT_RAW_GYRO_BIT | EVT_GRP_RPT_RAW_MAGNETOMETER_BIT;
 
         // Higher level calibration commands, used by queue_calibrate_command
-        static const constexpr uint8_t CALIBRATE_ACCEL = 0;        ///<Calibrate accelerometer command used by queue_calibrate_command
-        static const constexpr uint8_t CALIBRATE_GYRO = 1;         ///<Calibrate gyro command used by queue_calibrate_command
-        static const constexpr uint8_t CALIBRATE_MAG = 2;          ///<Calibrate magnetometer command used by queue_calibrate_command
-        static const constexpr uint8_t CALIBRATE_PLANAR_ACCEL = 3; ///<Calibrate planar acceleration command used by queue_calibrate_command
+        static const constexpr uint8_t CALIBRATE_ACCEL = 0U;        ///<Calibrate accelerometer command used by queue_calibrate_command
+        static const constexpr uint8_t CALIBRATE_GYRO = 1U;         ///<Calibrate gyro command used by queue_calibrate_command
+        static const constexpr uint8_t CALIBRATE_MAG = 2U;          ///<Calibrate magnetometer command used by queue_calibrate_command
+        static const constexpr uint8_t CALIBRATE_PLANAR_ACCEL = 3U; ///<Calibrate planar acceleration command used by queue_calibrate_command
         static const constexpr uint8_t CALIBRATE_ACCEL_GYRO_MAG =
-                4;                                         ///<Calibrate accelerometer, gyro, & magnetometer command used by queue_calibrate_command
-        static const constexpr uint8_t CALIBRATE_STOP = 5; ///<Stop calibration command used by queue_calibrate_command
+                4U;                                         ///<Calibrate accelerometer, gyro, & magnetometer command used by queue_calibrate_command
+        static const constexpr uint8_t CALIBRATE_STOP = 5U; ///<Stop calibration command used by queue_calibrate_command
 
         // Command IDs (see Ref. Manual 6.4)
-        static const constexpr uint8_t COMMAND_ERRORS = 1;
-        static const constexpr uint8_t COMMAND_COUNTER = 2;
-        static const constexpr uint8_t COMMAND_TARE = 3;            ///<Command and response to tare command (See Sh2 Ref. Manual 6.4.4)
-        static const constexpr uint8_t COMMAND_INITIALIZE = 4;      ///<Reinitialize sensor hub components See (SH2 Ref. Manual 6.4.5)
-        static const constexpr uint8_t COMMAND_DCD = 6;             ///<Save DCD command (See SH2 Ref. Manual 6.4.7)
-        static const constexpr uint8_t COMMAND_ME_CALIBRATE = 7;    ///<Command and response to configure ME calibration (See SH2 Ref. Manual 6.4.7)
-        static const constexpr uint8_t COMMAND_DCD_PERIOD_SAVE = 9; ///<Configure DCD periodic saving (See SH2 Ref. Manual 6.4)
-        static const constexpr uint8_t COMMAND_OSCILLATOR = 10;     ///<Retrieve oscillator type command (See SH2 Ref. Manual 6.4)
-        static const constexpr uint8_t COMMAND_CLEAR_DCD = 11;      ///<Clear DCD & Reset command (See SH2 Ref. Manual 6.4)
+        static const constexpr uint8_t COMMAND_ERRORS = 1U;
+        static const constexpr uint8_t COMMAND_COUNTER = 2U;
+        static const constexpr uint8_t COMMAND_TARE = 3U;            ///<Command and response to tare command (See Sh2 Ref. Manual 6.4.4)
+        static const constexpr uint8_t COMMAND_INITIALIZE = 4U;      ///<Reinitialize sensor hub components See (SH2 Ref. Manual 6.4.5)
+        static const constexpr uint8_t COMMAND_DCD = 6U;             ///<Save DCD command (See SH2 Ref. Manual 6.4.7)
+        static const constexpr uint8_t COMMAND_ME_CALIBRATE = 7U;    ///<Command and response to configure ME calibration (See SH2 Ref. Manual 6.4.7)
+        static const constexpr uint8_t COMMAND_DCD_PERIOD_SAVE = 9U; ///<Configure DCD periodic saving (See SH2 Ref. Manual 6.4)
+        static const constexpr uint8_t COMMAND_OSCILLATOR = 10U;     ///<Retrieve oscillator type command (See SH2 Ref. Manual 6.4)
+        static const constexpr uint8_t COMMAND_CLEAR_DCD = 11U;      ///<Clear DCD & Reset command (See SH2 Ref. Manual 6.4)
 
         // SHTP channel 2 control report IDs, used in communication with sensor (See Ref. Manual 6.2)
-        static const constexpr uint8_t SHTP_REPORT_COMMAND_RESPONSE = 0xF1;    ///< See SH2 Ref. Manual 6.3.9
-        static const constexpr uint8_t SHTP_REPORT_COMMAND_REQUEST = 0xF2;     ///< See SH2 Ref. Manual 6.3.8
-        static const constexpr uint8_t SHTP_REPORT_FRS_READ_RESPONSE = 0xF3;   ///< See SH2 Ref. Manual 6.3.7
-        static const constexpr uint8_t SHTP_REPORT_FRS_READ_REQUEST = 0xF4;    ///< See SH2 Ref. Manual 6.3.6
-        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_RESPONSE = 0xF8; ///< See SH2 Ref. Manual 6.3.2
-        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_REQUEST = 0xF9;  ///< See SH2 Ref. Manual 6.3.1
-        static const constexpr uint8_t SHTP_REPORT_BASE_TIMESTAMP = 0xFB;      ///< See SH2 Ref. Manual 7.2.1
-        static const constexpr uint8_t SHTP_REPORT_SET_FEATURE_COMMAND = 0xFD; ///< See SH2 Ref. Manual 6.5.4
+        static const constexpr uint8_t SHTP_REPORT_COMMAND_RESPONSE = 0xF1U;    ///< See SH2 Ref. Manual 6.3.9
+        static const constexpr uint8_t SHTP_REPORT_COMMAND_REQUEST = 0xF2U;     ///< See SH2 Ref. Manual 6.3.8
+        static const constexpr uint8_t SHTP_REPORT_FRS_READ_RESPONSE = 0xF3U;   ///< See SH2 Ref. Manual 6.3.7
+        static const constexpr uint8_t SHTP_REPORT_FRS_READ_REQUEST = 0xF4U;    ///< See SH2 Ref. Manual 6.3.6
+        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_RESPONSE = 0xF8U; ///< See SH2 Ref. Manual 6.3.2
+        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_REQUEST = 0xF9U;  ///< See SH2 Ref. Manual 6.3.1
+        static const constexpr uint8_t SHTP_REPORT_BASE_TIMESTAMP = 0xFBU;      ///< See SH2 Ref. Manual 7.2.1
+        static const constexpr uint8_t SHTP_REPORT_SET_FEATURE_COMMAND = 0xFDU; ///< See SH2 Ref. Manual 6.5.4
 
         // Sensor report IDs, used when enabling and reading BNO08x reports
-        static const constexpr uint8_t SENSOR_REPORT_ID_ACCELEROMETER = 0x01;                        ///< See SH2 Ref. Manual 6.5.9
-        static const constexpr uint8_t SENSOR_REPORT_ID_GYROSCOPE = 0x02;                            ///< See SH2 Ref. Manual 6.5.13
-        static const constexpr uint8_t SENSOR_REPORT_ID_MAGNETIC_FIELD = 0x03;                       ///< See SH2 Ref. Manual 6.5.16
-        static const constexpr uint8_t SENSOR_REPORT_ID_LINEAR_ACCELERATION = 0x04;                  ///< See SH2 Ref. Manual 6.5.10
-        static const constexpr uint8_t SENSOR_REPORT_ID_ROTATION_VECTOR = 0x05;                      ///< See SH2 Ref. Manual 6.5.18
-        static const constexpr uint8_t SENSOR_REPORT_ID_GRAVITY = 0x06;                              ///< See SH2 Ref. Manual 6.5.11
-        static const constexpr uint8_t SENSOR_REPORT_ID_UNCALIBRATED_GYRO = 0x07;                    ///< See SH2 Ref. Manual 6.5.14
-        static const constexpr uint8_t SENSOR_REPORT_ID_GAME_ROTATION_VECTOR = 0x08;                 ///< See SH2 Ref. Manual 6.5.19
-        static const constexpr uint8_t SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR = 0x09;          ///< See SH2 Ref. Manual 6.5.20
-        static const constexpr uint8_t SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR = 0x2A;      ///< See SH2 Ref. Manual 6.5.44
-        static const constexpr uint8_t SENSOR_REPORT_ID_TAP_DETECTOR = 0x10;                         ///< See SH2 Ref. Manual 6.5.27
-        static const constexpr uint8_t SENSOR_REPORT_ID_STEP_COUNTER = 0x11;                         ///< See SH2 Ref. Manual 6.5.29
-        static const constexpr uint8_t SENSOR_REPORT_ID_STABILITY_CLASSIFIER = 0x13;                 ///< See SH2 Ref. Manual 6.5.31
-        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_ACCELEROMETER = 0x14;                    ///< See SH2 Ref. Manual 6.5.8
-        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_GYROSCOPE = 0x15;                        ///< See SH2 Ref. Manual 6.5.12
-        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_MAGNETOMETER = 0x16;                     ///< See SH2 Ref. Manual 6.5.15
-        static const constexpr uint8_t SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER = 0x1E;         ///< See SH2 Ref. Manual 6.5.36
-        static const constexpr uint8_t SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR = 0x28;      ///< See SH2 Ref. Manual 6.5.42
-        static const constexpr uint8_t SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR = 0x29; ///< See SH2 Ref. Manual 6.5.43
+        static const constexpr uint8_t SENSOR_REPORT_ID_ACCELEROMETER = 0x01U;                        ///< See SH2 Ref. Manual 6.5.9
+        static const constexpr uint8_t SENSOR_REPORT_ID_GYROSCOPE = 0x02U;                            ///< See SH2 Ref. Manual 6.5.13
+        static const constexpr uint8_t SENSOR_REPORT_ID_MAGNETIC_FIELD = 0x03U;                       ///< See SH2 Ref. Manual 6.5.16
+        static const constexpr uint8_t SENSOR_REPORT_ID_LINEAR_ACCELERATION = 0x04U;                  ///< See SH2 Ref. Manual 6.5.10
+        static const constexpr uint8_t SENSOR_REPORT_ID_ROTATION_VECTOR = 0x05U;                      ///< See SH2 Ref. Manual 6.5.18
+        static const constexpr uint8_t SENSOR_REPORT_ID_GRAVITY = 0x06U;                              ///< See SH2 Ref. Manual 6.5.11
+        static const constexpr uint8_t SENSOR_REPORT_ID_UNCALIBRATED_GYRO = 0x07U;                    ///< See SH2 Ref. Manual 6.5.14
+        static const constexpr uint8_t SENSOR_REPORT_ID_GAME_ROTATION_VECTOR = 0x08U;                 ///< See SH2 Ref. Manual 6.5.19
+        static const constexpr uint8_t SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR = 0x09U;          ///< See SH2 Ref. Manual 6.5.20
+        static const constexpr uint8_t SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR = 0x2AU;      ///< See SH2 Ref. Manual 6.5.44
+        static const constexpr uint8_t SENSOR_REPORT_ID_TAP_DETECTOR = 0x10U;                         ///< See SH2 Ref. Manual 6.5.27
+        static const constexpr uint8_t SENSOR_REPORT_ID_STEP_COUNTER = 0x11U;                         ///< See SH2 Ref. Manual 6.5.29
+        static const constexpr uint8_t SENSOR_REPORT_ID_STABILITY_CLASSIFIER = 0x13U;                 ///< See SH2 Ref. Manual 6.5.31
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_ACCELEROMETER = 0x14U;                    ///< See SH2 Ref. Manual 6.5.8
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_GYROSCOPE = 0x15U;                        ///< See SH2 Ref. Manual 6.5.12
+        static const constexpr uint8_t SENSOR_REPORT_ID_RAW_MAGNETOMETER = 0x16U;                     ///< See SH2 Ref. Manual 6.5.15
+        static const constexpr uint8_t SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER = 0x1EU;         ///< See SH2 Ref. Manual 6.5.36
+        static const constexpr uint8_t SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR = 0x28U;      ///< See SH2 Ref. Manual 6.5.42
+        static const constexpr uint8_t SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR = 0x29U; ///< See SH2 Ref. Manual 6.5.43
 
         // Tare commands used by queue_tare_command
-        static const constexpr uint8_t TARE_NOW = 0;               ///< See SH2 Ref. Manual 6.4.4.1
-        static const constexpr uint8_t TARE_PERSIST = 1;           ///< See SH2 Ref. Manual 6.4.4.2
-        static const constexpr uint8_t TARE_SET_REORIENTATION = 2; ///< See SH2 Ref. Manual 6.4.4.3
+        static const constexpr uint8_t TARE_NOW = 0U;               ///< See SH2 Ref. Manual 6.4.4.1
+        static const constexpr uint8_t TARE_PERSIST = 1U;           ///< See SH2 Ref. Manual 6.4.4.2
+        static const constexpr uint8_t TARE_SET_REORIENTATION = 2U; ///< See SH2 Ref. Manual 6.4.4.3
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 };
