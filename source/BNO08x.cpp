@@ -1,7 +1,5 @@
 #include "BNO08x.hpp"
 
-bool BNO08x::isr_service_installed = {false};
-
 /**
  * @brief BNO08x imu constructor.
  *
@@ -12,136 +10,44 @@ bool BNO08x::isr_service_installed = {false};
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : evt_grp_spi(xEventGroupCreate())
+    : spi_task_hdl(NULL)
+    , data_proc_task_hdl(NULL)
+    , evt_grp_spi(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
+    , evt_grp_task_flow(xEventGroupCreate())
     , queue_rx_data(xQueueCreate(1, sizeof(bno08x_rx_packet_t)))
     , queue_tx_data(xQueueCreate(1, sizeof(bno08x_tx_packet_t)))
     , queue_frs_read_data(xQueueCreate(1, RX_DATA_LENGTH * sizeof(uint8_t)))
     , queue_reset_reason(xQueueCreate(1, sizeof(uint32_t)))
     , imu_config(imu_config)
     , calibration_status(1)
-    , kill_tasks(false)
-
 {
-    uint8_t tx_buffer[50] = {0};
 
-    // SPI bus config
-    bus_config.mosi_io_num = imu_config.io_mosi; // assign mosi gpio pin
-    bus_config.miso_io_num = imu_config.io_miso; // assign miso gpio pin
-    bus_config.sclk_io_num = imu_config.io_sclk; // assign sclk gpio pin
-    bus_config.quadhd_io_num = -1;               // hold signal gpio (not used)
-    bus_config.quadwp_io_num = -1;               // write protect signal gpio (not used)
-
-    // SPI slave device specific config
-    imu_spi_config.mode = 0x3; // set mode to 3 as per BNO08x datasheet (CPHA second edge, CPOL bus high when idle)
-
-    if (imu_config.sclk_speed > 3000000UL) // max sclk speed of 3MHz for BNO08x
-    {
-        ESP_LOGE(TAG, "Max clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
-        imu_config.sclk_speed = 3000000UL;
-    }
-
-    imu_spi_config.clock_source = SPI_CLK_SRC_DEFAULT;
-    imu_spi_config.clock_speed_hz = imu_config.sclk_speed; // assign SCLK speed
-    imu_spi_config.address_bits = 0;                       // 0 address bits, not using this system
-    imu_spi_config.command_bits = 0;                       // 0 command bits, not using this system
-    imu_spi_config.spics_io_num = -1;                      // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
-                                                           // driver, it must be handled via calls to gpio pins
-    imu_spi_config.queue_size = 5;                         // only allow for 5 queued transactions at a time
-
-    // SPI non-driver-controlled GPIO config
-    // configure outputs
-    gpio_config_t outputs_config;
-
-    if (imu_config.io_wake != GPIO_NUM_NC)
-        outputs_config.pin_bit_mask =
-                (1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst) | (1ULL << imu_config.io_wake); // configure CS, RST, and wake gpio pins
-    else
-        outputs_config.pin_bit_mask = (1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst);
-
-    outputs_config.mode = GPIO_MODE_OUTPUT;
-    outputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    outputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
-    outputs_config.intr_type = GPIO_INTR_DISABLE;
-    gpio_config(&outputs_config);
-    gpio_set_level(imu_config.io_cs, 1);
-    gpio_set_level(imu_config.io_rst, 1);
-
-    if (imu_config.io_wake != GPIO_NUM_NC)
-        gpio_set_level(imu_config.io_wake, 1);
-
-    // configure input (HINT pin)
-    gpio_config_t inputs_config;
-    inputs_config.pin_bit_mask = (1ULL << imu_config.io_int);
-    inputs_config.mode = GPIO_MODE_INPUT;
-    inputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
-    inputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    inputs_config.intr_type = GPIO_INTR_NEGEDGE;
-    gpio_config(&inputs_config);
-
-    // check if GPIO ISR service has been installed (only has to be done once regardless of SPI slaves being used)
-    if (!isr_service_installed)
-    {
-        gpio_install_isr_service(0); // install isr service
-        isr_service_installed = true;
-    }
-
-    ESP_ERROR_CHECK(gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this));
-    gpio_intr_disable(imu_config.io_int); // disable interrupts initially before reset
-
-    // initialize the spi peripheral
-    spi_bus_initialize(imu_config.spi_peripheral, &bus_config, SPI_DMA_CH_AUTO);
-    // add the imu device to the bus
-    spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
-
-    // do first SPI operation into nowhere before BNO085 reset to let periphiral stabilize (Anton B.)
-    spi_transaction.length = 8;
-    spi_transaction.rxlength = 0;
-    spi_transaction.tx_buffer = tx_buffer;
-    spi_transaction.rx_buffer = NULL;
-    spi_transaction.flags = 0;
-    spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 }
 
-
- BNO08x::~BNO08x()
- {
-    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10; 
-    bno08x_rx_packet_t dummy_packet;
-    uint8_t kill_count = 0; 
-
-    //disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
+BNO08x::~BNO08x()
+{
+    // disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
     gpio_intr_disable(imu_config.io_int);
 
-    //delete tasks
-    kill_tasks = true; 
-    xTaskNotifyGive(spi_task_hdl); //notify spi task for self deletion
-    xQueueSend(queue_rx_data, &dummy_packet, 0); //send a dummy packet to wake up data_proc task for self-deletion
+    // delete tasks if they have been created
+    if (spi_task_hdl != NULL && data_proc_task_hdl != NULL)
+        ESP_ERROR_CHECK(kill_all_tasks());
 
-    for(uint8_t i = 0; i < TASK_CNT; i++)
-        if(xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
-            kill_count++; 
-
-    if(kill_count != TASK_CNT)
-    {
-        ESP_LOGE(TAG, "Task deletion timedout in deconstructor call.");
-        ESP_ERROR_CHECK(ESP_ERR_TIMEOUT);
-    }
-
-    //delete queues
+    // delete queues
     vQueueDelete(queue_rx_data);
     vQueueDelete(queue_tx_data);
     vQueueDelete(queue_frs_read_data);
     vQueueDelete(queue_reset_reason);
 
-    //delete event groups
+    // delete event groups
     vEventGroupDelete(evt_grp_spi);
     vEventGroupDelete(evt_grp_report_en);
+    vEventGroupDelete(evt_grp_task_flow);
 
-    //clear callback list
-    cb_list.clear(); 
-
- }
+    // clear callback list
+    cb_list.clear();
+}
 
 /**
  * @brief Initializes BNO08x sensor
@@ -153,13 +59,27 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
  */
 bool BNO08x::initialize()
 {
-    // launch tasks
-    data_proc_task_hdl = NULL;
-    spi_task_hdl = NULL;
-    xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7,
-            &data_proc_task_hdl);                                                       // launch data processing task
-    xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
+    //initialize configuration arguments
+    if(initialize_config_args() != ESP_OK)
+        return false; 
 
+    //initialize GPIO
+    if(initialize_gpio() != ESP_OK)
+        return false; 
+
+    // intialize HINT ISR
+    if (initialize_hint_isr() != ESP_OK)
+        return false;
+
+    // initialize SPI
+    if (initialize_spi() != ESP_OK)
+        return false;
+
+    // launch tasks
+    if (launch_tasks() != ESP_OK)
+        return false;
+
+    // reset BNO08x
     if (!hard_reset())
         return false;
 
@@ -170,6 +90,173 @@ bool BNO08x::initialize()
     }
 
     return false;
+}
+
+esp_err_t BNO08x::initialize_config_args()
+{
+    if((imu_config.io_cs == GPIO_NUM_NC)) 
+    {
+        ESP_LOGE(TAG, "CS GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG; 
+    }
+
+    if((imu_config.io_miso == GPIO_NUM_NC)) 
+    {
+        ESP_LOGE(TAG, "MISO GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG; 
+    }
+
+    if((imu_config.io_mosi == GPIO_NUM_NC)) 
+    {
+        ESP_LOGE(TAG, "MOSI GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG; 
+    }
+
+    if((imu_config.io_sclk == GPIO_NUM_NC)) 
+    {
+        ESP_LOGE(TAG, "SCLK GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG; 
+    }
+
+    if((imu_config.io_rst == GPIO_NUM_NC)) 
+    {
+        ESP_LOGE(TAG, "RST GPIO cannot be unassigned.");
+        return ESP_ERR_INVALID_ARG; 
+    }
+
+    // SPI bus config
+    bus_config.mosi_io_num = imu_config.io_mosi; // assign mosi gpio pin
+    bus_config.miso_io_num = imu_config.io_miso; // assign miso gpio pin
+    bus_config.sclk_io_num = imu_config.io_sclk; // assign sclk gpio pin
+    bus_config.quadhd_io_num = -1;               // hold signal gpio (not used)
+    bus_config.quadwp_io_num = -1;               // write protect signal gpio (not used)
+
+    // SPI slave device specific config
+    imu_spi_config.mode = 0x3; // set mode to 3 as per BNO08x datasheet (CPHA second edge, CPOL bus high when idle)
+
+    if (imu_config.sclk_speed > SCLK_MAX_SPEED) // max sclk speed of 3MHz for BNO08x
+    {
+        ESP_LOGE(TAG, "Max SPI clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
+        imu_config.sclk_speed = SCLK_MAX_SPEED;
+    }
+
+    imu_spi_config.clock_source = SPI_CLK_SRC_DEFAULT;
+    imu_spi_config.clock_speed_hz = imu_config.sclk_speed; // assign SCLK speed
+    imu_spi_config.address_bits = 0;                       // 0 address bits, not using this system
+    imu_spi_config.command_bits = 0;                       // 0 command bits, not using this system
+    imu_spi_config.spics_io_num = -1;                      // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
+                                                           // driver, it must be handled via calls to gpio pins
+    imu_spi_config.queue_size = static_cast<int>(CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ);                         // set max allowable queued SPI transactions
+
+    return ESP_OK; 
+}
+
+esp_err_t BNO08x::initialize_gpio()
+{
+    esp_err_t ret = ESP_OK;
+
+    /*GPIO config for pins not controlled by SPI peripheral*/
+
+    // configure output(s) (CS, RST, and WAKE)
+    gpio_config_t outputs_config;
+
+    outputs_config.pin_bit_mask = (imu_config.io_wake != GPIO_NUM_NC)
+                                          ? ((1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst) | (1ULL << imu_config.io_wake))
+                                          : ((1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst));
+
+    outputs_config.mode = GPIO_MODE_OUTPUT;
+    outputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    outputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
+    outputs_config.intr_type = GPIO_INTR_DISABLE;
+
+    ret = gpio_config(&outputs_config);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Failed to configure CS, RST, and WAKE (if used) gpio.");
+        return ret;
+    }
+
+    //configure input(s) (HINT)
+    gpio_config_t inputs_config;
+    inputs_config.pin_bit_mask = (1ULL << imu_config.io_int);
+    inputs_config.mode = GPIO_MODE_INPUT;
+    inputs_config.pull_up_en = GPIO_PULLUP_DISABLE;
+    inputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    inputs_config.intr_type = GPIO_INTR_NEGEDGE;
+
+    ret = gpio_config(&inputs_config);
+
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Failed to configure HINT gpio.");
+        return ret;
+    }
+
+    gpio_set_level(imu_config.io_cs, 1);
+    gpio_set_level(imu_config.io_rst, 1);
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+        gpio_set_level(imu_config.io_wake, 1);
+
+    return ret;
+}
+
+esp_err_t BNO08x::initialize_hint_isr()
+{
+    esp_err_t ret = ESP_OK;
+
+    // check if installation of ISR service has been requested by user (default is true)
+    if (imu_config.install_isr_service)
+        ret = gpio_install_isr_service(0); // install isr service
+
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Failed to install global ISR service.");
+        return ret;
+    }
+
+    ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Add hint_handler ISR.");
+        return ret;
+    }
+
+    gpio_intr_disable(imu_config.io_int); // disable interrupts initially before reset
+
+    return ret;
+}
+
+esp_err_t BNO08x::initialize_spi()
+{
+    esp_err_t ret = ESP_OK;
+    uint8_t tx_buffer[50] = {0}; // for dummy transaction to stabilize SPI peripheral
+
+    // initialize the spi peripheral
+    ret = spi_bus_initialize(imu_config.spi_peripheral, &bus_config, SPI_DMA_CH_AUTO);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "SPI bus failed to initialize.");
+        return ret;
+    }
+
+    // add the imu device to the bus
+    ret = spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Failed to add device to SPI bus.");
+        return ret;
+    }
+
+    // do first SPI operation into nowhere before BNO085 reset to let periphiral stabilize (Anton B.)
+    spi_transaction.length = 8;
+    spi_transaction.rxlength = 0;
+    spi_transaction.tx_buffer = tx_buffer;
+    spi_transaction.rx_buffer = NULL;
+    spi_transaction.flags = 0;
+    spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
+
+    return ret;
 }
 
 /**
@@ -192,9 +279,9 @@ bool BNO08x::wait_for_rx_done()
     // wait until an interrupt has been asserted and data received or timeout has occured
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "int asserted");
-        #endif
+#endif
 
         success = true;
     }
@@ -226,15 +313,15 @@ bool BNO08x::wait_for_data()
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
         // wait until processing is done, this should never go to timeout; however, it will be set slightly after EVT_GRP_SPI_RX_DONE_BIT
-        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET | EVT_GRP_SPI_RX_INVALID_PACKET, pdFALSE, pdFALSE,
+        if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT, pdFALSE, pdFALSE,
                     HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
         {
             // only return true if packet is valid
-            if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET)
+            if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET_BIT)
             {
-                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
                 ESP_LOGI(TAG, "Valid packet received.");
-                #endif
+#endif
 
                 success = true;
             }
@@ -249,7 +336,7 @@ bool BNO08x::wait_for_data()
         ESP_LOGE(TAG, "Interrupt to host device never asserted.");
     }
 
-    xEventGroupClearBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET | EVT_GRP_SPI_RX_INVALID_PACKET);
+    xEventGroupClearBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT);
     return success;
 }
 
@@ -266,11 +353,11 @@ bool BNO08x::wait_for_tx_done()
     if (xEventGroupGetBits(evt_grp_report_en) == 0)
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS / portTICK_PERIOD_MS))
     {
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "Packet sent successfully.");
-        #endif 
+#endif
 
         return true;
     }
@@ -455,9 +542,9 @@ bool BNO08x::receive_packet()
     packet.length = (((uint16_t) packet.header[1]) << 8) | ((uint16_t) packet.header[0]);
     packet.length &= ~(1 << 15); // Clear the MSbit
 
-    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
     ESP_LOGW(TAG, "packet rx length: %d", packet.length);
-    #endif 
+#endif
 
     if (packet.length == 0)
         return false;
@@ -534,7 +621,7 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
 
 /**
  * @brief Queues an SHTP packet to be sent via SPI.
- * 
+ *
  * @param SHTP channel number
  * @param data_length data length in bytes
  * @param commands array containing data to be sent
@@ -584,7 +671,7 @@ void BNO08x::send_packet(bno08x_tx_packet_t* packet)
 
     gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
 
-    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE);
+    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
 }
 
 /**
@@ -918,9 +1005,9 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  */
 uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 {
-    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
     ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
-    #endif 
+#endif
 
     if (packet->body[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
     {
@@ -935,26 +1022,26 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
     // Check to see if this packet is a sensor reporting its data to us
     if (packet->header[2] == CHANNEL_REPORTS && packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
     {
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "RX'd packet, channel report");
-        #endif 
+#endif
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
     }
     else if (packet->header[2] == CHANNEL_CONTROL)
     {
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "RX'd packet, channel control");
-        #endif
+#endif
 
         return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
     }
     else if (packet->header[2] == CHANNEL_GYRO)
     {
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "Rx packet, channel gyro");
-        #endif
+#endif
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
@@ -2809,10 +2896,10 @@ void BNO08x::spi_task_trampoline(void* arg)
  */
 void BNO08x::spi_task()
 {
-    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
     static uint64_t prev_time = esp_timer_get_time();
     static uint64_t current_time = 0;
-    #endif
+#endif
 
     bno08x_tx_packet_t tx_packet;
 
@@ -2824,23 +2911,29 @@ void BNO08x::spi_task()
             gpio_intr_enable(imu_config.io_int);
 
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR (hint_handler)
-        
-        if(kill_tasks)
-            break; 
 
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        current_time = esp_timer_get_time();
-        ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
-        prev_time = current_time; 
-        #endif 
+        if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
+        {
 
-        if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
-            send_packet(&tx_packet);                     // send packet
+#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+            current_time = esp_timer_get_time();
+            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
+            prev_time = current_time;
+#endif
+
+            if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
+                send_packet(&tx_packet);                     // send packet
+            else
+                receive_packet(); // receive packet
+        }
         else
-            receive_packet(); // receive packet
+        {
+            // exit loop, deconstructor has requested task be deleted
+            break;
+        }
     }
 
-    xSemaphoreGive(sem_kill_tasks); //signal to deconstructor deletion is completed
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -2867,28 +2960,84 @@ void BNO08x::data_proc_task()
 {
     bno08x_rx_packet_t packet;
 
-    while (1)
+    while (1) // receive packet from spi_task()
     {
-        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) // receive packet from spi_task()
+        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY) == pdTRUE)
         {
-            if(kill_tasks)
-                break;
-                
-            if (parse_packet(&packet) != 0) // check if packet is valid
+            if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
             {
-                // execute any registered callbacks
-                for (auto& cb_fxn : cb_list)
-                    cb_fxn();
+                if (parse_packet(&packet) != 0) // check if packet is valid
+                {
+                    // execute any registered callbacks
+                    for (auto& cb_fxn : cb_list)
+                        cb_fxn();
 
-                xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET); // indicate valid packet to wait_for_data()
+                    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT); // indicate valid packet to wait_for_data()
+                }
+                else
+                {
+                    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET_BIT); // indicated invalid packet to wait_for_data()
+                }
             }
             else
-                xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET); // indicated invalid packet to wait_for_data()
+            {
+                // exit loop, deconstructor has requested task be deleted
+                break;
+            }
         }
     }
 
-    xSemaphoreGive(sem_kill_tasks); //signal to deconstructor deletion is completed
+    // self delete task
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor task deletion is completed
     vTaskDelete(NULL);
+}
+
+esp_err_t BNO08x::launch_tasks()
+{
+    BaseType_t task_created = pdFALSE;
+
+    xEventGroupSetBits(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // set task flow to running
+
+    // launch data processing task
+    task_created = xTaskCreate(
+            &data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7, &data_proc_task_hdl);
+
+    if (task_created == pdTRUE)
+        task_created = xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
+
+    if (task_created != pdTRUE)
+    {
+        ESP_LOGE(TAG, "Tasks failed to launch.");
+        return ESP_ERR_INVALID_STATE;
+    }
+    else
+    {
+        return ESP_OK;
+    }
+}
+
+esp_err_t BNO08x::kill_all_tasks()
+{
+    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10;
+    uint8_t kill_count = 0;
+    bno08x_rx_packet_t dummy_packet;
+
+    xEventGroupClearBits(
+            evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks
+    xTaskNotifyGive(spi_task_hdl);                           // notify spi task for self deletion
+    xQueueSend(queue_rx_data, &dummy_packet, 0);             // send a dummy packet to wake up data_proc task for self-deletion
+
+    for (uint8_t i = 0; i < TASK_CNT; i++)
+        if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+            kill_count++;
+
+    if (kill_count != TASK_CNT)
+    {
+        ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+        return ESP_ERR_TIMEOUT;
+    }
+
+    return ESP_OK;
 }
 
 /**

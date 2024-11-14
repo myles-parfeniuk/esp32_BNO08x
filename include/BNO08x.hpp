@@ -21,6 +21,9 @@
 #include <functional>
 #include <vector>
 
+//macros
+#define CHECK_TASKS_RUNNING(evt_grp_task_flow, running_bit) ((xEventGroupGetBits(evt_grp_task_flow) & (running_bit)) != 0)
+
 /// @brief SHTP protocol channels
 enum channels_t
 {
@@ -52,27 +55,29 @@ typedef struct bno08x_config_t
         gpio_num_t io_rst;                /// Reset pin (connects to BNO08x RST pin)
         gpio_num_t io_wake;               ///<Wake pin (optional, connects to BNO08x P0)
         uint32_t sclk_speed;              ///<Desired SPI SCLK speed in Hz (max 3MHz)
+        bool install_isr_service; ///<Indicates whether the ISR service for the HINT should be installed at IMU initialization, (if gpio_install_isr_service() is called before initialize() set this to false)
 
         /// @brief Default IMU configuration settings constructor.
         /// To modify default GPIO pins, run "idf.py menuconfig" esp32_BNO08x->GPIO Configuration.
         /// Alternatively, edit the default values in "Kconfig.projbuild"
-        bno08x_config_t()
+        bno08x_config_t(bool install_isr_service = true)
             : spi_peripheral((spi_host_device_t) CONFIG_ESP32_BNO08x_SPI_HOST)
-            , io_mosi((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_DI)       // default: 23
-            , io_miso((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SDA)      // default: 19
-            , io_sclk((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_SCL)      // default: 18
-            , io_cs((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_CS)         // default: 33
-            , io_int((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_HINT)      // default: 26
-            , io_rst((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_RST)       // default: 32
-            , io_wake((gpio_num_t) CONFIG_ESP32_BNO08X_GPIO_WAKE)     // default: -1 (unused)
-            , sclk_speed((uint32_t) CONFIG_ESP32_BNO08X_SCL_SPEED_HZ) // default: 2MHz
+            , io_mosi(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_DI))       // default: 23
+            , io_miso(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_SDA))      // default: 19
+            , io_sclk(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_SCL))      // default: 18
+            , io_cs(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_CS))         // default: 33
+            , io_int(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_HINT))      // default: 26
+            , io_rst(static_cast<gpio_num_t>(CONFIG_ESP32_BNO08X_GPIO_RST))       // default: 32
+            , io_wake(static_cast<gpio_num_t>( CONFIG_ESP32_BNO08X_GPIO_WAKE))     // default: -1 (unused)
+            , sclk_speed(static_cast<uint32_t>(CONFIG_ESP32_BNO08X_SCL_SPEED_HZ)) // default: 2MHz
+            , install_isr_service(install_isr_service) // default: true
 
         {
         }
 
         /// @brief Overloaded IMU configuration settings constructor for custom pin settings
         bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso, gpio_num_t io_sclk, gpio_num_t io_cs,
-                gpio_num_t io_int, gpio_num_t io_rst, gpio_num_t io_wake, uint32_t sclk_speed)
+                gpio_num_t io_int, gpio_num_t io_rst, gpio_num_t io_wake, uint32_t sclk_speed, bool install_isr_service = true)
             : spi_peripheral(spi_peripheral)
             , io_mosi(io_mosi)
             , io_miso(io_miso)
@@ -82,6 +87,7 @@ typedef struct bno08x_config_t
             , io_rst(io_rst)
             , io_wake(io_wake)
             , sclk_speed(sclk_speed)
+            , install_isr_service(install_isr_service)
         {
         }
 } bno08x_config_t;
@@ -305,6 +311,11 @@ class BNO08x
                 uint16_t length;  ///< Packet length in bytes.
         } bno08x_tx_packet_t;
 
+        esp_err_t initialize_config_args(); 
+        esp_err_t initialize_gpio(); 
+        esp_err_t initialize_hint_isr(); 
+        esp_err_t initialize_spi(); 
+
         bool wait_for_rx_done();
         bool wait_for_tx_done();
         bool wait_for_data();
@@ -329,9 +340,25 @@ class BNO08x
         void print_header(bno08x_rx_packet_t* packet);
         void print_packet(bno08x_rx_packet_t* packet);
 
+        // spi task
+        TaskHandle_t spi_task_hdl; ///<spi_task() handle
+        static void spi_task_trampoline(void* arg);
+        void spi_task();
+
+        // data processing task
+        TaskHandle_t data_proc_task_hdl; ///<data_proc_task() task handle
+        static void data_proc_task_trampoline(void* arg);
+        void data_proc_task(); 
+        
+        // task control
+        SemaphoreHandle_t sem_kill_tasks; ///<semaphore to count amount of killed tasks
+        esp_err_t launch_tasks();
+        esp_err_t kill_all_tasks(); 
+
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
         EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
+        EventGroupHandle_t evt_grp_task_flow; ///<Event group for indicating when tasks should complete and self-delete (on deconstructor call)
 
         QueueHandle_t queue_rx_data;       ///<Packet queue used to send data received from bno08x from spi_task to data_proc_task.
         QueueHandle_t queue_tx_data;       ///<Packet queue used to send data to be sent over SPI from sending functions to spi_task.
@@ -378,22 +405,7 @@ class BNO08x
         uint16_t mems_raw_magf_X, mems_raw_magf_Y,
                 mems_raw_magf_Z; ///<Raw magnetometer (compass) readings from MEMS sensor (See SH-2 Ref. Manual 6.5.15)
 
-        // spi task
-        TaskHandle_t spi_task_hdl; ///<spi_task() handle
-        static void spi_task_trampoline(void* arg);
-        void spi_task();
-
-        // data processing task
-        TaskHandle_t data_proc_task_hdl; ///<data_proc_task() task handle
-        static void data_proc_task_trampoline(void* arg);
-        void data_proc_task();
-
-        bool kill_tasks; ///<indicates to spi_task and data_proc task that deconstructor wants them to self-delete
-        SemaphoreHandle_t sem_kill_tasks; 
-
         static void IRAM_ATTR hint_handler(void* arg);
-        static bool
-                isr_service_installed; ///<true of the isr service has been installed, only has to be done once regardless of how many devices are used
 
         static const constexpr uint16_t RX_DATA_LENGTH = 300;    ///<length buffer containing data received over spi
         static const constexpr uint16_t MAX_METADATA_LENGTH = 9; ///<max length of metadata used in frs read operations
@@ -401,16 +413,17 @@ class BNO08x
         static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
                 300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
 
-        static const constexpr uint8_t TASK_CNT = 2; 
+        static const constexpr uint8_t TASK_CNT = 2; ///<total amount of tasks utilized by BNO08x driver library
+        static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; 
 
         // evt_grp_spi bits
         static const constexpr EventBits_t EVT_GRP_SPI_RX_DONE_BIT =
                 (1 << 0); ///<When this bit is set it indicates a receive procedure has completed.
-        static const constexpr EventBits_t EVT_GRP_SPI_RX_VALID_PACKET =
+        static const constexpr EventBits_t EVT_GRP_SPI_RX_VALID_PACKET_BIT =
                 (1 << 1); ///< When this bit is set, it indicates a valid packet has been received and processed.
-        static const constexpr EventBits_t EVT_GRP_SPI_RX_INVALID_PACKET =
+        static const constexpr EventBits_t EVT_GRP_SPI_RX_INVALID_PACKET_BIT =
                 (1 << 2);                                                  ///<When this bit is set, it indicates an invalid packet has been received.
-        static const constexpr EventBits_t EVT_GRP_SPI_TX_DONE = (1 << 3); ///<When this bit is set, it indicates a queued packet has been sent.
+        static const constexpr EventBits_t EVT_GRP_SPI_TX_DONE_BIT = (1 << 3); ///<When this bit is set, it indicates a queued packet has been sent.
 
         // evt_grp_report_en bits
         static const constexpr EventBits_t EVT_GRP_RPT_ROTATION_VECTOR_BIT = (1 << 0);      ///< When set, rotation vector reports are active.
@@ -434,6 +447,9 @@ class BNO08x
         static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1 << 15);    ///< When set, raw accelerometer reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1 << 16);             ///< When set, raw gyro reports are active.
         static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1 << 17);     ///< When set, raw magnetometer reports are active.
+
+        // evt_grp_task_flow bits
+        static const constexpr EventBits_t EVT_GRP_TSK_FLW_RUNNING_BIT= (1 << 0);      ///< When set, data_proc_task and spi_task are active, when 0 they are pending deletion or deleted.
 
         static const constexpr EventBits_t EVT_GRP_RPT_ALL_BITS =
                 EVT_GRP_RPT_ROTATION_VECTOR_BIT | EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT | EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT |
