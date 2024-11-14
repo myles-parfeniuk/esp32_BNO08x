@@ -1,7 +1,6 @@
 #include "BNO08x.hpp"
 
 bool BNO08x::isr_service_installed = {false};
-bno08x_config_t BNO08x::default_imu_config;
 
 /**
  * @brief BNO08x imu constructor.
@@ -21,6 +20,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , queue_reset_reason(xQueueCreate(1, sizeof(uint32_t)))
     , imu_config(imu_config)
     , calibration_status(1)
+    , kill_tasks(false)
 
 {
     uint8_t tx_buffer[50] = {0};
@@ -102,6 +102,46 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     spi_transaction.flags = 0;
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
 }
+
+
+ BNO08x::~BNO08x()
+ {
+    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10; 
+    bno08x_rx_packet_t dummy_packet;
+    uint8_t kill_count = 0; 
+
+    //disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
+    gpio_intr_disable(imu_config.io_int);
+
+    //delete tasks
+    kill_tasks = true; 
+    xTaskNotifyGive(spi_task_hdl); //notify spi task for self deletion
+    xQueueSend(queue_rx_data, &dummy_packet, 0); //send a dummy packet to wake up data_proc task for self-deletion
+
+    for(uint8_t i = 0; i < TASK_CNT; i++)
+        if(xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+            kill_count++; 
+
+    if(kill_count != TASK_CNT)
+    {
+        ESP_LOGE(TAG, "Task deletion timedout in deconstructor call.");
+        ESP_ERROR_CHECK(ESP_ERR_TIMEOUT);
+    }
+
+    //delete queues
+    vQueueDelete(queue_rx_data);
+    vQueueDelete(queue_tx_data);
+    vQueueDelete(queue_frs_read_data);
+    vQueueDelete(queue_reset_reason);
+
+    //delete event groups
+    vEventGroupDelete(evt_grp_spi);
+    vEventGroupDelete(evt_grp_report_en);
+
+    //clear callback list
+    cb_list.clear(); 
+
+ }
 
 /**
  * @brief Initializes BNO08x sensor
@@ -2784,6 +2824,9 @@ void BNO08x::spi_task()
             gpio_intr_enable(imu_config.io_int);
 
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR (hint_handler)
+        
+        if(kill_tasks)
+            break; 
 
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         current_time = esp_timer_get_time();
@@ -2796,6 +2839,9 @@ void BNO08x::spi_task()
         else
             receive_packet(); // receive packet
     }
+
+    xSemaphoreGive(sem_kill_tasks); //signal to deconstructor deletion is completed
+    vTaskDelete(NULL);
 }
 
 /**
@@ -2825,6 +2871,9 @@ void BNO08x::data_proc_task()
     {
         if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY)) // receive packet from spi_task()
         {
+            if(kill_tasks)
+                break;
+                
             if (parse_packet(&packet) != 0) // check if packet is valid
             {
                 // execute any registered callbacks
@@ -2837,6 +2886,9 @@ void BNO08x::data_proc_task()
                 xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET); // indicated invalid packet to wait_for_data()
         }
     }
+
+    xSemaphoreGive(sem_kill_tasks); //signal to deconstructor deletion is completed
+    vTaskDelete(NULL);
 }
 
 /**

@@ -10,6 +10,7 @@
 #include <freertos/task.h>
 #include <freertos/event_groups.h>
 #include <freertos/queue.h>
+#include <freertos/semphr.h>
 #include <rom/ets_sys.h>
 
 // standard library includes
@@ -88,7 +89,8 @@ typedef struct bno08x_config_t
 class BNO08x
 {
     public:
-        BNO08x(bno08x_config_t imu_config = default_imu_config);
+        BNO08x(bno08x_config_t imu_config = bno08x_config_t());
+        ~BNO08x(); 
         bool initialize();
 
         bool hard_reset();
@@ -327,8 +329,6 @@ class BNO08x
         void print_header(bno08x_rx_packet_t* packet);
         void print_packet(bno08x_rx_packet_t* packet);
 
-        static bno08x_config_t default_imu_config; ///< default imu config settings
-
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
         EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
@@ -388,6 +388,9 @@ class BNO08x
         static void data_proc_task_trampoline(void* arg);
         void data_proc_task();
 
+        bool kill_tasks; ///<indicates to spi_task and data_proc task that deconstructor wants them to self-delete
+        SemaphoreHandle_t sem_kill_tasks; 
+
         static void IRAM_ATTR hint_handler(void* arg);
         static bool
                 isr_service_installed; ///<true of the isr service has been installed, only has to be done once regardless of how many devices are used
@@ -397,6 +400,8 @@ class BNO08x
 
         static const constexpr uint64_t HOST_INT_TIMEOUT_MS =
                 300ULL; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+
+        static const constexpr uint8_t TASK_CNT = 2; 
 
         // evt_grp_spi bits
         static const constexpr EventBits_t EVT_GRP_SPI_RX_DONE_BIT =
