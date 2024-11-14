@@ -14,12 +14,12 @@ class BNO08xTestHelper
     public:
         static void print_test_start_banner(const char* TEST_TAG)
         {
-            printf("------------------------BEGIN TEST: %s------------------------\n\r", TEST_TAG);
+            printf("------------------------ BEGIN TEST: %s ------------------------\n\r", TEST_TAG);
         }
 
         static void print_test_end_banner(const char* TEST_TAG)
         {
-            printf("------------------------END TEST: %s------------------------\n\r", TEST_TAG);
+            printf("------------------------ END TEST: %s ------------------------\n\r", TEST_TAG);
         }
 
         static void print_test_msg(const char* TEST_TAG, const char* msg)
