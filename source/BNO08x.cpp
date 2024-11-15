@@ -132,6 +132,8 @@ esp_err_t BNO08x::init_config_args()
         return ESP_ERR_INVALID_ARG;
     }
 
+    reset_all_data(); // reset data members that are returned by public getter APIs (for ex. get_roll_deg())
+
     // SPI bus config
     bus_config.mosi_io_num = imu_config.io_mosi; // assign mosi gpio pin
     bus_config.miso_io_num = imu_config.io_miso; // assign miso gpio pin
@@ -872,7 +874,7 @@ void BNO08x::queue_request_product_id_command()
 void BNO08x::calibrate_all()
 {
     queue_calibrate_command(CALIBRATE_ACCEL_GYRO_MAG);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -884,7 +886,7 @@ void BNO08x::calibrate_all()
 void BNO08x::calibrate_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_ACCEL);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -896,7 +898,7 @@ void BNO08x::calibrate_accelerometer()
 void BNO08x::calibrate_gyro()
 {
     queue_calibrate_command(CALIBRATE_GYRO);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -908,7 +910,7 @@ void BNO08x::calibrate_gyro()
 void BNO08x::calibrate_magnetometer()
 {
     queue_calibrate_command(CALIBRATE_MAG);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -920,7 +922,7 @@ void BNO08x::calibrate_magnetometer()
 void BNO08x::calibrate_planar_accelerometer()
 {
     queue_calibrate_command(CALIBRATE_PLANAR_ACCEL);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -985,7 +987,7 @@ void BNO08x::request_calibration_status()
 
     // Using this commands packet, send a command
     queue_command(COMMAND_ME_CALIBRATE, commands);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -1011,7 +1013,7 @@ void BNO08x::end_calibration()
 {
     queue_calibrate_command(CALIBRATE_STOP); // Disables all calibrations
     wait_for_tx_done();                      // wait for transmit operation to complete
-    vTaskDelay(CMD_EXECUTION_DELAY_MS);     // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS);      // allow some time for command to be executed
 }
 
 /**
@@ -1026,7 +1028,7 @@ void BNO08x::save_calibration()
     // Using this shtpData packet, send a command
     queue_command(COMMAND_DCD, commands); // Save DCD command
     wait_for_tx_done();                   // wait for transmit operation to complete
-    vTaskDelay(CMD_EXECUTION_DELAY_MS);  // allow some time for command to be executed
+    vTaskDelay(CMD_EXECUTION_DELAY_MS);   // allow some time for command to be executed
 }
 
 /**
@@ -1043,13 +1045,13 @@ bool BNO08x::run_full_calibration_routine()
     float magf_x = 0;
     float magf_y = 0;
     float magf_z = 0;
-    uint8_t magnetometer_accuracy = (uint8_t) IMUAccuracy::LOW;
+    uint8_t magnetometer_accuracy = static_cast<uint8_t>(IMUAccuracy::LOW);
 
     float quat_I = 0;
     float quat_J = 0;
     float quat_K = 0;
     float quat_real = 0;
-    uint8_t quat_accuracy = (uint8_t) IMUAccuracy::LOW;
+    uint8_t quat_accuracy = static_cast<uint8_t>(IMUAccuracy::LOW);
 
     uint16_t high_accuracy = 0;
     uint16_t save_calibration_attempt = 0;
@@ -1084,7 +1086,7 @@ bool BNO08x::run_full_calibration_routine()
 
             vTaskDelay(5 / portTICK_PERIOD_MS);
 
-            if ((magnetometer_accuracy >= (uint8_t) IMUAccuracy::MED) && (quat_accuracy == (uint8_t) IMUAccuracy::HIGH))
+            if ((magnetometer_accuracy >= static_cast<uint8_t>(IMUAccuracy::MED)) && (quat_accuracy == static_cast<uint8_t>(IMUAccuracy::HIGH)))
                 high_accuracy++;
             else
                 high_accuracy = 0;
@@ -1130,15 +1132,17 @@ bool BNO08x::run_full_calibration_routine()
 /**
  * @brief Checks if BNO08x has asserted interrupt and sent data.
  *
+ * @param ignore_no_reports_enabled Forces a wait for data even if no reports are enabled (default is false), used for unit tests.
  * @return true if new data has been parsed and saved
  */
-bool BNO08x::data_available()
+bool BNO08x::data_available(bool ignore_no_reports_enabled)
 {
-    if (xEventGroupGetBits(evt_grp_report_en) == 0)
-    {
-        ESP_LOGE(TAG, "No reports enabled.");
-        return false;
-    }
+    if (!ignore_no_reports_enabled)
+        if (xEventGroupGetBits(evt_grp_report_en) == 0)
+        {
+            ESP_LOGE(TAG, "No reports enabled.");
+            return false;
+        }
 
     return wait_for_data();
 }
@@ -1869,7 +1873,7 @@ void BNO08x::disable_raw_magnetometer()
 void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 {
     queue_tare_command(TARE_NOW, axis_sel, rotation_vector_basis);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -1881,7 +1885,7 @@ void BNO08x::tare_now(uint8_t axis_sel, uint8_t rotation_vector_basis)
 void BNO08x::save_tare()
 {
     queue_tare_command(TARE_PERSIST);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -1893,7 +1897,7 @@ void BNO08x::save_tare()
 void BNO08x::clear_tare()
 {
     queue_tare_command(TARE_SET_REORIENTATION);
-    wait_for_tx_done();                  // wait for transmit operation to complete
+    wait_for_tx_done();                 // wait for transmit operation to complete
     vTaskDelay(CMD_EXECUTION_DELAY_MS); // allow some time for command to be executed
 }
 
@@ -1916,11 +1920,82 @@ float BNO08x::q_to_float(int16_t fixed_point_value, uint8_t q_point)
 /**
  * @brief Return timestamp of most recent report.
  *
- * @return void, nothing to return
+ * @return uint32_t containing the timestamp of the most recent report in microseconds.
  */
 uint32_t BNO08x::get_time_stamp()
 {
     return time_stamp;
+}
+
+/**
+ * @brief Resets all data returned by public getter APIs to initial values of 0 and low accuracy.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::reset_all_data()
+{
+    time_stamp = 0UL;
+
+    raw_accel_X = 0U;
+    raw_accel_Y = 0U;
+    raw_accel_Z = 0U;
+    accel_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_lin_accel_X = 0U;
+    raw_lin_accel_Y = 0U;
+    raw_lin_accel_Z = 0U;
+    accel_lin_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_gyro_X = 0U;
+    raw_gyro_Y = 0U;
+    raw_gyro_Z = 0U;
+    gyro_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_quat_I = 0U;
+    raw_quat_J = 0U;
+    raw_quat_K = 0U;
+    raw_quat_real = 1U;
+    raw_quat_radian_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    quat_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_velocity_gyro_X = 0U;
+    raw_velocity_gyro_Y = 0U;
+    raw_velocity_gyro_Z = 0U;
+
+    gravity_X = 0U;
+    gravity_Y = 0U;
+    gravity_Z = 0U;
+    gravity_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_uncalib_gyro_X = 0U;
+    raw_uncalib_gyro_Y = 0U;
+    raw_uncalib_gyro_Z = 0U;
+    raw_bias_X = 0U;
+    raw_bias_Y = 0U;
+    raw_bias_Z = 0U;
+    uncalib_gyro_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    raw_magf_X = 0U;
+    raw_magf_Y = 0U;
+    raw_magf_Z = 0U;
+    magf_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+
+    tap_detector = 0U;
+    step_count = 0U;
+    stability_classifier = 0U;
+    activity_classifier = 0U;
+
+    mems_raw_accel_X = 0U;
+    mems_raw_accel_Y = 0U;
+    mems_raw_accel_Z = 0U;
+
+    mems_raw_gyro_X = 0U;
+    mems_raw_gyro_Y = 0U;
+    mems_raw_gyro_Z = 0U;
+
+    mems_raw_magf_X = 0U;
+    mems_raw_magf_Y = 0U;
+    mems_raw_magf_Z = 0U;
 }
 
 /**
@@ -2219,6 +2294,16 @@ float BNO08x::get_quat_real()
 {
     float quat = q_to_float(raw_quat_real, ROTATION_VECTOR_Q1);
     return quat;
+}
+
+/**
+ * @brief Get the raw radian accuracy of reported quaternion before it is converted to float.
+ *
+ * @return The raw radian accuracy of reported quaternion.
+ */
+uint8_t BNO08x::get_raw_quat_radian_accuracy()
+{
+    return raw_quat_radian_accuracy;
 }
 
 /**
@@ -3193,7 +3278,7 @@ esp_err_t BNO08x::kill_all_tasks()
     bno08x_rx_packet_t dummy_packet;
     sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_count, 0);
 
-    memset(&dummy_packet, 0, sizeof(dummy_packet));
+    memset(&dummy_packet, 0, sizeof(bno08x_rx_packet_t));
 
     xEventGroupClearBits(
             evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks

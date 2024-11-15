@@ -40,7 +40,8 @@ enum class IMUAccuracy
 {
     LOW = 1,
     MED,
-    HIGH
+    HIGH,
+    UNDEFINED
 };
 
 /// @brief Reason for previous IMU reset (returned by get_reset_reason())
@@ -171,8 +172,10 @@ class BNO08x
         void save_tare();
         void clear_tare();
 
-        bool data_available();
+        bool data_available(bool ignore_no_reports_enabled = false);
         void register_cb(std::function<void()> cb_fxn);
+
+        void reset_all_data();
 
         uint32_t get_time_stamp();
 
@@ -201,6 +204,7 @@ class BNO08x
         float get_quat_J();
         float get_quat_K();
         float get_quat_real();
+        uint8_t get_raw_quat_radian_accuracy();
         float get_quat_radian_accuracy();
         uint8_t get_quat_accuracy();
 
@@ -469,9 +473,12 @@ class BNO08x
                 200UL /
                 portTICK_PERIOD_MS; ///<How long RST pin is held low during hard reset (min 10ns according to datasheet, but should be longer for stable operation)
 
-        static const constexpr TickType_t CMD_EXECUTION_DELAY_MS = 10UL / portTICK_PERIOD_MS; ///<How long to delay after queueing command to allow it to execute (for ex. after sending command to enable report).
+        static const constexpr TickType_t CMD_EXECUTION_DELAY_MS =
+                10UL /
+                portTICK_PERIOD_MS; ///<How long to delay after queueing command to allow it to execute (for ex. after sending command to enable report).
 
-        static const constexpr TickType_t FLUSH_PKT_DELAY_MS = 20UL / portTICK_PERIOD_MS; ///<How long to delay between wait_for_rx_done() calls when flush_rx_packets() is called.
+        static const constexpr TickType_t FLUSH_PKT_DELAY_MS =
+                20UL / portTICK_PERIOD_MS; ///<How long to delay between wait_for_rx_done() calls when flush_rx_packets() is called.
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of
 
@@ -576,5 +583,5 @@ class BNO08x
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 
-        friend class BNO08xTestHelper; //allow test helper to access private members for unit tests
+        friend class BNO08xTestHelper; // allow test helper to access private members for unit tests
 };

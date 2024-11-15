@@ -94,9 +94,9 @@ TEST_CASE("Finish Init", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Full Init & Deinit", "[FullInitDenit]")
+TEST_CASE("Init & Deinit", "[InitDenit]")
 {
-    const constexpr char* TEST_TAG = "Full Init & Deinit";
+    const constexpr char* TEST_TAG = "Init & Deinit";
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);

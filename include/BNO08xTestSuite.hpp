@@ -18,7 +18,7 @@ class BNO08xTestSuite
             printf("####################### BEGIN TESTS: %s #######################\n\r", test_set_name);
         }
 
-        static void print_end_tests_banner(const char *test_set_name)
+        static void print_end_tests_banner(const char* test_set_name)
         {
             printf("####################### END TESTS: %s #######################\n\r", test_set_name);
         }
@@ -27,6 +27,7 @@ class BNO08xTestSuite
         static void run_all_tests()
         {
             run_init_deinit_tests();
+            run_report_tests();
         }
 
         static void run_init_deinit_tests()
@@ -35,9 +36,20 @@ class BNO08xTestSuite
 
             UNITY_BEGIN();
             unity_run_tests_by_tag("[Init]", false);
-            unity_run_tests_by_tag("[FullInitDenit]", false);
+            unity_run_tests_by_tag("[InitDenit]", false);
             UNITY_END();
 
             print_end_tests_banner("init_denit_tests");
+        }
+
+        static void run_report_tests()
+        {
+            print_begin_tests_banner("report_tests");
+
+            UNITY_BEGIN();
+            unity_run_tests_by_tag("[ReportEnableDisable]", false);
+            UNITY_END();
+
+            print_end_tests_banner("report_tests");
         }
 };
