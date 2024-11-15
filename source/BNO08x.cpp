@@ -1,4 +1,5 @@
 #include "BNO08x.hpp"
+#include "BNO08x_macros.hpp"
 
 /**
  * @brief BNO08x imu constructor.
@@ -690,8 +691,8 @@ bool BNO08x::receive_packet()
     spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive first 4 bytes (packet header)
 
     // calculate length of packet from received header
-    packet.length = (((uint16_t) packet.header[1]) << 8) | ((uint16_t) packet.header[0]);
-    packet.length &= ~(1 << 15); // Clear the MSbit
+    packet.length = PARSE_PACKET_LENGTH(packet);
+    packet.length &= ~(1U << 15U); // Clear the MSbit
 
 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
     ESP_LOGW(TAG, "packet rx length: %d", packet.length);
@@ -1190,7 +1191,8 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
     }
-    else if (packet->header[2] == CHANNEL_CONTROL)
+
+    if (packet->header[2] == CHANNEL_CONTROL)
     {
 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "RX'd packet, channel control");
@@ -1198,7 +1200,8 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 
         return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
     }
-    else if (packet->header[2] == CHANNEL_GYRO)
+
+    if (packet->header[2] == CHANNEL_GYRO)
     {
 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGI(TAG, "Rx packet, channel gyro");
@@ -1219,12 +1222,13 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
  */
 uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 {
-    uint32_t reset_reason = (uint32_t) packet->body[1];
-    uint32_t sw_part_number = ((uint32_t) packet->body[7] << 24) | ((uint32_t) packet->body[6] << 16) | ((uint32_t) packet->body[5] << 8) |
-                              ((uint32_t) packet->body[4]);
-    uint32_t sw_build_number = ((uint32_t) packet->body[11] << 24) | ((uint32_t) packet->body[10] << 16) | ((uint32_t) packet->body[9] << 8) |
-                               ((uint32_t) packet->body[8]);
-    uint16_t sw_version_patch = ((uint16_t) packet->body[13] << 8) | ((uint16_t) packet->body[12]);
+    uint32_t product_id = PARSE_PRODUCT_ID_REPORT_PRODUCT_ID(packet);
+    uint32_t reset_reason = PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet);
+    uint32_t sw_part_number = PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet);
+    uint32_t sw_version_major = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MAJOR(packet);
+    uint32_t sw_version_minor = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet);
+    uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
+    uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
 
     // print product ID info packet
     ESP_LOGI(TAG,
@@ -1237,8 +1241,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
             "                SW Build Number:  0x%" PRIx32 "\n\r"
             "                SW Version Patch: 0x%" PRIx32 "\n\r"
             "                ---------------------------\n\r",
-            (uint32_t) packet->body[0], (uint32_t) packet->body[2], (uint32_t) packet->body[3], sw_part_number, sw_build_number,
-            (uint32_t) sw_version_patch);
+            product_id, sw_version_major, sw_version_minor, sw_part_number, sw_build_number, sw_version_patch);
 
     xQueueSend(queue_reset_reason, &reset_reason, 0);
 
@@ -1246,7 +1249,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 }
 
 /**
- * @brief Sends packet to be parsed to meta data function call (frs_read_word()) through queue.
+ * @brief Sends packet to be parsed to meta data function call (FRS_read_data()) through queue.
  *
  * @param packet The packet containing the frs read report.
  * @return 1, always valid, parsing for this happens in frs_read_word()
@@ -1283,48 +1286,48 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
     uint8_t command = 0;
 
     // Calculate the number of data bytes in this packet
-    uint16_t data_length = ((uint16_t) packet->header[1] << 8 | packet->header[0]);
-    data_length &= ~(1 << 15); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
+    uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
+    data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
+
     // Ignore it for now. TODO catch this as an error and exit
 
     data_length -= 4; // Remove the header bytes from the data count
-    time_stamp = ((uint32_t) packet->body[4] << (8 * 3)) | ((uint32_t) packet->body[3] << (8 * 2)) | ((uint32_t) packet->body[2] << (8 * 1)) |
-                 ((uint32_t) packet->body[1] << (8 * 0));
+    time_stamp = PARSE_PACKET_TIMESTAMP(packet);
 
     // The gyro-integrated input reports are sent via the special gyro channel and do no include the usual ID, sequence,
     // and status fields
     if (packet->header[2] == CHANNEL_GYRO)
     {
-        raw_quat_I = (uint16_t) packet->body[1] << 8 | packet->body[0];
-        raw_quat_J = (uint16_t) packet->body[3] << 8 | packet->body[2];
-        raw_quat_K = (uint16_t) packet->body[5] << 8 | packet->body[4];
-        raw_quat_real = (uint16_t) packet->body[7] << 8 | packet->body[6];
-        raw_velocity_gyro_X = (uint16_t) packet->body[9] << 8 | packet->body[8];
-        raw_velocity_gyro_Y = (uint16_t) packet->body[11] << 8 | packet->body[10];
-        raw_velocity_gyro_Z = (uint16_t) packet->body[13] << 8 | packet->body[12];
+        raw_quat_I = PARSE_INPUT_REPORT_RAW_QUAT_I(packet);
+        raw_quat_J = PARSE_INPUT_REPORT_RAW_QUAT_J(packet);
+        raw_quat_K = PARSE_INPUT_REPORT_RAW_QUAT_K(packet);
+        raw_quat_real = PARSE_INPUT_REPORT_RAW_QUAT_REAL(packet);
+        raw_velocity_gyro_X = PARSE_INPUT_REPORT_RAW_GYRO_VEL_X(packet);
+        raw_velocity_gyro_Y = PARSE_INPUT_REPORT_RAW_GYRO_VEL_Y(packet);
+        raw_velocity_gyro_Z = PARSE_INPUT_REPORT_RAW_GYRO_VEL_Z(packet);
 
         return SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR;
     }
 
-    status = packet->body[5 + 2] & 0x03; // Get status bits
-    uint16_t data1 = (uint16_t) packet->body[5 + 5] << 8 | packet->body[5 + 4];
-    uint16_t data2 = (uint16_t) packet->body[5 + 7] << 8 | packet->body[5 + 6];
-    uint16_t data3 = (uint16_t) packet->body[5 + 9] << 8 | packet->body[5 + 8];
+    status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
+    uint16_t data1 = PARSE_INPUT_REPORT_DATA_1(packet);
+    uint16_t data2 = PARSE_INPUT_REPORT_DATA_2(packet);
+    uint16_t data3 = PARSE_INPUT_REPORT_DATA_3(packet);
     uint16_t data4 = 0;
     uint16_t data5 = 0;
     uint16_t data6 = 0;
 
     if (data_length - 5 > 9)
     {
-        data4 = (uint16_t) packet->body[5 + 11] << 8 | packet->body[5 + 10];
+        data4 = PARSE_INPUT_REPORT_DATA_4(packet);
     }
     if (data_length - 5 > 11)
     {
-        data5 = (uint16_t) packet->body[5 + 13] << 8 | packet->body[5 + 12];
+        data5 = PARSE_INPUT_REPORT_DATA_5(packet);
     }
     if (data_length - 5 > 13)
     {
-        data6 = (uint16_t) packet->body[5 + 15] << 8 | packet->body[5 + 14];
+        data6 = PARSE_INPUT_REPORT_DATA_6(packet);
     }
 
     // Store these generic values to their proper global variable
@@ -2870,7 +2873,7 @@ void BNO08x::print_packet(bno08x_rx_packet_t* packet)
 int16_t BNO08x::get_Q1(uint16_t record_ID)
 {
     // Q1 is lower 16 bits of word 7
-    return (uint16_t) (FRS_read_word(record_ID, 7) & 0xFFFF);
+    return static_cast<uint16_t>((FRS_read_word(record_ID, 7) & 0xFFFFUL));
 }
 
 /**
@@ -2885,7 +2888,7 @@ int16_t BNO08x::get_Q1(uint16_t record_ID)
 int16_t BNO08x::get_Q2(uint16_t record_ID)
 {
     // Q2 is upper 16 bits of word 7
-    return (uint16_t) (FRS_read_word(record_ID, 7) >> 16U);
+    return static_cast<uint16_t>((FRS_read_word(record_ID, 7) >> 16U));
 }
 
 /**
@@ -2900,7 +2903,7 @@ int16_t BNO08x::get_Q2(uint16_t record_ID)
 int16_t BNO08x::get_Q3(uint16_t record_ID)
 {
     // Q3 is upper 16 bits of word 8
-    return (uint16_t) (FRS_read_word(record_ID, 8) >> 16U);
+    return static_cast<uint16_t>((FRS_read_word(record_ID, 8) >> 16U));
 }
 
 /**
@@ -3006,8 +3009,8 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
     uint8_t packet_body[RX_DATA_LENGTH];
     uint8_t data_length;
     uint8_t frs_status;
-    uint32_t data_0;
     uint32_t data_1;
+    uint32_t data_2;
     uint8_t spot = 0;
 
     if (FRS_read_request(record_ID, start_location, words_to_read))
@@ -3028,7 +3031,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
 
                 if (xQueueReceive(queue_frs_read_data, &packet_body, HOST_INT_TIMEOUT_MS))
                 {
-                    if ((((uint16_t) packet_body[13] << 8) | (uint16_t) packet_body[12]) == record_ID)
+                    if (PARSE_FRS_READ_RESPONSE_REPORT_RECORD_ID(packet_body) == record_ID)
                         break;
                 }
             }
@@ -3036,14 +3039,14 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
             data_length = packet_body[1] >> 4;
             frs_status = packet_body[1] & 0x0F;
 
-            data_0 = (uint32_t) packet_body[7] << 24 | (uint32_t) packet_body[6] << 16 | (uint32_t) packet_body[5] << 8 | (uint32_t) packet_body[4];
-            data_1 = (uint32_t) packet_body[11] << 24 | (uint32_t) packet_body[10] << 16 | (uint32_t) packet_body[9] << 8 | (uint32_t) packet_body[8];
+            data_1 = PARSE_FRS_READ_RESPONSE_REPORT_DATA_1(packet_body);
+            data_2 = PARSE_FRS_READ_RESPONSE_REPORT_DATA_2(packet_body);
 
             if (data_length > 0)
-                meta_data[spot++] = data_0;
+                meta_data[spot++] = data_1;
 
             if (data_length > 1)
-                meta_data[spot++] = data_1;
+                meta_data[spot++] = data_2;
 
             if (spot >= MAX_METADATA_LENGTH)
                 return true;

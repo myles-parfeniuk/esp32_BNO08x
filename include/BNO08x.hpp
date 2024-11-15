@@ -1,4 +1,12 @@
 #pragma once
+// standard library includes
+#include <inttypes.h>
+#include <math.h>
+#include <stdio.h>
+#include <cstring>
+#include <functional>
+#include <vector>
+
 // esp-idf includes
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
@@ -12,17 +20,6 @@
 #include <freertos/queue.h>
 #include <freertos/semphr.h>
 #include <rom/ets_sys.h>
-
-// standard library includes
-#include <inttypes.h>
-#include <math.h>
-#include <stdio.h>
-#include <cstring>
-#include <functional>
-#include <vector>
-
-// macros
-#define CHECK_TASKS_RUNNING(evt_grp_task_flow, running_bit) ((xEventGroupGetBits(evt_grp_task_flow) & (running_bit)) != 0)
 
 /// @brief SHTP protocol channels
 enum channels_t
