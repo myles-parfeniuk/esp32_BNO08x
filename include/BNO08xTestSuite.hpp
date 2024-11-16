@@ -26,29 +26,39 @@ class BNO08xTestSuite
     public:
         static void run_all_tests()
         {
-            run_init_deinit_tests();
-            run_report_tests();
+            UNITY_BEGIN();
+            run_init_deinit_tests(false);
+            run_report_tests(false);
+            UNITY_END();
         }
 
-        static void run_init_deinit_tests()
+        static void run_init_deinit_tests(bool call_unity_end_begin = true)
         {
             print_begin_tests_banner("init_denit_tests");
 
-            UNITY_BEGIN();
+            if (call_unity_end_begin)
+                UNITY_BEGIN();
+
             unity_run_tests_by_tag("[InitComprehensive]", false);
             unity_run_tests_by_tag("[InitDenit]", false);
-            UNITY_END();
+
+            if (call_unity_end_begin)
+                UNITY_END();
 
             print_end_tests_banner("init_denit_tests");
         }
 
-        static void run_report_tests()
+        static void run_report_tests(bool call_unity_end_begin = true)
         {
             print_begin_tests_banner("report_tests");
 
-            UNITY_BEGIN();
+            if (call_unity_end_begin)
+                UNITY_BEGIN();
+
             unity_run_tests_by_tag("[SingleReportEnableDisable]", false);
-            UNITY_END();
+
+            if (call_unity_end_begin)
+                UNITY_END();
 
             print_end_tests_banner("report_tests");
         }

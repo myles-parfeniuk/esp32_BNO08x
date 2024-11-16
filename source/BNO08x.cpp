@@ -133,7 +133,7 @@ esp_err_t BNO08x::init_config_args()
         return ESP_ERR_INVALID_ARG;
     }
 
-    reset_all_data(); // reset data members that are returned by public getter APIs (for ex. get_roll_deg())
+    reset_all_data_to_defaults(); // reset data members that are returned by public getter APIs (for ex. get_roll_deg())
 
     // SPI bus config
     bus_config.mosi_io_num = imu_config.io_mosi; // assign mosi gpio pin
@@ -2376,7 +2376,7 @@ uint32_t BNO08x::get_time_stamp()
  *
  * @return void, nothing to return
  */
-void BNO08x::reset_all_data()
+void BNO08x::reset_all_data_to_defaults()
 {
     time_stamp = 0UL;
 

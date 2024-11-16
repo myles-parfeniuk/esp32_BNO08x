@@ -92,7 +92,7 @@ class BNO08x
         bool data_available(bool ignore_no_reports_enabled = false);
         void register_cb(std::function<void()> cb_fxn);
 
-        void reset_all_data();
+        void reset_all_data_to_defaults();
 
         uint32_t get_time_stamp();
 
