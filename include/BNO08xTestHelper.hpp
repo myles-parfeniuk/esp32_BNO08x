@@ -20,7 +20,7 @@ class BNO08xTestHelper
                 float quat_J;
                 float quat_K;
                 float quat_real;
-                IMUAccuracy raw_quat_radian_accuracy;
+                float quat_radian_accuracy;
                 IMUAccuracy quat_accuracy;
 
                 float gyro_vel_x;
@@ -135,7 +135,7 @@ class BNO08xTestHelper
             if (report_data->quat_accuracy != IMUAccuracy::UNDEFINED)
                 new_data = true;
 
-            if (report_data->raw_quat_radian_accuracy != IMUAccuracy::UNDEFINED)
+            if (report_data->quat_radian_accuracy != 0.0f)
                 new_data = true;
 
             return new_data;
@@ -190,18 +190,10 @@ class BNO08xTestHelper
 
         static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
         {
-            uint8_t accel_accuracy = 0;
 
-            report_data->quat_I = imu->get_quat_I();
-            report_data->quat_J = imu->get_quat_J();
-            report_data->quat_K = imu->get_quat_K();
-            report_data->quat_real = imu->get_quat_real();
-            report_data->raw_quat_radian_accuracy = static_cast<IMUAccuracy>(imu->get_raw_quat_radian_accuracy());
-            report_data->quat_accuracy = static_cast<IMUAccuracy>(imu->get_quat_accuracy());
-
+            imu->get_quat(report_data->quat_I, report_data->quat_J, report_data->quat_K, report_data->quat_real, report_data->quat_radian_accuracy,
+                    report_data->quat_accuracy);
             imu->get_gyro_velocity(report_data->gyro_vel_x, report_data->gyro_vel_y, report_data->gyro_vel_z);
-
-            imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, accel_accuracy);
-            report_data->accel_accuracy = static_cast<IMUAccuracy>(accel_accuracy);
+            imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, report_data->accel_accuracy);
         }
 };

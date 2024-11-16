@@ -96,17 +96,17 @@ class BNO08x
 
         uint32_t get_time_stamp();
 
-        void get_magf(float& x, float& y, float& z, uint8_t& accuracy);
+        void get_magf(float& x, float& y, float& z, IMUAccuracy& accuracy);
         float get_magf_X();
         float get_magf_Y();
         float get_magf_Z();
-        uint8_t get_magf_accuracy();
+        IMUAccuracy get_magf_accuracy();
 
-        void get_gravity(float& x, float& y, float& z, uint8_t& accuracy);
+        void get_gravity(float& x, float& y, float& z, IMUAccuracy& accuracy);
         float get_gravity_X();
         float get_gravity_Y();
         float get_gravity_Z();
-        uint8_t get_gravity_accuracy();
+        IMUAccuracy get_gravity_accuracy();
 
         float get_roll();
         float get_pitch();
@@ -116,26 +116,25 @@ class BNO08x
         float get_pitch_deg();
         float get_yaw_deg();
 
-        void get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, uint8_t& accuracy);
+        void get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, IMUAccuracy& accuracy);
         float get_quat_I();
         float get_quat_J();
         float get_quat_K();
         float get_quat_real();
-        uint8_t get_raw_quat_radian_accuracy();
         float get_quat_radian_accuracy();
-        uint8_t get_quat_accuracy();
+        IMUAccuracy get_quat_accuracy();
 
-        void get_accel(float& x, float& y, float& z, uint8_t& accuracy);
+        void get_accel(float& x, float& y, float& z, IMUAccuracy& accuracy);
         float get_accel_X();
         float get_accel_Y();
         float get_accel_Z();
-        uint8_t get_accel_accuracy();
+        IMUAccuracy get_accel_accuracy();
 
-        void get_linear_accel(float& x, float& y, float& z, uint8_t& accuracy);
+        void get_linear_accel(float& x, float& y, float& z, IMUAccuracy& accuracy);
         float get_linear_accel_X();
         float get_linear_accel_Y();
         float get_linear_accel_Z();
-        uint8_t get_linear_accel_accuracy();
+        IMUAccuracy get_linear_accel_accuracy();
 
         int16_t get_raw_accel_X();
         int16_t get_raw_accel_Y();
@@ -149,20 +148,20 @@ class BNO08x
         int16_t get_raw_magf_Y();
         int16_t get_raw_magf_Z();
 
-        void get_gyro_calibrated_velocity(float& x, float& y, float& z, uint8_t& accuracy);
+        void get_gyro_calibrated_velocity(float& x, float& y, float& z, IMUAccuracy& accuracy);
         float get_gyro_calibrated_velocity_X();
         float get_gyro_calibrated_velocity_Y();
         float get_gyro_calibrated_velocity_Z();
-        uint8_t get_gyro_accuracy();
+        IMUAccuracy get_gyro_accuracy();
 
-        void get_uncalibrated_gyro(float& x, float& y, float& z, float& bx, float& by, float& bz, uint8_t& accuracy);
+        void get_uncalibrated_gyro(float& x, float& y, float& z, float& bx, float& by, float& bz, IMUAccuracy& accuracy);
         float get_uncalibrated_gyro_X();
         float get_uncalibrated_gyro_Y();
         float get_uncalibrated_gyro_Z();
         float get_uncalibrated_gyro_bias_X();
         float get_uncalibrated_gyro_bias_Y();
         float get_uncalibrated_gyro_bias_Z();
-        uint8_t get_uncalibrated_gyro_accuracy();
+        IMUAccuracy get_uncalibrated_gyro_accuracy();
 
         void get_gyro_velocity(float& x, float& y, float& z);
         float get_gyro_velocity_X();
@@ -311,7 +310,7 @@ class BNO08x
         void queue_tare_command(uint8_t command, uint8_t axis = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void queue_request_product_id_command();
 
-        //functions to parse packets received from bno08x
+        // functions to parse packets received from bno08x
         uint16_t parse_packet(bno08x_rx_packet_t* packet, bool& notify_users);
         uint16_t parse_product_id_report(bno08x_rx_packet_t* packet);
         uint16_t parse_frs_read_response_report(bno08x_rx_packet_t* packet);
@@ -321,7 +320,7 @@ class BNO08x
         uint16_t parse_gyro_report(bno08x_rx_packet_t* packet);
         uint16_t parse_command_report(bno08x_rx_packet_t* packet);
 
-        //functions to update data returned to user
+        // functions to update data returned to user
         void update_accelerometer_data(uint16_t* data, uint8_t status);
         void update_lin_accelerometer_data(uint16_t* data, uint8_t status);
         void update_gyro_data(uint16_t* data, uint8_t status);
