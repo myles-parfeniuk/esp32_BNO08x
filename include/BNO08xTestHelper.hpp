@@ -21,7 +21,7 @@ class BNO08xTestHelper
                 float quat_K;
                 float quat_real;
                 float quat_radian_accuracy;
-                IMUAccuracy quat_accuracy;
+                BNO08xAccuracy quat_accuracy;
 
                 float gyro_vel_x;
                 float gyro_vel_y;
@@ -30,7 +30,7 @@ class BNO08xTestHelper
                 float accel_x;
                 float accel_y;
                 float accel_z;
-                IMUAccuracy accel_accuracy;
+                BNO08xAccuracy accel_accuracy;
 
         } imu_report_data_t;
 
@@ -132,7 +132,7 @@ class BNO08xTestHelper
             if (report_data->quat_real != 1.0f)
                 new_data = true;
 
-            if (report_data->quat_accuracy != IMUAccuracy::UNDEFINED)
+            if (report_data->quat_accuracy != BNO08xAccuracy::UNDEFINED)
                 new_data = true;
 
             if (report_data->quat_radian_accuracy != 0.0f)
@@ -182,7 +182,7 @@ class BNO08xTestHelper
             if (report_data->accel_z != 0.0f)
                 new_data = true;
 
-            if (report_data->accel_accuracy != IMUAccuracy::UNDEFINED)
+            if (report_data->accel_accuracy != BNO08xAccuracy::UNDEFINED)
                 new_data = true;
 
             return new_data;

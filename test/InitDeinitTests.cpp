@@ -86,7 +86,7 @@ TEST_CASE("Finish Init", "[InitComprehensive]")
     TEST_ASSERT_EQUAL(true, imu->hard_reset());
 
     // check if reason is valid
-    TEST_ASSERT_NOT_EQUAL(IMUResetReason::UNDEFINED, imu->get_reset_reason());
+    TEST_ASSERT_NOT_EQUAL(BNO08xResetReason::UNDEFINED, imu->get_reset_reason());
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying test IMU.");
     BNO08xTestHelper::destroy_test_imu();

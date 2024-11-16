@@ -91,7 +91,7 @@ bool BNO08x::initialize()
     if (!hard_reset())
         return false;
 
-    if (get_reset_reason() == IMUResetReason::UNDEFINED)
+    if (get_reset_reason() == BNO08xResetReason::UNDEFINED)
     {
         ESP_LOGE(TAG, "Initialization failed, undefined reset reason returned after reset.");
         return false;
@@ -613,7 +613,7 @@ bool BNO08x::soft_reset()
  * @return The reason for the most recent recent reset ( 1 = POR (power on reset), 2 = internal reset, 3 = watchdog
  * timer, 4 = external reset 5 = other)
  */
-IMUResetReason BNO08x::get_reset_reason()
+BNO08xResetReason BNO08x::get_reset_reason()
 {
     uint32_t reset_reason = 0;
 
@@ -631,7 +631,7 @@ IMUResetReason BNO08x::get_reset_reason()
             ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
 
-    return static_cast<IMUResetReason>(reset_reason);
+    return static_cast<BNO08xResetReason>(reset_reason);
 }
 
 /**
@@ -1116,13 +1116,13 @@ bool BNO08x::run_full_calibration_routine()
     float magf_x = 0;
     float magf_y = 0;
     float magf_z = 0;
-    IMUAccuracy magnetometer_accuracy = IMUAccuracy::LOW;
+    BNO08xAccuracy magnetometer_accuracy = BNO08xAccuracy::LOW;
 
     float quat_I = 0;
     float quat_J = 0;
     float quat_K = 0;
     float quat_real = 0;
-    IMUAccuracy quat_accuracy = IMUAccuracy::LOW;
+    BNO08xAccuracy quat_accuracy = BNO08xAccuracy::LOW;
 
     uint16_t high_accuracy = 0;
     uint16_t save_calibration_attempt = 0;
@@ -1157,7 +1157,7 @@ bool BNO08x::run_full_calibration_routine()
 
             vTaskDelay(5 / portTICK_PERIOD_MS);
 
-            if ((magnetometer_accuracy >= IMUAccuracy::MED) && (quat_accuracy == IMUAccuracy::HIGH))
+            if ((magnetometer_accuracy >= BNO08xAccuracy::MED) && (quat_accuracy == BNO08xAccuracy::HIGH))
                 high_accuracy++;
             else
                 high_accuracy = 0;
@@ -2385,25 +2385,25 @@ void BNO08x::reset_all_data()
     raw_accel_X = 0U;
     raw_accel_Y = 0U;
     raw_accel_Z = 0U;
-    accel_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    accel_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_lin_accel_X = 0U;
     raw_lin_accel_Y = 0U;
     raw_lin_accel_Z = 0U;
-    accel_lin_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    accel_lin_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_gyro_X = 0U;
     raw_gyro_Y = 0U;
     raw_gyro_Z = 0U;
-    gyro_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     // reset quaternion to nan
     raw_quat_I = 0U;
     raw_quat_J = 0U;
     raw_quat_K = 0U;
     raw_quat_real = 0U;
-    raw_quat_radian_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
-    quat_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    raw_quat_radian_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+    quat_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_velocity_gyro_X = 0U;
     raw_velocity_gyro_Y = 0U;
@@ -2412,7 +2412,7 @@ void BNO08x::reset_all_data()
     gravity_X = 0U;
     gravity_Y = 0U;
     gravity_Z = 0U;
-    gravity_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    gravity_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_uncalib_gyro_X = 0U;
     raw_uncalib_gyro_Y = 0U;
@@ -2420,12 +2420,12 @@ void BNO08x::reset_all_data()
     raw_bias_X = 0U;
     raw_bias_Y = 0U;
     raw_bias_Z = 0U;
-    uncalib_gyro_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    uncalib_gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_magf_X = 0U;
     raw_magf_Y = 0U;
     raw_magf_Z = 0U;
-    magf_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
+    magf_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     tap_detector = 0U;
     step_count = 0U;
@@ -2455,12 +2455,12 @@ void BNO08x::reset_all_data()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_magf(float& x, float& y, float& z, IMUAccuracy& accuracy)
+void BNO08x::get_magf(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_magf_X, MAGNETOMETER_Q1);
     y = q_to_float(raw_magf_Y, MAGNETOMETER_Q1);
     z = q_to_float(raw_magf_Z, MAGNETOMETER_Q1);
-    accuracy = static_cast<IMUAccuracy>(magf_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(magf_accuracy);
 }
 
 /**
@@ -2501,9 +2501,9 @@ float BNO08x::get_magf_Z()
  *
  * @return The accuracy of reported magnetic field vector.
  */
-IMUAccuracy BNO08x::get_magf_accuracy()
+BNO08xAccuracy BNO08x::get_magf_accuracy()
 {
-    return static_cast<IMUAccuracy>(magf_accuracy);
+    return static_cast<BNO08xAccuracy>(magf_accuracy);
 }
 
 /**
@@ -2516,12 +2516,12 @@ IMUAccuracy BNO08x::get_magf_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_gravity(float& x, float& y, float& z, IMUAccuracy& accuracy)
+void BNO08x::get_gravity(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(gravity_X, GRAVITY_Q1);
     y = q_to_float(gravity_Y, GRAVITY_Q1);
     z = q_to_float(gravity_Z, GRAVITY_Q1);
-    accuracy = static_cast<IMUAccuracy>(gravity_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(gravity_accuracy);
 }
 
 /**
@@ -2559,9 +2559,9 @@ float BNO08x::get_gravity_Z()
  *
  * @return Accuracy of reported gravity.
  */
-IMUAccuracy BNO08x::get_gravity_accuracy()
+BNO08xAccuracy BNO08x::get_gravity_accuracy()
 {
-    return static_cast<IMUAccuracy>(gravity_accuracy);
+    return static_cast<BNO08xAccuracy>(gravity_accuracy);
 }
 
 /**
@@ -2689,14 +2689,14 @@ float BNO08x::get_yaw_deg()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, IMUAccuracy& accuracy)
+void BNO08x::get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, BNO08xAccuracy& accuracy)
 {
     i = q_to_float(raw_quat_I, ROTATION_VECTOR_Q1);
     j = q_to_float(raw_quat_J, ROTATION_VECTOR_Q1);
     k = q_to_float(raw_quat_K, ROTATION_VECTOR_Q1);
     real = q_to_float(raw_quat_real, ROTATION_VECTOR_Q1);
     rad_accuracy = q_to_float(raw_quat_radian_accuracy, ROTATION_VECTOR_Q1);
-    accuracy = static_cast<IMUAccuracy>(quat_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(quat_accuracy);
 }
 
 /**
@@ -2759,9 +2759,9 @@ float BNO08x::get_quat_radian_accuracy()
  *
  * @return The accuracy of reported quaternion.
  */
-IMUAccuracy BNO08x::get_quat_accuracy()
+BNO08xAccuracy BNO08x::get_quat_accuracy()
 {
-    return static_cast<IMUAccuracy>(quat_accuracy);
+    return static_cast<BNO08xAccuracy>(quat_accuracy);
 }
 
 /**
@@ -2774,12 +2774,12 @@ IMUAccuracy BNO08x::get_quat_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_accel(float& x, float& y, float& z, IMUAccuracy& accuracy)
+void BNO08x::get_accel(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_accel_X, ACCELEROMETER_Q1);
     y = q_to_float(raw_accel_Y, ACCELEROMETER_Q1);
     z = q_to_float(raw_accel_Z, ACCELEROMETER_Q1);
-    accuracy = static_cast<IMUAccuracy>(accel_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(accel_accuracy);
 }
 
 /**
@@ -2817,9 +2817,9 @@ float BNO08x::get_accel_Z()
  *
  * @return Accuracy of linear acceleration.
  */
-IMUAccuracy BNO08x::get_accel_accuracy()
+BNO08xAccuracy BNO08x::get_accel_accuracy()
 {
-    return static_cast<IMUAccuracy>(accel_accuracy);
+    return static_cast<BNO08xAccuracy>(accel_accuracy);
 }
 
 /**
@@ -2832,12 +2832,12 @@ IMUAccuracy BNO08x::get_accel_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_linear_accel(float& x, float& y, float& z, IMUAccuracy& accuracy)
+void BNO08x::get_linear_accel(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_lin_accel_X, LINEAR_ACCELEROMETER_Q1);
     y = q_to_float(raw_lin_accel_Y, LINEAR_ACCELEROMETER_Q1);
     z = q_to_float(raw_lin_accel_Z, LINEAR_ACCELEROMETER_Q1);
-    accuracy = static_cast<IMUAccuracy>(accel_lin_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(accel_lin_accuracy);
 }
 
 /**
@@ -2875,9 +2875,9 @@ float BNO08x::get_linear_accel_Z()
  *
  * @return Accuracy of linear acceleration.
  */
-IMUAccuracy BNO08x::get_linear_accel_accuracy()
+BNO08xAccuracy BNO08x::get_linear_accel_accuracy()
 {
-    return static_cast<IMUAccuracy>(accel_lin_accuracy);
+    return static_cast<BNO08xAccuracy>(accel_lin_accuracy);
 }
 
 /**
@@ -2980,12 +2980,12 @@ int16_t BNO08x::get_raw_magf_Z()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_gyro_calibrated_velocity(float& x, float& y, float& z, IMUAccuracy& accuracy)
+void BNO08x::get_gyro_calibrated_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_gyro_X, GYRO_Q1);
     y = q_to_float(raw_gyro_Y, GYRO_Q1);
     z = q_to_float(raw_gyro_Z, GYRO_Q1);
-    accuracy = static_cast<IMUAccuracy>(gyro_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(gyro_accuracy);
 }
 
 /**
@@ -3023,9 +3023,9 @@ float BNO08x::get_gyro_calibrated_velocity_Z()
  *
  * @return Accuracy of calibrated gyro.
  */
-IMUAccuracy BNO08x::get_gyro_accuracy()
+BNO08xAccuracy BNO08x::get_gyro_accuracy()
 {
-    return static_cast<IMUAccuracy>(gyro_accuracy);
+    return static_cast<BNO08xAccuracy>(gyro_accuracy);
 }
 
 /**
@@ -3042,7 +3042,7 @@ IMUAccuracy BNO08x::get_gyro_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_uncalibrated_gyro(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z, IMUAccuracy& accuracy)
+void BNO08x::get_uncalibrated_gyro(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_uncalib_gyro_X, GYRO_Q1);
     y = q_to_float(raw_uncalib_gyro_Y, GYRO_Q1);
@@ -3050,7 +3050,7 @@ void BNO08x::get_uncalibrated_gyro(float& x, float& y, float& z, float& b_x, flo
     b_x = q_to_float(raw_bias_X, GYRO_Q1);
     b_y = q_to_float(raw_bias_Y, GYRO_Q1);
     b_z = q_to_float(raw_bias_Z, GYRO_Q1);
-    accuracy = static_cast<IMUAccuracy>(uncalib_gyro_accuracy);
+    accuracy = static_cast<BNO08xAccuracy>(uncalib_gyro_accuracy);
 }
 
 /**
@@ -3118,9 +3118,9 @@ float BNO08x::get_uncalibrated_gyro_bias_Z()
  *
  * @return Accuracy of uncalibrated gyro.
  */
-IMUAccuracy BNO08x::get_uncalibrated_gyro_accuracy()
+BNO08xAccuracy BNO08x::get_uncalibrated_gyro_accuracy()
 {
-    return static_cast<IMUAccuracy>(uncalib_gyro_accuracy);
+    return static_cast<BNO08xAccuracy>(uncalib_gyro_accuracy);
 }
 
 /**

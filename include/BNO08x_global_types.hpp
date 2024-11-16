@@ -5,16 +5,17 @@
 #include <driver/spi_master.h>
 
 /// @brief Sensor accuracy returned during sensor calibration
-enum class IMUAccuracy
+enum class BNO08xAccuracy
 {
     LOW = 1,
     MED,
     HIGH,
     UNDEFINED
 };
+using IMUAccuracy = BNO08xAccuracy; // legacy version compatibility
 
 /// @brief Reason for previous IMU reset (returned by get_reset_reason())
-enum class IMUResetReason
+enum class BNO08xResetReason
 {
     UNDEFINED, ///< Undefined reset reason, this should never occur and is an error.
     POR,       ///< Previous reset was due to power on reset.
@@ -23,6 +24,7 @@ enum class IMUResetReason
     EXT_RST,   ///< Previous reset was due to external reset.
     OTHER      ///< Previous reset was due to power other reason.
 };
+using IMUResetReason = BNO08xResetReason; // legacy version compatibility
 
 /// @brief IMU configuration settings passed into constructor
 typedef struct bno08x_config_t
@@ -72,3 +74,5 @@ typedef struct bno08x_config_t
         {
         }
 } bno08x_config_t;
+
+typedef bno08x_config_t imu_config_t; // legacy version compatibility

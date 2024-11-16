@@ -30,7 +30,7 @@ class BNO08x
 
         bool hard_reset();
         bool soft_reset();
-        IMUResetReason get_reset_reason();
+        BNO08xResetReason get_reset_reason();
 
         bool mode_sleep();
         bool mode_on();
@@ -96,17 +96,17 @@ class BNO08x
 
         uint32_t get_time_stamp();
 
-        void get_magf(float& x, float& y, float& z, IMUAccuracy& accuracy);
+        void get_magf(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
         float get_magf_X();
         float get_magf_Y();
         float get_magf_Z();
-        IMUAccuracy get_magf_accuracy();
+        BNO08xAccuracy get_magf_accuracy();
 
-        void get_gravity(float& x, float& y, float& z, IMUAccuracy& accuracy);
+        void get_gravity(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
         float get_gravity_X();
         float get_gravity_Y();
         float get_gravity_Z();
-        IMUAccuracy get_gravity_accuracy();
+        BNO08xAccuracy get_gravity_accuracy();
 
         float get_roll();
         float get_pitch();
@@ -116,25 +116,25 @@ class BNO08x
         float get_pitch_deg();
         float get_yaw_deg();
 
-        void get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, IMUAccuracy& accuracy);
+        void get_quat(float& i, float& j, float& k, float& real, float& rad_accuracy, BNO08xAccuracy& accuracy);
         float get_quat_I();
         float get_quat_J();
         float get_quat_K();
         float get_quat_real();
         float get_quat_radian_accuracy();
-        IMUAccuracy get_quat_accuracy();
+        BNO08xAccuracy get_quat_accuracy();
 
-        void get_accel(float& x, float& y, float& z, IMUAccuracy& accuracy);
+        void get_accel(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
         float get_accel_X();
         float get_accel_Y();
         float get_accel_Z();
-        IMUAccuracy get_accel_accuracy();
+        BNO08xAccuracy get_accel_accuracy();
 
-        void get_linear_accel(float& x, float& y, float& z, IMUAccuracy& accuracy);
+        void get_linear_accel(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
         float get_linear_accel_X();
         float get_linear_accel_Y();
         float get_linear_accel_Z();
-        IMUAccuracy get_linear_accel_accuracy();
+        BNO08xAccuracy get_linear_accel_accuracy();
 
         int16_t get_raw_accel_X();
         int16_t get_raw_accel_Y();
@@ -148,20 +148,20 @@ class BNO08x
         int16_t get_raw_magf_Y();
         int16_t get_raw_magf_Z();
 
-        void get_gyro_calibrated_velocity(float& x, float& y, float& z, IMUAccuracy& accuracy);
+        void get_gyro_calibrated_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
         float get_gyro_calibrated_velocity_X();
         float get_gyro_calibrated_velocity_Y();
         float get_gyro_calibrated_velocity_Z();
-        IMUAccuracy get_gyro_accuracy();
+        BNO08xAccuracy get_gyro_accuracy();
 
-        void get_uncalibrated_gyro(float& x, float& y, float& z, float& bx, float& by, float& bz, IMUAccuracy& accuracy);
+        void get_uncalibrated_gyro(float& x, float& y, float& z, float& bx, float& by, float& bz, BNO08xAccuracy& accuracy);
         float get_uncalibrated_gyro_X();
         float get_uncalibrated_gyro_Y();
         float get_uncalibrated_gyro_Z();
         float get_uncalibrated_gyro_bias_X();
         float get_uncalibrated_gyro_bias_Y();
         float get_uncalibrated_gyro_bias_Z();
-        IMUAccuracy get_uncalibrated_gyro_accuracy();
+        BNO08xAccuracy get_uncalibrated_gyro_accuracy();
 
         void get_gyro_velocity(float& x, float& y, float& z);
         float get_gyro_velocity_X();
