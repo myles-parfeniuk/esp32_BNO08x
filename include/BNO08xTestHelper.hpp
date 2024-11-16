@@ -23,14 +23,30 @@ class BNO08xTestHelper
                 float quat_radian_accuracy;
                 BNO08xAccuracy quat_accuracy;
 
-                float gyro_vel_x;
-                float gyro_vel_y;
-                float gyro_vel_z;
+                float integrated_gyro_vel_x;
+                float integrated_gyro_vel_y;
+                float integrated_gyro_vel_z;
 
                 float accel_x;
                 float accel_y;
                 float accel_z;
                 BNO08xAccuracy accel_accuracy;
+
+                float lin_accel_x;
+                float lin_accel_y;
+                float lin_accel_z;
+                BNO08xAccuracy lin_accel_accuracy;
+
+                float grav_x;
+                float grav_y;
+                float grav_z;
+                BNO08xAccuracy grav_accuracy;
+
+                float calib_gyro_vel_x;
+                float calib_gyro_vel_y;
+                float calib_gyro_vel_z;
+                BNO08xAccuracy calib_gyro_accuracy;
+
 
         } imu_report_data_t;
 
@@ -157,13 +173,13 @@ class BNO08xTestHelper
             if (report_data->quat_real != 1.0f)
                 new_data = true;
 
-            if (report_data->gyro_vel_x != 0.0f)
+            if (report_data->integrated_gyro_vel_x != 0.0f)
                 new_data = true;
 
-            if (report_data->gyro_vel_y != 0.0f)
+            if (report_data->integrated_gyro_vel_y != 0.0f)
                 new_data = true;
 
-            if (report_data->gyro_vel_z != 0.0f)
+            if (report_data->integrated_gyro_vel_z != 0.0f)
                 new_data = true;
 
             return new_data;
@@ -188,12 +204,53 @@ class BNO08xTestHelper
             return new_data;
         }
 
+        static bool linear_accelerometer_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->lin_accel_x != 0.0f)
+                new_data = true;
+
+            if (report_data->lin_accel_y != 0.0f)
+                new_data = true;
+
+            if (report_data->lin_accel_z != 0.0f)
+                new_data = true;
+
+            if (report_data->lin_accel_accuracy != BNO08xAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static bool gravity_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->grav_x != 0.0f)
+                new_data = true;
+
+            if (report_data->grav_y != 0.0f)
+                new_data = true;
+
+            if (report_data->grav_z != 0.0f)
+                new_data = true;
+
+            if (report_data->grav_accuracy != BNO08xAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
         static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
         {
 
             imu->get_quat(report_data->quat_I, report_data->quat_J, report_data->quat_K, report_data->quat_real, report_data->quat_radian_accuracy,
                     report_data->quat_accuracy);
-            imu->get_gyro_velocity(report_data->gyro_vel_x, report_data->gyro_vel_y, report_data->gyro_vel_z);
+            imu->get_integrated_gyro_velocity(report_data->integrated_gyro_vel_x, report_data->integrated_gyro_vel_y, report_data->integrated_gyro_vel_z);
             imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, report_data->accel_accuracy);
+            imu->get_linear_accel(report_data->lin_accel_x, report_data->lin_accel_y, report_data->lin_accel_z, report_data->lin_accel_accuracy);
+            imu->get_gravity(report_data->grav_x, report_data->grav_y, report_data->grav_z, report_data->grav_accuracy);
+            imu->get_calibrated_gyro_velocity(report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z, report_data->calib_gyro_accuracy);
         }
 };

@@ -1527,11 +1527,11 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
             break;
 
         case SENSOR_REPORT_ID_GYROSCOPE:
-            update_gyro_data(data, status);
+            update_calibrated_gyro_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
-            update_uncalib_gyro_data(data, status);
+            update_uncalibrated_gyro_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_MAGNETIC_FIELD:
@@ -1716,12 +1716,12 @@ void BNO08x::update_lin_accelerometer_data(uint16_t* data, uint8_t status)
  *
  * @return void, nothing to return
  */
-void BNO08x::update_gyro_data(uint16_t* data, uint8_t status)
+void BNO08x::update_calibrated_gyro_data(uint16_t* data, uint8_t status)
 {
-    gyro_accuracy = status;
-    raw_gyro_X = data[0];
-    raw_gyro_Y = data[1];
-    raw_gyro_Z = data[2];
+    calib_gyro_accuracy = status;
+    raw_calib_gyro_X = data[0];
+    raw_calib_gyro_Y = data[1];
+    raw_calib_gyro_Z = data[2];
 }
 
 /**
@@ -1732,7 +1732,7 @@ void BNO08x::update_gyro_data(uint16_t* data, uint8_t status)
  *
  * @return void, nothing to return
  */
-void BNO08x::update_uncalib_gyro_data(uint16_t* data, uint8_t status)
+void BNO08x::update_uncalibrated_gyro_data(uint16_t* data, uint8_t status)
 {
     uncalib_gyro_accuracy = status;
     raw_uncalib_gyro_X = data[0];
@@ -1922,9 +1922,9 @@ void BNO08x::update_integrated_gyro_rotation_vector_data(bno08x_rx_packet_t* pac
     raw_quat_J = PARSE_GYRO_REPORT_RAW_QUAT_J(packet);
     raw_quat_K = PARSE_GYRO_REPORT_RAW_QUAT_K(packet);
     raw_quat_real = PARSE_GYRO_REPORT_RAW_QUAT_REAL(packet);
-    raw_velocity_gyro_X = PARSE_GYRO_REPORT_RAW_GYRO_VEL_X(packet);
-    raw_velocity_gyro_Y = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Y(packet);
-    raw_velocity_gyro_Z = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Z(packet);
+    integrated_gyro_velocity_X = PARSE_GYRO_REPORT_RAW_GYRO_VEL_X(packet);
+    integrated_gyro_velocity_Y = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Y(packet);
+    integrated_gyro_velocity_Z = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Z(packet);
 }
 
 /**
@@ -2021,7 +2021,7 @@ void BNO08x::enable_gravity(uint32_t time_between_reports)
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_gyro(uint32_t time_between_reports)
+void BNO08x::enable_calibrated_gyro(uint32_t time_between_reports)
 {
     enable_report(SENSOR_REPORT_ID_GYROSCOPE, time_between_reports, EVT_GRP_RPT_GYRO_BIT);
 }
@@ -2101,18 +2101,18 @@ void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t 
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_accelerometer(uint32_t time_between_reports)
+void BNO08x::enable_raw_mems_accelerometer(uint32_t time_between_reports)
 {
     enable_report(SENSOR_REPORT_ID_RAW_ACCELEROMETER, time_between_reports, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT);
 }
 
 /**
- * @brief Sends command to enable raw gyro reports (See Ref. Manual 6.5.12)
+ * @brief Sends command to enable raw MEMs gyro reports (See Ref. Manual 6.5.12)
  *
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
+void BNO08x::enable_raw_mems_gyro(uint32_t time_between_reports)
 {
     enable_report(SENSOR_REPORT_ID_RAW_GYROSCOPE, time_between_reports, EVT_GRP_RPT_RAW_GYRO_BIT);
 }
@@ -2123,7 +2123,7 @@ void BNO08x::enable_raw_gyro(uint32_t time_between_reports)
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
  */
-void BNO08x::enable_raw_magnetometer(uint32_t time_between_reports)
+void BNO08x::enable_raw_mems_magnetometer(uint32_t time_between_reports)
 {
     enable_report(SENSOR_REPORT_ID_RAW_MAGNETOMETER, time_between_reports, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT);
 }
@@ -2213,7 +2213,7 @@ void BNO08x::disable_gravity()
  *
  * @return void, nothing to return
  */
-void BNO08x::disable_gyro()
+void BNO08x::disable_calibrated_gyro()
 {
     disable_report(SENSOR_REPORT_ID_GYROSCOPE, EVT_GRP_RPT_GYRO_BIT);
 }
@@ -2283,7 +2283,7 @@ void BNO08x::disable_activity_classifier()
  *
  * @return void, nothing to return
  */
-void BNO08x::disable_raw_accelerometer()
+void BNO08x::disable_raw_mems_accelerometer()
 {
     disable_report(SENSOR_REPORT_ID_RAW_ACCELEROMETER, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT);
 }
@@ -2293,7 +2293,7 @@ void BNO08x::disable_raw_accelerometer()
  *
  * @return void, nothing to return
  */
-void BNO08x::disable_raw_gyro()
+void BNO08x::disable_raw_mems_gyro()
 {
     disable_report(SENSOR_REPORT_ID_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT);
 }
@@ -2303,7 +2303,7 @@ void BNO08x::disable_raw_gyro()
  *
  * @return void, nothing to return
  */
-void BNO08x::disable_raw_magnetometer()
+void BNO08x::disable_raw_mems_magnetometer()
 {
     disable_report(SENSOR_REPORT_ID_RAW_MAGNETOMETER, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT);
 }
@@ -2392,10 +2392,10 @@ void BNO08x::reset_all_data()
     raw_lin_accel_Z = 0U;
     accel_lin_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-    raw_gyro_X = 0U;
-    raw_gyro_Y = 0U;
-    raw_gyro_Z = 0U;
-    gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+    raw_calib_gyro_X = 0U;
+    raw_calib_gyro_Y = 0U;
+    raw_calib_gyro_Z = 0U;
+    calib_gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     // reset quaternion to nan
     raw_quat_I = 0U;
@@ -2405,9 +2405,9 @@ void BNO08x::reset_all_data()
     raw_quat_radian_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
     quat_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-    raw_velocity_gyro_X = 0U;
-    raw_velocity_gyro_Y = 0U;
-    raw_velocity_gyro_Z = 0U;
+    integrated_gyro_velocity_X = 0U;
+    integrated_gyro_velocity_Y = 0U;
+    integrated_gyro_velocity_Z = 0U;
 
     gravity_X = 0U;
     gravity_Y = 0U;
@@ -2881,11 +2881,27 @@ BNO08xAccuracy BNO08x::get_linear_accel_accuracy()
 }
 
 /**
+ * @brief Get full raw mems acceleration.
+ *
+ * @param x Reference variable to save raw X axis acceleration.
+ * @param y Reference variable to save raw Y axis acceleration.
+ * @param z Reference variable to save raw Z axis acceleration.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::get_raw_mems_accel(uint16_t& x, uint16_t &y, uint16_t &z)
+{
+    x = mems_raw_accel_X;
+    y = mems_raw_accel_X;
+    z = mems_raw_accel_X;
+}
+
+/**
  * @brief Get raw accelerometer x axis reading from physical accelerometer MEMs sensor (See Ref. Manual 6.5.8)
  *
  * @return Reported raw accelerometer x axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_accel_X()
+uint16_t BNO08x::get_raw_mems_accel_X()
 {
     return mems_raw_accel_X;
 }
@@ -2895,7 +2911,7 @@ int16_t BNO08x::get_raw_accel_X()
  *
  * @return Reported raw accelerometer y axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_accel_Y()
+uint16_t BNO08x::get_raw_mems_accel_Y()
 {
     return mems_raw_accel_Y;
 }
@@ -2905,9 +2921,25 @@ int16_t BNO08x::get_raw_accel_Y()
  *
  * @return Reported raw accelerometer z axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_accel_Z()
+uint16_t BNO08x::get_raw_mems_accel_Z()
 {
     return mems_raw_accel_Z;
+}
+
+/**
+ * @brief Get full raw mems gyro data.
+ *
+ * @param x Reference variable to save raw X axis data.
+ * @param y Reference variable to save raw Y axis data.
+ * @param z Reference variable to save raw Z axis data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::get_raw_mems_gyro(uint16_t& x, uint16_t &y, uint16_t &z)
+{
+    x = mems_raw_gyro_X;
+    y = mems_raw_gyro_Y;
+    z = mems_raw_gyro_Z;
 }
 
 /**
@@ -2915,7 +2947,7 @@ int16_t BNO08x::get_raw_accel_Z()
  *
  * @return Reported raw gyroscope x axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_gyro_X()
+uint16_t BNO08x::get_raw_mems_gyro_X()
 {
     return mems_raw_gyro_X;
 }
@@ -2925,7 +2957,7 @@ int16_t BNO08x::get_raw_gyro_X()
  *
  * @return Reported raw gyroscope y axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_gyro_Y()
+uint16_t BNO08x::get_raw_mems_gyro_Y()
 {
     return mems_raw_gyro_Y;
 }
@@ -2935,9 +2967,25 @@ int16_t BNO08x::get_raw_gyro_Y()
  *
  * @return Reported raw gyroscope z axis reading from physical MEMs sensor.
  */
-int16_t BNO08x::get_raw_gyro_Z()
+uint16_t BNO08x::get_raw_mems_gyro_Z()
 {
     return mems_raw_gyro_Z;
+}
+
+/**
+ * @brief Get full raw mems magnetometer data.
+ *
+ * @param x Reference variable to save raw X axis data.
+ * @param y Reference variable to save raw Y axis data.
+ * @param z Reference variable to save raw Z axis data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::get_raw_mems_magf(uint16_t& x, uint16_t &y, uint16_t &z)
+{
+    x = mems_raw_magf_X;
+    y = mems_raw_magf_Y;
+    z = mems_raw_magf_Z;
 }
 
 /**
@@ -2945,7 +2993,7 @@ int16_t BNO08x::get_raw_gyro_Z()
  *
  * @return Reported raw magnetometer x axis reading from physical magnetometer sensor.
  */
-int16_t BNO08x::get_raw_magf_X()
+uint16_t BNO08x::get_raw_mems_magf_X()
 {
     return mems_raw_magf_X;
 }
@@ -2955,7 +3003,7 @@ int16_t BNO08x::get_raw_magf_X()
  *
  * @return Reported raw magnetometer y axis reading from physical magnetometer sensor.
  */
-int16_t BNO08x::get_raw_magf_Y()
+uint16_t BNO08x::get_raw_mems_magf_Y()
 {
     return mems_raw_magf_Y;
 }
@@ -2965,7 +3013,7 @@ int16_t BNO08x::get_raw_magf_Y()
  *
  * @return Reported raw magnetometer z axis reading from physical magnetometer sensor.
  */
-int16_t BNO08x::get_raw_magf_Z()
+uint16_t BNO08x::get_raw_mems_magf_Z()
 {
     return mems_raw_magf_Z;
 }
@@ -2980,12 +3028,12 @@ int16_t BNO08x::get_raw_magf_Z()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_gyro_calibrated_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
+void BNO08x::get_calibrated_gyro_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
 {
-    x = q_to_float(raw_gyro_X, GYRO_Q1);
-    y = q_to_float(raw_gyro_Y, GYRO_Q1);
-    z = q_to_float(raw_gyro_Z, GYRO_Q1);
-    accuracy = static_cast<BNO08xAccuracy>(gyro_accuracy);
+    x = q_to_float(raw_calib_gyro_X, GYRO_Q1);
+    y = q_to_float(raw_calib_gyro_Y, GYRO_Q1);
+    z = q_to_float(raw_calib_gyro_Z, GYRO_Q1);
+    accuracy = static_cast<BNO08xAccuracy>(calib_gyro_accuracy);
 }
 
 /**
@@ -2993,9 +3041,9 @@ void BNO08x::get_gyro_calibrated_velocity(float& x, float& y, float& z, BNO08xAc
  *
  * @return The angular reported x axis angular velocity from calibrated gyro (drift compensation applied).
  */
-float BNO08x::get_gyro_calibrated_velocity_X()
+float BNO08x::get_calibrated_gyro_velocity_X()
 {
-    return q_to_float(raw_gyro_X, GYRO_Q1);
+    return q_to_float(raw_calib_gyro_X, GYRO_Q1);
 }
 
 /**
@@ -3003,9 +3051,9 @@ float BNO08x::get_gyro_calibrated_velocity_X()
  *
  * @return The angular reported y axis angular velocity from calibrated gyro (drift compensation applied).
  */
-float BNO08x::get_gyro_calibrated_velocity_Y()
+float BNO08x::get_calibrated_gyro_velocity_Y()
 {
-    return q_to_float(raw_gyro_Y, GYRO_Q1);
+    return q_to_float(raw_calib_gyro_Y, GYRO_Q1);
 }
 
 /**
@@ -3013,9 +3061,9 @@ float BNO08x::get_gyro_calibrated_velocity_Y()
  *
  * @return The angular reported z axis angular velocity from calibrated gyro (drift compensation applied).
  */
-float BNO08x::get_gyro_calibrated_velocity_Z()
+float BNO08x::get_calibrated_gyro_velocity_Z()
 {
-    return q_to_float(raw_gyro_Z, GYRO_Q1);
+    return q_to_float(raw_calib_gyro_Z, GYRO_Q1);
 }
 
 /**
@@ -3023,9 +3071,9 @@ float BNO08x::get_gyro_calibrated_velocity_Z()
  *
  * @return Accuracy of calibrated gyro.
  */
-BNO08xAccuracy BNO08x::get_gyro_accuracy()
+BNO08xAccuracy BNO08x::get_calibrated_gyro_accuracy()
 {
-    return static_cast<BNO08xAccuracy>(gyro_accuracy);
+    return static_cast<BNO08xAccuracy>(calib_gyro_accuracy);
 }
 
 /**
@@ -3042,7 +3090,7 @@ BNO08xAccuracy BNO08x::get_gyro_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_uncalibrated_gyro(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z, BNO08xAccuracy& accuracy)
+void BNO08x::get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z, BNO08xAccuracy& accuracy)
 {
     x = q_to_float(raw_uncalib_gyro_X, GYRO_Q1);
     y = q_to_float(raw_uncalib_gyro_Y, GYRO_Q1);
@@ -3058,7 +3106,7 @@ void BNO08x::get_uncalibrated_gyro(float& x, float& y, float& z, float& b_x, flo
  *
  * @return The angular reported x axis angular velocity from uncalibrated gyro.
  */
-float BNO08x::get_uncalibrated_gyro_X()
+float BNO08x::get_uncalibrated_gyro_velocity_X()
 {
     return q_to_float(raw_uncalib_gyro_X, GYRO_Q1);
 }
@@ -3068,7 +3116,7 @@ float BNO08x::get_uncalibrated_gyro_X()
  *
  * @return The angular reported Y axis angular velocity from uncalibrated gyro.
  */
-float BNO08x::get_uncalibrated_gyro_Y()
+float BNO08x::get_uncalibrated_gyro_velocity_Y()
 {
     return q_to_float(raw_uncalib_gyro_Y, GYRO_Q1);
 }
@@ -3078,7 +3126,7 @@ float BNO08x::get_uncalibrated_gyro_Y()
  *
  * @return The angular reported Z axis angular velocity from uncalibrated gyro.
  */
-float BNO08x::get_uncalibrated_gyro_Z()
+float BNO08x::get_uncalibrated_gyro_velocity_Z()
 {
     return q_to_float(raw_uncalib_gyro_Z, GYRO_Q1);
 }
@@ -3132,11 +3180,11 @@ BNO08xAccuracy BNO08x::get_uncalibrated_gyro_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_gyro_velocity(float& x, float& y, float& z)
+void BNO08x::get_integrated_gyro_velocity(float& x, float& y, float& z)
 {
-    x = q_to_float(raw_velocity_gyro_X, ANGULAR_VELOCITY_Q1);
-    y = q_to_float(raw_velocity_gyro_Y, ANGULAR_VELOCITY_Q1);
-    z = q_to_float(raw_velocity_gyro_Z, ANGULAR_VELOCITY_Q1);
+    x = q_to_float(integrated_gyro_velocity_X, ANGULAR_VELOCITY_Q1);
+    y = q_to_float(integrated_gyro_velocity_Y, ANGULAR_VELOCITY_Q1);
+    z = q_to_float(integrated_gyro_velocity_Z, ANGULAR_VELOCITY_Q1);
 }
 
 /**
@@ -3144,9 +3192,9 @@ void BNO08x::get_gyro_velocity(float& x, float& y, float& z)
  *
  * @return The reported x axis angular velocity.
  */
-float BNO08x::get_gyro_velocity_X()
+float BNO08x::get_integrated_gyro_velocity_X()
 {
-    return q_to_float(raw_velocity_gyro_X, ANGULAR_VELOCITY_Q1);
+    return q_to_float(integrated_gyro_velocity_X, ANGULAR_VELOCITY_Q1);
 }
 
 /**
@@ -3154,9 +3202,9 @@ float BNO08x::get_gyro_velocity_X()
  *
  * @return The reported y axis angular velocity.
  */
-float BNO08x::get_gyro_velocity_Y()
+float BNO08x::get_integrated_gyro_velocity_Y()
 {
-    return q_to_float(raw_velocity_gyro_Y, ANGULAR_VELOCITY_Q1);
+    return q_to_float(integrated_gyro_velocity_Y, ANGULAR_VELOCITY_Q1);
 }
 
 /**
@@ -3164,9 +3212,9 @@ float BNO08x::get_gyro_velocity_Y()
  *
  * @return The reported Z axis angular velocity.
  */
-float BNO08x::get_gyro_velocity_Z()
+float BNO08x::get_integrated_gyro_velocity_Z()
 {
-    return q_to_float(raw_velocity_gyro_Z, ANGULAR_VELOCITY_Q1);
+    return q_to_float(integrated_gyro_velocity_Z, ANGULAR_VELOCITY_Q1);
 }
 
 /**

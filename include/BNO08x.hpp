@@ -52,19 +52,21 @@ class BNO08x
         void enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports);
         void enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports);
         void enable_gyro_integrated_rotation_vector(uint32_t time_between_reports);
+
+        void enable_uncalibrated_gyro(uint32_t time_between_reports);
+        void enable_calibrated_gyro(uint32_t time_between_reports);
+        void enable_raw_mems_gyro(uint32_t time_between_reports);
+
         void enable_accelerometer(uint32_t time_between_reports);
         void enable_linear_accelerometer(uint32_t time_between_reports);
         void enable_gravity(uint32_t time_between_reports);
-        void enable_gyro(uint32_t time_between_reports);
-        void enable_uncalibrated_gyro(uint32_t time_between_reports);
         void enable_magnetometer(uint32_t time_between_reports);
         void enable_tap_detector(uint32_t time_between_reports);
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
         void enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
-        void enable_raw_accelerometer(uint32_t time_between_reports);
-        void enable_raw_gyro(uint32_t time_between_reports);
-        void enable_raw_magnetometer(uint32_t time_between_reports);
+        void enable_raw_mems_accelerometer(uint32_t time_between_reports);
+        void enable_raw_mems_magnetometer(uint32_t time_between_reports);
 
         void disable_rotation_vector();
         void disable_game_rotation_vector();
@@ -74,16 +76,16 @@ class BNO08x
         void disable_accelerometer();
         void disable_linear_accelerometer();
         void disable_gravity();
-        void disable_gyro();
+        void disable_calibrated_gyro();
         void disable_uncalibrated_gyro();
         void disable_magnetometer();
         void disable_tap_detector();
         void disable_step_counter();
         void disable_stability_classifier();
         void disable_activity_classifier();
-        void disable_raw_accelerometer();
-        void disable_raw_gyro();
-        void disable_raw_magnetometer();
+        void disable_raw_mems_accelerometer();
+        void disable_raw_mems_gyro();
+        void disable_raw_mems_magnetometer();
 
         void tare_now(uint8_t axis_sel = TARE_AXIS_ALL, uint8_t rotation_vector_basis = TARE_ROTATION_VECTOR);
         void save_tare();
@@ -136,37 +138,40 @@ class BNO08x
         float get_linear_accel_Z();
         BNO08xAccuracy get_linear_accel_accuracy();
 
-        int16_t get_raw_accel_X();
-        int16_t get_raw_accel_Y();
-        int16_t get_raw_accel_Z();
+        void get_raw_mems_accel(uint16_t &x, uint16_t &y, uint16_t &z);
+        uint16_t get_raw_mems_accel_X();
+        uint16_t get_raw_mems_accel_Y();
+        uint16_t get_raw_mems_accel_Z();
 
-        int16_t get_raw_gyro_X();
-        int16_t get_raw_gyro_Y();
-        int16_t get_raw_gyro_Z();
+        void get_raw_mems_gyro(uint16_t &x, uint16_t &y, uint16_t &z);
+        uint16_t get_raw_mems_gyro_X();
+        uint16_t get_raw_mems_gyro_Y();
+        uint16_t get_raw_mems_gyro_Z();
 
-        int16_t get_raw_magf_X();
-        int16_t get_raw_magf_Y();
-        int16_t get_raw_magf_Z();
+        void get_raw_mems_magf(uint16_t &x, uint16_t &y, uint16_t &z);
+        uint16_t get_raw_mems_magf_X();
+        uint16_t get_raw_mems_magf_Y();
+        uint16_t get_raw_mems_magf_Z();
 
-        void get_gyro_calibrated_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
-        float get_gyro_calibrated_velocity_X();
-        float get_gyro_calibrated_velocity_Y();
-        float get_gyro_calibrated_velocity_Z();
-        BNO08xAccuracy get_gyro_accuracy();
+        void get_calibrated_gyro_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
+        float get_calibrated_gyro_velocity_X();
+        float get_calibrated_gyro_velocity_Y();
+        float get_calibrated_gyro_velocity_Z();
+        BNO08xAccuracy get_calibrated_gyro_accuracy();
 
-        void get_uncalibrated_gyro(float& x, float& y, float& z, float& bx, float& by, float& bz, BNO08xAccuracy& accuracy);
-        float get_uncalibrated_gyro_X();
-        float get_uncalibrated_gyro_Y();
-        float get_uncalibrated_gyro_Z();
+        void get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& bx, float& by, float& bz, BNO08xAccuracy& accuracy);
+        float get_uncalibrated_gyro_velocity_X();
+        float get_uncalibrated_gyro_velocity_Y();
+        float get_uncalibrated_gyro_velocity_Z();
         float get_uncalibrated_gyro_bias_X();
         float get_uncalibrated_gyro_bias_Y();
         float get_uncalibrated_gyro_bias_Z();
         BNO08xAccuracy get_uncalibrated_gyro_accuracy();
 
-        void get_gyro_velocity(float& x, float& y, float& z);
-        float get_gyro_velocity_X();
-        float get_gyro_velocity_Y();
-        float get_gyro_velocity_Z();
+        void get_integrated_gyro_velocity(float& x, float& y, float& z);
+        float get_integrated_gyro_velocity_X();
+        float get_integrated_gyro_velocity_Y();
+        float get_integrated_gyro_velocity_Z();
 
         uint8_t get_tap_detector();
         uint16_t get_step_count();
@@ -323,8 +328,8 @@ class BNO08x
         // functions to update data returned to user
         void update_accelerometer_data(uint16_t* data, uint8_t status);
         void update_lin_accelerometer_data(uint16_t* data, uint8_t status);
-        void update_gyro_data(uint16_t* data, uint8_t status);
-        void update_uncalib_gyro_data(uint16_t* data, uint8_t status);
+        void update_calibrated_gyro_data(uint16_t* data, uint8_t status);
+        void update_uncalibrated_gyro_data(uint16_t* data, uint8_t status);
         void update_magf_data(uint16_t* data, uint8_t status);
         void update_gravity_data(uint16_t* data, uint8_t status);
         void update_rotation_vector_data(uint16_t* data, uint8_t status);
@@ -386,11 +391,11 @@ class BNO08x
                 accel_accuracy; ///<Raw acceleration readings (See SH-2 Ref. Manual 6.5.8)
         uint16_t raw_lin_accel_X, raw_lin_accel_Y, raw_lin_accel_Z,
                 accel_lin_accuracy;                                 ///<Raw linear acceleration (See SH-2 Ref. Manual 6.5.10)
-        uint16_t raw_gyro_X, raw_gyro_Y, raw_gyro_Z, gyro_accuracy; ///<Raw gyro reading (See SH-2 Ref. Manual 6.5.13)
+        uint16_t raw_calib_gyro_X, raw_calib_gyro_Y, raw_calib_gyro_Z, calib_gyro_accuracy; ///<Raw gyro reading (See SH-2 Ref. Manual 6.5.13)
         uint16_t raw_quat_I, raw_quat_J, raw_quat_K, raw_quat_real, raw_quat_radian_accuracy,
                 quat_accuracy; ///<Raw quaternion reading (See SH-2 Ref. Manual 6.5.44)
-        uint16_t raw_velocity_gyro_X, raw_velocity_gyro_Y,
-                raw_velocity_gyro_Z; ///<Raw gyro angular velocity reading (See SH-2 Ref. Manual 6.5.44)
+        uint16_t integrated_gyro_velocity_X, integrated_gyro_velocity_Y,
+                integrated_gyro_velocity_Z; ///<Raw gyro angular velocity reading from integrated gyro rotation vector (See SH-2 Ref. Manual 6.5.44)
         uint16_t gravity_X, gravity_Y, gravity_Z,
                 gravity_accuracy; ///<Gravity reading in m/s^2 (See SH-2 Ref. Manual 6.5.11)
         uint16_t raw_uncalib_gyro_X, raw_uncalib_gyro_Y, raw_uncalib_gyro_Z, raw_bias_X, raw_bias_Y, raw_bias_Z,
