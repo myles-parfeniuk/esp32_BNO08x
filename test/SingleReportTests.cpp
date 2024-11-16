@@ -443,10 +443,9 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
 
         sprintf(msg_buff,
                 "Enabled Report Rx Data Trial %d Success: Uncalib Gyro: vX: %.2lf vY: %.2lf vZ: %.2lf driftX: %.2lf driftY: %.2lf driftZ: "
-                "%.2lf  Accuracy: %s",
+                "%.2lf",
                 (i + 1), report_data.uncalib_gyro_vel_x, report_data.uncalib_gyro_vel_y, report_data.uncalib_gyro_vel_z,
-                report_data.uncalib_gyro_drift_x, report_data.uncalib_gyro_drift_y, report_data.uncalib_gyro_drift_z,
-                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.uncalib_gyro_accuracy));
+                report_data.uncalib_gyro_drift_x, report_data.uncalib_gyro_drift_y, report_data.uncalib_gyro_drift_z);
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
@@ -525,9 +524,8 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
 
         sprintf(msg_buff,
                 "Enabled Report Rx Data Trial %d Success: Calibrated Gyro: vX: %.2lf vY: %.2lf vZ: "
-                "%.2lf Accuracy: %s",
-                (i + 1), report_data.calib_gyro_vel_x, report_data.calib_gyro_vel_y, report_data.calib_gyro_vel_z,
-                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.calib_gyro_accuracy));
+                "%.2lf",
+                (i + 1), report_data.calib_gyro_vel_x, report_data.calib_gyro_vel_y, report_data.calib_gyro_vel_z);
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test

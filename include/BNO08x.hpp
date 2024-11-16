@@ -151,20 +151,18 @@ class BNO08x
         uint16_t get_raw_mems_magf_Y();
         uint16_t get_raw_mems_magf_Z();
 
-        void get_calibrated_gyro_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy);
+        void get_calibrated_gyro_velocity(float& x, float& y, float& z);
         float get_calibrated_gyro_velocity_X();
         float get_calibrated_gyro_velocity_Y();
         float get_calibrated_gyro_velocity_Z();
-        BNO08xAccuracy get_calibrated_gyro_accuracy();
 
-        void get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& bx, float& by, float& bz, BNO08xAccuracy& accuracy);
+        void get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& bx, float& by, float& bz);
         float get_uncalibrated_gyro_velocity_X();
         float get_uncalibrated_gyro_velocity_Y();
         float get_uncalibrated_gyro_velocity_Z();
         float get_uncalibrated_gyro_bias_X();
         float get_uncalibrated_gyro_bias_Y();
         float get_uncalibrated_gyro_bias_Z();
-        BNO08xAccuracy get_uncalibrated_gyro_accuracy();
 
         void get_integrated_gyro_velocity(float& x, float& y, float& z);
         float get_integrated_gyro_velocity_X();
@@ -388,16 +386,16 @@ class BNO08x
         uint16_t raw_accel_X, raw_accel_Y, raw_accel_Z,
                 accel_accuracy; ///<Raw acceleration readings (See SH-2 Ref. Manual 6.5.8)
         uint16_t raw_lin_accel_X, raw_lin_accel_Y, raw_lin_accel_Z,
-                accel_lin_accuracy;                                                         ///<Raw linear acceleration (See SH-2 Ref. Manual 6.5.10)
-        uint16_t raw_calib_gyro_X, raw_calib_gyro_Y, raw_calib_gyro_Z, calib_gyro_accuracy; ///<Raw gyro reading (See SH-2 Ref. Manual 6.5.13)
+                accel_lin_accuracy;                                    ///<Raw linear acceleration (See SH-2 Ref. Manual 6.5.10)
+        uint16_t raw_calib_gyro_X, raw_calib_gyro_Y, raw_calib_gyro_Z; ///<Raw gyro reading (See SH-2 Ref. Manual 6.5.13)
         uint16_t raw_quat_I, raw_quat_J, raw_quat_K, raw_quat_real, raw_quat_radian_accuracy,
                 quat_accuracy; ///<Raw quaternion reading (See SH-2 Ref. Manual 6.5.44)
         uint16_t integrated_gyro_velocity_X, integrated_gyro_velocity_Y,
                 integrated_gyro_velocity_Z; ///<Raw gyro angular velocity reading from integrated gyro rotation vector (See SH-2 Ref. Manual 6.5.44)
         uint16_t gravity_X, gravity_Y, gravity_Z,
                 gravity_accuracy; ///<Gravity reading in m/s^2 (See SH-2 Ref. Manual 6.5.11)
-        uint16_t raw_uncalib_gyro_X, raw_uncalib_gyro_Y, raw_uncalib_gyro_Z, raw_bias_X, raw_bias_Y, raw_bias_Z,
-                uncalib_gyro_accuracy; ///<Uncalibrated gyro reading (See SH-2 Ref. Manual 6.5.14)
+        uint16_t raw_uncalib_gyro_X, raw_uncalib_gyro_Y, raw_uncalib_gyro_Z, raw_bias_X, raw_bias_Y,
+                raw_bias_Z; ///<Uncalibrated gyro reading (See SH-2 Ref. Manual 6.5.14)
         uint16_t raw_magf_X, raw_magf_Y, raw_magf_Z,
                 magf_accuracy;         ///<Calibrated magnetic field reading in uTesla (See SH-2 Ref. Manual 6.5.16)
         uint8_t tap_detector;          ///<Tap detector reading (See SH-2 Ref. Manual 6.5.27)

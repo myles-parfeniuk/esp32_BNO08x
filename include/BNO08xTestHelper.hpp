@@ -45,7 +45,6 @@ class BNO08xTestHelper
                 float calib_gyro_vel_x;
                 float calib_gyro_vel_y;
                 float calib_gyro_vel_z;
-                BNO08xAccuracy calib_gyro_accuracy;
 
                 float uncalib_gyro_vel_x;
                 float uncalib_gyro_vel_y;
@@ -53,7 +52,6 @@ class BNO08xTestHelper
                 float uncalib_gyro_drift_x;
                 float uncalib_gyro_drift_y;
                 float uncalib_gyro_drift_z;
-                BNO08xAccuracy uncalib_gyro_accuracy;
 
                 float magf_x;
                 float magf_y;
@@ -219,9 +217,6 @@ class BNO08xTestHelper
             if (report_data->uncalib_gyro_drift_z != 0.0f)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_accuracy != BNO08xAccuracy::UNDEFINED)
-                new_data = true;
-
             return new_data;
         }
 
@@ -236,9 +231,6 @@ class BNO08xTestHelper
                 new_data = true;
 
             if (report_data->calib_gyro_vel_z != 0.0f)
-                new_data = true;
-
-            if (report_data->calib_gyro_accuracy != BNO08xAccuracy::UNDEFINED)
                 new_data = true;
 
             return new_data;
@@ -331,10 +323,9 @@ class BNO08xTestHelper
             imu->get_linear_accel(report_data->lin_accel_x, report_data->lin_accel_y, report_data->lin_accel_z, report_data->lin_accel_accuracy);
             imu->get_gravity(report_data->grav_x, report_data->grav_y, report_data->grav_z, report_data->grav_accuracy);
             imu->get_calibrated_gyro_velocity(
-                    report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z, report_data->calib_gyro_accuracy);
+                    report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z);
             imu->get_uncalibrated_gyro_velocity(report_data->uncalib_gyro_vel_x, report_data->uncalib_gyro_vel_y, report_data->uncalib_gyro_vel_z,
-                    report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z,
-                    report_data->uncalib_gyro_accuracy);
+                    report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z);
             imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
         }
 

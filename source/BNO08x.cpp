@@ -1718,7 +1718,6 @@ void BNO08x::update_lin_accelerometer_data(uint16_t* data, uint8_t status)
  */
 void BNO08x::update_calibrated_gyro_data(uint16_t* data, uint8_t status)
 {
-    calib_gyro_accuracy = status;
     raw_calib_gyro_X = data[0];
     raw_calib_gyro_Y = data[1];
     raw_calib_gyro_Z = data[2];
@@ -1734,7 +1733,6 @@ void BNO08x::update_calibrated_gyro_data(uint16_t* data, uint8_t status)
  */
 void BNO08x::update_uncalibrated_gyro_data(uint16_t* data, uint8_t status)
 {
-    uncalib_gyro_accuracy = status;
     raw_uncalib_gyro_X = data[0];
     raw_uncalib_gyro_Y = data[1];
     raw_uncalib_gyro_Z = data[2];
@@ -2395,7 +2393,6 @@ void BNO08x::reset_all_data()
     raw_calib_gyro_X = 0U;
     raw_calib_gyro_Y = 0U;
     raw_calib_gyro_Z = 0U;
-    calib_gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     // reset quaternion to nan
     raw_quat_I = 0U;
@@ -2420,7 +2417,6 @@ void BNO08x::reset_all_data()
     raw_bias_X = 0U;
     raw_bias_Y = 0U;
     raw_bias_Z = 0U;
-    uncalib_gyro_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
     raw_magf_X = 0U;
     raw_magf_Y = 0U;
@@ -2889,7 +2885,7 @@ BNO08xAccuracy BNO08x::get_linear_accel_accuracy()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_raw_mems_accel(uint16_t& x, uint16_t &y, uint16_t &z)
+void BNO08x::get_raw_mems_accel(uint16_t& x, uint16_t& y, uint16_t& z)
 {
     x = mems_raw_accel_X;
     y = mems_raw_accel_X;
@@ -2935,7 +2931,7 @@ uint16_t BNO08x::get_raw_mems_accel_Z()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_raw_mems_gyro(uint16_t& x, uint16_t &y, uint16_t &z)
+void BNO08x::get_raw_mems_gyro(uint16_t& x, uint16_t& y, uint16_t& z)
 {
     x = mems_raw_gyro_X;
     y = mems_raw_gyro_Y;
@@ -2981,7 +2977,7 @@ uint16_t BNO08x::get_raw_mems_gyro_Z()
  *
  * @return void, nothing to return
  */
-void BNO08x::get_raw_mems_magf(uint16_t& x, uint16_t &y, uint16_t &z)
+void BNO08x::get_raw_mems_magf(uint16_t& x, uint16_t& y, uint16_t& z)
 {
     x = mems_raw_magf_X;
     y = mems_raw_magf_Y;
@@ -3024,16 +3020,14 @@ uint16_t BNO08x::get_raw_mems_magf_Z()
  * @param x Reference variable to save X axis angular velocity
  * @param y Reference variable to save Y axis angular velocity
  * @param z Reference variable to save Z axis angular velocity
- * @param accuracy Reference variable to save reported gyro accuracy.
  *
  * @return void, nothing to return
  */
-void BNO08x::get_calibrated_gyro_velocity(float& x, float& y, float& z, BNO08xAccuracy& accuracy)
+void BNO08x::get_calibrated_gyro_velocity(float& x, float& y, float& z)
 {
     x = q_to_float(raw_calib_gyro_X, GYRO_Q1);
     y = q_to_float(raw_calib_gyro_Y, GYRO_Q1);
     z = q_to_float(raw_calib_gyro_Z, GYRO_Q1);
-    accuracy = static_cast<BNO08xAccuracy>(calib_gyro_accuracy);
 }
 
 /**
@@ -3067,16 +3061,6 @@ float BNO08x::get_calibrated_gyro_velocity_Z()
 }
 
 /**
- * @brief Get calibrated gyro accuracy.
- *
- * @return Accuracy of calibrated gyro.
- */
-BNO08xAccuracy BNO08x::get_calibrated_gyro_accuracy()
-{
-    return static_cast<BNO08xAccuracy>(calib_gyro_accuracy);
-}
-
-/**
  * @brief Get full rotational velocity without drift compensation (units in Rad/s). An estimate of drift is given but
  * not applied.
  *
@@ -3086,11 +3070,10 @@ BNO08xAccuracy BNO08x::get_calibrated_gyro_accuracy()
  * @param b_x Reference variable to save X axis drift estimate
  * @param b_y Reference variable to save Y axis drift estimate
  * @param b_z Reference variable to save Z axis drift estimate
- * @param accuracy Reference variable to save reported gyro accuracy.
  *
  * @return void, nothing to return
  */
-void BNO08x::get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z, BNO08xAccuracy& accuracy)
+void BNO08x::get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float& b_x, float& b_y, float& b_z)
 {
     x = q_to_float(raw_uncalib_gyro_X, GYRO_Q1);
     y = q_to_float(raw_uncalib_gyro_Y, GYRO_Q1);
@@ -3098,7 +3081,6 @@ void BNO08x::get_uncalibrated_gyro_velocity(float& x, float& y, float& z, float&
     b_x = q_to_float(raw_bias_X, GYRO_Q1);
     b_y = q_to_float(raw_bias_Y, GYRO_Q1);
     b_z = q_to_float(raw_bias_Z, GYRO_Q1);
-    accuracy = static_cast<BNO08xAccuracy>(uncalib_gyro_accuracy);
 }
 
 /**
@@ -3159,16 +3141,6 @@ float BNO08x::get_uncalibrated_gyro_bias_Y()
 float BNO08x::get_uncalibrated_gyro_bias_Z()
 {
     return q_to_float(raw_bias_Z, GYRO_Q1);
-}
-
-/**
- * @brief Get uncalibrated gyro accuracy.
- *
- * @return Accuracy of uncalibrated gyro.
- */
-BNO08xAccuracy BNO08x::get_uncalibrated_gyro_accuracy()
-{
-    return static_cast<BNO08xAccuracy>(uncalib_gyro_accuracy);
 }
 
 /**
