@@ -560,14 +560,15 @@ bool BNO08x::hard_reset()
     }
     else
     {
-        ESP_LOGI(TAG, "Received advertisement message.");
+        if (first_boot)
+            ESP_LOGI(TAG, "Received advertisement message.");
 
         // The BNO080 will then transmit an unsolicited Initialize Response (see SH2 Ref. Manual 6.4.5.2)
         if (!wait_for_rx_done())
         {
             ESP_LOGE(TAG, "Failed to receive initialize response on boot.");
         }
-        else
+        else if (first_boot)
         {
             ESP_LOGI(TAG, "Received initialize response.");
             success = true;
@@ -1259,8 +1260,6 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 
     if (first_boot)
     {
-        first_boot = false; 
-
         // print product ID info packet
         ESP_LOGI(TAG,
                 "Product ID Info:                           \n\r"
@@ -1273,6 +1272,8 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
                 "                SW Version Patch: 0x%" PRIx32 "\n\r"
                 "                ---------------------------\n\r",
                 product_id, sw_version_major, sw_version_minor, sw_part_number, sw_build_number, sw_version_patch);
+
+        first_boot = false;
     }
 
     xQueueSend(queue_reset_reason, &reset_reason, 0);
