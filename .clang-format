@@ -13,7 +13,7 @@ BreakConstructorInitializersBeforeComma: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 
 AllowShortBlocksOnASingleLine: false
-AllowShortCaseLabelsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false   
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
@@ -33,3 +33,5 @@ BreakBeforeBraces: Allman
 IndentAccessModifiers: true
 
 IndentPPDirectives: AfterHash
+
+IndentCaseLabels: true  

@@ -1010,35 +1010,35 @@ void BNO08x::queue_calibrate_command(uint8_t sensor_to_calibrate)
 
     switch (sensor_to_calibrate)
     {
-    case CALIBRATE_ACCEL:
-        commands[3] = 1;
-        break;
+        case CALIBRATE_ACCEL:
+            commands[3] = 1;
+            break;
 
-    case CALIBRATE_GYRO:
-        commands[4] = 1;
-        break;
+        case CALIBRATE_GYRO:
+            commands[4] = 1;
+            break;
 
-    case CALIBRATE_MAG:
-        commands[5] = 1;
-        break;
+        case CALIBRATE_MAG:
+            commands[5] = 1;
+            break;
 
-    case CALIBRATE_PLANAR_ACCEL:
-        commands[7] = 1;
-        break;
+        case CALIBRATE_PLANAR_ACCEL:
+            commands[7] = 1;
+            break;
 
-    case CALIBRATE_ACCEL_GYRO_MAG:
-        commands[3] = 1;
-        commands[4] = 1;
-        commands[5] = 1;
-        break;
+        case CALIBRATE_ACCEL_GYRO_MAG:
+            commands[3] = 1;
+            commands[4] = 1;
+            commands[5] = 1;
+            break;
 
-    case CALIBRATE_STOP:
-        // do nothing, send packet of all 0s
-        break;
+        case CALIBRATE_STOP:
+            // do nothing, send packet of all 0s
+            break;
 
-    default:
+        default:
 
-        break;
+            break;
     }
 
     calibration_status = 1;
@@ -1243,57 +1243,70 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
     #endif
+
     // clang-format on
-
-    if (packet->body[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
+    switch (packet->body[0])
     {
-        return parse_product_id_report(packet);
+        case SHTP_REPORT_PRODUCT_ID_RESPONSE:
+            return parse_product_id_report(packet);
+            break;
+
+        case SHTP_REPORT_GET_FEATURE_RESPONSE:
+
+            break;
+
+        case SHTP_REPORT_FRS_READ_RESPONSE:
+            return parse_frs_read_response_report(packet);
+            break;
+
+        default:
+
+            break;
     }
 
-    /*if(packet->body[0] == SHTP_REPORT_GET_FEATURE_RESPONSE)
+    switch (packet->header[2])
     {
-
-    }*/
-
-    if (packet->body[0] == SHTP_REPORT_FRS_READ_RESPONSE)
-    {
-        return parse_frs_read_response_report(packet);
-    }
-
-    // Check to see if this packet is a sensor reporting its data to us
-    if (packet->header[2] == CHANNEL_REPORTS && packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        case CHANNEL_REPORTS:
+            if (packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
                 ESP_LOGI(TAG, "RX'd packet, channel report");
-        #endif
-        // clang-format on
+                #endif
+                // clang-format on
 
-        return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
-                                           // report is found
-    }
+                // this will update the rawAccelX, etc variables depending on which feature report is found
+                return parse_input_report(packet);
+            }
+            break;
 
-    if (packet->header[2] == CHANNEL_CONTROL)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGI(TAG, "RX'd packet, channel control");
-        #endif
-        // clang-format on
+        case CHANNEL_CONTROL:
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                    ESP_LOGI(TAG, "RX'd packet, channel control");
+            #endif
+            // clang-format on
 
-        return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
-    }
+            // this will update responses to commands, calibrationStatus, etc.
+            return parse_command_report(packet);
 
-    if (packet->header[2] == CHANNEL_GYRO)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGI(TAG, "Rx packet, channel gyro");
-        #endif
-        // clang-format on
+            break;
 
-        return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
-                                           // report is found
+        case CHANNEL_GYRO:
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                    ESP_LOGI(TAG, "Rx packet, channel gyro");
+            #endif
+            // clang-format on
+
+            // this will update the rawAccelX, etc variables depending on which feature report is found
+            return parse_input_report(packet);
+
+            break;
+
+        default:
+
+            break;
     }
 
     return 0;
@@ -1423,122 +1436,122 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
     // Store these generic values to their proper global variable
     switch (packet->body[5])
     {
-    case SENSOR_REPORT_ID_ACCELEROMETER:
-        accel_accuracy = status;
-        raw_accel_X = data1;
-        raw_accel_Y = data2;
-        raw_accel_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_ACCELEROMETER:
+            accel_accuracy = status;
+            raw_accel_X = data1;
+            raw_accel_Y = data2;
+            raw_accel_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
-        accel_lin_accuracy = status;
-        raw_lin_accel_X = data1;
-        raw_lin_accel_Y = data2;
-        raw_lin_accel_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
+            accel_lin_accuracy = status;
+            raw_lin_accel_X = data1;
+            raw_lin_accel_Y = data2;
+            raw_lin_accel_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_GYROSCOPE:
-        gyro_accuracy = status;
-        raw_gyro_X = data1;
-        raw_gyro_Y = data2;
-        raw_gyro_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_GYROSCOPE:
+            gyro_accuracy = status;
+            raw_gyro_X = data1;
+            raw_gyro_Y = data2;
+            raw_gyro_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
-        uncalib_gyro_accuracy = status;
-        raw_uncalib_gyro_X = data1;
-        raw_uncalib_gyro_Y = data2;
-        raw_uncalib_gyro_Z = data3;
-        raw_bias_X = data4;
-        raw_bias_Y = data5;
-        raw_bias_Z = data6;
-        break;
+        case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
+            uncalib_gyro_accuracy = status;
+            raw_uncalib_gyro_X = data1;
+            raw_uncalib_gyro_Y = data2;
+            raw_uncalib_gyro_Z = data3;
+            raw_bias_X = data4;
+            raw_bias_Y = data5;
+            raw_bias_Z = data6;
+            break;
 
-    case SENSOR_REPORT_ID_MAGNETIC_FIELD:
-        magf_accuracy = status;
-        raw_magf_X = data1;
-        raw_magf_Y = data2;
-        raw_magf_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_MAGNETIC_FIELD:
+            magf_accuracy = status;
+            raw_magf_X = data1;
+            raw_magf_Y = data2;
+            raw_magf_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_TAP_DETECTOR:
-        tap_detector = packet->body[5 + 4]; // Byte 4 only
-        break;
+        case SENSOR_REPORT_ID_TAP_DETECTOR:
+            tap_detector = packet->body[5 + 4]; // Byte 4 only
+            break;
 
-    case SENSOR_REPORT_ID_STEP_COUNTER:
-        step_count = data3; // Bytes 8/9
-        break;
+        case SENSOR_REPORT_ID_STEP_COUNTER:
+            step_count = data3; // Bytes 8/9
+            break;
 
-    case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
-        stability_classifier = packet->body[5 + 4]; // Byte 4 only
-        break;
+        case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
+            stability_classifier = packet->body[5 + 4]; // Byte 4 only
+            break;
 
-    case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
-        activity_classifier = packet->body[5 + 5]; // Most likely state
+        case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
+            activity_classifier = packet->body[5 + 5]; // Most likely state
 
-        // Load activity classification confidences into the array
-        for (i = 0; i < 9; i++)                                // Hardcoded to max of 9. TODO - bring in array size
-            activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
-                                                               // byte
-        break;
+            // Load activity classification confidences into the array
+            for (i = 0; i < 9; i++)                                // Hardcoded to max of 9. TODO - bring in array size
+                activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
+                                                                   // byte
+            break;
 
-    case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
-        mems_raw_accel_X = data1;
-        mems_raw_accel_Y = data2;
-        mems_raw_accel_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
+            mems_raw_accel_X = data1;
+            mems_raw_accel_Y = data2;
+            mems_raw_accel_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_RAW_GYROSCOPE:
-        mems_raw_gyro_X = data1;
-        mems_raw_gyro_Y = data2;
-        mems_raw_gyro_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_RAW_GYROSCOPE:
+            mems_raw_gyro_X = data1;
+            mems_raw_gyro_Y = data2;
+            mems_raw_gyro_Z = data3;
+            break;
 
-    case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
-        mems_raw_magf_X = data1;
-        mems_raw_magf_Y = data2;
-        mems_raw_magf_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
+            mems_raw_magf_X = data1;
+            mems_raw_magf_Y = data2;
+            mems_raw_magf_Z = data3;
+            break;
 
-    case SHTP_REPORT_COMMAND_RESPONSE:
-        // The BNO080 responds with this report to command requests. It's up to use to remember which command we
-        // issued.
-        command = packet->body[5 + 2]; // This is the Command byte of the response
+        case SHTP_REPORT_COMMAND_RESPONSE:
+            // The BNO080 responds with this report to command requests. It's up to use to remember which command we
+            // issued.
+            command = packet->body[5 + 2]; // This is the Command byte of the response
 
-        if (command == COMMAND_ME_CALIBRATE)
-            calibration_status = packet->body[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
-        break;
+            if (command == COMMAND_ME_CALIBRATE)
+                calibration_status = packet->body[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
+            break;
 
-    case SENSOR_REPORT_ID_GRAVITY:
-        gravity_accuracy = status;
-        gravity_X = data1;
-        gravity_Y = data2;
-        gravity_Z = data3;
-        break;
+        case SENSOR_REPORT_ID_GRAVITY:
+            gravity_accuracy = status;
+            gravity_X = data1;
+            gravity_Y = data2;
+            gravity_Z = data3;
+            break;
 
-    default:
-        if (packet->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || packet->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||
-                packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR ||
-                packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR)
-        {
-            quat_accuracy = status;
-            raw_quat_I = data1;
-            raw_quat_J = data2;
-            raw_quat_K = data3;
-            raw_quat_real = data4;
+        default:
+            if (packet->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || packet->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||
+                    packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR ||
+                    packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR)
+            {
+                quat_accuracy = status;
+                raw_quat_I = data1;
+                raw_quat_J = data2;
+                raw_quat_K = data3;
+                raw_quat_real = data4;
 
-            // Only available on rotation vector and ar/vr stabilized rotation vector,
-            //  not game rot vector and not ar/vr stabilized rotation vector
-            raw_quat_radian_accuracy = data5;
-        }
-        else
-        {
-            // This sensor report ID is unhandled.
-            // See reference manual to add additional feature reports as needed
-            return 0;
-        }
+                // Only available on rotation vector and ar/vr stabilized rotation vector,
+                //  not game rot vector and not ar/vr stabilized rotation vector
+                raw_quat_radian_accuracy = data5;
+            }
+            else
+            {
+                // This sensor report ID is unhandled.
+                // See reference manual to add additional feature reports as needed
+                return 0;
+            }
 
-        break;
+            break;
     }
 
     // TODO additional feature reports may be strung together. Parse them all.
