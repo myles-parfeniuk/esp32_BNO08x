@@ -23,14 +23,14 @@
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->header[0])))
 
 #define PARSE_PACKET_TIMESTAMP(packet_ptr)                                                                                                           \
-    (UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[4]) << 24UL, 3UL) | UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[3]) << 16UL, 2UL) |    \
+    (UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[4]) << 24UL, 3UL) | UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[3]) << 16UL, 2UL) |   \
             UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[2]) << 8UL, 1UL) | UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[1]), 0UL))
 
 // product id report parsing
 #define PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet_ptr) UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[1]), 0UL)
 
 #define PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet_ptr)                                                                                               \
-    (UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[7]) << 24UL, 3UL) |                                                                       \
+    (UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[7]) << 24UL, 3UL) |                                                                      \
             UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[6]) << 16UL, 2UL) |                                                               \
             UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[5]) << 8UL, 1UL) |                                                                \
             UINT32_MSK_BYTE(static_cast<uint32_t>(packet_ptr->body[4]), 0UL))
@@ -48,25 +48,27 @@
 
 #define PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet_ptr) UINT32_MSK_BYTE(static_cast<uint32_t>(packet->body[3]), 0UL)
 
-// input report parsing
-#define PARSE_INPUT_REPORT_RAW_QUAT_I(packet)                                                                                                        \
+// gyro report parsing
+#define PARSE_GYRO_REPORT_RAW_QUAT_I(packet)                                                                                                         \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[0])))
-#define PARSE_INPUT_REPORT_RAW_QUAT_J(packet)                                                                                                        \
+#define PARSE_GYRO_REPORT_RAW_QUAT_J(packet)                                                                                                         \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[3]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[2])))
-#define PARSE_INPUT_REPORT_RAW_QUAT_K(packet)                                                                                                        \
+#define PARSE_GYRO_REPORT_RAW_QUAT_K(packet)                                                                                                         \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[5]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[4])))
-#define PARSE_INPUT_REPORT_RAW_QUAT_REAL(packet)                                                                                                     \
+#define PARSE_GYRO_REPORT_RAW_QUAT_REAL(packet)                                                                                                      \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[7]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[6])))
 
-#define PARSE_INPUT_REPORT_RAW_GYRO_VEL_X(packet)                                                                                                    \
+#define PARSE_GYRO_REPORT_RAW_GYRO_VEL_X(packet)                                                                                                     \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[9]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[8])))
-#define PARSE_INPUT_REPORT_RAW_GYRO_VEL_Y(packet)                                                                                                    \
+#define PARSE_GYRO_REPORT_RAW_GYRO_VEL_Y(packet)                                                                                                     \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[11]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[10])))
-#define PARSE_INPUT_REPORT_RAW_GYRO_VEL_Z(packet)                                                                                                    \
+#define PARSE_GYRO_REPORT_RAW_GYRO_VEL_Z(packet)                                                                                                     \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[13]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[12])))
 
+// input report parsing
 #define PARSE_INPUT_REPORT_STATUS_BITS(packet) (packet->body[5 + 2] & 0x03U)
 
+#define PARSE_INPUT_REPORT_REPORT_ID(packet) UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[5]))
 #define PARSE_INPUT_REPORT_DATA_1(packet)                                                                                                            \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[5 + 5]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[5 + 4])))
 #define PARSE_INPUT_REPORT_DATA_2(packet)                                                                                                            \
@@ -80,6 +82,12 @@
 #define PARSE_INPUT_REPORT_DATA_6(packet)                                                                                                            \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->body[5 + 15]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->body[5 + 14])))
 
+#define IS_ROTATION_VECTOR_REPORT(packet)                                                                                                            \
+    ((packet)->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || (packet)->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||                          \
+            (packet)->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR ||                                                                 \
+            (packet)->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR)
+
+// frs read response report parsing
 #define PARSE_FRS_READ_RESPONSE_REPORT_RECORD_ID(packet_body)                                                                                        \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet_body[13]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet_body[12])))
 #define PARSE_FRS_READ_RESPONSE_REPORT_DATA_1(packet_body)                                                                                           \

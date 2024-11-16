@@ -836,7 +836,6 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
         Lets flush this response as it's currently detected as an invalid packet, we don't care about it.
         It might be wise to  detect the response for the respective report being disabled, but is probably not necessary.
         */
-        flush_rx_packets(3);
 
         // no reports enabled, disable hint to avoid wasting processing time
         if ((xEventGroupGetBits(evt_grp_report_en)) == 0)
@@ -1234,10 +1233,13 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  * @brief Parses a packet received from bno08x, updating any data according to received reports.
  *
  * @param packet The packet to be parsed.
+ * @param notify_users Bool reference that is set to true if users should be notified of new data through callbacks/polling, false if packet is valid
+ *                     but users don't need to be notified.
  * @return 0 if invalid packet.
  */
-uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
 {
+    notify_users = true;
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
@@ -1252,7 +1254,8 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
             break;
 
         case SHTP_REPORT_GET_FEATURE_RESPONSE:
-
+            notify_users = false;
+            return parse_feature_get_response_report(packet);
             break;
 
         case SHTP_REPORT_FRS_READ_RESPONSE:
@@ -1300,8 +1303,32 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
             // clang-format on
 
             // this will update the rawAccelX, etc variables depending on which feature report is found
-            return parse_input_report(packet);
+            return parse_gyro_report(packet);
 
+            break;
+
+        case CHANNEL_COMMAND:
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                    ESP_LOGI(TAG, "Rx packet, channel command");
+            #endif
+            // clang-format on
+
+            // todo add proper handling
+            notify_users = false;
+            return 1;
+            break;
+
+        case CHANNEL_WAKE_REPORTS:
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                    ESP_LOGI(TAG, "Rx packet, wake reports");
+            #endif
+            // clang-format on
+
+            // todo add proper handling
+            notify_users = false;
+            return 1;
             break;
 
         default:
@@ -1363,6 +1390,95 @@ uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
     return 1;
 }
 
+uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
+{
+    uint16_t report_id = 0;
+
+    switch (packet->body[1])
+    {
+        case SENSOR_REPORT_ID_ACCELEROMETER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_GYROSCOPE:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_MAGNETIC_FIELD:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_GRAVITY:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_GAME_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_TAP_DETECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_STEP_COUNTER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_RAW_GYROSCOPE:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        case SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR:
+            report_id = packet->body[0];
+            break;
+
+        default:
+            break;
+    }
+
+    return report_id;
+}
+
 /**
  * @brief Parses received input report sent by BNO08x.
  *
@@ -1380,182 +1496,155 @@ uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
  * packet->body[10:11]: real/gyro temp/etc
  * packet->body[12:13]: Accuracy estimate
  *
+ * @param packet bno8x_rx_packet_t containing the input report to parse
+ *
  * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0 if invalid.
  */
 uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 {
-    uint16_t i = 0;
-    uint8_t status = 0;
-    uint8_t command = 0;
-
-    // Calculate the number of data bytes in this packet
+    uint8_t status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
     uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
-    data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
+    uint16_t report_id = PARSE_INPUT_REPORT_REPORT_ID(packet);
+    uint16_t data[6] = {0};
 
-    // Ignore it for now. TODO catch this as an error and exit
+    data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
+    // ignore it for now. TODO catch this as an error and exit
 
     data_length -= 4; // Remove the header bytes from the data count
     time_stamp = PARSE_PACKET_TIMESTAMP(packet);
 
-    // The gyro-integrated input reports are sent via the special gyro channel and do no include the usual ID, sequence,
-    // and status fields
-    if (packet->header[2] == CHANNEL_GYRO)
-    {
-        raw_quat_I = PARSE_INPUT_REPORT_RAW_QUAT_I(packet);
-        raw_quat_J = PARSE_INPUT_REPORT_RAW_QUAT_J(packet);
-        raw_quat_K = PARSE_INPUT_REPORT_RAW_QUAT_K(packet);
-        raw_quat_real = PARSE_INPUT_REPORT_RAW_QUAT_REAL(packet);
-        raw_velocity_gyro_X = PARSE_INPUT_REPORT_RAW_GYRO_VEL_X(packet);
-        raw_velocity_gyro_Y = PARSE_INPUT_REPORT_RAW_GYRO_VEL_Y(packet);
-        raw_velocity_gyro_Z = PARSE_INPUT_REPORT_RAW_GYRO_VEL_Z(packet);
-
-        return SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR;
-    }
-
-    status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
-    uint16_t data1 = PARSE_INPUT_REPORT_DATA_1(packet);
-    uint16_t data2 = PARSE_INPUT_REPORT_DATA_2(packet);
-    uint16_t data3 = PARSE_INPUT_REPORT_DATA_3(packet);
-    uint16_t data4 = 0;
-    uint16_t data5 = 0;
-    uint16_t data6 = 0;
-
-    if (data_length - 5 > 9)
-    {
-        data4 = PARSE_INPUT_REPORT_DATA_4(packet);
-    }
-    if (data_length - 5 > 11)
-    {
-        data5 = PARSE_INPUT_REPORT_DATA_5(packet);
-    }
-    if (data_length - 5 > 13)
-    {
-        data6 = PARSE_INPUT_REPORT_DATA_6(packet);
-    }
+    parse_input_report_data(packet, data, data_length);
 
     // Store these generic values to their proper global variable
-    switch (packet->body[5])
+    switch (report_id)
     {
         case SENSOR_REPORT_ID_ACCELEROMETER:
-            accel_accuracy = status;
-            raw_accel_X = data1;
-            raw_accel_Y = data2;
-            raw_accel_Z = data3;
+            update_accelerometer_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
-            accel_lin_accuracy = status;
-            raw_lin_accel_X = data1;
-            raw_lin_accel_Y = data2;
-            raw_lin_accel_Z = data3;
+            update_lin_accelerometer_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_GYROSCOPE:
-            gyro_accuracy = status;
-            raw_gyro_X = data1;
-            raw_gyro_Y = data2;
-            raw_gyro_Z = data3;
+            update_gyro_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
-            uncalib_gyro_accuracy = status;
-            raw_uncalib_gyro_X = data1;
-            raw_uncalib_gyro_Y = data2;
-            raw_uncalib_gyro_Z = data3;
-            raw_bias_X = data4;
-            raw_bias_Y = data5;
-            raw_bias_Z = data6;
+            update_uncalib_gyro_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_MAGNETIC_FIELD:
-            magf_accuracy = status;
-            raw_magf_X = data1;
-            raw_magf_Y = data2;
-            raw_magf_Z = data3;
+            update_magf_data(data, status);
             break;
 
         case SENSOR_REPORT_ID_TAP_DETECTOR:
-            tap_detector = packet->body[5 + 4]; // Byte 4 only
+            update_tap_detector_data(packet);
             break;
 
         case SENSOR_REPORT_ID_STEP_COUNTER:
-            step_count = data3; // Bytes 8/9
+            update_step_counter_data(data);
             break;
 
         case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
-            stability_classifier = packet->body[5 + 4]; // Byte 4 only
+            update_stability_classifier_data(packet);
             break;
 
         case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
-            activity_classifier = packet->body[5 + 5]; // Most likely state
-
-            // Load activity classification confidences into the array
-            for (i = 0; i < 9; i++)                                // Hardcoded to max of 9. TODO - bring in array size
-                activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
-                                                                   // byte
+            update_personal_activity_classifier_data(packet);
             break;
 
         case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
-            mems_raw_accel_X = data1;
-            mems_raw_accel_Y = data2;
-            mems_raw_accel_Z = data3;
+            update_raw_accelerometer_data(data);
             break;
 
         case SENSOR_REPORT_ID_RAW_GYROSCOPE:
-            mems_raw_gyro_X = data1;
-            mems_raw_gyro_Y = data2;
-            mems_raw_gyro_Z = data3;
+            update_raw_gyro_data(data);
             break;
 
         case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
-            mems_raw_magf_X = data1;
-            mems_raw_magf_Y = data2;
-            mems_raw_magf_Z = data3;
+            update_raw_magf_data(data);
             break;
 
         case SHTP_REPORT_COMMAND_RESPONSE:
-            // The BNO080 responds with this report to command requests. It's up to use to remember which command we
-            // issued.
-            command = packet->body[5 + 2]; // This is the Command byte of the response
-
-            if (command == COMMAND_ME_CALIBRATE)
-                calibration_status = packet->body[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
+            update_command_data(packet);
             break;
 
         case SENSOR_REPORT_ID_GRAVITY:
-            gravity_accuracy = status;
-            gravity_X = data1;
-            gravity_Y = data2;
-            gravity_Z = data3;
+            update_gravity_data(data, status);
             break;
 
         default:
-            if (packet->body[5] == SENSOR_REPORT_ID_ROTATION_VECTOR || packet->body[5] == SENSOR_REPORT_ID_GAME_ROTATION_VECTOR ||
-                    packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR ||
-                    packet->body[5] == SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR)
+            if (IS_ROTATION_VECTOR_REPORT(packet))
             {
-                quat_accuracy = status;
-                raw_quat_I = data1;
-                raw_quat_J = data2;
-                raw_quat_K = data3;
-                raw_quat_real = data4;
-
-                // Only available on rotation vector and ar/vr stabilized rotation vector,
-                //  not game rot vector and not ar/vr stabilized rotation vector
-                raw_quat_radian_accuracy = data5;
-            }
-            else
-            {
-                // This sensor report ID is unhandled.
-                // See reference manual to add additional feature reports as needed
-                return 0;
+                update_rotation_vector_data(data, status);
             }
 
             break;
     }
 
     // TODO additional feature reports may be strung together. Parse them all.
-    return packet->body[5];
+
+    return report_id;
+}
+
+/**
+ * @brief Parses data from received input report.
+ *
+ * @param packet bno8x_rx_packet_t containing the input report to parse
+ * @param data uint16_t array to store parsed data in
+ * @param data_length length of data in bytes parsed from packet header
+ *
+ * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0 if invalid.
+ */
+void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data, uint16_t data_length)
+{
+
+    data[0] = PARSE_INPUT_REPORT_DATA_1(packet);
+    data[1] = PARSE_INPUT_REPORT_DATA_2(packet);
+    data[2] = PARSE_INPUT_REPORT_DATA_3(packet);
+
+    if (data_length - 5 > 9)
+    {
+        data[3] = PARSE_INPUT_REPORT_DATA_4(packet);
+    }
+    if (data_length - 5 > 11)
+    {
+        data[4] = PARSE_INPUT_REPORT_DATA_5(packet);
+    }
+    if (data_length - 5 > 13)
+    {
+        data[5] = PARSE_INPUT_REPORT_DATA_6(packet);
+    }
+}
+
+/**
+ * @brief Parses received gyro report sent by BNO08x.
+ *
+ * Unit responds with packet that contains the following:
+ *
+ * packet->header[0:3]: First, a 4 byte header
+ * packet->body[0:1]: Raw quaternion component I
+ * packet->body[2:3]: Raw quaternion component J
+ * packet->body[4:5]: Raw quaternion component K
+ * packet->body[6:7]: Raw quaternion real component
+ * packet->body[8:9]: Raw gyroscope angular velocity in X axis
+ * packet->body[10:11]: Raw gyroscope angular velocity in Y axis
+ * packet->body[12:13]: Raw gyroscope angular velocity in Z axis
+ *
+ * @return Integrated rotation vector report ID (always valid)
+ */
+uint16_t BNO08x::parse_gyro_report(bno08x_rx_packet_t* packet)
+{
+
+    // calculate the number of data bytes in this packet
+    uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
+    data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
+
+    // the gyro-integrated input reports are sent via the special gyro channel and do not include the usual ID, sequence, and status fields
+    update_integrated_gyro_rotation_vector_data(packet);
+
+    return SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR;
 }
 
 /**
@@ -1585,6 +1674,257 @@ uint16_t BNO08x::parse_command_report(bno08x_rx_packet_t* packet)
     }
 
     return 0;
+}
+
+/**
+ * @brief Updates accelerometer data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_accelerometer_data(uint16_t* data, uint8_t status)
+{
+    accel_accuracy = status;
+    raw_accel_X = data[0];
+    raw_accel_Y = data[1];
+    raw_accel_Z = data[2];
+}
+
+/**
+ * @brief Updates linear accelerometer data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_lin_accelerometer_data(uint16_t* data, uint8_t status)
+{
+    accel_lin_accuracy = status;
+    raw_lin_accel_X = data[0];
+    raw_lin_accel_Y = data[1];
+    raw_lin_accel_Z = data[2];
+}
+
+/**
+ * @brief Updates linear gyro data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_gyro_data(uint16_t* data, uint8_t status)
+{
+    gyro_accuracy = status;
+    raw_gyro_X = data[0];
+    raw_gyro_Y = data[1];
+    raw_gyro_Z = data[2];
+}
+
+/**
+ * @brief Updates uncalibrated gyro data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_uncalib_gyro_data(uint16_t* data, uint8_t status)
+{
+    uncalib_gyro_accuracy = status;
+    raw_uncalib_gyro_X = data[0];
+    raw_uncalib_gyro_Y = data[1];
+    raw_uncalib_gyro_Z = data[2];
+    raw_bias_X = data[3];
+    raw_bias_Y = data[4];
+    raw_bias_Z = data[5];
+}
+
+/**
+ * @brief Updates magnetic field data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_magf_data(uint16_t* data, uint8_t status)
+{
+    magf_accuracy = status;
+    raw_magf_X = data[0];
+    raw_magf_Y = data[1];
+    raw_magf_Z = data[2];
+}
+
+/**
+ * @brief Updates gravity data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_gravity_data(uint16_t* data, uint8_t status)
+{
+    gravity_accuracy = status;
+    gravity_X = data[0];
+    gravity_Y = data[1];
+    gravity_Z = data[2];
+}
+
+/**
+ * @brief Updates roation vector data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ * @param status uint8_t containing parsed status bits (represents accuracy)
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_rotation_vector_data(uint16_t* data, uint8_t status)
+{
+    quat_accuracy = status;
+    raw_quat_I = data[0];
+    raw_quat_J = data[1];
+    raw_quat_K = data[2];
+    raw_quat_real = data[3];
+
+    // Only available on rotation vector and ar/vr stabilized rotation vector,
+    //  not game rot vector and not ar/vr stabilized rotation vector
+    raw_quat_radian_accuracy = data[4];
+}
+
+/**
+ * @brief Updates step counter data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_step_counter_data(uint16_t* data)
+{
+    step_count = data[2]; // bytes 8/9
+}
+
+/**
+ * @brief Updates raw accelerometer data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_accelerometer_data(uint16_t* data)
+{
+    mems_raw_accel_X = data[0];
+    mems_raw_accel_Y = data[1];
+    mems_raw_accel_Z = data[2];
+}
+
+/**
+ * @brief Updates raw gyro data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_gyro_data(uint16_t* data)
+{
+    mems_raw_gyro_X = data[0];
+    mems_raw_gyro_Y = data[1];
+    mems_raw_gyro_Z = data[2];
+}
+
+/**
+ * @brief Updates raw magnetic field data from parsed input report.
+ *
+ * @param data uint16_t array containing parsed input report data.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_magf_data(uint16_t* data)
+{
+    mems_raw_magf_X = data[0];
+    mems_raw_magf_Y = data[1];
+    mems_raw_magf_Z = data[2];
+}
+
+/**
+ * @brief Updates tap detector data from parsed input report.
+ *
+ * @param packet bno08x_rx_packet_t containing the packet with tap detector report.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_tap_detector_data(bno08x_rx_packet_t* packet)
+{
+    tap_detector = packet->body[5 + 4]; // Byte 4 only
+}
+
+/**
+ * @brief Updates stability classifier data from parsed input report.
+ *
+ * @param packet bno08x_rx_packet_t containing the packet with stability classifier report.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_stability_classifier_data(bno08x_rx_packet_t* packet)
+{
+    stability_classifier = packet->body[5 + 4]; // Byte 4 only
+}
+
+/**
+ * @brief Updates activity classifier data from parsed input report.
+ *
+ * @param packet bno08x_rx_packet_t containing the packet with activity classifier report.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_personal_activity_classifier_data(bno08x_rx_packet_t* packet)
+{
+    activity_classifier = packet->body[5 + 5]; // Most likely state
+
+    // Load activity classification confidences into the array
+    for (int i = 0; i < 9; i++)                            // Hardcoded to max of 9. TODO - bring in array size
+        activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
+                                                           // byte
+}
+
+/**
+ * @brief Updates command data from parsed input report.
+ *
+ * @param packet bno08x_rx_packet_t containing the packet with command response report.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_command_data(bno08x_rx_packet_t* packet)
+{
+    uint8_t command = 0;
+
+    // the BNO080 responds with this report to command requests. It's up to use to remember which command we issued.
+    command = packet->body[5 + 2]; // This is the Command byte of the response
+
+    if (command == COMMAND_ME_CALIBRATE)
+        calibration_status = packet->body[5 + 5]; // R0 - Status (0 = success, non-zero = fail)
+}
+
+/**
+ * @brief Updates integrated gyro rotation vector data from SHTP channel 5 (CHANNEL_GYRO) special report data.
+ *
+ * @param packet bno08x_rx_packet_t containing the packet with command response report.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_integrated_gyro_rotation_vector_data(bno08x_rx_packet_t* packet)
+{
+    raw_quat_I = PARSE_GYRO_REPORT_RAW_QUAT_I(packet);
+    raw_quat_J = PARSE_GYRO_REPORT_RAW_QUAT_J(packet);
+    raw_quat_K = PARSE_GYRO_REPORT_RAW_QUAT_K(packet);
+    raw_quat_real = PARSE_GYRO_REPORT_RAW_QUAT_REAL(packet);
+    raw_velocity_gyro_X = PARSE_GYRO_REPORT_RAW_GYRO_VEL_X(packet);
+    raw_velocity_gyro_Y = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Y(packet);
+    raw_velocity_gyro_Z = PARSE_GYRO_REPORT_RAW_GYRO_VEL_Z(packet);
 }
 
 /**
@@ -3311,6 +3651,7 @@ void BNO08x::data_proc_task_trampoline(void* arg)
 void BNO08x::data_proc_task()
 {
     bno08x_rx_packet_t packet;
+    bool notify_users = false;
 
     while (1) // receive packet from spi_task()
     {
@@ -3318,16 +3659,21 @@ void BNO08x::data_proc_task()
         {
             if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
             {
-                if (parse_packet(&packet) != 0) // check if packet is valid
+                if ((parse_packet(&packet, notify_users) != 0)) // check if packet is valid
                 {
-                    // execute any registered callbacks
-                    for (auto& cb_fxn : cb_list)
-                        cb_fxn();
+                    // get feature reports are valid packets but we don't need to notify the user unless they explicitly have requested them
+                    if (notify_users)
+                    {
+                        // execute any registered callbacks
+                        for (auto& cb_fxn : cb_list)
+                            cb_fxn();
 
-                    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT); // indicate valid packet to wait_for_data()
+                        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT); // indicate valid packet to wait_for_data()
+                    }
                 }
                 else
                 {
+                    print_packet(&packet);
                     xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET_BIT); // indicated invalid packet to wait_for_data()
                 }
             }
