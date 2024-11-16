@@ -423,7 +423,7 @@ class BNO08x
                 portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
 
         static const constexpr TickType_t HARD_RESET_DELAY_MS =
-                200UL /
+                100UL /
                 portTICK_PERIOD_MS; ///<How long RST pin is held low during hard reset (min 10ns according to datasheet, but should be longer for stable operation)
 
         static const constexpr TickType_t CMD_EXECUTION_DELAY_MS =

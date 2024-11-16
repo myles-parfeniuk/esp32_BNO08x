@@ -2397,10 +2397,11 @@ void BNO08x::reset_all_data()
     raw_gyro_Z = 0U;
     gyro_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
 
+    //reset quaternion to nan
     raw_quat_I = 0U;
     raw_quat_J = 0U;
     raw_quat_K = 0U;
-    raw_quat_real = 1U;
+    raw_quat_real = 0U;
     raw_quat_radian_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
     quat_accuracy = static_cast<uint16_t>(IMUAccuracy::UNDEFINED);
 
@@ -3673,7 +3674,11 @@ void BNO08x::data_proc_task()
                 }
                 else
                 {
-                    print_packet(&packet);
+                    // clang-format on
+                    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                        print_packet(&packet);
+                    #endif
+                    //clang-format off
                     xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET_BIT); // indicated invalid packet to wait_for_data()
                 }
             }
