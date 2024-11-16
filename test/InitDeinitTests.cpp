@@ -1,7 +1,7 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-TEST_CASE("Init Config Args", "[Init]")
+TEST_CASE("Init Config Args", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Init Config Args";
     BNO08x* imu = nullptr;
@@ -17,7 +17,7 @@ TEST_CASE("Init Config Args", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Init GPIO", "[Init]")
+TEST_CASE("Init GPIO", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Init GPIO";
     BNO08x* imu = nullptr;
@@ -31,7 +31,7 @@ TEST_CASE("Init GPIO", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Init HINT ISR", "[Init]")
+TEST_CASE("Init HINT ISR", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Init HINT_ISR";
     BNO08x* imu = nullptr;
@@ -45,7 +45,7 @@ TEST_CASE("Init HINT ISR", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Init SPI", "[Init]")
+TEST_CASE("Init SPI", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Init SPI";
     BNO08x* imu = nullptr;
@@ -59,7 +59,7 @@ TEST_CASE("Init SPI", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Init Tasks", "[Init]")
+TEST_CASE("InitComprehensive Tasks", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Init Tasks";
     BNO08x* imu = nullptr;
@@ -73,7 +73,7 @@ TEST_CASE("Init Tasks", "[Init]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Finish Init", "[Init]")
+TEST_CASE("Finish Init", "[InitComprehensive]")
 {
     const constexpr char* TEST_TAG = "Finish Init";
     BNO08x* imu = nullptr;

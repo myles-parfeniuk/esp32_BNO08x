@@ -12,6 +12,28 @@ class BNO08xTestHelper
         static const constexpr char* TAG = "BNO08xTestHelper";
 
     public:
+        typedef struct imu_report_data_t
+        {
+                uint32_t time_stamp;
+
+                float quat_I;
+                float quat_J;
+                float quat_K;
+                float quat_real;
+                IMUAccuracy raw_quat_radian_accuracy;
+                IMUAccuracy quat_accuracy;
+
+                float gyro_vel_x;
+                float gyro_vel_y;
+                float gyro_vel_z;
+
+                float accel_x;
+                float accel_y;
+                float accel_z;
+                IMUAccuracy accel_accuracy;
+
+        } imu_report_data_t;
+
         static void print_test_start_banner(const char* TEST_TAG)
         {
             printf("------------------------ BEGIN TEST: %s ------------------------\n\r", TEST_TAG);
@@ -92,5 +114,94 @@ class BNO08xTestHelper
                 return ESP_FAIL;
 
             return test_imu->launch_tasks();
+        }
+
+        static bool rotation_vector_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->quat_I != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_J != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_K != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_real != 1.0f)
+                new_data = true;
+
+            if (report_data->quat_accuracy != IMUAccuracy::UNDEFINED)
+                new_data = true;
+
+            if (report_data->raw_quat_radian_accuracy != IMUAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static bool gyro_integrated_rotation_vector_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->quat_I != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_J != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_K != 0.0f)
+                new_data = true;
+
+            if (report_data->quat_real != 1.0f)
+                new_data = true;
+
+            if (report_data->gyro_vel_x != 0.0f)
+                new_data = true;
+
+            if (report_data->gyro_vel_y != 0.0f)
+                new_data = true;
+
+            if (report_data->gyro_vel_z != 0.0f)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static bool accelerometer_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->accel_x != 0.0f)
+                new_data = true;
+
+            if (report_data->accel_y != 0.0f)
+                new_data = true;
+
+            if (report_data->accel_z != 0.0f)
+                new_data = true;
+
+            if (report_data->accel_accuracy != IMUAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
+        {
+            uint8_t accel_accuracy = 0;
+
+            report_data->quat_I = imu->get_quat_I();
+            report_data->quat_J = imu->get_quat_J();
+            report_data->quat_K = imu->get_quat_K();
+            report_data->quat_real = imu->get_quat_real();
+            report_data->raw_quat_radian_accuracy = static_cast<IMUAccuracy>(imu->get_raw_quat_radian_accuracy());
+            report_data->quat_accuracy = static_cast<IMUAccuracy>(imu->get_quat_accuracy());
+
+            imu->get_gyro_velocity(report_data->gyro_vel_x, report_data->gyro_vel_y, report_data->gyro_vel_z);
+
+            imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, accel_accuracy);
+            report_data->accel_accuracy = static_cast<IMUAccuracy>(accel_accuracy);
         }
 };

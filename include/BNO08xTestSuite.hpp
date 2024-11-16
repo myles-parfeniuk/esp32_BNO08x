@@ -35,7 +35,7 @@ class BNO08xTestSuite
             print_begin_tests_banner("init_denit_tests");
 
             UNITY_BEGIN();
-            unity_run_tests_by_tag("[Init]", false);
+            unity_run_tests_by_tag("[InitComprehensive]", false);
             unity_run_tests_by_tag("[InitDenit]", false);
             UNITY_END();
 
@@ -47,7 +47,7 @@ class BNO08xTestSuite
             print_begin_tests_banner("report_tests");
 
             UNITY_BEGIN();
-            unity_run_tests_by_tag("[ReportEnableDisable]", false);
+            unity_run_tests_by_tag("[SingleReportEnableDisable]", false);
             UNITY_END();
 
             print_end_tests_banner("report_tests");
