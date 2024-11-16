@@ -47,6 +47,18 @@ class BNO08xTestHelper
                 float calib_gyro_vel_z;
                 BNO08xAccuracy calib_gyro_accuracy;
 
+                float uncalib_gyro_vel_x;
+                float uncalib_gyro_vel_y;
+                float uncalib_gyro_vel_z;
+                float uncalib_gyro_drift_x;
+                float uncalib_gyro_drift_y;
+                float uncalib_gyro_drift_z;
+                BNO08xAccuracy uncalib_gyro_accuracy;
+
+                float magf_x;
+                float magf_y;
+                float magf_z;
+                BNO08xAccuracy magf_accuracy;
 
         } imu_report_data_t;
 
@@ -185,6 +197,53 @@ class BNO08xTestHelper
             return new_data;
         }
 
+        static bool uncalibrated_gyro_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->uncalib_gyro_vel_x != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_vel_y != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_vel_z != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_drift_x != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_drift_y != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_drift_z != 0.0f)
+                new_data = true;
+
+            if (report_data->uncalib_gyro_accuracy != BNO08xAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static bool calibrated_gyro_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->calib_gyro_vel_x != 0.0f)
+                new_data = true;
+
+            if (report_data->calib_gyro_vel_y != 0.0f)
+                new_data = true;
+
+            if (report_data->calib_gyro_vel_z != 0.0f)
+                new_data = true;
+
+            if (report_data->calib_gyro_accuracy != BNO08xAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
         static bool accelerometer_data_is_default(imu_report_data_t* report_data)
         {
             bool new_data = false;
@@ -242,15 +301,58 @@ class BNO08xTestHelper
             return new_data;
         }
 
+        static bool magnetometer_data_is_default(imu_report_data_t* report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->magf_x != 0.0f)
+                new_data = true;
+
+            if (report_data->magf_y != 0.0f)
+                new_data = true;
+
+            if (report_data->magf_z != 0.0f)
+                new_data = true;
+
+            if (report_data->magf_accuracy != BNO08xAccuracy::UNDEFINED)
+                new_data = true;
+
+            return new_data;
+        }
+
         static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
         {
 
             imu->get_quat(report_data->quat_I, report_data->quat_J, report_data->quat_K, report_data->quat_real, report_data->quat_radian_accuracy,
                     report_data->quat_accuracy);
-            imu->get_integrated_gyro_velocity(report_data->integrated_gyro_vel_x, report_data->integrated_gyro_vel_y, report_data->integrated_gyro_vel_z);
+            imu->get_integrated_gyro_velocity(
+                    report_data->integrated_gyro_vel_x, report_data->integrated_gyro_vel_y, report_data->integrated_gyro_vel_z);
             imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, report_data->accel_accuracy);
             imu->get_linear_accel(report_data->lin_accel_x, report_data->lin_accel_y, report_data->lin_accel_z, report_data->lin_accel_accuracy);
             imu->get_gravity(report_data->grav_x, report_data->grav_y, report_data->grav_z, report_data->grav_accuracy);
-            imu->get_calibrated_gyro_velocity(report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z, report_data->calib_gyro_accuracy);
+            imu->get_calibrated_gyro_velocity(
+                    report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z, report_data->calib_gyro_accuracy);
+            imu->get_uncalibrated_gyro_velocity(report_data->uncalib_gyro_vel_x, report_data->uncalib_gyro_vel_y, report_data->uncalib_gyro_vel_z,
+                    report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z,
+                    report_data->uncalib_gyro_accuracy);
+            imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
         }
+
+        static const char* BNO08xAccuracy_to_str(BNO08xAccuracy accuracy)
+        {
+            switch (accuracy)
+            {
+                case BNO08xAccuracy::LOW:
+                    return "LOW";
+                case BNO08xAccuracy::MED:
+                    return "MED";
+                case BNO08xAccuracy::HIGH:
+                    return "HIGH";
+                case BNO08xAccuracy::UNDEFINED:
+                    return "UNDEFINED";
+                default:
+                    return "UNKNOWN"; // For undefined cases or future-proofing
+            }
+        };
+
 };

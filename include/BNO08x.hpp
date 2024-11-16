@@ -52,11 +52,8 @@ class BNO08x
         void enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports);
         void enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports);
         void enable_gyro_integrated_rotation_vector(uint32_t time_between_reports);
-
         void enable_uncalibrated_gyro(uint32_t time_between_reports);
         void enable_calibrated_gyro(uint32_t time_between_reports);
-        void enable_raw_mems_gyro(uint32_t time_between_reports);
-
         void enable_accelerometer(uint32_t time_between_reports);
         void enable_linear_accelerometer(uint32_t time_between_reports);
         void enable_gravity(uint32_t time_between_reports);
@@ -65,6 +62,7 @@ class BNO08x
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
         void enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_raw_mems_gyro(uint32_t time_between_reports);
         void enable_raw_mems_accelerometer(uint32_t time_between_reports);
         void enable_raw_mems_magnetometer(uint32_t time_between_reports);
 
@@ -138,17 +136,17 @@ class BNO08x
         float get_linear_accel_Z();
         BNO08xAccuracy get_linear_accel_accuracy();
 
-        void get_raw_mems_accel(uint16_t &x, uint16_t &y, uint16_t &z);
+        void get_raw_mems_accel(uint16_t& x, uint16_t& y, uint16_t& z);
         uint16_t get_raw_mems_accel_X();
         uint16_t get_raw_mems_accel_Y();
         uint16_t get_raw_mems_accel_Z();
 
-        void get_raw_mems_gyro(uint16_t &x, uint16_t &y, uint16_t &z);
+        void get_raw_mems_gyro(uint16_t& x, uint16_t& y, uint16_t& z);
         uint16_t get_raw_mems_gyro_X();
         uint16_t get_raw_mems_gyro_Y();
         uint16_t get_raw_mems_gyro_Z();
 
-        void get_raw_mems_magf(uint16_t &x, uint16_t &y, uint16_t &z);
+        void get_raw_mems_magf(uint16_t& x, uint16_t& y, uint16_t& z);
         uint16_t get_raw_mems_magf_X();
         uint16_t get_raw_mems_magf_Y();
         uint16_t get_raw_mems_magf_Z();
@@ -390,7 +388,7 @@ class BNO08x
         uint16_t raw_accel_X, raw_accel_Y, raw_accel_Z,
                 accel_accuracy; ///<Raw acceleration readings (See SH-2 Ref. Manual 6.5.8)
         uint16_t raw_lin_accel_X, raw_lin_accel_Y, raw_lin_accel_Z,
-                accel_lin_accuracy;                                 ///<Raw linear acceleration (See SH-2 Ref. Manual 6.5.10)
+                accel_lin_accuracy;                                                         ///<Raw linear acceleration (See SH-2 Ref. Manual 6.5.10)
         uint16_t raw_calib_gyro_X, raw_calib_gyro_Y, raw_calib_gyro_Z, calib_gyro_accuracy; ///<Raw gyro reading (See SH-2 Ref. Manual 6.5.13)
         uint16_t raw_quat_I, raw_quat_J, raw_quat_K, raw_quat_real, raw_quat_radian_accuracy,
                 quat_accuracy; ///<Raw quaternion reading (See SH-2 Ref. Manual 6.5.44)
