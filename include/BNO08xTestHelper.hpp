@@ -58,6 +58,12 @@ class BNO08xTestHelper
                 float magf_z;
                 BNO08xAccuracy magf_accuracy;
 
+                uint16_t raw_mems_gyro_x;
+                uint16_t raw_mems_gyro_y;
+                uint16_t raw_mems_gyro_z;
+
+                uint8_t tap_count;
+
         } imu_report_data_t;
 
         static void print_test_start_banner(const char* TEST_TAG)
@@ -313,6 +319,23 @@ class BNO08xTestHelper
             return new_data;
         }
 
+        static bool raw_mems_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        {
+            bool new_data = false;
+
+            return new_data;
+        }
+
+        static bool tap_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->tap_count != prev_report_data->tap_count)
+                new_data = true;
+
+            return new_data;
+        }
+
         static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
         {
 
@@ -327,6 +350,8 @@ class BNO08xTestHelper
             imu->get_uncalibrated_gyro_velocity(report_data->uncalib_gyro_vel_x, report_data->uncalib_gyro_vel_y, report_data->uncalib_gyro_vel_z,
                     report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z);
             imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
+            imu->get_raw_mems_gyro(report_data->raw_mems_gyro_x, report_data->raw_mems_gyro_y, report_data->raw_mems_gyro_z);
+            report_data->tap_count = imu->get_tap_detector();
         }
 
         static void reset_all_imu_data_to_test_defaults(BNO08x* imu)

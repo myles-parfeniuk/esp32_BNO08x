@@ -46,7 +46,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
         sprintf(msg_buff,
-                "Rx Data Trial %d Success: AngularAccelDefaults: aX: %.2lf accel aY: %.2lf accel aZ: "
+                "No Rx Data Trial %d Success: AngularAccelDefaults: aX: %.2lf accel aY: %.2lf accel aZ: "
                 "%.2lf Accuracy %s",
                 (i + 1), report_data.accel_x, report_data.accel_y, report_data.accel_z,
                 BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.accel_accuracy));
@@ -130,7 +130,10 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: QuatDefaults: I: %.2lf J: %.2lf K: %.2lf real: %.2lf Accuracy: %s", (i + 1),
+                report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.quat_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -211,7 +214,10 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: QuatDefaults: I: %.2lf J: %.2lf K: %.2lf real: %.2lf Accuracy: %s", (i + 1),
+                report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.quat_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -292,7 +298,10 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: QuatDefaults: I: %.2lf J: %.2lf K: %.2lf real: %.2lf Accuracy: %s", (i + 1),
+                report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.quat_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -373,7 +382,10 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: QuatDefaults: I: %.2lf J: %.2lf K: %.2lf real: %.2lf Accuracy: %s", (i + 1),
+                report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.quat_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -386,9 +398,9 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Enable/Disable Gyro Integrated Roation Vector", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnableDisable]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Gyro Integrated Roation Vector";
+    const constexpr char* TEST_TAG = "Enable/Disable Gyro Integrated Rotation Vector";
     BNO08x* imu = nullptr;
     BNO08xTestHelper::imu_report_data_t report_data;
     BNO08xTestHelper::imu_report_data_t prev_report_data;
@@ -424,11 +436,13 @@ TEST_CASE("Enable/Disable Gyro Integrated Roation Vector", "[SingleReportEnableD
         TEST_ASSERT_EQUAL(true, new_data);
 
         sprintf(msg_buff,
-                "Rx Data Trial %d Success: Quat: I: %.2lf J: %.2lf K: %.2lf real: %.2lf gyro vel X: %.2lf gyro vel Y: %.2lf gyro vel "
+                "Rx Data Trial %d Success: GyroIntegratedRotVector: I: %.2lf J: %.2lf K: %.2lf real: %.2lf gyro vel X: %.2lf gyro vel Y: %.2lf gyro "
+                "vel "
                 "Z: "
                 "%.2lf ",
                 (i + 1), report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real, report_data.integrated_gyro_vel_x,
                 report_data.integrated_gyro_vel_y, report_data.integrated_gyro_vel_z);
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -457,7 +471,14 @@ TEST_CASE("Enable/Disable Gyro Integrated Roation Vector", "[SingleReportEnableD
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: GyroIntegratedRotVectorDefaults: I: %.2lf J: %.2lf K: %.2lf real: %.2lf gyro vel X: %.2lf gyro vel Y: "
+                "%.2lf gyro vel "
+                "Z: "
+                "%.2lf ",
+                (i + 1), report_data.quat_I, report_data.quat_J, report_data.quat_K, report_data.quat_real, report_data.integrated_gyro_vel_x,
+                report_data.integrated_gyro_vel_y, report_data.integrated_gyro_vel_z);
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -508,7 +529,7 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         TEST_ASSERT_EQUAL(true, new_data);
 
         sprintf(msg_buff,
-                "Rx Data Trial %d Success: Uncalib Gyro: vX: %.2lf vY: %.2lf vZ: %.2lf driftX: %.2lf driftY: %.2lf driftZ: "
+                "Rx Data Trial %d Success: UncalibratedGyro: vX: %.2lf vY: %.2lf vZ: %.2lf driftX: %.2lf driftY: %.2lf driftZ: "
                 "%.2lf",
                 (i + 1), report_data.uncalib_gyro_vel_x, report_data.uncalib_gyro_vel_y, report_data.uncalib_gyro_vel_z,
                 report_data.uncalib_gyro_drift_x, report_data.uncalib_gyro_drift_y, report_data.uncalib_gyro_drift_z);
@@ -541,7 +562,12 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: UncalibratedGyroDefaults: vX: %.2lf vY: %.2lf vZ: %.2lf driftX: %.2lf driftY: %.2lf driftZ: "
+                "%.2lf",
+                (i + 1), report_data.uncalib_gyro_vel_x, report_data.uncalib_gyro_vel_y, report_data.uncalib_gyro_vel_z,
+                report_data.uncalib_gyro_drift_x, report_data.uncalib_gyro_drift_y, report_data.uncalib_gyro_drift_z);
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -592,9 +618,10 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         TEST_ASSERT_EQUAL(true, new_data);
 
         sprintf(msg_buff,
-                "Rx Data Trial %d Success: Calibrated Gyro: vX: %.2lf vY: %.2lf vZ: "
+                "Rx Data Trial %d Success: CalibratedGyro: vX: %.2lf vY: %.2lf vZ: "
                 "%.2lf",
                 (i + 1), report_data.calib_gyro_vel_x, report_data.calib_gyro_vel_y, report_data.calib_gyro_vel_z);
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -623,7 +650,11 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: CalibratedGyroDefaults: vX: %.2lf vY: %.2lf vZ: "
+                "%.2lf",
+                (i + 1), report_data.calib_gyro_vel_x, report_data.calib_gyro_vel_y, report_data.calib_gyro_vel_z);
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -707,7 +738,12 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: AngularAccelDefaults: aX: %.2lf accel aY: %.2lf accel aZ: "
+                "%.2lf Accuracy %s",
+                (i + 1), report_data.accel_x, report_data.accel_y, report_data.accel_z,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.accel_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -791,7 +827,12 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: LinearAccelDefaults: laX: %.2lf laY: %.2lf laZ: "
+                "%.2lf Accuracy: %s",
+                (i + 1), report_data.lin_accel_x, report_data.lin_accel_y, report_data.lin_accel_z,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.lin_accel_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -875,7 +916,12 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: GravityDefaults: gX: %.2lf gY: %.2lf gZ: "
+                "%.2lf Accuracy: %s",
+                (i + 1), report_data.grav_x, report_data.grav_y, report_data.grav_z,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.grav_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -959,7 +1005,12 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success", (i + 1));
+        sprintf(msg_buff,
+                "No Rx Data Trial %d Success: MagfDefaults: mX: %.2lf mY: %.2lf mZ: "
+                "%.2lf Accuracy: %s",
+                (i + 1), report_data.magf_x, report_data.magf_y, report_data.magf_z,
+                BNO08xTestHelper::BNO08xAccuracy_to_str(report_data.magf_accuracy));
+
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
@@ -971,3 +1022,4 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
+

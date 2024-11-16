@@ -3196,9 +3196,7 @@ float BNO08x::get_integrated_gyro_velocity_Z()
  */
 uint8_t BNO08x::get_tap_detector()
 {
-    uint8_t previous_tap_detector = tap_detector;
-    tap_detector = 0; // Reset so user code sees exactly one tap
-    return (previous_tap_detector);
+    return tap_detector;
 }
 
 /**
