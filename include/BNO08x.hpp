@@ -366,7 +366,9 @@ class BNO08x
         bool wait_for_rx_done();
         bool wait_for_tx_done();
         bool wait_for_data();
-        bool receive_packet();
+        esp_err_t receive_packet();
+        esp_err_t receive_packet_header(bno08x_rx_packet_t* packet);
+        esp_err_t receive_packet_body(bno08x_rx_packet_t* packet);
         void send_packet(bno08x_tx_packet_t* packet);
         void flush_rx_packets(uint8_t flush_count);
         void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config = 0);
@@ -387,7 +389,7 @@ class BNO08x
         // for debug
         void print_header(bno08x_rx_packet_t* packet);
         void print_packet(bno08x_rx_packet_t* packet);
-        bool first_boot = true;  ///< true only for first execution of hard_reset(), used to suppress the printing of product ID report.
+        bool first_boot = true; ///< true only for first execution of hard_reset(), used to suppress the printing of product ID report.
 
         // spi task
         TaskHandle_t spi_task_hdl; ///<spi_task() handle
@@ -541,14 +543,15 @@ class BNO08x
         static const constexpr uint8_t COMMAND_CLEAR_DCD = 11U;      ///<Clear DCD & Reset command (See SH2 Ref. Manual 6.4)
 
         // SHTP channel 2 control report IDs, used in communication with sensor (See Ref. Manual 6.2)
-        static const constexpr uint8_t SHTP_REPORT_COMMAND_RESPONSE = 0xF1U;    ///< See SH2 Ref. Manual 6.3.9
-        static const constexpr uint8_t SHTP_REPORT_COMMAND_REQUEST = 0xF2U;     ///< See SH2 Ref. Manual 6.3.8
-        static const constexpr uint8_t SHTP_REPORT_FRS_READ_RESPONSE = 0xF3U;   ///< See SH2 Ref. Manual 6.3.7
-        static const constexpr uint8_t SHTP_REPORT_FRS_READ_REQUEST = 0xF4U;    ///< See SH2 Ref. Manual 6.3.6
-        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_RESPONSE = 0xF8U; ///< See SH2 Ref. Manual 6.3.2
-        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_REQUEST = 0xF9U;  ///< See SH2 Ref. Manual 6.3.1
-        static const constexpr uint8_t SHTP_REPORT_BASE_TIMESTAMP = 0xFBU;      ///< See SH2 Ref. Manual 7.2.1
-        static const constexpr uint8_t SHTP_REPORT_SET_FEATURE_COMMAND = 0xFDU; ///< See SH2 Ref. Manual 6.5.4
+        static const constexpr uint8_t SHTP_REPORT_COMMAND_RESPONSE = 0xF1U;     ///< See SH2 Ref. Manual 6.3.9
+        static const constexpr uint8_t SHTP_REPORT_COMMAND_REQUEST = 0xF2U;      ///< See SH2 Ref. Manual 6.3.8
+        static const constexpr uint8_t SHTP_REPORT_FRS_READ_RESPONSE = 0xF3U;    ///< See SH2 Ref. Manual 6.3.7
+        static const constexpr uint8_t SHTP_REPORT_FRS_READ_REQUEST = 0xF4U;     ///< See SH2 Ref. Manual 6.3.6
+        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_RESPONSE = 0xF8U;  ///< See SH2 Ref. Manual 6.3.2
+        static const constexpr uint8_t SHTP_REPORT_PRODUCT_ID_REQUEST = 0xF9U;   ///< See SH2 Ref. Manual 6.3.1
+        static const constexpr uint8_t SHTP_REPORT_BASE_TIMESTAMP = 0xFBU;       ///< See SH2 Ref. Manual 7.2.1
+        static const constexpr uint8_t SHTP_REPORT_SET_FEATURE_COMMAND = 0xFDU;  ///< See SH2 Ref. Manual 6.5.4
+        static const constexpr uint8_t SHTP_REPORT_GET_FEATURE_RESPONSE = 0xFCU; ///< See SH2 Ref. Manual 6.5.5
 
         // Sensor report IDs, used when enabling and reading BNO08x reports
         static const constexpr uint8_t SENSOR_REPORT_ID_ACCELEROMETER = 0x01U;                        ///< See SH2 Ref. Manual 6.5.9

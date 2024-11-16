@@ -17,7 +17,7 @@
 
 // parsing universal to any packet
 #define PARSE_PACKET_LENGTH(packet)                                                                                                                  \
-    (UINT16_CLR_LSB(static_cast<uint16_t>(packet.header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet.header[0])))
+    (UINT16_CLR_LSB(static_cast<uint16_t>(packet->header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->header[0])))
 
 #define PARSE_PACKET_DATA_LENGTH(packet_ptr)                                                                                                         \
     (UINT16_CLR_LSB(static_cast<uint16_t>(packet->header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet->header[0])))

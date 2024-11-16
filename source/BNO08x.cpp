@@ -443,9 +443,11 @@ bool BNO08x::wait_for_rx_done()
     // wait until an interrupt has been asserted and data received or timeout has occured
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
     {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGI(TAG, "int asserted");
-#endif
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "int asserted");
+        #endif
+        // clang-format on
 
         success = true;
     }
@@ -483,9 +485,11 @@ bool BNO08x::wait_for_data()
             // only return true if packet is valid
             if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET_BIT)
             {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGI(TAG, "Valid packet received.");
-#endif
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                                ESP_LOGI(TAG, "Valid packet received.");
+                #endif
+                // clang-format on
 
                 success = true;
             }
@@ -519,9 +523,11 @@ bool BNO08x::wait_for_tx_done()
 
     if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
     {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGI(TAG, "Packet sent successfully.");
-#endif
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "Packet sent successfully.");
+        #endif
+        // clang-format on
 
         return true;
     }
@@ -673,52 +679,89 @@ bool BNO08x::mode_sleep()
  *
  * @return void, nothing to return
  */
-bool BNO08x::receive_packet()
+esp_err_t BNO08x::receive_packet()
 {
     bno08x_rx_packet_t packet;
-    uint8_t dummy_header_tx[4] = {0};
+    esp_err_t ret = ESP_OK;
 
     if (gpio_get_level(imu_config.io_int)) // ensure INT pin is low
-        return false;
+        return ESP_ERR_INVALID_STATE;
+
+    gpio_set_level(imu_config.io_cs, 0); // assert chip select
+
+    // receive packet header
+    ret = receive_packet_header(&packet);
+    if (ret != ESP_OK)
+    {
+        gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
+        return ret;
+    }
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGW(TAG, "packet rx length: %d", packet.length);
+    #endif
+    // clang-format on
+
+    if (packet.length == 0)
+    {
+        gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
+        return ESP_ERR_INVALID_RESPONSE;
+    }
+
+    ret = receive_packet_body(&packet);
+    if (ret == ESP_OK)
+    {
+        xQueueSend(queue_rx_data, &packet, 0); // send received data to data_proc_task
+        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT);
+    }
+
+    gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
+
+    return ret;
+}
+
+esp_err_t BNO08x::receive_packet_header(bno08x_rx_packet_t* packet)
+{
+
+    esp_err_t ret = ESP_OK;
+    uint8_t dummy_header_tx[4] = {0};
 
     // setup transaction to receive first 4 bytes (packet header)
-    spi_transaction.rx_buffer = packet.header;
+    spi_transaction.rx_buffer = packet->header;
     spi_transaction.tx_buffer = dummy_header_tx;
     spi_transaction.length = 4 * 8;
     spi_transaction.rxlength = 4 * 8;
     spi_transaction.flags = 0;
 
-    gpio_set_level(imu_config.io_cs, 0);                    // assert chip select
-    spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive first 4 bytes (packet header)
+    ret = spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive first 4 bytes (packet header)
 
-    // calculate length of packet from received header
-    packet.length = PARSE_PACKET_LENGTH(packet);
-    packet.length &= ~(1U << 15U); // Clear the MSbit
+    if (ret == ESP_OK)
+    {
+        // calculate length of packet from received header
+        packet->length = PARSE_PACKET_LENGTH(packet);
+        packet->length &= ~(1U << 15U); // clear the MSbit
+    }
 
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    ESP_LOGW(TAG, "packet rx length: %d", packet.length);
-#endif
+    return ret;
+}
 
-    if (packet.length == 0)
-        return false;
+esp_err_t BNO08x::receive_packet_body(bno08x_rx_packet_t* packet)
+{
+    esp_err_t ret = ESP_OK;
 
-    packet.length -= 4; // remove 4 header bytes from packet length (we already read those)
+    packet->length -= 4; // remove 4 header bytes from packet length (we already read those)
 
     // setup transacton to read the data packet
-    spi_transaction.rx_buffer = packet.body;
+    spi_transaction.rx_buffer = packet->body;
     spi_transaction.tx_buffer = NULL;
-    spi_transaction.length = packet.length * 8;
-    spi_transaction.rxlength = packet.length * 8;
+    spi_transaction.length = packet->length * 8;
+    spi_transaction.rxlength = packet->length * 8;
     spi_transaction.flags = 0;
 
-    spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive rest of packet
+    ret = spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive rest of packet
 
-    gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-
-    xQueueSend(queue_rx_data, &packet, 0); // send received data to data_proc_task
-    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT);
-
-    return true;
+    return ret;
 }
 
 /**
@@ -1195,14 +1238,22 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  */
 uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
-#endif
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
+    #endif
+    // clang-format on
 
     if (packet->body[0] == SHTP_REPORT_PRODUCT_ID_RESPONSE) // check to see that product ID matches what it should
     {
         return parse_product_id_report(packet);
     }
+
+    /*if(packet->body[0] == SHTP_REPORT_GET_FEATURE_RESPONSE)
+    {
+
+    }*/
 
     if (packet->body[0] == SHTP_REPORT_FRS_READ_RESPONSE)
     {
@@ -1212,9 +1263,11 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
     // Check to see if this packet is a sensor reporting its data to us
     if (packet->header[2] == CHANNEL_REPORTS && packet->body[0] == SHTP_REPORT_BASE_TIMESTAMP)
     {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGI(TAG, "RX'd packet, channel report");
-#endif
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "RX'd packet, channel report");
+        #endif
+        // clang-format on
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
@@ -1222,18 +1275,22 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
 
     if (packet->header[2] == CHANNEL_CONTROL)
     {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGI(TAG, "RX'd packet, channel control");
-#endif
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "RX'd packet, channel control");
+        #endif
+        // clang-format on
 
         return parse_command_report(packet); // This will update responses to commands, calibrationStatus, etc.
     }
 
     if (packet->header[2] == CHANNEL_GYRO)
     {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGI(TAG, "Rx packet, channel gyro");
-#endif
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGI(TAG, "Rx packet, channel gyro");
+        #endif
+        // clang-format on
 
         return parse_input_report(packet); // This will update the rawAccelX, etc variables depending on which feature
                                            // report is found
@@ -1250,13 +1307,13 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet)
  */
 uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 {
-    uint32_t product_id = PARSE_PRODUCT_ID_REPORT_PRODUCT_ID(packet);
-    uint32_t reset_reason = PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet);
-    uint32_t sw_part_number = PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet);
-    uint32_t sw_version_major = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MAJOR(packet);
-    uint32_t sw_version_minor = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet);
-    uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
-    uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
+    const uint32_t product_id = PARSE_PRODUCT_ID_REPORT_PRODUCT_ID(packet);
+    const uint32_t reset_reason = PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet);
+    const uint32_t sw_part_number = PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet);
+    const uint32_t sw_version_major = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MAJOR(packet);
+    const uint32_t sw_version_minor = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet);
+    const uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
+    const uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
 
     if (first_boot)
     {
@@ -3174,10 +3231,12 @@ void BNO08x::spi_task_trampoline(void* arg)
  */
 void BNO08x::spi_task()
 {
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    static uint64_t prev_time = esp_timer_get_time();
-    static uint64_t current_time = 0;
-#endif
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        static uint64_t prev_time = esp_timer_get_time();
+        static uint64_t current_time = 0;
+    #endif
+    // clang-format on
 
     bno08x_tx_packet_t tx_packet;
 
@@ -3193,11 +3252,13 @@ void BNO08x::spi_task()
         if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
         {
 
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-            current_time = esp_timer_get_time();
-            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
-            prev_time = current_time;
-#endif
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                current_time = esp_timer_get_time();
+                ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
+                prev_time = current_time;
+            #endif
+            // clang-format on
 
             if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
                 send_packet(&tx_packet);                     // send packet
