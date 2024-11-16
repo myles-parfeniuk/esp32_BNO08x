@@ -513,7 +513,7 @@ bool BNO08x::wait_for_data()
  */
 bool BNO08x::wait_for_tx_done()
 {
-    // if no reports are enabled we can assume interrupts are disabled (see spi_task())
+    /* if no reports are enabled we can assume interrupts are disabled (see spi_task()) */
     if (xEventGroupGetBits(evt_grp_report_en) == 0)
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
@@ -595,7 +595,7 @@ bool BNO08x::soft_reset()
     success = wait_for_tx_done();
 
     // flush any packets received
-    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
+    flush_rx_packets(3);
 
     return success;
 }
@@ -642,7 +642,7 @@ bool BNO08x::mode_on()
     success = wait_for_tx_done();
 
     // flush any packets received
-    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
+    flush_rx_packets(3);
 
     return success;
 }
@@ -662,7 +662,7 @@ bool BNO08x::mode_sleep()
     success = wait_for_tx_done();
 
     // flush any packets received
-    flush_rx_packets(3, FLUSH_PKT_DELAY_MS);
+    flush_rx_packets(3);
 
     return success;
 }
@@ -733,6 +733,10 @@ bool BNO08x::receive_packet()
  */
 void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config)
 {
+    // if no reports have been enabled before this one, we can assume the IMU has gone to sleep, wake it up with a reset
+    if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
+        hard_reset();
+
     queue_feature_command(report_ID, time_between_reports, special_config);
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
@@ -740,11 +744,13 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
 
         // if no reports were enabled before this one, we can assume hint interrupt was disabled, re-enable to read reports
         if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
+        {
             gpio_intr_enable(imu_config.io_int);
+        }
     }
 
     // flush the first few reports returned to ensure new data
-    flush_rx_packets(3, 0);
+    flush_rx_packets(3);
 }
 
 /**
@@ -763,6 +769,30 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
         xEventGroupClearBits(evt_grp_report_en, report_evt_grp_bit);
+
+        /*
+        6.5.5 of SH-2 Ref manual: "Note that SH-2 protocol version 1.0.1 and higher will send Get Feature Response messages
+        unsolicited if a sensor’s rate changes (e.g. due to change in the rate of a related sensor."
+
+        For ex. after calling disable_rotation_vector(), the following response packet will be sent:
+
+        I (3497) BNO08x: SHTP Header:
+                        Raw 32 bit word: 0x15000205
+                        Packet Length:   21
+                        Channel Number:  2
+                        Sequence Number: 5
+                        Channel Type: Control
+                        Body:
+                                0xFC  0x05  0x00  0x00  0x00  0x00
+                                0x00  0x00  0x00  0x00  0x00  0x00
+                                0x00  0x00  0x00  0x00  0x00
+
+        The 0xFC indicates it is a get feature response, the 0x05 indicates it is for the rotation vector, the rest of the body will be 0.
+
+        Lets flush this response as it's currently detected as an invalid packet, we don't care about it.
+        It might be wise to  detect the response for the respective report being disabled, but is probably not necessary.
+        */
+        flush_rx_packets(3);
 
         // no reports enabled, disable hint to avoid wasting processing time
         if ((xEventGroupGetBits(evt_grp_report_en)) == 0)
@@ -825,13 +855,10 @@ void BNO08x::send_packet(bno08x_tx_packet_t* packet)
     xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
 }
 
-void BNO08x::flush_rx_packets(uint8_t flush_count, TickType_t delay)
+void BNO08x::flush_rx_packets(uint8_t flush_count)
 {
     for (int i = 0; i < flush_count; i++)
-    {
         wait_for_rx_done();
-        vTaskDelay(delay);
-    }
 }
 
 /**
@@ -1230,18 +1257,23 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
     uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
     uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
 
-    // print product ID info packet
-    ESP_LOGI(TAG,
-            "Product ID Info:                           \n\r"
-            "                ---------------------------\n\r"
-            "                Product ID: 0x%" PRIx32 "\n\r"
-            "                SW Version Major: 0x%" PRIx32 "\n\r"
-            "                SW Version Minor: 0x%" PRIx32 "\n\r"
-            "                SW Part Number:   0x%" PRIx32 "\n\r"
-            "                SW Build Number:  0x%" PRIx32 "\n\r"
-            "                SW Version Patch: 0x%" PRIx32 "\n\r"
-            "                ---------------------------\n\r",
-            product_id, sw_version_major, sw_version_minor, sw_part_number, sw_build_number, sw_version_patch);
+    if (first_boot)
+    {
+        first_boot = false; 
+
+        // print product ID info packet
+        ESP_LOGI(TAG,
+                "Product ID Info:                           \n\r"
+                "                ---------------------------\n\r"
+                "                Product ID: 0x%" PRIx32 "\n\r"
+                "                SW Version Major: 0x%" PRIx32 "\n\r"
+                "                SW Version Minor: 0x%" PRIx32 "\n\r"
+                "                SW Part Number:   0x%" PRIx32 "\n\r"
+                "                SW Build Number:  0x%" PRIx32 "\n\r"
+                "                SW Version Patch: 0x%" PRIx32 "\n\r"
+                "                ---------------------------\n\r",
+                product_id, sw_version_major, sw_version_minor, sw_part_number, sw_build_number, sw_version_patch);
+    }
 
     xQueueSend(queue_reset_reason, &reset_reason, 0);
 

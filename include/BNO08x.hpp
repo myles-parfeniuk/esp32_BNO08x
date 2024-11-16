@@ -368,7 +368,7 @@ class BNO08x
         bool wait_for_data();
         bool receive_packet();
         void send_packet(bno08x_tx_packet_t* packet);
-        void flush_rx_packets(uint8_t flush_count, TickType_t delay);
+        void flush_rx_packets(uint8_t flush_count);
         void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config = 0);
         void disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit);
         void queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* commands);
@@ -387,6 +387,7 @@ class BNO08x
         // for debug
         void print_header(bno08x_rx_packet_t* packet);
         void print_packet(bno08x_rx_packet_t* packet);
+        bool first_boot = true;  ///< true only for first execution of hard_reset(), used to suppress the printing of product ID report.
 
         // spi task
         TaskHandle_t spi_task_hdl; ///<spi_task() handle
@@ -473,9 +474,6 @@ class BNO08x
         static const constexpr TickType_t CMD_EXECUTION_DELAY_MS =
                 10UL /
                 portTICK_PERIOD_MS; ///<How long to delay after queueing command to allow it to execute (for ex. after sending command to enable report).
-
-        static const constexpr TickType_t FLUSH_PKT_DELAY_MS =
-                20UL / portTICK_PERIOD_MS; ///<How long to delay between wait_for_rx_done() calls when flush_rx_packets() is called.
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of
 
