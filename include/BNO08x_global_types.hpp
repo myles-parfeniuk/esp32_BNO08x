@@ -30,6 +30,45 @@ enum class BNO08xResetReason
 };
 using IMUResetReason = BNO08xResetReason; // legacy version compatibility
 
+/// @brief Activity Classifier enable bits passed to enable_activity_classifier()
+enum class ActivityClassifierEnable
+{
+    UNKNOWN = (1U << 0U),
+    IN_VEHICLE = (1U << 1U),
+    ON_BICYCLE = (1U << 2U),
+    ON_FOOT = (1U << 3U),
+    STILL = (1U << 4U),
+    TILTING = (1U << 5U),
+    WALKING = (1U << 6U),
+    RUNNING = (1U << 7U),
+    ON_STAIRS = (1U << 8U),
+    ALL = 0x1FU
+};
+
+/// @brief Activity states returned from get_activity_classifier()
+enum class Activity
+{
+    UNKNOWN = 0,    // 0 = unknown
+    IN_VEHICLE = 1, // 1 = in vehicle
+    ON_BICYCLE = 2, // 2 = on bicycle
+    ON_FOOT = 3,    // 3 = on foot
+    STILL = 4,      // 4 = still
+    TILTING = 5,    // 5 = tilting
+    WALKING = 6,    // 6 = walking
+    RUNNING = 7,    // 7 = running
+    ON_STAIRS = 8,  // 8 = on stairs
+    UNDEFINED = 9   // used for unit tests
+};
+
+/// @brief Stability states returned from get_stability_classifier()
+enum class Stability
+{
+    UNKNOWN = 0,    // 0 = unknown
+    ON_TABLE = 1,   // 1 = on table
+    STATIONARY = 2, // 2 = stationary
+    UNDEFINED = 3   // used for unit tests
+};
+
 /// @brief IMU configuration settings passed into constructor
 typedef struct bno08x_config_t
 {

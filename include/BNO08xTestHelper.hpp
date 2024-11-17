@@ -7,7 +7,6 @@
 #include "stdio.h"
 #include "BNO08x.hpp"
 
-
 /**
  * @class BNO08xTestHelper
  * @brief BNO08x unit test helper class.
@@ -73,8 +72,8 @@ class BNO08xTestHelper
                 uint16_t raw_mems_gyro_z;
 
                 uint16_t step_count;
-                uint8_t stability_classifier;
-                uint8_t activity_classifier;
+                Stability stability_classifier;
+                Activity activity_classifier;
 
         } imu_report_data_t;
 
@@ -602,8 +601,8 @@ class BNO08xTestHelper
 
             test_imu->tap_detector = TEST_VAL_UINT8;
             test_imu->step_count = TEST_VAL_UINT16;
-            test_imu->stability_classifier = TEST_VAL_UINT8;
-            test_imu->activity_classifier = TEST_VAL_UINT8;
+            test_imu->stability_classifier = static_cast<uint16_t>(Stability::UNDEFINED);
+            test_imu->activity_classifier = static_cast<uint16_t>(Activity::UNDEFINED);
 
             test_imu->mems_raw_accel_X = TEST_VAL_UINT16;
             test_imu->mems_raw_accel_Y = TEST_VAL_UINT16;
@@ -638,7 +637,67 @@ class BNO08xTestHelper
                 case BNO08xAccuracy::UNDEFINED:
                     return "UNDEFINED";
                 default:
-                    return "UNKNOWN"; // For undefined cases or future-proofing
+                    return "INVALID";
             }
         };
+
+        /**
+         * @brief Converts Stability enum class object to string.
+         *
+         * @param stability Stability object to convert to string.
+         *
+         * @return The resulting string conversion.
+         */
+        static const char* BNO08xStability_to_str(Stability stability)
+        {
+            switch (stability)
+            {
+                case Stability::UNKNOWN:
+                    return "UNKNOWN";
+                case Stability::ON_TABLE:
+                    return "ON TABLE";
+                case Stability::STATIONARY:
+                    return "STATIONARY";
+                case Stability::UNDEFINED:
+                    return "UNDEFINED";
+                default:
+                    return "INVALID"; 
+            }
+        }
+
+        /**
+         * @brief Converts Activity enum class object to string.
+         *
+         * @param activity Activity object to convert to string.
+         *
+         * @return The resulting string conversion.
+         */
+        static const char* BNO08xActivity_to_str(Activity activity)
+        {
+            switch (activity)
+            {
+                case Activity::UNKNOWN:
+                    return "UNKNOWN";
+                case Activity::IN_VEHICLE:
+                    return "IN VEHICLE";
+                case Activity::ON_BICYCLE:
+                    return "ON BICYCLE";
+                case Activity::ON_FOOT:
+                    return "ON FOOT";
+                case Activity::STILL:
+                    return "STILL";
+                case Activity::TILTING:
+                    return "TILTING";
+                case Activity::WALKING:
+                    return "WALKING";
+                case Activity::RUNNING:
+                    return "RUNNING";
+                case Activity::ON_STAIRS:
+                    return "ON STAIRS";
+                case Activity::UNDEFINED:
+                    return "UNDEFINED";
+                default:
+                    return "INVALID";
+            }
+        }
 };

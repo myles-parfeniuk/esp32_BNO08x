@@ -2173,10 +2173,12 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
  *  @param activity_confidence_vals Returned activity level confidences.
  * @return void, nothing to return
  */
-void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9])
+void BNO08x::enable_activity_classifier(
+        uint32_t time_between_reports, ActivityClassifierEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
-    enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, activities_to_enable);
+    enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT,
+            static_cast<uint16_t>(activities_to_enable));
 }
 
 /**
@@ -3301,9 +3303,9 @@ uint16_t BNO08x::get_step_count()
  *
  * @return The current stability (0 = unknown, 1 = on table, 2 = stationary)
  */
-int8_t BNO08x::get_stability_classifier()
+Stability BNO08x::get_stability_classifier()
 {
-    return stability_classifier;
+    return static_cast<Stability>(stability_classifier);
 }
 
 /**
@@ -3320,9 +3322,9 @@ int8_t BNO08x::get_stability_classifier()
  *         7 = runnning
  *         8 = on stairs
  */
-uint8_t BNO08x::get_activity_classifier()
+Activity BNO08x::get_activity_classifier()
 {
-    return activity_classifier;
+    return static_cast<Activity>(activity_classifier);
 }
 
 /**
@@ -3792,9 +3794,9 @@ void BNO08x::data_proc_task()
 }
 
 /**
- * @brief Launches spi_task and data_proc_task on constructor call. 
+ * @brief Launches spi_task and data_proc_task on constructor call.
  *
- * @return ESP_OK if tasks successfully created. 
+ * @return ESP_OK if tasks successfully created.
  */
 esp_err_t BNO08x::launch_tasks()
 {
@@ -3834,9 +3836,9 @@ esp_err_t BNO08x::launch_tasks()
 }
 
 /**
- * @brief Deletes spi_task and data_proc_task safely on deconstructor call. 
+ * @brief Deletes spi_task and data_proc_task safely on deconstructor call.
  *
- * @return ESP_OK if tasks successfully deleted. 
+ * @return ESP_OK if tasks successfully deleted.
  */
 esp_err_t BNO08x::kill_all_tasks()
 {

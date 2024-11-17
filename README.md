@@ -241,9 +241,9 @@ It can be used to verify some of the basic features of a BNO08x device.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Adding Tests
-Tests are implemented with the [esp-idf unity unit testing component](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/unit-tests.html).
+Tests are implemented with the [unity unit testing component](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/unit-tests.html).
 
-To add a test, create a new .cpp file, or modify one of the existing ones in `esp32_BNO08x/test/()`. 
+To add a test, create a new .cpp file, or modify one of the existing ones in `esp32_BNO08x/test/`. 
 Follow the existing test structure as an example, use the `TEST_CASE(){}` macro.  
 
 Any tests added will automatically be detected at build time. 

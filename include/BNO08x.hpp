@@ -69,7 +69,7 @@ class BNO08x
         void enable_tap_detector(uint32_t time_between_reports);
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
-        void enable_activity_classifier(uint32_t time_between_reports, uint32_t activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_activity_classifier(uint32_t time_between_reports, ActivityClassifierEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
         void enable_raw_mems_gyro(uint32_t time_between_reports);
         void enable_raw_mems_accelerometer(uint32_t time_between_reports);
         void enable_raw_mems_magnetometer(uint32_t time_between_reports);
@@ -179,8 +179,8 @@ class BNO08x
 
         uint8_t get_tap_detector();
         uint16_t get_step_count();
-        int8_t get_stability_classifier();
-        uint8_t get_activity_classifier();
+        Stability get_stability_classifier();
+        Activity get_activity_classifier();
 
         // Metadata functions
         int16_t get_Q1(uint16_t record_ID);
@@ -202,18 +202,6 @@ class BNO08x
                 0xE309U; ///< Calibrated magnetometer record ID, to be passed in metadata functions like get_Q1()
         static const constexpr uint16_t FRS_RECORD_ID_ROTATION_VECTOR =
                 0xE30BU; ///< Rotation vector record ID, to be passed in metadata functions like get_Q1()
-
-        // Activity classifier bits
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_UNKNOWN_EN = (1U << 0U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_IN_VEHICLE_EN = (1U << 1U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_BICYCLE_EN = (1U << 2U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_FOOT_EN = (1U << 3U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_STILL_EN = (1U << 4U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_TILTING_EN = (1U << 5U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_WALKING_EN = (1U << 6U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_RUNNING_EN = (1U << 7U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ON_STAIRS_EN = (1U << 8U);
-        static const constexpr uint16_t ACTIVITY_CLASSIFIER_ALL_EN = 0x1FU;
 
         static const constexpr uint8_t TARE_AXIS_ALL = 0x07U; ///< Tare all axes (used with tare now command)
         static const constexpr uint8_t TARE_AXIS_Z = 0x04U;   ///< Tar yaw axis only (used with tare now command)

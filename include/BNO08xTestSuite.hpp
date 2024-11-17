@@ -13,7 +13,6 @@
 #include "unity.h"
 #include "BNO08xTestHelper.hpp"
 
-
 /**
  * @class BNO08xTestSuite
  * @brief BNO08x unit test launch point class.
@@ -38,6 +37,7 @@ class BNO08xTestSuite
             run_init_deinit_tests(false);
             run_single_report_tests(false);
             run_multi_report_tests(false);
+            run_callback_tests(false);
             UNITY_END();
         }
 
@@ -85,5 +85,20 @@ class BNO08xTestSuite
                 UNITY_END();
 
             print_end_tests_banner("multi_report_tests");
+        }
+
+        static void run_callback_tests(bool call_unity_end_begin = true)
+        {
+            print_begin_tests_banner("run_callback_tests");
+
+            if (call_unity_end_begin)
+                UNITY_BEGIN();
+
+            unity_run_tests_by_tag("[CallbackTests]", false);
+
+            if (call_unity_end_begin)
+                UNITY_END();
+
+            print_end_tests_banner("run_callback_tests");
         }
 };
