@@ -78,7 +78,7 @@ To access the menu:
 1. Within esp-idf enabled terminal, execute the menuconfig command:
     ```sh
     idf.py menuconfig
-
+    ```
 2. Scroll down to the esp_BNO08x menu and enter it, if you're using vsCode you may have to use the "j" and "k" keys instead of the arrow keys.
     ![image](README_images/esp32_BNO08x_menuconfig_1.png)
 
@@ -89,12 +89,12 @@ To access the menu:
 ### Examples
 There are two ways data returned from the BNO08x can be accessed with this library:
 
-1. Polling Method with `data_available()` Function:
+1. **Polling Method with** `data_available()` **Function**:
   - Use the `data_available()` function to poll for new data, similar to the SparkFun library.
   - Behavior: It is a blocking function that returns `true` when new data is received or `false` if a timeout occurs.
   - See the **Polling Example** below.
 
-2. Callback Registration with `register_cb()` Function:
+2. **Callback Registration with** `register_cb()` **Function**:
   - Register callback functions that automatically execute upon receiving new data.
   - Behavior: The registered callback will be invoked whenever new data is available.
   - See the **Call-Back Function Example** below. 
@@ -198,8 +198,8 @@ extern "C" void app_main(void)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Unit Tests
-A basic unit testing suite is included with this library, but it is very rudimentary. 
-It can be used to verify some of the basic features of a BNO08x device. 
+A basic unit testing suite is included with this library, but it is very rudimentary.  
+It can be used to verify some of the basic features of a BNO08x device.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Running Tests

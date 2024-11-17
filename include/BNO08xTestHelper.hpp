@@ -7,6 +7,7 @@
 #include "stdio.h"
 #include "BNO08x.hpp"
 
+
 /**
  * @class BNO08xTestHelper
  * @brief BNO08x unit test helper class.
@@ -234,9 +235,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool rotation_vector_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -268,9 +269,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool gyro_integrated_rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool gyro_integrated_rotation_vector_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -304,9 +305,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool uncalibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool uncalibrated_gyro_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -337,9 +338,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool calibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool calibrated_gyro_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -361,9 +362,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool accelerometer_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -388,9 +389,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool linear_accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool linear_accelerometer_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -415,9 +416,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool gravity_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool gravity_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -442,9 +443,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool magnetometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool magnetometer_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -469,9 +470,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool step_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool step_detector_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -487,9 +488,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool stability_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool stability_classifier_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -505,9 +506,9 @@ class BNO08xTestHelper
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
          *
-         * @return ESP_OK if init succeeded.
+         * @return True if new data was received for respective report.
          */
-        static bool activity_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool activity_classifier_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
@@ -522,7 +523,7 @@ class BNO08xTestHelper
          *
          * @param report_data Pointer to imu_report_data_t struct to save report data.
          *
-         * @return ESP_OK if init succeeded.
+         * @return void, noting to return.
          */
         static void update_report_data(imu_report_data_t* report_data)
         {
@@ -548,7 +549,7 @@ class BNO08xTestHelper
         /**
          * @brief Resets internal test imu data with test defaults.
          *
-         * @return ESP_OK if init succeeded.
+         * @return void, nothing to return.
          */
         static void reset_all_imu_data_to_test_defaults()
         {
