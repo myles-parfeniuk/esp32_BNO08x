@@ -1063,7 +1063,7 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
             BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
-            new_data = BNO08xTestHelper::step_detector_data_is_new(&report_data, &prev_report_data);
+            new_data = BNO08xTestHelper::step_counter_data_is_new(&report_data, &prev_report_data);
         }
 
         // assert that new data from respective report has been received
@@ -1093,7 +1093,7 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
             BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
-            new_data = BNO08xTestHelper::step_detector_data_is_new(&report_data, &prev_report_data);
+            new_data = BNO08xTestHelper::step_counter_data_is_new(&report_data, &prev_report_data);
         }
 
         // assert that no new data from respective report has been received

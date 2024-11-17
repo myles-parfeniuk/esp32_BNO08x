@@ -472,7 +472,7 @@ class BNO08xTestHelper
          *
          * @return True if new data was received for respective report.
          */
-        static bool step_detector_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
+        static bool step_counter_data_is_new(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
