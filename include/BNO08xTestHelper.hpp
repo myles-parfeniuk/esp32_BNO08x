@@ -1,8 +1,16 @@
+/**
+ * @file BNO08xTestHelper.hpp
+ * @author Myles Parfeniuk
+ */
 #pragma once
 
 #include "stdio.h"
 #include "BNO08x.hpp"
 
+/**
+ * @class BNO08xTestHelper
+ * @brief BNO08x unit test helper class.
+ * */
 class BNO08xTestHelper
 {
     private:
@@ -12,6 +20,7 @@ class BNO08xTestHelper
         static const constexpr char* TAG = "BNO08xTestHelper";
 
     public:
+        /// @brief IMU configuration settings passed into constructor
         typedef struct imu_report_data_t
         {
                 uint32_t time_stamp;
@@ -68,26 +77,60 @@ class BNO08xTestHelper
 
         } imu_report_data_t;
 
+        /**
+         * @brief Prints test begin banner.
+         *
+         * @param TEST_TAG String containing test name.
+         *
+         * @return void, nothing to return
+         */
         static void print_test_start_banner(const char* TEST_TAG)
         {
             printf("------------------------ BEGIN TEST: %s ------------------------\n\r", TEST_TAG);
         }
 
+        /**
+         * @brief Prints end begin banner.
+         *
+         * @param TEST_TAG String containing test name.
+         *
+         * @return void, nothing to return
+         */
         static void print_test_end_banner(const char* TEST_TAG)
         {
             printf("------------------------ END TEST: %s ------------------------\n\r", TEST_TAG);
         }
 
+        /**
+         * @brief Prints a message during a test.
+         *
+         * @param TEST_TAG String containing test name.
+         * @param msg String containing message to print.
+         *
+         * @return void, nothing to return
+         */
         static void print_test_msg(const char* TEST_TAG, const char* msg)
         {
             printf("%s: %s: %s\n\r", TAG, TEST_TAG, msg);
         }
 
+        /**
+         * @brief Set test imu configuration used with create_test_imu()
+         *
+         * @param cfg String containing test name.
+         *
+         * @return void, nothing to return
+         */
         static void set_test_imu_cfg(bno08x_config_t cfg)
         {
             imu_cfg = cfg;
         }
 
+        /**
+         * @brief Calls BNO08x constructor and creates new test IMU on heap.
+         *
+         * @return void, nothing to return
+         */
         static void create_test_imu()
         {
             if (test_imu != nullptr)
@@ -96,6 +139,11 @@ class BNO08xTestHelper
             test_imu = new BNO08x();
         }
 
+        /**
+         * @brief Deletes test IMU calling deconstructor and releases heap allocated memory.
+         *
+         * @return void, nothing to return
+         */
         static void destroy_test_imu()
         {
             if (test_imu != nullptr)
@@ -105,11 +153,21 @@ class BNO08xTestHelper
             }
         }
 
+        /**
+         * @brief Deletes test IMU calling deconstructor and releases heap allocated memory.
+         *
+         * @return Pointer to BNO08x IMU object to test.
+         */
         static BNO08x* get_test_imu()
         {
             return test_imu;
         }
 
+        /**
+         * @brief Used to call private BNO08x::init_config_args() member for tests.
+         *
+         * @return ESP_OK if init succeeded.
+         */
         static esp_err_t call_init_config_args()
         {
             if (test_imu == nullptr)
@@ -118,6 +176,11 @@ class BNO08xTestHelper
             return test_imu->init_config_args();
         }
 
+        /**
+         * @brief Used to call private BNO08x::init_gpio() member for tests.
+         *
+         * @return ESP_OK if init succeeded.
+         */
         static esp_err_t call_init_gpio()
         {
             if (test_imu == nullptr)
@@ -126,6 +189,11 @@ class BNO08xTestHelper
             return test_imu->init_gpio();
         }
 
+        /**
+         * @brief Used to call private BNO08x::init_hint_isr() member for tests.
+         *
+         * @return ESP_OK if init succeeded.
+         */
         static esp_err_t call_init_hint_isr()
         {
             if (test_imu == nullptr)
@@ -134,6 +202,11 @@ class BNO08xTestHelper
             return test_imu->init_hint_isr();
         }
 
+        /**
+         * @brief Used to call private BNO08x::init_spi() member for tests.
+         *
+         * @return ESP_OK if init succeeded.
+         */
         static esp_err_t call_init_spi()
         {
             if (test_imu == nullptr)
@@ -142,6 +215,11 @@ class BNO08xTestHelper
             return test_imu->init_spi();
         }
 
+        /**
+         * @brief Used to call private BNO08x::launch_tasks() member for tests.
+         *
+         * @return ESP_OK if init succeeded.
+         */
         static esp_err_t call_launch_tasks()
         {
             if (test_imu == nullptr)
@@ -150,294 +228,402 @@ class BNO08xTestHelper
             return test_imu->launch_tasks();
         }
 
-        static bool rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
             // prev report should always contain the default test values as per test structure
-            if (report_data->quat_I != prev_report_data->quat_I)
+            if (report_data->quat_I != default_report_data->quat_I)
                 new_data = true;
 
-            if (report_data->quat_J != prev_report_data->quat_J)
+            if (report_data->quat_J != default_report_data->quat_J)
                 new_data = true;
 
-            if (report_data->quat_K != prev_report_data->quat_K)
+            if (report_data->quat_K != default_report_data->quat_K)
                 new_data = true;
 
-            if (report_data->quat_real != prev_report_data->quat_real)
+            if (report_data->quat_real != default_report_data->quat_real)
                 new_data = true;
 
-            if (report_data->quat_accuracy != prev_report_data->quat_accuracy)
+            if (report_data->quat_accuracy != default_report_data->quat_accuracy)
                 new_data = true;
 
-            if (report_data->quat_radian_accuracy != prev_report_data->quat_radian_accuracy)
+            if (report_data->quat_radian_accuracy != default_report_data->quat_radian_accuracy)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool gyro_integrated_rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool gyro_integrated_rotation_vector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->quat_I != prev_report_data->quat_I)
+            if (report_data->quat_I != default_report_data->quat_I)
                 new_data = true;
 
-            if (report_data->quat_J != prev_report_data->quat_J)
+            if (report_data->quat_J != default_report_data->quat_J)
                 new_data = true;
 
-            if (report_data->quat_K != prev_report_data->quat_K)
+            if (report_data->quat_K != default_report_data->quat_K)
                 new_data = true;
 
-            if (report_data->quat_real != prev_report_data->quat_real)
+            if (report_data->quat_real != default_report_data->quat_real)
                 new_data = true;
 
-            if (report_data->integrated_gyro_vel_x != prev_report_data->integrated_gyro_vel_x)
+            if (report_data->integrated_gyro_vel_x != default_report_data->integrated_gyro_vel_x)
                 new_data = true;
 
-            if (report_data->integrated_gyro_vel_y != prev_report_data->integrated_gyro_vel_y)
+            if (report_data->integrated_gyro_vel_y != default_report_data->integrated_gyro_vel_y)
                 new_data = true;
 
-            if (report_data->integrated_gyro_vel_z != prev_report_data->integrated_gyro_vel_z)
+            if (report_data->integrated_gyro_vel_z != default_report_data->integrated_gyro_vel_z)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool uncalibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool uncalibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->uncalib_gyro_vel_x != prev_report_data->uncalib_gyro_vel_x)
+            if (report_data->uncalib_gyro_vel_x != default_report_data->uncalib_gyro_vel_x)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_vel_y != prev_report_data->uncalib_gyro_vel_y)
+            if (report_data->uncalib_gyro_vel_y != default_report_data->uncalib_gyro_vel_y)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_vel_z != prev_report_data->uncalib_gyro_vel_z)
+            if (report_data->uncalib_gyro_vel_z != default_report_data->uncalib_gyro_vel_z)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_drift_x != prev_report_data->uncalib_gyro_drift_x)
+            if (report_data->uncalib_gyro_drift_x != default_report_data->uncalib_gyro_drift_x)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_drift_y != prev_report_data->uncalib_gyro_drift_y)
+            if (report_data->uncalib_gyro_drift_y != default_report_data->uncalib_gyro_drift_y)
                 new_data = true;
 
-            if (report_data->uncalib_gyro_drift_z != prev_report_data->uncalib_gyro_drift_z)
+            if (report_data->uncalib_gyro_drift_z != default_report_data->uncalib_gyro_drift_z)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool calibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool calibrated_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->calib_gyro_vel_x != prev_report_data->calib_gyro_vel_x)
+            if (report_data->calib_gyro_vel_x != default_report_data->calib_gyro_vel_x)
                 new_data = true;
 
-            if (report_data->calib_gyro_vel_y != prev_report_data->calib_gyro_vel_y)
+            if (report_data->calib_gyro_vel_y != default_report_data->calib_gyro_vel_y)
                 new_data = true;
 
-            if (report_data->calib_gyro_vel_z != prev_report_data->calib_gyro_vel_z)
+            if (report_data->calib_gyro_vel_z != default_report_data->calib_gyro_vel_z)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->accel_x != prev_report_data->accel_x)
+            if (report_data->accel_x != default_report_data->accel_x)
                 new_data = true;
 
-            if (report_data->accel_y != prev_report_data->accel_y)
+            if (report_data->accel_y != default_report_data->accel_y)
                 new_data = true;
 
-            if (report_data->accel_z != prev_report_data->accel_z)
+            if (report_data->accel_z != default_report_data->accel_z)
                 new_data = true;
 
-            if (report_data->accel_accuracy != prev_report_data->accel_accuracy)
+            if (report_data->accel_accuracy != default_report_data->accel_accuracy)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool linear_accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool linear_accelerometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->lin_accel_x != prev_report_data->lin_accel_x)
+            if (report_data->lin_accel_x != default_report_data->lin_accel_x)
                 new_data = true;
 
-            if (report_data->lin_accel_y != prev_report_data->lin_accel_y)
+            if (report_data->lin_accel_y != default_report_data->lin_accel_y)
                 new_data = true;
 
-            if (report_data->lin_accel_z != prev_report_data->lin_accel_z)
+            if (report_data->lin_accel_z != default_report_data->lin_accel_z)
                 new_data = true;
 
-            if (report_data->lin_accel_accuracy != prev_report_data->lin_accel_accuracy)
+            if (report_data->lin_accel_accuracy != default_report_data->lin_accel_accuracy)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool gravity_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool gravity_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->grav_x != prev_report_data->grav_x)
+            if (report_data->grav_x != default_report_data->grav_x)
                 new_data = true;
 
-            if (report_data->grav_y != prev_report_data->grav_y)
+            if (report_data->grav_y != default_report_data->grav_y)
                 new_data = true;
 
-            if (report_data->grav_z != prev_report_data->grav_z)
+            if (report_data->grav_z != default_report_data->grav_z)
                 new_data = true;
 
-            if (report_data->grav_accuracy != prev_report_data->grav_accuracy)
+            if (report_data->grav_accuracy != default_report_data->grav_accuracy)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool magnetometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool magnetometer_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->magf_x != prev_report_data->magf_x)
+            if (report_data->magf_x != default_report_data->magf_x)
                 new_data = true;
 
-            if (report_data->magf_y != prev_report_data->magf_y)
+            if (report_data->magf_y != default_report_data->magf_y)
                 new_data = true;
 
-            if (report_data->magf_z != prev_report_data->magf_z)
+            if (report_data->magf_z != default_report_data->magf_z)
                 new_data = true;
 
-            if (report_data->magf_accuracy != prev_report_data->magf_accuracy)
+            if (report_data->magf_accuracy != default_report_data->magf_accuracy)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool step_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool step_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->step_count != prev_report_data->step_count)
+            if (report_data->step_count != default_report_data->step_count)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool stability_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool stability_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->stability_classifier != prev_report_data->stability_classifier)
+            if (report_data->stability_classifier != default_report_data->stability_classifier)
                 new_data = true;
 
             return new_data;
         }
 
-        static bool activity_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        /**
+         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         *
+         * @param report_data Current report data.
+         * @param default_report_data Default report data to compare (should always contain default values)
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static bool activity_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* default_report_data)
         {
             bool new_data = false;
 
-            if (report_data->activity_classifier != prev_report_data->activity_classifier)
+            if (report_data->activity_classifier != default_report_data->activity_classifier)
                 new_data = true;
 
             return new_data;
         }
 
-        static void update_report_data(imu_report_data_t* report_data, BNO08x* imu)
+        /**
+         * @brief Updates report data with calls relevant test_imu methods.
+         *
+         * @param report_data Pointer to imu_report_data_t struct to save report data.
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static void update_report_data(imu_report_data_t* report_data)
         {
 
-            imu->get_quat(report_data->quat_I, report_data->quat_J, report_data->quat_K, report_data->quat_real, report_data->quat_radian_accuracy,
-                    report_data->quat_accuracy);
-            imu->get_integrated_gyro_velocity(
+            test_imu->get_quat(report_data->quat_I, report_data->quat_J, report_data->quat_K, report_data->quat_real,
+                    report_data->quat_radian_accuracy, report_data->quat_accuracy);
+            test_imu->get_integrated_gyro_velocity(
                     report_data->integrated_gyro_vel_x, report_data->integrated_gyro_vel_y, report_data->integrated_gyro_vel_z);
-            imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, report_data->accel_accuracy);
-            imu->get_linear_accel(report_data->lin_accel_x, report_data->lin_accel_y, report_data->lin_accel_z, report_data->lin_accel_accuracy);
-            imu->get_gravity(report_data->grav_x, report_data->grav_y, report_data->grav_z, report_data->grav_accuracy);
-            imu->get_calibrated_gyro_velocity(report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z);
-            imu->get_uncalibrated_gyro_velocity(report_data->uncalib_gyro_vel_x, report_data->uncalib_gyro_vel_y, report_data->uncalib_gyro_vel_z,
-                    report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z);
-            imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
-            imu->get_raw_mems_gyro(report_data->raw_mems_gyro_x, report_data->raw_mems_gyro_y, report_data->raw_mems_gyro_z);
-            report_data->step_count = imu->get_step_count();
-            report_data->stability_classifier = imu->get_stability_classifier();
-            report_data->activity_classifier = imu->get_activity_classifier(); 
+            test_imu->get_accel(report_data->accel_x, report_data->accel_y, report_data->accel_z, report_data->accel_accuracy);
+            test_imu->get_linear_accel(report_data->lin_accel_x, report_data->lin_accel_y, report_data->lin_accel_z, report_data->lin_accel_accuracy);
+            test_imu->get_gravity(report_data->grav_x, report_data->grav_y, report_data->grav_z, report_data->grav_accuracy);
+            test_imu->get_calibrated_gyro_velocity(report_data->calib_gyro_vel_x, report_data->calib_gyro_vel_y, report_data->calib_gyro_vel_z);
+            test_imu->get_uncalibrated_gyro_velocity(report_data->uncalib_gyro_vel_x, report_data->uncalib_gyro_vel_y,
+                    report_data->uncalib_gyro_vel_z, report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y,
+                    report_data->uncalib_gyro_drift_z);
+            test_imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
+            test_imu->get_raw_mems_gyro(report_data->raw_mems_gyro_x, report_data->raw_mems_gyro_y, report_data->raw_mems_gyro_z);
+            report_data->step_count = test_imu->get_step_count();
+            report_data->stability_classifier = test_imu->get_stability_classifier();
+            report_data->activity_classifier = test_imu->get_activity_classifier();
         }
 
-        static void reset_all_imu_data_to_test_defaults(BNO08x* imu)
+        /**
+         * @brief Resets internal test imu data with test defaults.
+         *
+         * @return ESP_OK if init succeeded.
+         */
+        static void reset_all_imu_data_to_test_defaults()
         {
             static const constexpr uint16_t TEST_VAL_UINT16 = 65535U;
             static const constexpr uint16_t TEST_VAL_UINT8 = 255;
-            imu->time_stamp = 0UL;
+            test_imu->time_stamp = 0UL;
 
-            imu->raw_accel_X = TEST_VAL_UINT16;
-            imu->raw_accel_Y = TEST_VAL_UINT16;
-            imu->raw_accel_Z = TEST_VAL_UINT16;
-            imu->accel_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->raw_accel_X = TEST_VAL_UINT16;
+            test_imu->raw_accel_Y = TEST_VAL_UINT16;
+            test_imu->raw_accel_Z = TEST_VAL_UINT16;
+            test_imu->accel_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-            imu->raw_lin_accel_X = TEST_VAL_UINT16;
-            imu->raw_lin_accel_Y = TEST_VAL_UINT16;
-            imu->raw_lin_accel_Z = TEST_VAL_UINT16;
-            imu->accel_lin_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->raw_lin_accel_X = TEST_VAL_UINT16;
+            test_imu->raw_lin_accel_Y = TEST_VAL_UINT16;
+            test_imu->raw_lin_accel_Z = TEST_VAL_UINT16;
+            test_imu->accel_lin_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-            imu->raw_calib_gyro_X = TEST_VAL_UINT16;
-            imu->raw_calib_gyro_Y = TEST_VAL_UINT16;
-            imu->raw_calib_gyro_Z = TEST_VAL_UINT16;
+            test_imu->raw_calib_gyro_X = TEST_VAL_UINT16;
+            test_imu->raw_calib_gyro_Y = TEST_VAL_UINT16;
+            test_imu->raw_calib_gyro_Z = TEST_VAL_UINT16;
 
             // reset quaternion to nan
-            imu->raw_quat_I = TEST_VAL_UINT16;
-            imu->raw_quat_J = TEST_VAL_UINT16;
-            imu->raw_quat_K = TEST_VAL_UINT16;
-            imu->raw_quat_real = TEST_VAL_UINT16;
-            imu->raw_quat_radian_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
-            imu->quat_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->raw_quat_I = TEST_VAL_UINT16;
+            test_imu->raw_quat_J = TEST_VAL_UINT16;
+            test_imu->raw_quat_K = TEST_VAL_UINT16;
+            test_imu->raw_quat_real = TEST_VAL_UINT16;
+            test_imu->raw_quat_radian_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->quat_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-            imu->integrated_gyro_velocity_X = TEST_VAL_UINT16;
-            imu->integrated_gyro_velocity_Y = TEST_VAL_UINT16;
-            imu->integrated_gyro_velocity_Z = TEST_VAL_UINT16;
+            test_imu->integrated_gyro_velocity_X = TEST_VAL_UINT16;
+            test_imu->integrated_gyro_velocity_Y = TEST_VAL_UINT16;
+            test_imu->integrated_gyro_velocity_Z = TEST_VAL_UINT16;
 
-            imu->gravity_X = TEST_VAL_UINT16;
-            imu->gravity_Y = TEST_VAL_UINT16;
-            imu->gravity_Z = TEST_VAL_UINT16;
-            imu->gravity_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->gravity_X = TEST_VAL_UINT16;
+            test_imu->gravity_Y = TEST_VAL_UINT16;
+            test_imu->gravity_Z = TEST_VAL_UINT16;
+            test_imu->gravity_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-            imu->raw_uncalib_gyro_X = TEST_VAL_UINT16;
-            imu->raw_uncalib_gyro_Y = TEST_VAL_UINT16;
-            imu->raw_uncalib_gyro_Z = TEST_VAL_UINT16;
-            imu->raw_bias_X = TEST_VAL_UINT16;
-            imu->raw_bias_Y = TEST_VAL_UINT16;
-            imu->raw_bias_Z = TEST_VAL_UINT16;
+            test_imu->raw_uncalib_gyro_X = TEST_VAL_UINT16;
+            test_imu->raw_uncalib_gyro_Y = TEST_VAL_UINT16;
+            test_imu->raw_uncalib_gyro_Z = TEST_VAL_UINT16;
+            test_imu->raw_bias_X = TEST_VAL_UINT16;
+            test_imu->raw_bias_Y = TEST_VAL_UINT16;
+            test_imu->raw_bias_Z = TEST_VAL_UINT16;
 
-            imu->raw_magf_X = TEST_VAL_UINT16;
-            imu->raw_magf_Y = TEST_VAL_UINT16;
-            imu->raw_magf_Z = TEST_VAL_UINT16;
-            imu->magf_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
+            test_imu->raw_magf_X = TEST_VAL_UINT16;
+            test_imu->raw_magf_Y = TEST_VAL_UINT16;
+            test_imu->raw_magf_Z = TEST_VAL_UINT16;
+            test_imu->magf_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
-            imu->tap_detector = TEST_VAL_UINT8;
-            imu->step_count = TEST_VAL_UINT16;
-            imu->stability_classifier = TEST_VAL_UINT8;
-            imu->activity_classifier = TEST_VAL_UINT8;
+            test_imu->tap_detector = TEST_VAL_UINT8;
+            test_imu->step_count = TEST_VAL_UINT16;
+            test_imu->stability_classifier = TEST_VAL_UINT8;
+            test_imu->activity_classifier = TEST_VAL_UINT8;
 
-            imu->mems_raw_accel_X = TEST_VAL_UINT16;
-            imu->mems_raw_accel_Y = TEST_VAL_UINT16;
-            imu->mems_raw_accel_Z = TEST_VAL_UINT16;
+            test_imu->mems_raw_accel_X = TEST_VAL_UINT16;
+            test_imu->mems_raw_accel_Y = TEST_VAL_UINT16;
+            test_imu->mems_raw_accel_Z = TEST_VAL_UINT16;
 
-            imu->mems_raw_gyro_X = TEST_VAL_UINT16;
-            imu->mems_raw_gyro_Y = TEST_VAL_UINT16;
-            imu->mems_raw_gyro_Z = TEST_VAL_UINT16;
+            test_imu->mems_raw_gyro_X = TEST_VAL_UINT16;
+            test_imu->mems_raw_gyro_Y = TEST_VAL_UINT16;
+            test_imu->mems_raw_gyro_Z = TEST_VAL_UINT16;
 
-            imu->mems_raw_magf_X = TEST_VAL_UINT16;
-            imu->mems_raw_magf_Y = TEST_VAL_UINT16;
-            imu->mems_raw_magf_Z = TEST_VAL_UINT16;
+            test_imu->mems_raw_magf_X = TEST_VAL_UINT16;
+            test_imu->mems_raw_magf_Y = TEST_VAL_UINT16;
+            test_imu->mems_raw_magf_Z = TEST_VAL_UINT16;
         }
 
+        /**
+         * @brief Converts BNO08xAccuracy enum class object to string.
+         *
+         * @param report_data BNO08xAccuracy object to convert to string.
+         *
+         * @return The resulting string conversion.
+         */
         static const char* BNO08xAccuracy_to_str(BNO08xAccuracy accuracy)
         {
             switch (accuracy)

@@ -1,3 +1,7 @@
+/**
+ * @file BNO08x.hpp
+ * @author Myles Parfeniuk
+ */
 #pragma once
 // standard library includes
 #include <inttypes.h>
@@ -21,6 +25,10 @@
 // in-house includes
 #include "BNO08x_global_types.hpp"
 
+/**
+ * @class BNO08x
+ * @brief BNO08x IMU driver class.
+ * */
 class BNO08x
 {
     public:
@@ -324,7 +332,7 @@ class BNO08x
         uint16_t parse_feature_get_response_report(bno08x_rx_packet_t* packet);
         uint16_t parse_input_report(bno08x_rx_packet_t* packet);
         void parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data, uint16_t data_length);
-        uint16_t parse_gyro_report(bno08x_rx_packet_t* packet);
+        uint16_t parse_gyro_integrated_rotation_vector_report(bno08x_rx_packet_t* packet);
         uint16_t parse_command_report(bno08x_rx_packet_t* packet);
 
         // functions to update data returned to user
@@ -365,8 +373,8 @@ class BNO08x
         esp_err_t launch_tasks();
         esp_err_t kill_all_tasks();
 
-        void update_report_period(uint8_t report_ID, uint32_t new_period);
-        static uint8_t report_ID_to_report_period_idx(uint8_t report_ID);
+        void update_report_period_trackers(uint8_t report_ID, uint32_t new_period);
+        static uint8_t report_ID_to_report_period_tracker_idx(uint8_t report_ID);
 
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.

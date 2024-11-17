@@ -1,15 +1,22 @@
+/**
+ * @file BNO08xTestSuite.hpp
+ * @author Myles Parfeniuk
+ *
+ *
+ * @warning YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS TEST SUITE TO BE BUILT WITH PROJECT:
+ *          set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
+ */
 #pragma once
-
-/*
-YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS TEST SUITE TO BE FUNCTIONAL:
-set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
-*/
 
 #include <stdio.h>
 #include <string.h>
 #include "unity.h"
 #include "BNO08xTestHelper.hpp"
 
+/**
+ * @class BNO08xTestSuite
+ * @brief BNO08x unit test launch point class.
+ * */
 class BNO08xTestSuite
 {
     private:

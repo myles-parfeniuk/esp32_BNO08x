@@ -5,7 +5,6 @@
  * @brief BNO08x imu constructor.
  *
  * Construct a BNO08x object for managing a BNO08x sensor.
- * Initializes required GPIO pins, interrupts, SPI peripheral.
  *
  * @param imu_config Configuration settings (optional), default settings can be seen in bno08x_config_t
  * @return void, nothing to return
@@ -25,6 +24,13 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
 {
 }
 
+/**
+ * @brief BNO08x imu deconstructor.
+ *
+ * Deconstructs a BNO08x object and releases any utilized resources.
+ *
+ * @return void, nothing to return
+ */
 BNO08x::~BNO08x()
 {
     // disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
@@ -60,10 +66,10 @@ BNO08x::~BNO08x()
 /**
  * @brief Initializes BNO08x sensor
  *
- * Resets sensor and goes through initializing process outlined in BNO08x datasheet.
- * Launches two tasks, one to manage SPI transactions, another to process any received data.
+ * Resets sensor and goes through initialization process.
+ * Configures GPIO, required ISRs, and launches two tasks, one to manage SPI transactions, another to process any received data.
  *
- * @return void, nothing to return
+ * @return true if initialization was success, false if otherwise
  */
 bool BNO08x::initialize()
 {
@@ -101,6 +107,11 @@ bool BNO08x::initialize()
     return true;
 }
 
+/**
+ * @brief Initializes required esp-idf SPI data structures with values from user passed bno08x_config_t struct.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_config_args()
 {
     if ((imu_config.io_cs == GPIO_NUM_NC))
@@ -162,6 +173,11 @@ esp_err_t BNO08x::init_config_args()
     return ESP_OK;
 }
 
+/**
+ * @brief Initializes required gpio inputs.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_gpio_inputs()
 {
     esp_err_t ret = ESP_OK;
@@ -184,6 +200,11 @@ esp_err_t BNO08x::init_gpio_inputs()
     return ret;
 }
 
+/**
+ * @brief Initializes required gpio outputs.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_gpio_outputs()
 {
     esp_err_t ret = ESP_OK;
@@ -209,6 +230,11 @@ esp_err_t BNO08x::init_gpio_outputs()
     return ret;
 }
 
+/**
+ * @brief Initializes required gpio.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_gpio()
 {
     esp_err_t ret = ESP_OK;
@@ -232,6 +258,11 @@ esp_err_t BNO08x::init_gpio()
     return ret;
 }
 
+/**
+ * @brief Initializes host interrupt ISR.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_hint_isr()
 {
     esp_err_t ret = ESP_OK;
@@ -267,6 +298,11 @@ esp_err_t BNO08x::init_hint_isr()
     return ret;
 }
 
+/**
+ * @brief Initializes SPI.
+ *
+ * @return ESP_OK if initialization was success.
+ */
 esp_err_t BNO08x::init_spi()
 {
     esp_err_t ret = ESP_OK;
@@ -307,6 +343,11 @@ esp_err_t BNO08x::init_spi()
     return ret;
 }
 
+/**
+ * @brief Deinitializes GPIO, called from deconstructor.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
 esp_err_t BNO08x::deinit_gpio()
 {
     esp_err_t ret = ESP_OK;
@@ -328,6 +369,11 @@ esp_err_t BNO08x::deinit_gpio()
     return ret;
 }
 
+/**
+ * @brief Deinitializes GPIO inputs, called from deconstructor.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
 esp_err_t BNO08x::deinit_gpio_inputs()
 {
     esp_err_t ret = ESP_OK;
@@ -339,6 +385,11 @@ esp_err_t BNO08x::deinit_gpio_inputs()
     return ret;
 }
 
+/**
+ * @brief Deinitializes GPIO outputs, called from deconstructor.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
 esp_err_t BNO08x::deinit_gpio_outputs()
 {
     esp_err_t ret = ESP_OK;
@@ -370,6 +421,11 @@ esp_err_t BNO08x::deinit_gpio_outputs()
     return ret;
 }
 
+/**
+ * @brief Deinitializes host interrupt ISR, called from deconstructor.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
 esp_err_t BNO08x::deinit_hint_isr()
 {
     esp_err_t ret = ESP_OK;
@@ -396,6 +452,11 @@ esp_err_t BNO08x::deinit_hint_isr()
     return ret;
 }
 
+/**
+ * @brief Deinitializes SPI.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
 esp_err_t BNO08x::deinit_spi()
 {
     esp_err_t ret = ESP_OK;
@@ -722,6 +783,13 @@ esp_err_t BNO08x::receive_packet()
     return ret;
 }
 
+/**
+ * @brief Receives a SHTP packet header via SPI.
+ *
+ * @param packet Pointer to bno08x_rx_packet_t to save header to.
+ *
+ * @return ESP_OK if receive was success.
+ */
 esp_err_t BNO08x::receive_packet_header(bno08x_rx_packet_t* packet)
 {
 
@@ -747,6 +815,13 @@ esp_err_t BNO08x::receive_packet_header(bno08x_rx_packet_t* packet)
     return ret;
 }
 
+/**
+ * @brief Receives a SHTP packet body via SPI.
+ *
+ * @param packet Pointer to bno08x_rx_packet_t to save body to.
+ *
+ * @return ESP_OK if receive was success.
+ */
 esp_err_t BNO08x::receive_packet_body(bno08x_rx_packet_t* packet)
 {
     esp_err_t ret = ESP_OK;
@@ -782,7 +857,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
     if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
         hard_reset();
 
-    update_report_period(report_ID, time_between_reports);
+    update_report_period_trackers(report_ID, time_between_reports);
 
     queue_feature_command(report_ID, time_between_reports, special_config);
     if (wait_for_tx_done()) // wait for transmit operation to complete
@@ -812,7 +887,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
  */
 void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit)
 {
-    update_report_period(report_ID, 0);
+    update_report_period_trackers(report_ID, 0);
     queue_feature_command(report_ID, 0);
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
@@ -836,9 +911,8 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
                                 0x00  0x00  0x00  0x00  0x00
 
         The 0xFC indicates it is a get feature response, the 0x05 indicates it is for the rotation vector, the rest of the body will be 0.
-
-        Lets flush this response as it's currently detected as an invalid packet, we don't care about it.
-        It might be wise to  detect the response for the respective report being disabled, but is probably not necessary.
+        It might be wise to  detect the response for the respective report being disabled, but is probably not necessary. For now, all get feature
+        responses are detected as valid packets.
         */
 
         // no reports enabled, disable hint to avoid wasting processing time
@@ -1008,6 +1082,7 @@ void BNO08x::calibrate_planar_accelerometer()
  * @brief Queues a packet containing a command to calibrate the specified sensor.
  *
  * @param sensor_to_calibrate The sensor to calibrate.
+ *
  * @return void, nothing to return
  */
 void BNO08x::queue_calibrate_command(uint8_t sensor_to_calibrate)
@@ -1072,7 +1147,7 @@ void BNO08x::request_calibration_status()
 /**
  * @brief Returns true if calibration has completed.
  *
- * @return void, nothing to return
+ * @return True if calibration complete, false if otherwise.
  */
 bool BNO08x::calibration_complete()
 {
@@ -1116,7 +1191,7 @@ void BNO08x::save_calibration()
  * Waits for accuracy of returned quaternions and magnetic field vectors to be high, then saves calibration data and
  * returns.
  *
- * @return void, nothing to return
+ * @return True if calibration succeeded, false if otherwise.
  */
 bool BNO08x::run_full_calibration_routine()
 {
@@ -1211,7 +1286,8 @@ bool BNO08x::run_full_calibration_routine()
  * @brief Checks if BNO08x has asserted interrupt and sent data.
  *
  * @param ignore_no_reports_enabled Forces a wait for data even if no reports are enabled (default is false), used for unit tests.
- * @return true if new data has been parsed and saved
+ *
+ * @return True if new data has been parsed and saved, false if otherwise.
  */
 bool BNO08x::data_available(bool ignore_no_reports_enabled)
 {
@@ -1229,6 +1305,7 @@ bool BNO08x::data_available(bool ignore_no_reports_enabled)
  * @brief Registers a callback to execute when new data from a report is received.
  *
  * @param cb_fxn Pointer to the call-back function should be of void return type and void input parameters.
+ *
  * @return void, nothing to return
  */
 void BNO08x::register_cb(std::function<void()> cb_fxn)
@@ -1242,7 +1319,8 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  * @param packet The packet to be parsed.
  * @param notify_users Bool reference that is set to true if users should be notified of new data through callbacks/polling, false if packet is valid
  *                     but users don't need to be notified.
- * @return 0 if invalid packet.
+ *
+ * @return 0 if invalid packet, non-zero if otherwise.
  */
 uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
 {
@@ -1310,7 +1388,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
             // clang-format on
 
             // this will update the rawAccelX, etc variables depending on which feature report is found
-            return parse_gyro_report(packet);
+            return parse_gyro_integrated_rotation_vector_report(packet);
 
             break;
 
@@ -1350,6 +1428,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
  * @brief Parses product id report and prints device info.
  *
  * @param packet The packet containing product id report.
+ *
  * @return 1, always valid.
  */
 uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
@@ -1389,6 +1468,7 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
  * @brief Sends packet to be parsed to meta data function call (FRS_read_data()) through queue.
  *
  * @param packet The packet containing the frs read report.
+ *
  * @return 1, always valid, parsing for this happens in frs_read_word()
  */
 uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
@@ -1401,6 +1481,7 @@ uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
 {
     uint16_t report_ID = 0;
 
+    // TODO: add get feature requests and handle this properly, this is just to handle the unsolcited get feature responses due to report rate changes
     switch (packet->body[1])
     {
         case SENSOR_REPORT_ID_ACCELEROMETER:
@@ -1505,12 +1586,12 @@ uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
  *
  * @param packet bno8x_rx_packet_t containing the input report to parse
  *
- * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0 if invalid.
+ * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_ACCELEROMETER, 0 if invalid.
  */
 uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 {
     uint8_t status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
-    uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
+    uint16_t data_length = PARSE_PACKET_LENGTH(packet);
     uint16_t report_ID = PARSE_INPUT_REPORT_REPORT_ID(packet);
     uint16_t data[6] = {0};
 
@@ -1602,7 +1683,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
  * @param data uint16_t array to store parsed data in
  * @param data_length length of data in bytes parsed from packet header
  *
- * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0 if invalid.
+ * @return void, nothing to return
  */
 void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data, uint16_t data_length)
 {
@@ -1626,7 +1707,7 @@ void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data,
 }
 
 /**
- * @brief Parses received gyro report sent by BNO08x.
+ * @brief Parses received gyro integrated rotation vector report sent by BNO08x.
  *
  * Unit responds with packet that contains the following:
  *
@@ -1639,15 +1720,12 @@ void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data,
  * packet->body[10:11]: Raw gyroscope angular velocity in Y axis
  * packet->body[12:13]: Raw gyroscope angular velocity in Z axis
  *
+ * @param packet bno8x_rx_packet_t containing the gyro integrated rotation vector report report to parse
+ *
  * @return Integrated rotation vector report ID (always valid)
  */
-uint16_t BNO08x::parse_gyro_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_gyro_integrated_rotation_vector_report(bno08x_rx_packet_t* packet)
 {
-
-    // calculate the number of data bytes in this packet
-    uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
-    data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
-
     // the gyro-integrated input reports are sent via the special gyro channel and do not include the usual ID, sequence, and status fields
     update_integrated_gyro_rotation_vector_data(packet);
 
@@ -2022,7 +2100,7 @@ void BNO08x::enable_gravity(uint32_t time_between_reports)
 }
 
 /**
- * @brief Sends command to enable gyro reports (See Ref. Manual 6.5.13)
+ * @brief Sends command to enable calibrated gyro reports (See Ref. Manual 6.5.13)
  *
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
@@ -2102,7 +2180,7 @@ void BNO08x::enable_activity_classifier(uint32_t time_between_reports, uint32_t 
 }
 
 /**
- * @brief Sends command to enable raw accelerometer reports (See Ref. Manual 6.5.8)
+ * @brief Sends command to enable raw MEMs accelerometer reports (See Ref. Manual 6.5.8)
  *
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
@@ -2124,7 +2202,7 @@ void BNO08x::enable_raw_mems_gyro(uint32_t time_between_reports)
 }
 
 /**
- * @brief Sends command to enable raw magnetometer reports (See Ref. Manual 6.5.15)
+ * @brief Sends command to enable raw MEMs magnetometer reports (See Ref. Manual 6.5.15)
  *
  * @param time_between_reports Desired time between reports in microseconds.
  * @return void, nothing to return
@@ -2215,7 +2293,7 @@ void BNO08x::disable_gravity()
 }
 
 /**
- * @brief Sends command to disable gyro reports by setting report interval to 0.
+ * @brief Sends command to disable calibrated gyro reports by setting report interval to 0.
  *
  * @return void, nothing to return
  */
@@ -2886,7 +2964,7 @@ BNO08xAccuracy BNO08x::get_linear_accel_accuracy()
 }
 
 /**
- * @brief Get full raw mems acceleration.
+ * @brief Get full raw acceleration from physical accelerometer MEMs sensor (See Ref. Manual 6.5.8).
  *
  * @param x Reference variable to save raw X axis acceleration.
  * @param y Reference variable to save raw Y axis acceleration.
@@ -2932,7 +3010,7 @@ uint16_t BNO08x::get_raw_mems_accel_Z()
 }
 
 /**
- * @brief Get full raw mems gyro data.
+ * @brief Get raw gyroscope full reading from physical gyroscope MEMs sensor (See Ref. Manual 6.5.12)
  *
  * @param x Reference variable to save raw X axis data.
  * @param y Reference variable to save raw Y axis data.
@@ -2978,7 +3056,7 @@ uint16_t BNO08x::get_raw_mems_gyro_Z()
 }
 
 /**
- * @brief Get full raw mems magnetometer data.
+ * @brief Get raw magnetometer full reading from physical magnetometer sensor (See Ref. Manual 6.5.15)
  *
  * @param x Reference variable to save raw X axis data.
  * @param y Reference variable to save raw Y axis data.
@@ -3713,6 +3791,11 @@ void BNO08x::data_proc_task()
     vTaskDelete(NULL);
 }
 
+/**
+ * @brief Launches spi_task and data_proc_task on constructor call. 
+ *
+ * @return ESP_OK if tasks successfully created. 
+ */
 esp_err_t BNO08x::launch_tasks()
 {
     BaseType_t task_created = pdFALSE;
@@ -3750,6 +3833,11 @@ esp_err_t BNO08x::launch_tasks()
     return ESP_OK;
 }
 
+/**
+ * @brief Deletes spi_task and data_proc_task safely on deconstructor call. 
+ *
+ * @return ESP_OK if tasks successfully deleted. 
+ */
 esp_err_t BNO08x::kill_all_tasks()
 {
     static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10;
@@ -3791,9 +3879,9 @@ esp_err_t BNO08x::kill_all_tasks()
  * @param report_ID report ID to update period of.
  * @return void, nothing to return
  */
-void BNO08x::update_report_period(uint8_t report_ID, uint32_t new_period)
+void BNO08x::update_report_period_trackers(uint8_t report_ID, uint32_t new_period)
 {
-    uint8_t idx = report_ID_to_report_period_idx(report_ID);
+    uint8_t idx = report_ID_to_report_period_tracker_idx(report_ID);
 
     if (idx != REPORT_CNT)
     {
@@ -3845,7 +3933,7 @@ void BNO08x::update_report_period(uint8_t report_ID, uint32_t new_period)
  * @param report_ID report ID to return index for.
  * @return Index in report_period_trackers corresponding to passed report ID.
  */
-uint8_t BNO08x::report_ID_to_report_period_idx(uint8_t report_ID)
+uint8_t BNO08x::report_ID_to_report_period_tracker_idx(uint8_t report_ID)
 {
     switch (report_ID)
     {

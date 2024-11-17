@@ -22,8 +22,8 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
     TEST_ASSERT_EQUAL(true, imu->initialize());
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable linear accelerometer report but check for angular accelerometer data (should remain as default test values) */
@@ -36,7 +36,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::accelerometer_data_is_default(&report_data, &prev_report_data);
@@ -54,8 +54,8 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     imu->disable_linear_accelerometer();
@@ -76,8 +76,8 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -90,7 +90,7 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -105,8 +105,8 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -121,7 +121,7 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -137,8 +137,8 @@ TEST_CASE("Enable/Disable Rotation Vector", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -160,8 +160,8 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -174,7 +174,7 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -189,8 +189,8 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -205,7 +205,7 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -221,8 +221,8 @@ TEST_CASE("Enable/Disable Game Rotation Vector", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -244,8 +244,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -258,7 +258,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -273,8 +273,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -289,7 +289,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -305,8 +305,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Rotation Vector", "[SingleReportEnable
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -328,8 +328,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -342,7 +342,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -357,8 +357,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -373,7 +373,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -389,8 +389,8 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game Rotation Vector", "[SingleReportE
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -412,8 +412,8 @@ TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnable
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -426,7 +426,7 @@ TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnable
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::gyro_integrated_rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -446,8 +446,8 @@ TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnable
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -462,7 +462,7 @@ TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnable
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::gyro_integrated_rotation_vector_data_is_default(&report_data, &prev_report_data);
@@ -482,8 +482,8 @@ TEST_CASE("Enable/Disable Gyro Integrated Rotation Vector", "[SingleReportEnable
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -505,8 +505,8 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -519,7 +519,7 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::uncalibrated_gyro_data_is_default(&report_data, &prev_report_data);
@@ -537,8 +537,8 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -553,7 +553,7 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::uncalibrated_gyro_data_is_default(&report_data, &prev_report_data);
@@ -571,8 +571,8 @@ TEST_CASE("Enable/Disable Uncalibrated Gyro", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -594,8 +594,8 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -608,7 +608,7 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::calibrated_gyro_data_is_default(&report_data, &prev_report_data);
@@ -625,8 +625,8 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -641,7 +641,7 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::calibrated_gyro_data_is_default(&report_data, &prev_report_data);
@@ -658,8 +658,8 @@ TEST_CASE("Enable/Disable Calibrated Gyro", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -681,8 +681,8 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -695,7 +695,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::accelerometer_data_is_default(&report_data, &prev_report_data);
@@ -713,8 +713,8 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -729,7 +729,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::accelerometer_data_is_default(&report_data, &prev_report_data);
@@ -747,8 +747,8 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -770,8 +770,8 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -784,7 +784,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::linear_accelerometer_data_is_default(&report_data, &prev_report_data);
@@ -802,8 +802,8 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -818,7 +818,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::linear_accelerometer_data_is_default(&report_data, &prev_report_data);
@@ -836,8 +836,8 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -859,8 +859,8 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -873,7 +873,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::gravity_data_is_default(&report_data, &prev_report_data);
@@ -891,8 +891,8 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -907,7 +907,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::gravity_data_is_default(&report_data, &prev_report_data);
@@ -925,8 +925,8 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -948,8 +948,8 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -962,7 +962,7 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::magnetometer_data_is_default(&report_data, &prev_report_data);
@@ -980,8 +980,8 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -996,7 +996,7 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::magnetometer_data_is_default(&report_data, &prev_report_data);
@@ -1014,8 +1014,8 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -1037,8 +1037,8 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -1051,7 +1051,7 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::step_detector_data_is_default(&report_data, &prev_report_data);
@@ -1065,8 +1065,8 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -1081,7 +1081,7 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::step_detector_data_is_default(&report_data, &prev_report_data);
@@ -1095,8 +1095,8 @@ TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -1118,8 +1118,8 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -1132,7 +1132,7 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::stability_classifier_data_is_default(&report_data, &prev_report_data);
@@ -1146,8 +1146,8 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -1162,7 +1162,7 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::stability_classifier_data_is_default(&report_data, &prev_report_data);
@@ -1176,8 +1176,8 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
@@ -1200,8 +1200,8 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // reset all data used in report test
-    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-    BNO08xTestHelper::update_report_data(&report_data, imu);
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+    BNO08xTestHelper::update_report_data(&report_data);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
@@ -1218,7 +1218,7 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::activity_classifier_data_is_default(&report_data, &prev_report_data);
@@ -1232,8 +1232,8 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
@@ -1248,7 +1248,7 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         if (imu->data_available())
         {
             prev_report_data = report_data;
-            BNO08xTestHelper::update_report_data(&report_data, imu);
+            BNO08xTestHelper::update_report_data(&report_data);
 
             // check if any default values have been overwritten, implying new data from respective report
             new_data = BNO08xTestHelper::activity_classifier_data_is_default(&report_data, &prev_report_data);
@@ -1262,8 +1262,8 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
         // reset all data used in report test
-        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
-        BNO08xTestHelper::update_report_data(&report_data, imu);
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults();
+        BNO08xTestHelper::update_report_data(&report_data);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
