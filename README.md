@@ -14,6 +14,13 @@
     <li><a href="#examples">Examples</a></li>
     </ul>
 </li>
+<li>
+    <a href="#unit-tests">Unit Tests</a>
+    <ul>
+        <li><a href="#running-tests">Running Tests</a></li>
+        <li><a href="#adding-tests">Adding Tests</a></li>
+    </ul>
+</li>
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#program-flowcharts">Program Flowcharts</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>  <!-- Added this line -->
@@ -188,6 +195,58 @@ extern "C" void app_main(void)
     }
 }
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Unit Tests
+A basic unit testing suite is included with this library, but it is very rudimentary. 
+It can be used to verify some of the basic features of a BNO08x device. 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Running Tests
+1. Create a project and add the component as described in the getting started guide. 
+
+
+2. Open the outermost CMakeLists.txt file in the project root directory, as depicted below.  
+
+    ![image](README_images/OutermostCMake.png)
+
+3. Modify the file by adding "set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")" as depicted below:  
+
+    ```cmake
+    # For more information about build system see
+    # https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html
+    # The following five lines of boilerplate have to be in your project's
+    # CMakeLists in this exact order for cmake to work correctly
+    cmake_minimum_required(VERSION 3.16)
+    add_compile_definitions("ESP32C3_IMU_CONFIG")
+    set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
+    include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+    project(bno08x_update)
+    ```
+
+4. Include the test suite in your main file and launch into the test suite:  
+
+    ```cpp
+    #include <stdio.h>
+    #include "BNO08xTestSuite.hpp"
+
+    extern "C" void app_main(void)
+    {
+        BNO08xTestSuite::run_all_tests(); 
+    }
+    ```
+
+5. Ensure you run `idf.py fullclean` or delete your build directory before building for the first time after modifying the CMakeLists.txt file in step 3. 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Adding Tests
+Tests are implemented with the [esp-idf unity unit testing component](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/unit-tests.html).
+
+To add a test, create a new .cpp file, or modify one of the existing ones in `esp32_BNO08x/test/()`. 
+Follow the existing test structure as an example, use the `TEST_CASE(){}` macro.  
+
+Any tests added will automatically be detected at build time. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Documentation
