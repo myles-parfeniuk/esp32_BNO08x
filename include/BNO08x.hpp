@@ -77,10 +77,10 @@ class BNO08x
         void disable_calibrated_gyro();
         void disable_uncalibrated_gyro();
         void disable_magnetometer();
-        void disable_tap_detector();
         void disable_step_counter();
         void disable_stability_classifier();
         void disable_activity_classifier();
+        void disable_tap_detector();
         void disable_raw_mems_accelerometer();
         void disable_raw_mems_gyro();
         void disable_raw_mems_magnetometer();
@@ -254,6 +254,12 @@ class BNO08x
                 uint16_t length;  ///< Packet length in bytes.
         } bno08x_tx_packet_t;
 
+        typedef struct bno08x_report_period_tracker_t
+        {
+                uint8_t report_ID;
+                uint32_t period;
+        } bno08x_report_period_tracker_t;
+
         /// @brief Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).
         typedef struct bno08x_init_status_t
         {
@@ -359,6 +365,9 @@ class BNO08x
         esp_err_t launch_tasks();
         esp_err_t kill_all_tasks();
 
+        void update_report_period(uint8_t report_ID, uint32_t new_period);
+        static uint8_t report_ID_to_report_period_idx(uint8_t report_ID);
+
         EventGroupHandle_t
                 evt_grp_spi; ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed. Used by calls to sending or receiving functions.
         EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
@@ -397,13 +406,13 @@ class BNO08x
         uint16_t raw_uncalib_gyro_X, raw_uncalib_gyro_Y, raw_uncalib_gyro_Z, raw_bias_X, raw_bias_Y,
                 raw_bias_Z; ///<Uncalibrated gyro reading (See SH-2 Ref. Manual 6.5.14)
         uint16_t raw_magf_X, raw_magf_Y, raw_magf_Z,
-                magf_accuracy;         ///<Calibrated magnetic field reading in uTesla (See SH-2 Ref. Manual 6.5.16)
-        uint8_t tap_detector;          ///<Tap detector reading (See SH-2 Ref. Manual 6.5.27)
-        uint16_t step_count;           ///<Step counter reading (See SH-2 Ref. Manual 6.5.29)
-        uint8_t stability_classifier;  ///<Stability status reading (See SH-2 Ref. Manual 6.5.31)
-        uint8_t activity_classifier;   ///<Activity status reading (See SH-2 Ref. Manual 6.5.36)
-        uint8_t* activity_confidences; ///<Confidence of read activities (See SH-2 Ref. Manual 6.5.36)
-        uint8_t calibration_status;    ///<Calibration status of device (See SH-2 Ref. Manual 6.4.7.1 & 6.4.7.2)
+                magf_accuracy;                   ///<Calibrated magnetic field reading in uTesla (See SH-2 Ref. Manual 6.5.16)
+        uint8_t tap_detector;                    ///<Tap detector reading (See SH-2 Ref. Manual 6.5.27)
+        uint16_t step_count;                     ///<Step counter reading (See SH-2 Ref. Manual 6.5.29)
+        uint8_t stability_classifier;            ///<Stability status reading (See SH-2 Ref. Manual 6.5.31)
+        uint8_t activity_classifier;             ///<Activity status reading (See SH-2 Ref. Manual 6.5.36)
+        uint8_t* activity_confidences = nullptr; ///<Confidence of read activities (See SH-2 Ref. Manual 6.5.36)
+        uint8_t calibration_status;              ///<Calibration status of device (See SH-2 Ref. Manual 6.4.7.1 & 6.4.7.2)
         uint16_t mems_raw_accel_X, mems_raw_accel_Y,
                 mems_raw_accel_Z; ///<Raw accelerometer readings from MEMS sensor (See SH2 Ref. Manual 6.5.8)
         uint16_t mems_raw_gyro_X, mems_raw_gyro_Y,
@@ -418,9 +427,9 @@ class BNO08x
         static const constexpr uint16_t RX_DATA_LENGTH = 300U;    ///<length buffer containing data received over spi
         static const constexpr uint16_t MAX_METADATA_LENGTH = 9U; ///<max length of metadata used in frs read operations
 
-        static const constexpr TickType_t HOST_INT_TIMEOUT_MS =
-                300UL /
-                portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds)
+        static const constexpr TickType_t HOST_INT_TIMEOUT_DEFAULT_MS =
+                3000UL /
+                portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds), when no reports are enabled (ie during reset)
 
         static const constexpr TickType_t HARD_RESET_DELAY_MS =
                 100UL /
@@ -531,6 +540,25 @@ class BNO08x
         static const constexpr uint8_t TARE_NOW = 0U;               ///< See SH2 Ref. Manual 6.4.4.1
         static const constexpr uint8_t TARE_PERSIST = 1U;           ///< See SH2 Ref. Manual 6.4.4.2
         static const constexpr uint8_t TARE_SET_REORIENTATION = 2U; ///< See SH2 Ref. Manual 6.4.4.3
+
+        static const constexpr uint8_t REPORT_CNT = 19; ///< Total unique reports that can be returned by BNO08x.
+
+        bno08x_report_period_tracker_t report_period_trackers[REPORT_CNT] = {{SENSOR_REPORT_ID_ACCELEROMETER, 0}, {SENSOR_REPORT_ID_GYROSCOPE, 0},
+                {SENSOR_REPORT_ID_MAGNETIC_FIELD, 0}, {SENSOR_REPORT_ID_LINEAR_ACCELERATION, 0}, {SENSOR_REPORT_ID_ROTATION_VECTOR, 0},
+                {SENSOR_REPORT_ID_GRAVITY, 0}, {SENSOR_REPORT_ID_UNCALIBRATED_GYRO, 0}, {SENSOR_REPORT_ID_GAME_ROTATION_VECTOR, 0},
+                {SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR, 0}, {SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR, 0},
+                {SENSOR_REPORT_ID_TAP_DETECTOR, 0}, {SENSOR_REPORT_ID_STEP_COUNTER, 0}, {SENSOR_REPORT_ID_STABILITY_CLASSIFIER, 0},
+                {SENSOR_REPORT_ID_RAW_ACCELEROMETER, 0}, {SENSOR_REPORT_ID_RAW_GYROSCOPE, 0}, {SENSOR_REPORT_ID_RAW_MAGNETOMETER, 0},
+                {SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, 0}, {SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR, 0},
+                {SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR,
+                        0}}; ///< Current sample period of each report in microseconds linked to report ID (0 if not enabled).
+
+        uint32_t largest_sample_period_us =
+                0; ///< Current largest sample period of any enabled report in microseconds (used to determine timeout for hint ISR).
+        uint8_t current_slowest_report_ID; ///< ID of the currently enabled report with the largest sample period.
+
+        TickType_t host_int_timeout_ms =
+                HOST_INT_TIMEOUT_DEFAULT_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds), determined by enabled report with longest period.
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 

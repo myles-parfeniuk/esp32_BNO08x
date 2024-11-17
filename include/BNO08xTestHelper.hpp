@@ -62,7 +62,9 @@ class BNO08xTestHelper
                 uint16_t raw_mems_gyro_y;
                 uint16_t raw_mems_gyro_z;
 
-                uint8_t tap_count;
+                uint16_t step_count;
+                uint8_t stability_classifier;
+                uint8_t activity_classifier;
 
         } imu_report_data_t;
 
@@ -319,18 +321,31 @@ class BNO08xTestHelper
             return new_data;
         }
 
-        static bool raw_mems_gyro_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        static bool step_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
         {
             bool new_data = false;
+
+            if (report_data->step_count != prev_report_data->step_count)
+                new_data = true;
 
             return new_data;
         }
 
-        static bool tap_detector_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        static bool stability_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
         {
             bool new_data = false;
 
-            if (report_data->tap_count != prev_report_data->tap_count)
+            if (report_data->stability_classifier != prev_report_data->stability_classifier)
+                new_data = true;
+
+            return new_data;
+        }
+
+        static bool activity_classifier_data_is_default(imu_report_data_t* report_data, imu_report_data_t* prev_report_data)
+        {
+            bool new_data = false;
+
+            if (report_data->activity_classifier != prev_report_data->activity_classifier)
                 new_data = true;
 
             return new_data;
@@ -351,7 +366,9 @@ class BNO08xTestHelper
                     report_data->uncalib_gyro_drift_x, report_data->uncalib_gyro_drift_y, report_data->uncalib_gyro_drift_z);
             imu->get_magf(report_data->magf_x, report_data->magf_y, report_data->magf_z, report_data->magf_accuracy);
             imu->get_raw_mems_gyro(report_data->raw_mems_gyro_x, report_data->raw_mems_gyro_y, report_data->raw_mems_gyro_z);
-            report_data->tap_count = imu->get_tap_detector();
+            report_data->step_count = imu->get_step_count();
+            report_data->stability_classifier = imu->get_stability_classifier();
+            report_data->activity_classifier = imu->get_activity_classifier(); 
         }
 
         static void reset_all_imu_data_to_test_defaults(BNO08x* imu)

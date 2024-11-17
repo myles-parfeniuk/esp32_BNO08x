@@ -1023,3 +1023,250 @@ TEST_CASE("Enable/Disable Magnetometer", "[SingleReportEnableDisable]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+TEST_CASE("Enable/Disable Step Counter", "[SingleReportEnableDisable]")
+{
+    const constexpr char* TEST_TAG = "Enable/Disable Step Counter";
+    BNO08x* imu = nullptr;
+    BNO08xTestHelper::imu_report_data_t report_data;
+    BNO08xTestHelper::imu_report_data_t prev_report_data;
+    bool new_data = false;
+    char msg_buff[200] = {};
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    // reset all data used in report test
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+    BNO08xTestHelper::update_report_data(&report_data, imu);
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
+    /*enable respective report to test and ensure it reports new data */
+    imu->enable_step_counter(100000UL);
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::step_detector_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that new data from respective report has been received
+        TEST_ASSERT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "Rx Data Trial %d Success: StepCounter: %d steps", (i + 1), report_data.step_count);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase started.");
+    /*disable respective report to test and ensure it stops reporting new data */
+    imu->disable_step_counter();
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::step_detector_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that no new data from respective report has been received
+        TEST_ASSERT_NOT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "No Rx Data Trial %d Success: StepCounterDefault: %d steps", (i + 1), report_data.step_count);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+}
+
+TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
+{
+    const constexpr char* TEST_TAG = "Enable/Disable Stability Classifier";
+    BNO08x* imu = nullptr;
+    BNO08xTestHelper::imu_report_data_t report_data;
+    BNO08xTestHelper::imu_report_data_t prev_report_data;
+    bool new_data = false;
+    char msg_buff[200] = {};
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    // reset all data used in report test
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+    BNO08xTestHelper::update_report_data(&report_data, imu);
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
+    /*enable respective report to test and ensure it reports new data */
+    imu->enable_stability_classifier(100000UL);
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::stability_classifier_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that new data from respective report has been received
+        TEST_ASSERT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "Rx Data Trial %d Success: StabilityClassifier: %d", (i + 1), report_data.stability_classifier);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase started.");
+    /*disable respective report to test and ensure it stops reporting new data */
+    imu->disable_stability_classifier();
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::stability_classifier_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that no new data from respective report has been received
+        TEST_ASSERT_NOT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "No Rx Data Trial %d Success: StabilityClassifierDefault: %d", (i + 1), report_data.stability_classifier);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+}
+
+TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
+{
+    const constexpr char* TEST_TAG = "Enable/Disable Activity Classifier";
+    BNO08x* imu = nullptr;
+    BNO08xTestHelper::imu_report_data_t report_data;
+    BNO08xTestHelper::imu_report_data_t prev_report_data;
+    bool new_data = false;
+    char msg_buff[200] = {};
+    uint8_t activity_confidence_vals[9] = {};
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    // reset all data used in report test
+    BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+    BNO08xTestHelper::update_report_data(&report_data, imu);
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
+    /*enable respective report to test and ensure it reports new data */
+    imu->enable_activity_classifier(1000000UL, BNO08x::ACTIVITY_CLASSIFIER_ALL_EN, activity_confidence_vals);
+    imu->enable_stability_classifier(50000UL);
+    imu->enable_step_counter(2000000UL);
+    imu->disable_stability_classifier();
+    imu->disable_step_counter();
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::activity_classifier_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that new data from respective report has been received
+        TEST_ASSERT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "Rx Data Trial %d Success: ActivityClassifier: %d", (i + 1), report_data.activity_classifier);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase started.");
+    /*disable respective report to test and ensure it stops reporting new data */
+    imu->disable_activity_classifier();
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        new_data = false;
+
+        if (imu->data_available())
+        {
+            prev_report_data = report_data;
+            BNO08xTestHelper::update_report_data(&report_data, imu);
+
+            // check if any default values have been overwritten, implying new data from respective report
+            new_data = BNO08xTestHelper::activity_classifier_data_is_default(&report_data, &prev_report_data);
+        }
+
+        // assert that no new data from respective report has been received
+        TEST_ASSERT_NOT_EQUAL(true, new_data);
+
+        sprintf(msg_buff, "No Rx Data Trial %d Success: ActivityClassifierDefault: %d", (i + 1), report_data.activity_classifier);
+
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+        // reset all data used in report test
+        BNO08xTestHelper::reset_all_imu_data_to_test_defaults(imu);
+        BNO08xTestHelper::update_report_data(&report_data, imu);
+    }
+
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Report disabled testing phase completed.");
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+}

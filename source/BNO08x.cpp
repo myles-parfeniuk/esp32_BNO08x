@@ -424,13 +424,13 @@ esp_err_t BNO08x::deinit_spi()
 }
 
 /**
- * @brief Waits for data to be received over SPI, or HOST_INT_TIMEOUT_MS to elapse.
+ * @brief Waits for data to be received over SPI, or host_int_timeout_ms to elapse.
  *
  * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
  * This function is for when the validity of packets is not a concern, it is for flushing packets
  * we do not care about.
  *
- * @return True if data has been received over SPI within HOST_INT_TIMEOUT_MS.
+ * @return True if data has been received over SPI within host_int_timeout_ms.
  */
 bool BNO08x::wait_for_rx_done()
 {
@@ -441,7 +441,7 @@ bool BNO08x::wait_for_rx_done()
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
     // wait until an interrupt has been asserted and data received or timeout has occured
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, host_int_timeout_ms))
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
@@ -461,11 +461,11 @@ bool BNO08x::wait_for_rx_done()
 }
 
 /**
- * @brief Waits for a valid or invalid packet to be received or HOST_INT_TIMEOUT_MS to elapse.
+ * @brief Waits for a valid or invalid packet to be received or host_int_timeout_ms to elapse.
  *
  * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
  *
- * @return True if valid packet has been received within HOST_INT_TIMEOUT_MS, false if otherwise.
+ * @return True if valid packet has been received within host_int_timeout_ms, false if otherwise.
  */
 bool BNO08x::wait_for_data()
 {
@@ -476,11 +476,11 @@ bool BNO08x::wait_for_data()
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
     // check to see receive operation has finished
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT, pdTRUE, pdTRUE, host_int_timeout_ms))
     {
         // wait until processing is done, this should never go to timeout; however, it will be set slightly after EVT_GRP_SPI_RX_DONE_BIT
         if (xEventGroupWaitBits(
-                    evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT, pdFALSE, pdFALSE, HOST_INT_TIMEOUT_MS))
+                    evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT, pdFALSE, pdFALSE, host_int_timeout_ms))
         {
             // only return true if packet is valid
             if (xEventGroupGetBits(evt_grp_spi) & EVT_GRP_SPI_RX_VALID_PACKET_BIT)
@@ -509,11 +509,11 @@ bool BNO08x::wait_for_data()
 }
 
 /**
- * @brief Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse.
+ * @brief Waits for a queued packet to be sent or host_int_timeout_ms to elapse.
  *
  * If no reports are currently enabled the hint pin interrupt will be re-enabled by this function.
  *
- * @return True if packet was sent within HOST_INT_TIMEOUT_MS, false if otherwise.
+ * @return True if packet was sent within host_int_timeout_ms, false if otherwise.
  */
 bool BNO08x::wait_for_tx_done()
 {
@@ -521,7 +521,7 @@ bool BNO08x::wait_for_tx_done()
     if (xEventGroupGetBits(evt_grp_report_en) == 0)
         gpio_intr_enable(imu_config.io_int); // re-enable interrupts
 
-    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, HOST_INT_TIMEOUT_MS))
+    if (xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT, pdTRUE, pdTRUE, host_int_timeout_ms))
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
@@ -547,6 +547,7 @@ bool BNO08x::wait_for_tx_done()
 bool BNO08x::hard_reset()
 {
     bool success = false;
+
     // resetting disables all reports
     xEventGroupClearBits(evt_grp_report_en, EVT_GRP_RPT_ALL_BITS);
 
@@ -626,7 +627,7 @@ BNO08xResetReason BNO08x::get_reset_reason()
     {
         // receive product ID report
         if (wait_for_data())
-            xQueueReceive(queue_reset_reason, &reset_reason, HOST_INT_TIMEOUT_MS);
+            xQueueReceive(queue_reset_reason, &reset_reason, host_int_timeout_ms);
         else
             ESP_LOGE(TAG, "Failed to receive product ID report.");
     }
@@ -781,6 +782,8 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
     if ((xEventGroupGetBits(evt_grp_report_en) & ~report_evt_grp_bit) == 0)
         hard_reset();
 
+    update_report_period(report_ID, time_between_reports);
+
     queue_feature_command(report_ID, time_between_reports, special_config);
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
@@ -794,7 +797,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
     }
 
     // flush the first few reports returned to ensure new data
-    flush_rx_packets(3);
+    flush_rx_packets(2);
 }
 
 /**
@@ -809,6 +812,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
  */
 void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit)
 {
+    update_report_period(report_ID, 0);
     queue_feature_command(report_ID, 0);
     if (wait_for_tx_done()) // wait for transmit operation to complete
     {
@@ -839,7 +843,10 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
 
         // no reports enabled, disable hint to avoid wasting processing time
         if ((xEventGroupGetBits(evt_grp_report_en)) == 0)
+        {
+            host_int_timeout_ms = HOST_INT_TIMEOUT_DEFAULT_MS;
             gpio_intr_disable(imu_config.io_int);
+        }
     }
 }
 
@@ -1245,8 +1252,8 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
     #endif
-
     // clang-format on
+
     switch (packet->body[0])
     {
         case SHTP_REPORT_PRODUCT_ID_RESPONSE:
@@ -1392,91 +1399,91 @@ uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
 
 uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
 {
-    uint16_t report_id = 0;
+    uint16_t report_ID = 0;
 
     switch (packet->body[1])
     {
         case SENSOR_REPORT_ID_ACCELEROMETER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_GYROSCOPE:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_MAGNETIC_FIELD:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_GRAVITY:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_GAME_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_TAP_DETECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_STEP_COUNTER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_RAW_GYROSCOPE:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         case SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR:
-            report_id = packet->body[0];
+            report_ID = packet->body[0];
             break;
 
         default:
             break;
     }
 
-    return report_id;
+    return report_ID;
 }
 
 /**
@@ -1504,7 +1511,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 {
     uint8_t status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
     uint16_t data_length = PARSE_PACKET_DATA_LENGTH(packet);
-    uint16_t report_id = PARSE_INPUT_REPORT_REPORT_ID(packet);
+    uint16_t report_ID = PARSE_INPUT_REPORT_REPORT_ID(packet);
     uint16_t data[6] = {0};
 
     data_length &= ~(1U << 15U); // Clear the MSbit. This bit indicates if this package is a continuation of the last.
@@ -1516,7 +1523,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
     parse_input_report_data(packet, data, data_length);
 
     // Store these generic values to their proper global variable
-    switch (report_id)
+    switch (report_ID)
     {
         case SENSOR_REPORT_ID_ACCELEROMETER:
             update_accelerometer_data(data, status);
@@ -1585,7 +1592,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 
     // TODO additional feature reports may be strung together. Parse them all.
 
-    return report_id;
+    return report_ID;
 }
 
 /**
@@ -1884,9 +1891,10 @@ void BNO08x::update_personal_activity_classifier_data(bno08x_rx_packet_t* packet
     activity_classifier = packet->body[5 + 5]; // Most likely state
 
     // Load activity classification confidences into the array
-    for (int i = 0; i < 9; i++)                            // Hardcoded to max of 9. TODO - bring in array size
-        activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
-                                                           // byte
+    if (activity_confidences != nullptr)
+        for (int i = 0; i < 9; i++)                            // Hardcoded to max of 9. TODO - bring in array size
+            activity_confidences[i] = packet->body[5 + 6 + i]; // 5 bytes of timestamp, byte 6 is first confidence
+                                                               // byte
 }
 
 /**
@@ -2273,6 +2281,7 @@ void BNO08x::disable_stability_classifier()
  */
 void BNO08x::disable_activity_classifier()
 {
+    activity_confidences = nullptr;
     disable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT);
 }
 
@@ -3481,7 +3490,7 @@ bool BNO08x::FRS_read_data(uint16_t record_ID, uint8_t start_location, uint8_t w
                         return false;
                 }
 
-                if (xQueueReceive(queue_frs_read_data, &packet_body, HOST_INT_TIMEOUT_MS))
+                if (xQueueReceive(queue_frs_read_data, &packet_body, host_int_timeout_ms))
                 {
                     if (PARSE_FRS_READ_RESPONSE_REPORT_RECORD_ID(packet_body) == record_ID)
                         break;
@@ -3682,11 +3691,12 @@ void BNO08x::data_proc_task()
                 }
                 else
                 {
-// clang-format on
-#ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    print_packet(&packet);
-#endif
-                    //clang-format off
+                    // clang-format off
+                    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                        print_packet(&packet);
+                    #endif
+                    // clang-format on
+
                     xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_INVALID_PACKET_BIT); // indicated invalid packet to wait_for_data()
                 }
             }
@@ -3772,6 +3782,114 @@ esp_err_t BNO08x::kill_all_tasks()
     }
 
     return ESP_OK;
+}
+
+/**
+ * @brief Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms according to next longest report period.
+ *
+ *
+ * @param report_ID report ID to update period of.
+ * @return void, nothing to return
+ */
+void BNO08x::update_report_period(uint8_t report_ID, uint32_t new_period)
+{
+    uint8_t idx = report_ID_to_report_period_idx(report_ID);
+
+    if (idx != REPORT_CNT)
+    {
+        report_period_trackers[idx].period = new_period;
+
+        if (new_period > largest_sample_period_us)
+        {
+            current_slowest_report_ID = report_ID;
+            largest_sample_period_us = new_period;
+            host_int_timeout_ms = (2 * (largest_sample_period_us / 1000UL)) / portTICK_PERIOD_MS;
+
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGW(TAG, "new hint timeout: %d", static_cast<uint16_t>(host_int_timeout_ms));
+            #endif
+            // clang-format on
+        }
+        else
+        {
+            if (current_slowest_report_ID == report_ID)
+            {
+                largest_sample_period_us = 0;
+
+                // no longer true, find the slowest
+                for (int i = 0; i < REPORT_CNT; i++)
+                {
+                    if (report_period_trackers[i].period > largest_sample_period_us)
+                    {
+                        current_slowest_report_ID = report_period_trackers[i].report_ID;
+                        largest_sample_period_us = report_period_trackers[i].period;
+                        host_int_timeout_ms = (2 * (largest_sample_period_us / 1000UL)) / portTICK_PERIOD_MS;
+
+                        // clang-format off
+                        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                            ESP_LOGW(TAG, "new hint timeout (due to period tracker search): %d", static_cast<uint16_t>(host_int_timeout_ms));
+                        #endif
+                        // clang-format on
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * @brief Converts report id to respective index in report_period_trackers.
+ *
+ *
+ * @param report_ID report ID to return index for.
+ * @return Index in report_period_trackers corresponding to passed report ID.
+ */
+uint8_t BNO08x::report_ID_to_report_period_idx(uint8_t report_ID)
+{
+    switch (report_ID)
+    {
+        case SENSOR_REPORT_ID_ACCELEROMETER:
+            return 0;
+        case SENSOR_REPORT_ID_GYROSCOPE:
+            return 1;
+        case SENSOR_REPORT_ID_MAGNETIC_FIELD:
+            return 2;
+        case SENSOR_REPORT_ID_LINEAR_ACCELERATION:
+            return 3;
+        case SENSOR_REPORT_ID_ROTATION_VECTOR:
+            return 4;
+        case SENSOR_REPORT_ID_GRAVITY:
+            return 5;
+        case SENSOR_REPORT_ID_UNCALIBRATED_GYRO:
+            return 6;
+        case SENSOR_REPORT_ID_GAME_ROTATION_VECTOR:
+            return 7;
+        case SENSOR_REPORT_ID_GEOMAGNETIC_ROTATION_VECTOR:
+            return 8;
+        case SENSOR_REPORT_ID_GYRO_INTEGRATED_ROTATION_VECTOR:
+            return 9;
+        case SENSOR_REPORT_ID_TAP_DETECTOR:
+            return 10;
+        case SENSOR_REPORT_ID_STEP_COUNTER:
+            return 11;
+        case SENSOR_REPORT_ID_STABILITY_CLASSIFIER:
+            return 12;
+        case SENSOR_REPORT_ID_RAW_ACCELEROMETER:
+            return 13;
+        case SENSOR_REPORT_ID_RAW_GYROSCOPE:
+            return 14;
+        case SENSOR_REPORT_ID_RAW_MAGNETOMETER:
+            return 15;
+        case SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER:
+            return 16;
+        case SENSOR_REPORT_ID_ARVR_STABILIZED_ROTATION_VECTOR:
+            return 17;
+        case SENSOR_REPORT_ID_ARVR_STABILIZED_GAME_ROTATION_VECTOR:
+            return 18;
+        default:
+            return 19;
+    }
 }
 
 /**
