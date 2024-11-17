@@ -69,7 +69,7 @@ class BNO08x
         void enable_tap_detector(uint32_t time_between_reports);
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
-        void enable_activity_classifier(uint32_t time_between_reports, ActivityClassifierEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_activity_classifier(uint32_t time_between_reports, ActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
         void enable_raw_mems_gyro(uint32_t time_between_reports);
         void enable_raw_mems_accelerometer(uint32_t time_between_reports);
         void enable_raw_mems_magnetometer(uint32_t time_between_reports);

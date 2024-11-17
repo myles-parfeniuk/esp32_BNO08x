@@ -31,7 +31,7 @@ enum class BNO08xResetReason
 using IMUResetReason = BNO08xResetReason; // legacy version compatibility
 
 /// @brief Activity Classifier enable bits passed to enable_activity_classifier()
-enum class ActivityClassifierEnable
+enum class ActivityEnable
 {
     UNKNOWN = (1U << 0U),
     IN_VEHICLE = (1U << 1U),

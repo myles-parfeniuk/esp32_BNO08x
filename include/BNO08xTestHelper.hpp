@@ -661,7 +661,7 @@ class BNO08xTestHelper
                 case Stability::UNDEFINED:
                     return "UNDEFINED";
                 default:
-                    return "INVALID"; 
+                    return "INVALID";
             }
         }
 

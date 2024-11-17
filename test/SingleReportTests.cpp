@@ -1150,7 +1150,8 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         // assert that new data from respective report has been received
         TEST_ASSERT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "Rx Data Trial %d Success: StabilityClassifier: %s", (i + 1), BNO08xTestHelper::BNO08xStability_to_str(report_data.stability_classifier));
+        sprintf(msg_buff, "Rx Data Trial %d Success: StabilityClassifier: %s", (i + 1),
+                BNO08xTestHelper::BNO08xStability_to_str(report_data.stability_classifier));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
@@ -1180,7 +1181,8 @@ TEST_CASE("Enable/Disable Stability Classifier", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success: StabilityClassifierDefault: %s", (i + 1), BNO08xTestHelper::BNO08xStability_to_str(report_data.stability_classifier));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: StabilityClassifierDefault: %s", (i + 1),
+                BNO08xTestHelper::BNO08xStability_to_str(report_data.stability_classifier));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
@@ -1214,7 +1216,7 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
-    imu->enable_activity_classifier(5*REPORT_PERIOD, ActivityClassifierEnable::ALL, activity_confidence_vals);
+    imu->enable_activity_classifier(5 * REPORT_PERIOD, ActivityEnable::ALL, activity_confidence_vals);
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -1232,7 +1234,8 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         // assert that new data from respective report has been received
         TEST_ASSERT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "Rx Data Trial %d Success: ActivityClassifier: %s", (i + 1), BNO08xTestHelper::BNO08xActivity_to_str(report_data.activity_classifier));
+        sprintf(msg_buff, "Rx Data Trial %d Success: ActivityClassifier: %s", (i + 1),
+                BNO08xTestHelper::BNO08xActivity_to_str(report_data.activity_classifier));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
@@ -1262,7 +1265,8 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
         // assert that no new data from respective report has been received
         TEST_ASSERT_NOT_EQUAL(true, new_data);
 
-        sprintf(msg_buff, "No Rx Data Trial %d Success: ActivityClassifierDefault: %s", (i + 1), BNO08xTestHelper::BNO08xActivity_to_str(report_data.activity_classifier));
+        sprintf(msg_buff, "No Rx Data Trial %d Success: ActivityClassifierDefault: %s", (i + 1),
+                BNO08xTestHelper::BNO08xActivity_to_str(report_data.activity_classifier));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 

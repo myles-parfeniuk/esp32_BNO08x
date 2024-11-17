@@ -2173,8 +2173,7 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
  *  @param activity_confidence_vals Returned activity level confidences.
  * @return void, nothing to return
  */
-void BNO08x::enable_activity_classifier(
-        uint32_t time_between_reports, ActivityClassifierEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
+void BNO08x::enable_activity_classifier(uint32_t time_between_reports, ActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
     enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT,
