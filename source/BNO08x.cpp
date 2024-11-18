@@ -29,7 +29,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
  *
  * Deconstructs a BNO08x object and releases any utilized resources.
  *
- * @return void, nothing to return
+ * @return void, nothing to return.
  */
 BNO08x::~BNO08x()
 {
@@ -69,7 +69,7 @@ BNO08x::~BNO08x()
  * Resets sensor and goes through initialization process.
  * Configures GPIO, required ISRs, and launches two tasks, one to manage SPI transactions, another to process any received data.
  *
- * @return true if initialization was success, false if otherwise
+ * @return True if initialization was success, false if otherwise.
  */
 bool BNO08x::initialize()
 {
@@ -99,11 +99,20 @@ bool BNO08x::initialize()
 
     if (get_reset_reason() == BNO08xResetReason::UNDEFINED)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, undefined reset reason returned after reset.");
+        #endif
+        // clang-format on
         return false;
     }
 
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
+    #endif
+    // clang-format on
+
     return true;
 }
 
@@ -116,31 +125,56 @@ esp_err_t BNO08x::init_config_args()
 {
     if ((imu_config.io_cs == GPIO_NUM_NC))
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, CS GPIO cannot be unassigned.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_ARG;
     }
 
     if ((imu_config.io_miso == GPIO_NUM_NC))
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, MISO GPIO cannot be unassigned.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_ARG;
     }
 
     if ((imu_config.io_mosi == GPIO_NUM_NC))
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, MOSI GPIO cannot be unassigned.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_ARG;
     }
 
     if ((imu_config.io_sclk == GPIO_NUM_NC))
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, SCLK GPIO cannot be unassigned.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_ARG;
     }
 
     if ((imu_config.io_rst == GPIO_NUM_NC))
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "RST GPIO cannot be unassigned.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -158,7 +192,12 @@ esp_err_t BNO08x::init_config_args()
 
     if (imu_config.sclk_speed > SCLK_MAX_SPEED) // max sclk speed of 3MHz for BNO08x
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Max SPI clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
+        #endif
+        // clang-format on
+
         imu_config.sclk_speed = SCLK_MAX_SPEED;
     }
 
@@ -193,9 +232,17 @@ esp_err_t BNO08x::init_gpio_inputs()
     ret = gpio_config(&inputs_config);
 
     if (ret != ESP_OK)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, failed to configure HINT gpio.");
+        #endif
+        // clang-format on
+    }
     else
+    {
         init_status.gpio_inputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
+    }
 
     return ret;
 }
@@ -223,9 +270,17 @@ esp_err_t BNO08x::init_gpio_outputs()
 
     ret = gpio_config(&outputs_config);
     if (ret != ESP_OK)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, failed to configure CS, RST, and WAKE (if used) gpio.");
+        #endif
+        // clang-format on
+    }
     else
+    {
         init_status.gpio_outputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
+    }
 
     return ret;
 }
@@ -273,7 +328,12 @@ esp_err_t BNO08x::init_hint_isr()
 
     if (ret != ESP_OK)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, failed to install global ISR service.");
+        #endif
+        // clang-format on
+
         return ret;
     }
     else
@@ -285,7 +345,13 @@ esp_err_t BNO08x::init_hint_isr()
     ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
     if (ret != ESP_OK)
     {
+
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, failed to add hint_handler ISR.");
+        #endif
+        // clang-format on
+
         return ret;
     }
     else
@@ -312,7 +378,12 @@ esp_err_t BNO08x::init_spi()
     ret = spi_bus_initialize(imu_config.spi_peripheral, &bus_config, SPI_DMA_CH_AUTO);
     if (ret != ESP_OK)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, SPI bus failed to initialize.");
+        #endif
+        // clang-format on
+
         return ret;
     }
     else
@@ -324,7 +395,12 @@ esp_err_t BNO08x::init_spi()
     ret = spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
     if (ret != ESP_OK)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, failed to add device to SPI bus.");
+        #endif
+        // clang-format on
+
         return ret;
     }
     else
@@ -380,7 +456,13 @@ esp_err_t BNO08x::deinit_gpio_inputs()
 
     ret = gpio_reset_pin(imu_config.io_int);
     if (ret != ESP_OK)
-        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio HINT pin to default state.");
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, failed to add device to SPI bus.");
+        #endif
+        // clang-format on
+    }
 
     return ret;
 }
@@ -399,7 +481,12 @@ esp_err_t BNO08x::deinit_gpio_outputs()
         ret = gpio_reset_pin(imu_config.io_wake);
         if (ret != ESP_OK)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Deconstruction failed, could reset gpio WAKE pin to default state.");
+            #endif
+            // clang-format on
+
             return ret;
         }
     }
@@ -407,14 +494,24 @@ esp_err_t BNO08x::deinit_gpio_outputs()
     ret = gpio_reset_pin(imu_config.io_cs);
     if (ret != ESP_OK)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Deconstruction failed, could reset gpio CS pin to default state.");
+        #endif
+        // clang-format on
+
         return ret;
     }
 
     ret = gpio_reset_pin(imu_config.io_rst);
     if (ret != ESP_OK)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Deconstruction failed, could reset gpio RST pin to default state.");
+        #endif
+        // clang-format on
+
         return ret;
     }
 
@@ -435,7 +532,12 @@ esp_err_t BNO08x::deinit_hint_isr()
         ret = gpio_isr_handler_remove(imu_config.io_int);
         if (ret != ESP_OK)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Deconstruction failed, could not remove hint ISR handler.");
+            #endif
+            // clang-format on
+
             return ret;
         }
     }
@@ -466,7 +568,12 @@ esp_err_t BNO08x::deinit_spi()
         ret = spi_bus_remove_device(spi_hdl);
         if (ret != ESP_OK)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Deconstruction failed, could not remove spi device.");
+            #endif
+            // clang-format on
+
             return ret;
         }
     }
@@ -476,7 +583,12 @@ esp_err_t BNO08x::deinit_spi()
         ret = spi_bus_free(imu_config.spi_peripheral);
         if (ret != ESP_OK)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Deconstruction failed, could free SPI peripheral.");
+            #endif
+            // clang-format on
+
             return ret;
         }
     }
@@ -506,7 +618,7 @@ bool BNO08x::wait_for_rx_done()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGI(TAG, "int asserted");
+        ESP_LOGI(TAG, "int asserted");
         #endif
         // clang-format on
 
@@ -514,7 +626,12 @@ bool BNO08x::wait_for_rx_done()
     }
     else
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Interrupt to host device never asserted.");
+        #endif
+        // clang-format on
+
         success = false;
     }
 
@@ -548,7 +665,7 @@ bool BNO08x::wait_for_data()
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                                ESP_LOGI(TAG, "Valid packet received.");
+                ESP_LOGI(TAG, "Valid packet received.");
                 #endif
                 // clang-format on
 
@@ -556,13 +673,21 @@ bool BNO08x::wait_for_data()
             }
             else
             {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                 ESP_LOGE(TAG, "Invalid packet received.");
+                #endif
+                // clang-format on
             }
         }
     }
     else
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Interrupt to host device never asserted.");
+        #endif
+        // clang-format on
     }
 
     xEventGroupClearBits(evt_grp_spi, EVT_GRP_SPI_RX_VALID_PACKET_BIT | EVT_GRP_SPI_RX_INVALID_PACKET_BIT);
@@ -586,7 +711,7 @@ bool BNO08x::wait_for_tx_done()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGI(TAG, "Packet sent successfully.");
+        ESP_LOGI(TAG, "Packet sent successfully.");
         #endif
         // clang-format on
 
@@ -594,7 +719,11 @@ bool BNO08x::wait_for_tx_done()
     }
     else
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Packet failed to send.");
+        #endif
+        // clang-format on
     }
 
     return false;
@@ -624,21 +753,40 @@ bool BNO08x::hard_reset()
     // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
     if (!wait_for_rx_done()) // wait for receive operation to complete
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Reset Failed, interrupt to host device never asserted.");
+        #endif
+        // clang-format on
     }
     else
     {
         if (first_boot)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGI(TAG, "Received advertisement message.");
+            #endif
+            // clang-format on
+        }
 
         // The BNO080 will then transmit an unsolicited Initialize Response (see SH2 Ref. Manual 6.4.5.2)
         if (!wait_for_rx_done())
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Failed to receive initialize response on boot.");
+            #endif
+            // clang-format on
         }
         else if (first_boot)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGI(TAG, "Received initialize response.");
+            #endif
+            // clang-format on
+
             success = true;
         }
     }
@@ -683,14 +831,28 @@ BNO08xResetReason BNO08x::get_reset_reason()
     queue_request_product_id_command();
     // wait for transmit to finish
     if (!wait_for_tx_done())
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "Failed to send product ID report request");
+        #endif
+        // clang-format on
+    }
     else
     {
         // receive product ID report
         if (wait_for_data())
+        {
             xQueueReceive(queue_reset_reason, &reset_reason, host_int_timeout_ms);
+        }
         else
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Failed to receive product ID report.");
+            #endif
+            // clang-format on
+        }
     }
 
     return static_cast<BNO08xResetReason>(reset_reason);
@@ -761,7 +923,7 @@ esp_err_t BNO08x::receive_packet()
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGW(TAG, "packet rx length: %d", packet.length);
+    ESP_LOGW(TAG, "packet rx length: %d", packet.length);
     #endif
     // clang-format on
 
@@ -1233,9 +1395,13 @@ bool BNO08x::run_full_calibration_routine()
             quat_real = get_quat_real();
             quat_accuracy = get_quat_accuracy();
 
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGI(TAG, "Magnetometer: x: %.3f y: %.3f z: %.3f, accuracy: %d", magf_x, magf_y, magf_z, static_cast<uint8_t>(magnetometer_accuracy));
             ESP_LOGI(TAG, "Quaternion Rotation Vector: i: %.3f j: %.3f k: %.3f, real: %.3f, accuracy: %d", quat_I, quat_J, quat_K, quat_real,
                     static_cast<uint8_t>(quat_accuracy));
+            #endif
+            // clang-format on
 
             vTaskDelay(5 / portTICK_PERIOD_MS);
 
@@ -1257,7 +1423,12 @@ bool BNO08x::run_full_calibration_routine()
                     {
                         if (calibration_complete())
                         {
+                            // clang-format off
+                            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                             ESP_LOGW(TAG, "Calibration data successfully stored.");
+                            #endif
+                            // clang-format on
+
                             return true;
                         }
                         else
@@ -1272,7 +1443,13 @@ bool BNO08x::run_full_calibration_routine()
                 vTaskDelay(1 / portTICK_PERIOD_MS);
 
                 if (save_calibration_attempt >= 20)
+                {
+                    // clang-format off
+                    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                     ESP_LOGE(TAG, "Calibration data failed to store.");
+                    #endif
+                    // clang-format on
+                }
 
                 return false;
             }
@@ -1294,7 +1471,12 @@ bool BNO08x::data_available(bool ignore_no_reports_enabled)
     if (!ignore_no_reports_enabled)
         if (xEventGroupGetBits(evt_grp_report_en) == 0)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "No reports enabled.");
+            #endif
+            // clang-format on
+
             return false;
         }
 
@@ -1328,7 +1510,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
+    ESP_LOGW(TAG, "SHTP Header RX'd: 0x%X 0x%X 0x%X 0x%X", packet->header[0], packet->header[1], packet->header[2], packet->header[3]);
     #endif
     // clang-format on
 
@@ -1371,7 +1553,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
         case CHANNEL_CONTROL:
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    ESP_LOGI(TAG, "RX'd packet, channel control");
+            ESP_LOGI(TAG, "RX'd packet, channel control");
             #endif
             // clang-format on
 
@@ -1383,7 +1565,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
         case CHANNEL_GYRO:
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    ESP_LOGI(TAG, "Rx packet, channel gyro");
+            ESP_LOGI(TAG, "Rx packet, channel gyro");
             #endif
             // clang-format on
 
@@ -1395,7 +1577,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
         case CHANNEL_COMMAND:
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    ESP_LOGI(TAG, "Rx packet, channel command");
+            ESP_LOGI(TAG, "Rx packet, channel command");
             #endif
             // clang-format on
 
@@ -1407,7 +1589,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
         case CHANNEL_WAKE_REPORTS:
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    ESP_LOGI(TAG, "Rx packet, wake reports");
+            ESP_LOGI(TAG, "Rx packet, wake reports");
             #endif
             // clang-format on
 
@@ -1433,16 +1615,21 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
  */
 uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
 {
-    const uint32_t product_id = PARSE_PRODUCT_ID_REPORT_PRODUCT_ID(packet);
+
     const uint32_t reset_reason = PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet);
-    const uint32_t sw_part_number = PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet);
-    const uint32_t sw_version_major = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MAJOR(packet);
-    const uint32_t sw_version_minor = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet);
-    const uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
-    const uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
 
     if (first_boot)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+
+        const uint32_t product_id = PARSE_PRODUCT_ID_REPORT_PRODUCT_ID(packet);
+        const uint32_t sw_part_number = PARSE_PRODUCT_ID_REPORT_SW_PART_NO(packet);
+        const uint32_t sw_version_major = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MAJOR(packet);
+        const uint32_t sw_version_minor = PARSE_PRODUCT_ID_REPORT_SW_VERSION_MINOR(packet);
+        const uint32_t sw_build_number = PARSE_PRODUCT_ID_REPORT_SW_BUILD_NO(packet);
+        const uint32_t sw_version_patch = PARSE_PRODUCT_ID_REPORT_SW_VERSION_PATCH(packet);
+
         // print product ID info packet
         ESP_LOGI(TAG,
                 "Product ID Info:                           \n\r"
@@ -1455,6 +1642,8 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
                 "                SW Version Patch: 0x%" PRIx32 "\n\r"
                 "                ---------------------------\n\r",
                 product_id, sw_version_major, sw_version_minor, sw_part_number, sw_build_number, sw_version_patch);
+        #endif
+        // clang-format on
 
         first_boot = false;
     }
@@ -1477,6 +1666,20 @@ uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
     return 1;
 }
 
+/**
+ * @brief Parses get feature request report received from BNO08x. 
+ *  
+ * Note there is no means in this library currently to request feature reports, this is simply to handle the
+ * unsolicited get feature request reports that come with report rate changes (ie when a report is disabled by setting it 0)
+ * such that they aren't detected as invalid packets.
+ * 
+ * "6.5.5 of SH-2 Ref manual: "Note that SH-2 protocol version 1.0.1 and higher will send Get Feature Response messages
+ *  unsolicited if a sensor’s rate changes (e.g. due to change in the rate of a related sensor."
+ * 
+ * @param packet bno8x_rx_packet_t containing the get feature request report to parse.
+ *
+ * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_ACCELEROMETER, 0 if invalid.
+ */
 uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
 {
     uint16_t report_ID = 0;
@@ -1603,7 +1806,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
 
     parse_input_report_data(packet, data, data_length);
 
-    // Store these generic values to their proper global variable
+    // store these generic values to their proper global variable
     switch (report_ID)
     {
         case SENSOR_REPORT_ID_ACCELEROMETER:
@@ -3683,8 +3886,8 @@ void BNO08x::spi_task()
 {
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        static uint64_t prev_time = esp_timer_get_time();
-        static uint64_t current_time = 0;
+    static uint64_t prev_time = esp_timer_get_time();
+    static uint64_t current_time = 0;
     #endif
     // clang-format on
 
@@ -3704,9 +3907,9 @@ void BNO08x::spi_task()
 
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                current_time = esp_timer_get_time();
-                ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
-                prev_time = current_time;
+            current_time = esp_timer_get_time();
+            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
+            prev_time = current_time;
             #endif
             // clang-format on
 
@@ -3809,7 +4012,12 @@ esp_err_t BNO08x::launch_tasks()
 
     if (task_created != pdTRUE)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, data_proc_task failed to launch.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_STATE;
     }
     else
@@ -3822,7 +4030,12 @@ esp_err_t BNO08x::launch_tasks()
 
     if (task_created != pdTRUE)
     {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         ESP_LOGE(TAG, "Initialization failed, spi_task failed to launch.");
+        #endif
+        // clang-format on
+
         return ESP_ERR_INVALID_STATE;
     }
     else
@@ -3865,7 +4078,12 @@ esp_err_t BNO08x::kill_all_tasks()
 
         if (kill_count != init_status.task_count)
         {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
             ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+            #endif
+            // clang-format on
+
             return ESP_ERR_TIMEOUT;
         }
     }
@@ -3896,7 +4114,7 @@ void BNO08x::update_report_period_trackers(uint8_t report_ID, uint32_t new_perio
 
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                ESP_LOGW(TAG, "new hint timeout: %d", static_cast<uint16_t>(host_int_timeout_ms));
+            ESP_LOGW(TAG, "new hint timeout: %d", static_cast<uint16_t>(host_int_timeout_ms));
             #endif
             // clang-format on
         }
@@ -3917,7 +4135,7 @@ void BNO08x::update_report_period_trackers(uint8_t report_ID, uint32_t new_perio
 
                         // clang-format off
                         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                            ESP_LOGW(TAG, "new hint timeout (due to period tracker search): %d", static_cast<uint16_t>(host_int_timeout_ms));
+                        ESP_LOGW(TAG, "new hint timeout (due to period tracker search): %d", static_cast<uint16_t>(host_int_timeout_ms));
                         #endif
                         // clang-format on
                     }

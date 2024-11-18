@@ -31,12 +31,12 @@ menu "esp32_BNO08x"
             help
                 Clock GPIO pin connected to BNO08x SCL pin.
 
-            config ESP32_BNO08X_GPIO_DI
-                int "DI GPIO NUM" 
-                range 0 50
-                default 23
-                help
-                    MOSI GPIO pin connected to BNO08x DI pin.
+        config ESP32_BNO08X_GPIO_DI
+            int "DI GPIO NUM" 
+            range 0 50
+            default 23
+            help
+                MOSI GPIO pin connected to BNO08x DI pin.
 
         config ESP32_BNO08X_GPIO_SDA
             int "SDA GPIO NUM" 
@@ -72,7 +72,7 @@ menu "esp32_BNO08x"
                 SPI clock speed in Hz, default 2MHz.
 
         config ESP32_BNO08X_SPI_QUEUE_SZ
-            int "Callback queue size."
+            int "SPI Callback queue size."
             range 1 100
             default 5
             help
@@ -81,18 +81,33 @@ menu "esp32_BNO08x"
 
     endmenu #SPI Configuration
 
-    config ESP32_BNO08X_DATA_PROC_TASK_SZ
-        int "Callback task size, (data_proc_task())"
-        range 1024 20480
-        default 4096
-        help
-            Stack size of task responsible for parsing packets and executing callbacks.
-            Note that callbacks should remain as short as possible, pass the data out of
-            the callback with a queue or save it to different variables for longer operations.
+    menu "Logging"
 
-    config ESP32_BNO08x_DEBUG_STATEMENTS
-        bool "Print debug statements."
-        default "n"
-        help
-            Print the various debug statements scattered throughout the code when running. 
+        config ESP32_BNO08x_LOG_STATEMENTS
+            bool "Print regular log statements statements (default enabled)."
+            default "y"
+            help
+                Print error statements and info on boot, disable for production code where no log statements are desired. (default enabled)
+
+        config ESP32_BNO08x_DEBUG_STATEMENTS
+            bool "Print debug statements (default disabled)."
+            default "n"
+            help
+                Print the various debug statements scattered throughout the code when running.
+                
+    endmenu #Logging 
+
+    menu "Callbacks"
+
+        config ESP32_BNO08X_DATA_PROC_TASK_SZ
+            int "Callback task size, (data_proc_task())"
+            range 1024 20480
+            default 4096
+            help
+                Stack size of task responsible for parsing packets and executing callbacks.
+                Note that callbacks should remain as short as possible, pass the data out of
+                the callback with a queue or save it to different variables for longer operations.
+
+    endmenu #Callbacks
+
 endmenu
