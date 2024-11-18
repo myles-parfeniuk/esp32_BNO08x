@@ -30,8 +30,8 @@ enum class BNO08xResetReason
 };
 using IMUResetReason = BNO08xResetReason; // legacy version compatibility
 
-/// @brief Activity Classifier enable bits passed to enable_activity_classifier()
-enum class ActivityEnable
+/// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
+enum class BNO08xActivityEnable
 {
     UNKNOWN = (1U << 0U),
     IN_VEHICLE = (1U << 1U),
@@ -45,8 +45,8 @@ enum class ActivityEnable
     ALL = 0x1FU
 };
 
-/// @brief Activity states returned from get_activity_classifier()
-enum class Activity
+/// @brief BNO08xActivity states returned from get_activity_classifier()
+enum class BNO08xActivity
 {
     UNKNOWN = 0,    // 0 = unknown
     IN_VEHICLE = 1, // 1 = in vehicle
@@ -60,8 +60,8 @@ enum class Activity
     UNDEFINED = 9   // used for unit tests
 };
 
-/// @brief Stability states returned from get_stability_classifier()
-enum class Stability
+/// @brief BNO08xStability states returned from get_stability_classifier()
+enum class BNO08xStability
 {
     UNKNOWN = 0,    // 0 = unknown
     ON_TABLE = 1,   // 1 = on table

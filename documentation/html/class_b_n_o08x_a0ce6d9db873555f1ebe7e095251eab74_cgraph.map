@@ -1,0 +1,13 @@
+<map id="BNO08x::spi_task_trampoline" name="BNO08x::spi_task_trampoline">
+<area shape="rect" id="Node000001" title="Static function used to launch spi task." alt="" coords="5,60,200,87"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a2ecd4ed60f82730ae230c61687ec92bf" title="Task responsible for SPI transactions. Executed when HINT in is asserted by BNO08x." alt="" coords="248,60,375,87"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,71,232,71,232,76,200,76"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a8d9f28d8857279a3c4b1f62f6dabb638" title="Receives a SHTP packet via SPI and sends it to data_proc_task()" alt="" coords="423,35,587,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,62,407,58,408,63,376,68"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a2c359a44a2c8e83ecb258a340e2d0e1a" title="Sends a queued SHTP packet via SPI." alt="" coords="429,85,581,112"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="376,79,414,84,413,89,375,84"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a9ee7e73f695af8965a9ede50136d5a8c" title="Receives a SHTP packet body via SPI." alt="" coords="635,5,835,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="588,35,619,31,620,36,588,40"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#acb246769719351e02bf2aff06d039475" title="Receives a SHTP packet header via SPI." alt="" coords="653,56,817,99"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="588,56,638,62,637,68,588,61"/>
+</map>

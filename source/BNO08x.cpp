@@ -2376,7 +2376,7 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
  *  @param activity_confidence_vals Returned activity level confidences.
  * @return void, nothing to return
  */
-void BNO08x::enable_activity_classifier(uint32_t time_between_reports, ActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
+void BNO08x::enable_activity_classifier(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
     enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT,
@@ -3505,9 +3505,9 @@ uint16_t BNO08x::get_step_count()
  *
  * @return The current stability (0 = unknown, 1 = on table, 2 = stationary)
  */
-Stability BNO08x::get_stability_classifier()
+BNO08xStability BNO08x::get_stability_classifier()
 {
-    return static_cast<Stability>(stability_classifier);
+    return static_cast<BNO08xStability>(stability_classifier);
 }
 
 /**
@@ -3524,9 +3524,9 @@ Stability BNO08x::get_stability_classifier()
  *         7 = runnning
  *         8 = on stairs
  */
-Activity BNO08x::get_activity_classifier()
+BNO08xActivity BNO08x::get_activity_classifier()
 {
-    return static_cast<Activity>(activity_classifier);
+    return static_cast<BNO08xActivity>(activity_classifier);
 }
 
 /**

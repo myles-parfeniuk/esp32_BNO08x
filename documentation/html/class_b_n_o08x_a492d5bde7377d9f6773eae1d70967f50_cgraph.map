@@ -1,0 +1,5 @@
+<map id="BNO08x::get_calibrated_gyro_velocity_Y" name="BNO08x::get_calibrated_gyro_velocity_Y">
+<area shape="rect" id="Node000001" title="Get calibrated gyro y axis angular velocity measurement." alt="" coords="5,5,165,48"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="213,13,347,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,24,197,24,197,29,165,29"/>
+</map>

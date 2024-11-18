@@ -1,0 +1,124 @@
+\doxysection{BNO08x\+\_\+macros.\+hpp}
+\hypertarget{_b_n_o08x__macros_8hpp_source}{}\label{_b_n_o08x__macros_8hpp_source}\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\mbox{\hyperlink{_b_n_o08x__macros_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ standard\ library\ includes}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ esp-\/idf\ includes}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <freertos/FreeRTOS.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <freertos/event\_groups.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ CHECK\_TASKS\_RUNNING(evt\_grp\_task\_flow,\ running\_bit)\ ((xEventGroupGetBits(evt\_grp\_task\_flow)\ \&\ (running\_bit))\ !=\ 0)}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ packet\ parsing\ macros}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ UINT16\_CLR\_MSB(val\_16bit)\ ((val\_16bit)\ \&\ 0x00FFU)}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ UINT16\_CLR\_LSB(val\_16bit)\ ((val\_16bit)\ \&\ 0xFF00U)}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ UINT32\_CLR\_BYTE(val\_32bit,\ byte2clear)\ ((val\_32bit)\ \&\ \string~(0xFFUL\ <<\ (byte2clear\ *\ 8UL)))}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ UINT32\_MSK\_BYTE(val\_32bit,\ byte2mask)\ ((val\_32bit)\ \&\ (0xFFUL\ <<\ (byte2mask\ *\ 8UL)))}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ parsing\ universal\ to\ any\ packet}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ PARSE\_PACKET\_LENGTH(packet\_ptr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet\_ptr-\/>header[1])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet\_ptr-\/>header[0])))}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ PARSE\_PACKET\_TIMESTAMP(packet\_ptr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ (UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[4])\ <<\ 24UL,\ 3UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[3])\ <<\ 16UL,\ 2UL)\ |\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[2])\ <<\ 8UL,\ 1UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[1]),\ 0UL))}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ product\ id\ report\ parsing}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON(packet\_ptr)\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_ptr-\/>body[1]),\ 0UL)}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO(packet\_ptr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\ \ \ \ (UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_ptr-\/>body[7])\ <<\ 24UL,\ 3UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_ptr-\/>body[6])\ <<\ 16UL,\ 2UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_ptr-\/>body[5])\ <<\ 8UL,\ 1UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_ptr-\/>body[4]),\ 0UL))}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO(packet\_ptr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[11])\ <<\ 24UL,\ 3UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[10])\ <<\ 16UL,\ 2UL)\ |\ \ \(\backslash\)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[9])\ <<\ 8UL,\ 1UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[8]),\ 0UL)}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH(packet\_ptr)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \ \ \ (UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[13])\ <<\ 8UL,\ 1UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[12]),\ 0UL))}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID(packet\_ptr)\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[0]),\ 0UL)}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR(packet\_ptr)\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[2]),\ 0UL)}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR(packet\_ptr)\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet-\/>body[3]),\ 0UL)}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ gyro\ report\ parsing}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[1])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[0])))}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[3])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[2])))}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[4])))}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[7])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[6])))}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[9])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[8])))}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[11])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[10])))}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[13])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[12])))}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \textcolor{comment}{//\ input\ report\ parsing}}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_STATUS\_BITS(packet)\ (packet-\/>body[5\ +\ 2]\ \&\ 0x03U)}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_REPORT\_ID(packet)\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5]))}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_1(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 5])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 4])))}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_2(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 7])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 6])))}}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_3(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 9])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 8])))}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_4(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 11])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 10])))}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_5(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 13])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 12])))}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ PARSE\_INPUT\_REPORT\_DATA\_6(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 15])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet-\/>body[5\ +\ 14])))}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ IS\_ROTATION\_VECTOR\_REPORT(packet)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\ \ \ \ ((packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ROTATION\_VECTOR\ ||\ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_GAME\_ROTATION\_VECTOR\ ||\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ARVR\_STABILIZED\_ROTATION\_VECTOR\ ||\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ARVR\_STABILIZED\_GAME\_ROTATION\_VECTOR)}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \textcolor{comment}{//\ frs\ read\ response\ report\ parsing}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID(packet\_body)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\ \ \ \ (UINT16\_CLR\_LSB(static\_cast<uint16\_t>(packet\_body[13])\ <<\ 8U)\ |\ UINT16\_CLR\_MSB(static\_cast<uint16\_t>(packet\_body[12])))}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#define\ PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1(packet\_body)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\ \ \ \ (UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[7])\ <<\ 24UL,\ 3UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[6])\ <<\ 16UL,\ 2UL)\ |\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[5])\ <<\ 8UL,\ 1UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[4]),\ 0UL))}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\#define\ PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2(packet\_body)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\ \ \ \ (UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[11])\ <<\ 24UL,\ 3UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[10])\ <<\ 16UL,\ 2UL)\ |\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00323\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[9])\ <<\ 8UL,\ 1UL)\ |\ UINT32\_MSK\_BYTE(static\_cast<uint32\_t>(packet\_body[8]),\ 0UL))}}
+
+\end{DoxyCode}

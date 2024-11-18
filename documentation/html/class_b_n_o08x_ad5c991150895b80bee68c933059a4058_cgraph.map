@@ -1,0 +1,15 @@
+<map id="BNO08x::disable_accelerometer" name="BNO08x::disable_accelerometer">
+<area shape="rect" id="Node000001" title="Sends command to disable accelerometer reports by setting report interval to 0." alt="" coords="5,80,214,107"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="262,80,421,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,91,246,91,246,96,214,96"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af7f960dbd26c6f1834661ef5f5bbd4d3" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="477,5,636,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,77,470,51,472,56,388,82"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a0ec9b1a10bbf25a057273605575f0d64" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="478,72,635,115"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="421,91,462,91,462,96,421,96"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="469,139,644,165"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="394,105,491,132,490,137,392,110"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="700,13,859,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="637,24,684,24,684,29,637,29"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="692,72,867,115"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="636,91,677,91,677,96,636,96"/>
+</map>

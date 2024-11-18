@@ -1,0 +1,143 @@
+\doxysection{BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t Struct Reference}
+\hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t}{}\label{struct_b_n_o08x_1_1bno08x__init__status__t}\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+
+
+Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a26db0bb1cf4ad4272a363c9995cc6851}{bno08x\+\_\+init\+\_\+status\+\_\+t}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a918d393541f260ae059614ed477887df}{gpio\+\_\+outputs}}
+\begin{DoxyCompactList}\small\item\em True if GPIO outputs have been initialized. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a7439c3e0e98c3c2276f8607e5a36b557}{gpio\+\_\+inputs}}
+\begin{DoxyCompactList}\small\item\em True if GPIO inputs have been initialized. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a277d28ef5596d4777476d64de3f2d905}{isr\+\_\+service}}
+\begin{DoxyCompactList}\small\item\em True if global ISR service has been initialized. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_aa04ab662c6a1a052944312ca79a17bc3}{isr\+\_\+handler}}
+\begin{DoxyCompactList}\small\item\em True if HINT ISR handler has been initialized. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a6b2d0002d0e817d6384a1064453eb84d}{task\+\_\+count}}
+\begin{DoxyCompactList}\small\item\em How many successfully initialized tasks (max of TSK\+\_\+\+CNT) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a04ef18c7f80f305a621b6cc3e5b6107d}{data\+\_\+proc\+\_\+task}}
+\begin{DoxyCompactList}\small\item\em True if x\+Task\+Create has been called successfully for data\+\_\+proc\+\_\+task. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a92f78cc3fd3161bbc1fcad08b9c6bcb5}{spi\+\_\+task}}
+\begin{DoxyCompactList}\small\item\em True if x\+Task\+Create has been called successfully for spi\+\_\+task. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_a9855844dee2cd51e734693294d5cc438}{spi\+\_\+bus}}
+\begin{DoxyCompactList}\small\item\em True if spi\+\_\+bus\+\_\+initialize() has been called successfully. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_b_n_o08x_1_1bno08x__init__status__t_aa7c583b48551710dd4f71bb5a72c029a}{spi\+\_\+device}}
+\begin{DoxyCompactList}\small\item\em True if spi\+\_\+bus\+\_\+add\+\_\+device() has been called successfully. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a26db0bb1cf4ad4272a363c9995cc6851}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a26db0bb1cf4ad4272a363c9995cc6851} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!bno08x\_init\_status\_t@{bno08x\_init\_status\_t}}
+\index{bno08x\_init\_status\_t@{bno08x\_init\_status\_t}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{bno08x\_init\_status\_t()}{bno08x\_init\_status\_t()}}
+{\footnotesize\ttfamily BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::bno08x\+\_\+init\+\_\+status\+\_\+t (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a04ef18c7f80f305a621b6cc3e5b6107d}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a04ef18c7f80f305a621b6cc3e5b6107d} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!data\_proc\_task@{data\_proc\_task}}
+\index{data\_proc\_task@{data\_proc\_task}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{data\_proc\_task}{data\_proc\_task}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::data\+\_\+proc\+\_\+task}
+
+
+
+True if x\+Task\+Create has been called successfully for data\+\_\+proc\+\_\+task. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a7439c3e0e98c3c2276f8607e5a36b557}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a7439c3e0e98c3c2276f8607e5a36b557} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!gpio\_inputs@{gpio\_inputs}}
+\index{gpio\_inputs@{gpio\_inputs}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{gpio\_inputs}{gpio\_inputs}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::gpio\+\_\+inputs}
+
+
+
+True if GPIO inputs have been initialized. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a918d393541f260ae059614ed477887df}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a918d393541f260ae059614ed477887df} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!gpio\_outputs@{gpio\_outputs}}
+\index{gpio\_outputs@{gpio\_outputs}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{gpio\_outputs}{gpio\_outputs}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::gpio\+\_\+outputs}
+
+
+
+True if GPIO outputs have been initialized. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_aa04ab662c6a1a052944312ca79a17bc3}\label{struct_b_n_o08x_1_1bno08x__init__status__t_aa04ab662c6a1a052944312ca79a17bc3} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!isr\_handler@{isr\_handler}}
+\index{isr\_handler@{isr\_handler}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{isr\_handler}{isr\_handler}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::isr\+\_\+handler}
+
+
+
+True if HINT ISR handler has been initialized. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a277d28ef5596d4777476d64de3f2d905}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a277d28ef5596d4777476d64de3f2d905} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!isr\_service@{isr\_service}}
+\index{isr\_service@{isr\_service}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{isr\_service}{isr\_service}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::isr\+\_\+service}
+
+
+
+True if global ISR service has been initialized. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a9855844dee2cd51e734693294d5cc438}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a9855844dee2cd51e734693294d5cc438} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!spi\_bus@{spi\_bus}}
+\index{spi\_bus@{spi\_bus}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{spi\_bus}{spi\_bus}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::spi\+\_\+bus}
+
+
+
+True if spi\+\_\+bus\+\_\+initialize() has been called successfully. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_aa7c583b48551710dd4f71bb5a72c029a}\label{struct_b_n_o08x_1_1bno08x__init__status__t_aa7c583b48551710dd4f71bb5a72c029a} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!spi\_device@{spi\_device}}
+\index{spi\_device@{spi\_device}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{spi\_device}{spi\_device}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::spi\+\_\+device}
+
+
+
+True if spi\+\_\+bus\+\_\+add\+\_\+device() has been called successfully. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a92f78cc3fd3161bbc1fcad08b9c6bcb5}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a92f78cc3fd3161bbc1fcad08b9c6bcb5} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!spi\_task@{spi\_task}}
+\index{spi\_task@{spi\_task}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{spi\_task}{spi\_task}}
+{\footnotesize\ttfamily bool BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::spi\+\_\+task}
+
+
+
+True if x\+Task\+Create has been called successfully for spi\+\_\+task. 
+
+\Hypertarget{struct_b_n_o08x_1_1bno08x__init__status__t_a6b2d0002d0e817d6384a1064453eb84d}\label{struct_b_n_o08x_1_1bno08x__init__status__t_a6b2d0002d0e817d6384a1064453eb84d} 
+\index{BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}!task\_count@{task\_count}}
+\index{task\_count@{task\_count}!BNO08x::bno08x\_init\_status\_t@{BNO08x::bno08x\_init\_status\_t}}
+\doxysubsubsection{\texorpdfstring{task\_count}{task\_count}}
+{\footnotesize\ttfamily uint8\+\_\+t BNO08x\+::bno08x\+\_\+init\+\_\+status\+\_\+t\+::task\+\_\+count}
+
+
+
+How many successfully initialized tasks (max of TSK\+\_\+\+CNT) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.\+hpp}}\end{DoxyCompactItemize}

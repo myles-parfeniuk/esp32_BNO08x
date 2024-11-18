@@ -1,0 +1,9 @@
+<map id="BNO08x::enable_rotation_vector" name="BNO08x::enable_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to enable rotation vector reports (See Ref. Manual 6.5.18)" alt="" coords="150,48,316,91"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#ae436161f7f0085f01ce63d9373944ae8" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,46,101,35,103,30,141,41"/>
+<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#ad96cfd7c30e8693897688ce24bb53996" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,72,102,72,102,67,134,67"/>
+<area shape="rect" id="Node000004" href="$_multi_report_tests_8cpp.html#a1438f6b8587b635b6096dda2927fa9a1" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,98,103,109,101,104,140,93"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="BNO08x::get_reset_reason" name="BNO08x::get_reset_reason">
+<area shape="rect" id="Node000001" title="Requests product ID, prints the returned info over serial, and returns the reason for the most resent..." alt="" coords="323,107,501,133"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#aea8e2c6dd7a2c9899479a7f39fe94798" title="Initializes BNO08x sensor." alt="" coords="150,81,275,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,109,275,105,276,100,308,104"/>
+<area shape="rect" id="Node000007" href="$_init_deinit_tests_8cpp.html#a69680e2934e7ec3c6a1771270dc59f05" title=" " alt="" coords="164,132,261,159"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="308,136,261,142,260,137,307,131"/>
+<area shape="rect" id="Node000003" href="$_callback_tests_8cpp.html#ac18b9cb122499f587331d82a538f23aa" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="167,76,82,35,84,30,170,72"/>
+<area shape="rect" id="Node000004" href="$_multi_report_tests_8cpp.html#a1fd7b6a0d4dbb7f91fd5691b5b054bda" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="134,85,102,80,103,74,135,80"/>
+<area shape="rect" id="Node000005" href="$_single_report_tests_8cpp.html#aac644123799c1f836d379c9789a064ab" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="135,110,103,115,102,110,134,104"/>
+<area shape="rect" id="Node000006" href="$_init_deinit_tests_8cpp.html#ac4fb371054271d54830b58cc164dc0f6" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="163,117,151,122,82,159,79,154,148,118,161,112"/>
+</map>

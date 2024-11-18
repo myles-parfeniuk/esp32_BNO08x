@@ -1,0 +1,7 @@
+<map id="test" name="test">
+<area shape="rect" id="node1" href="dir_9667f1a5b10a5222433e41df91e1bf5d.html" title="include" alt="" coords="41,128,103,155"/>
+<area shape="rect" id="node2" href="dir_14dea6b744ab39100edf1f9916c217e0.html" title="test" alt="" coords="50,53,94,80"/>
+<area shape="poly" id="edge1" href="dir_000006_000004.html" alt="" coords="75,81,75,112,69,112,69,81"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000006_000004.html" title="4" alt="" coords="77,101,84,117"/>
+<area shape="rect" id="clust1" href="dir_a6718ce9703adf4789a693642ffedf7f.html" title="esp32_BNO08x" alt="" coords="16,16,128,165"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="BNO08x::mode_sleep" name="BNO08x::mode_sleep">
+<area shape="rect" id="Node000001" title="Puts BNO08x sensor into sleep/low power mode using executable channel." alt="" coords="5,56,154,83"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a48c1d43b66b1a0894cb1fc2179f62cdc" title=" " alt="" coords="202,5,378,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,53,216,34,217,39,139,58"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="210,56,370,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,67,194,67,194,72,154,72"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="202,107,378,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="139,81,217,100,216,105,137,86"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or host_int_timeout_ms to elapse." alt="" coords="426,5,601,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,16,411,16,411,21,379,21"/>
+</map>

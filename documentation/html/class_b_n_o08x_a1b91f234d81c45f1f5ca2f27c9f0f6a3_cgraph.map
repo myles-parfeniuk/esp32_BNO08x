@@ -1,0 +1,16 @@
+<map id="BNO08x::get_pitch" name="BNO08x::get_pitch">
+<area shape="rect" id="Node000001" title="Get the reported rotation about y axis." alt="" coords="5,81,137,108"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a12c12a8e078b28480fb8828d306656f5" title="Get I component of reported quaternion." alt="" coords="194,5,332,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,78,184,42,202,35,203,40,186,46,102,83"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a9f6bb642fa0297a7b9bcc94dd7374015" title="Get J component of reported quaternion." alt="" coords="192,56,334,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,83,177,78,177,83,137,89"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a9f42c70c2337a0d831064a40ecfe2dd8" title="Get K component of reported quaternion." alt="" coords="191,107,335,133"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="137,101,175,106,175,111,137,106"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a5a556c5ec1baaa7f1156779dbe47a7b7" title="Get real component of reported quaternion." alt="" coords="185,157,341,184"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="102,106,186,143,203,149,202,154,184,148,100,111"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="389,81,523,108"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="310,30,342,42,413,72,411,77,340,46,308,35"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="334,76,374,81,373,87,334,81"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="335,108,374,103,374,108,336,113"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="308,154,340,143,411,113,413,117,342,148,310,159"/>
+</map>

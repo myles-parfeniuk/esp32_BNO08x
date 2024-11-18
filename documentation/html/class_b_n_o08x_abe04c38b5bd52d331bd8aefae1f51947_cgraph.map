@@ -1,0 +1,22 @@
+<map id="BNO08x::enable_game_rotation_vector" name="BNO08x::enable_game_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to enable game rotation vector reports (See Ref. Manual 6.5.19)" alt="" coords="5,107,161,149"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a789f9b9b8ad0a84a6ca45a85740823ca" title="Enables a sensor report for a given ID." alt="" coords="209,115,365,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,125,193,125,193,131,161,131"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a48c1d43b66b1a0894cb1fc2179f62cdc" title=" " alt="" coords="413,5,589,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,112,351,77,412,42,428,35,430,40,414,46,353,82,307,116"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x sensor." alt="" coords="432,56,571,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="338,112,434,85,436,90,339,117"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#af7f960dbd26c6f1834661ef5f5bbd4d3" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="422,107,581,149"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="365,125,406,125,406,131,365,131"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a0ec9b1a10bbf25a057273605575f0d64" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="423,173,580,216"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="333,139,416,166,415,171,332,145"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="414,240,589,267"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="303,140,350,182,381,205,414,226,428,232,425,237,412,230,378,210,347,186,300,144"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or host_int_timeout_ms to elapse." alt="" coords="637,31,813,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="590,26,622,30,622,35,590,31"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="571,59,622,53,622,58,572,64"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="645,115,805,141"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="581,125,630,125,630,131,581,131"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="638,173,812,216"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="580,192,622,192,622,197,580,197"/>
+</map>

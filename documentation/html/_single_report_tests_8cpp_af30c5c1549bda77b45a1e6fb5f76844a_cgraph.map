@@ -1,0 +1,84 @@
+<map id="TEST_CASE" name="TEST_CASE">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,331,102,357"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#ade97098806c8779b26f9c166c4b03eea" title="Checks if report_data matches the default states stored within prev_report_data data for respective r..." alt="" coords="150,5,372,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,330,57,280,71,207,83,167,99,128,121,91,148,58,151,55,155,59,152,62,125,94,104,130,88,169,76,208,62,280,58,331"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_test_helper.html#a857b66c12c231af0d546c026ec017ab3" title="Converts BNO08xAccuracy enum class object to string." alt="" coords="166,72,356,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="54,330,62,290,79,235,107,176,125,149,148,125,152,121,155,126,151,129,130,152,111,179,84,237,67,291,59,331"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#ab56b185d6c9e972a2b28c2621387bb86" title="Checks if BNO08x has asserted interrupt and sent data." alt="" coords="181,139,341,165"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="56,329,67,297,85,256,112,212,148,175,166,165,168,169,151,179,116,215,90,258,72,299,61,331"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#afbd2b02d5abe7084ce9de49ee2c9142f" title="Sends command to disable linear accelerometer reports by setting report interval to 0." alt="" coords="182,189,340,232"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="62,329,97,286,121,262,148,242,166,232,169,237,151,246,124,266,101,289,66,332"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#ae1435b83ca83bc51b75f3303afe87f7b" title="Sends command to enable linear accelerometer reports (See Ref. Manual 6.5.10)" alt="" coords="184,256,338,299"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="92,328,149,308,171,301,172,306,151,313,94,333"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="182,323,340,365"/>
+<area shape="poly" id="edge21_Node000001_Node000018" title=" " alt="" coords="102,341,166,341,166,347,102,347"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="178,389,344,432"/>
+<area shape="poly" id="edge22_Node000001_Node000019" title=" " alt="" coords="94,355,151,375,172,382,171,387,149,380,92,360"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x_test_helper.html#a7fbfc48c0fff306ab81e2320bc171002" title="Prints a message during a test." alt="" coords="178,456,344,499"/>
+<area shape="poly" id="edge23_Node000001_Node000020" title=" " alt="" coords="66,356,101,399,124,422,151,442,165,449,162,454,148,446,121,426,97,402,62,359"/>
+<area shape="rect" id="Node000021" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="178,523,344,565"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="61,357,72,388,91,429,117,472,151,509,166,518,163,523,148,513,113,475,86,432,67,390,56,359"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x_test_helper.html#ade6be1fd8ef3a99e0edae4cbf25eb528" title="Resets internal test imu data with test defaults." alt="" coords="176,589,346,648"/>
+<area shape="poly" id="edge25_Node000001_Node000022" title=" " alt="" coords="59,357,67,399,83,457,111,520,129,550,152,575,165,586,161,590,148,579,125,553,106,523,78,459,62,400,54,358"/>
+<area shape="rect" id="Node000023" href="$class_b_n_o08x_test_helper.html#ac81c63583b19e5c7b3233324aaea98e2" title="Updates report data with calls relevant test_imu methods." alt="" coords="171,672,351,715"/>
+<area shape="poly" id="edge26_Node000001_Node000023" title=" " alt="" coords="57,358,60,413,72,493,84,538,100,581,123,622,152,658,160,665,157,670,148,662,118,625,95,584,79,539,67,495,55,413,52,358"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a4f12de628073f44b2a3fab2688cf1caf" title="Waits for a valid or invalid packet to be received or host_int_timeout_ms to elapse." alt="" coords="442,139,596,165"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="341,149,426,149,426,155,341,155"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="440,201,599,228"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="340,209,424,211,424,216,340,215"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#af7f960dbd26c6f1834661ef5f5bbd4d3" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="675,128,834,171"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="569,198,660,173,661,178,571,203"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#a0ec9b1a10bbf25a057273605575f0d64" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="676,195,833,237"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="599,212,660,213,660,218,599,218"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="667,261,842,288"/>
+<area shape="poly" id="edge11_Node000007_Node000012" title=" " alt="" coords="575,226,685,254,684,260,574,231"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="899,136,1058,163"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="834,147,883,147,883,152,834,152"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="891,195,1066,237"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="834,213,876,213,876,219,834,219"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a789f9b9b8ad0a84a6ca45a85740823ca" title="Enables a sensor report for a given ID." alt="" coords="441,263,597,289"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="339,274,425,274,425,279,339,280"/>
+<area shape="poly" id="edge18_Node000014_Node000008" title=" " alt="" coords="573,260,617,238,631,224,640,210,649,195,665,181,671,176,674,181,668,185,653,199,645,213,636,227,620,242,575,264"/>
+<area shape="poly" id="edge19_Node000014_Node000010" title=" " alt="" coords="574,260,660,237,661,242,575,265"/>
+<area shape="poly" id="edge20_Node000014_Node000012" title=" " alt="" coords="598,273,651,273,651,278,598,278"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a48c1d43b66b1a0894cb1fc2179f62cdc" title=" " alt="" coords="666,312,843,339"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="586,287,673,306,672,311,585,292"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x sensor." alt="" coords="685,363,824,389"/>
+<area shape="poly" id="edge16_Node000014_Node000017" title=" " alt="" coords="545,288,600,317,667,348,686,355,684,360,665,353,598,322,543,292"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or host_int_timeout_ms to elapse." alt="" coords="891,337,1066,364"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="844,333,876,336,875,342,843,338"/>
+<area shape="poly" id="edge17_Node000017_Node000016" title=" " alt="" coords="824,365,875,360,876,365,825,371"/>
+<area shape="rect" id="Node000024" href="$class_b_n_o08x.html#a3c9797a2a2be14ee6e8126f1295fa885" title="Get full acceleration (total acceleration of device, units in m/s^2)." alt="" coords="452,475,586,501"/>
+<area shape="poly" id="edge27_Node000023_Node000024" title=" " alt="" coords="349,673,370,658,384,641,391,623,393,586,396,549,403,530,418,511,436,499,439,503,422,515,408,532,401,550,398,586,396,624,388,643,374,662,353,677"/>
+<area shape="rect" id="Node000026" href="$class_b_n_o08x.html#a4a72489c56960d83050ae9c4b9ab75ed" title="Get the current activity classifier (Seee Ref. Manual 6.5.36)" alt="" coords="448,643,591,685"/>
+<area shape="poly" id="edge29_Node000023_Node000026" title=" " alt="" coords="351,681,432,671,432,676,351,686"/>
+<area shape="rect" id="Node000027" href="$class_b_n_o08x.html#aa9291dec6c05a3786fe58221e6856e8f" title="Get full rotational velocity with drift compensation (units in Rad/s)." alt="" coords="440,525,599,568"/>
+<area shape="poly" id="edge30_Node000023_Node000027" title=" " alt="" coords="349,671,370,658,386,639,394,619,401,599,418,578,425,573,428,578,422,582,406,601,399,621,391,642,374,662,352,675"/>
+<area shape="rect" id="Node000028" href="$class_b_n_o08x.html#a067678914e928a6691625b17c40237a0" title="Get full reported gravity vector, units in m/s^2." alt="" coords="449,592,589,619"/>
+<area shape="poly" id="edge32_Node000023_Node000028" title=" " alt="" coords="342,669,371,658,395,643,419,628,437,621,439,626,421,633,397,647,373,662,344,674"/>
+<area shape="rect" id="Node000029" href="$class_b_n_o08x.html#a8f4a10a8427a266fa28fc1c85c8e850f" title="Full rotational velocity from gyro&#45;integrated rotation vector (See Ref. Manual 6.5...." alt="" coords="439,877,599,920"/>
+<area shape="poly" id="edge34_Node000023_Node000029" title=" " alt="" coords="279,713,336,786,376,827,422,863,429,868,426,872,418,868,373,831,332,790,274,717"/>
+<area shape="rect" id="Node000030" href="$class_b_n_o08x.html#a4bef64b34cbff3922848c7a93aa21e46" title="Get full linear acceleration (acceleration of the device minus gravity, units in m/s^2)." alt="" coords="452,944,586,987"/>
+<area shape="poly" id="edge36_Node000023_Node000030" title=" " alt="" coords="273,714,294,759,326,817,369,878,394,905,422,930,440,941,437,946,418,934,390,909,365,881,321,820,289,762,268,716"/>
+<area shape="rect" id="Node000031" href="$class_b_n_o08x.html#ae766248440e76fb26bbadc6ee0b54ddb" title="Get the full magnetic field vector." alt="" coords="454,1011,585,1037"/>
+<area shape="poly" id="edge38_Node000023_Node000031" title=" " alt="" coords="269,714,285,771,315,848,335,889,360,928,388,965,422,997,440,1008,438,1012,418,1001,384,969,355,931,331,891,310,850,280,773,264,716"/>
+<area shape="rect" id="Node000032" href="$class_b_n_o08x.html#af5d6dae7c0f8d36b6ac91adff614ab3a" title="Get the full quaternion reading." alt="" coords="455,357,583,384"/>
+<area shape="poly" id="edge40_Node000023_Node000032" title=" " alt="" coords="349,674,370,658,391,626,399,593,398,561,393,528,387,495,387,461,395,428,418,394,439,379,442,384,422,398,400,430,392,462,393,494,398,527,403,560,404,594,396,628,374,662,352,678"/>
+<area shape="rect" id="Node000033" href="$class_b_n_o08x.html#ac2118c4da6631d3b9806353ca2cbba27" title="Get raw gyroscope full reading from physical gyroscope MEMs sensor (See Ref. Manual 6...." alt="" coords="420,709,618,736"/>
+<area shape="poly" id="edge42_Node000023_Node000033" title=" " alt="" coords="351,701,405,707,404,712,351,706"/>
+<area shape="rect" id="Node000034" href="$class_b_n_o08x.html#a248544b262582d10d917a687190cb454" title="Get the current stability classifier (Seee Ref. Manual 6.5.31)" alt="" coords="445,760,593,803"/>
+<area shape="poly" id="edge43_Node000023_Node000034" title=" " alt="" coords="326,713,421,745,440,752,438,757,419,751,324,718"/>
+<area shape="rect" id="Node000035" href="$class_b_n_o08x.html#adaff49f3d80fdd19fd4210f0c56d41ef" title="Get the counted amount of steps." alt="" coords="436,827,603,853"/>
+<area shape="poly" id="edge44_Node000023_Node000035" title=" " alt="" coords="286,713,344,763,382,790,421,812,437,819,434,824,419,817,379,794,341,767,283,717"/>
+<area shape="rect" id="Node000036" href="$class_b_n_o08x.html#a86ff710f2b359e905c7154bfb7d5b104" title="Get full rotational velocity without drift compensation (units in Rad/s). An estimate of drift is giv..." alt="" coords="433,408,606,451"/>
+<area shape="poly" id="edge45_Node000023_Node000036" title=" " alt="" coords="349,674,370,658,387,634,394,610,396,586,394,562,392,537,393,512,401,486,418,461,420,459,424,463,422,464,405,489,398,513,397,537,399,562,401,586,400,611,392,637,374,662,353,678"/>
+<area shape="rect" id="Node000025" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="687,563,822,589"/>
+<area shape="poly" id="edge28_Node000024_Node000025" title=" " alt="" coords="582,499,619,511,714,553,712,558,617,516,581,505"/>
+<area shape="poly" id="edge31_Node000027_Node000025" title=" " alt="" coords="600,554,672,563,671,568,599,559"/>
+<area shape="poly" id="edge33_Node000028_Node000025" title=" " alt="" coords="589,594,672,584,672,589,590,599"/>
+<area shape="poly" id="edge35_Node000029_Node000025" title=" " alt="" coords="598,876,617,863,644,834,669,801,706,728,731,659,745,604,750,605,736,660,711,730,673,804,649,837,620,867,601,880"/>
+<area shape="poly" id="edge37_Node000030_Node000025" title=" " alt="" coords="585,949,617,930,649,893,676,850,698,805,715,758,737,671,748,605,753,605,743,672,720,760,703,807,681,853,653,896,620,934,588,954"/>
+<area shape="poly" id="edge39_Node000031_Node000025" title=" " alt="" coords="584,1015,602,1007,617,997,655,952,686,900,709,845,726,788,745,683,750,604,756,605,750,683,731,790,714,847,690,903,659,955,620,1001,604,1012,586,1019"/>
+<area shape="poly" id="edge41_Node000032_Node000025" title=" " alt="" coords="585,378,620,394,661,429,696,471,723,512,743,547,738,550,719,515,692,474,657,433,617,398,583,383"/>
+<area shape="poly" id="edge46_Node000036_Node000025" title=" " alt="" coords="596,449,620,460,682,505,731,549,728,553,679,509,617,465,593,454"/>
+</map>

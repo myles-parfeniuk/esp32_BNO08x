@@ -1,0 +1,7 @@
+<map id="BNO08xTestHelper::step_counter_data_is_new" name="BNO08xTestHelper::step_counter_data_is_new">
+<area shape="rect" id="Node000001" title="Checks if report_data matches the default states stored within prev_report_data data for respective r..." alt="" coords="150,23,315,65"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#a9f2e049a5b61721869c5f4757e313502" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,33,102,28,102,23,134,27"/>
+<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#ad96cfd7c30e8693897688ce24bb53996" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,61,102,65,102,60,134,55"/>
+</map>

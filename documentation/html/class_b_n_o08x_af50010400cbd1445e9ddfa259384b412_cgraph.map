@@ -1,0 +1,18 @@
+<map id="BNO08x::get_pitch_deg" name="BNO08x::get_pitch_deg">
+<area shape="rect" id="Node000001" title="Get the reported rotation about y axis." alt="" coords="5,81,165,108"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a1b91f234d81c45f1f5ca2f27c9f0f6a3" title="Get the reported rotation about y axis." alt="" coords="213,81,344,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,92,197,92,197,97,165,97"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a12c12a8e078b28480fb8828d306656f5" title="Get I component of reported quaternion." alt="" coords="401,5,539,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="307,78,391,42,409,35,411,40,393,46,309,83"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a9f6bb642fa0297a7b9bcc94dd7374015" title="Get J component of reported quaternion." alt="" coords="400,56,541,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="344,83,384,78,385,83,345,89"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a9f42c70c2337a0d831064a40ecfe2dd8" title="Get K component of reported quaternion." alt="" coords="398,107,542,133"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="345,101,383,106,382,111,344,106"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a5a556c5ec1baaa7f1156779dbe47a7b7" title="Get real component of reported quaternion." alt="" coords="392,157,548,184"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="309,106,393,143,411,149,409,154,391,148,307,111"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="596,81,731,108"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="517,30,549,42,620,72,618,77,547,46,516,35"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="542,76,581,81,581,87,541,81"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="542,108,581,103,582,108,543,113"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="516,154,547,143,618,113,620,117,549,148,517,159"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BNO08x::disable_ARVR_stabilized_rotation_vector" name="BNO08x::disable_ARVR_stabilized_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to disable ARVR stabilized rotation vector reports by setting report interval to 0." alt="" coords="150,5,312,64"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#af9d07441bd8651bc21743664b7f99bb8" title=" " alt="" coords="5,21,102,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,37,102,37,102,32,134,32"/>
+</map>

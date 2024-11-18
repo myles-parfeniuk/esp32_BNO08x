@@ -1,0 +1,9 @@
+<map id="BNO08x_macros.hpp" name="BNO08x_macros.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="105,5,251,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,84,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,35,82,75,80,70,153,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="108,80,248,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,33,181,64,175,64,175,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="272,80,428,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,30,307,71,305,76,207,35"/>
+</map>

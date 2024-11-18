@@ -1,0 +1,49 @@
+<map id="BNO08x::parse_packet" name="BNO08x::parse_packet">
+<area shape="rect" id="Node000001" title="Parses a packet received from bno08x, updating any data according to received reports." alt="" coords="5,371,162,397"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a4f66045a0528a0c17c52421ea51612e7" title="Parses received command report sent by BNO08x (See Ref. Manual 6.3.9)" alt="" coords="210,192,384,235"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,369,137,310,171,275,208,245,215,240,218,245,211,249,174,279,141,313,96,372"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a206c0e3ddc3b745b56914976d6e69981" title="Parses get feature request report received from BNO08x." alt="" coords="219,259,375,301"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,368,208,311,221,305,223,310,211,316,108,373"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a51b360d795563b55559f11efb40be36a" title="Sends packet to be parsed to meta data function call (FRS_read_data()) through queue." alt="" coords="215,325,379,368"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,368,199,361,200,366,163,373"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7be6047fef851a064c7cbc9eba092f6d" title="Parses received gyro integrated rotation vector report sent by BNO08x." alt="" coords="226,392,368,451"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="163,395,211,404,210,409,162,400"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a8d9db3e1b6208c2661e1c543deefa53d" title="Parses received input report sent by BNO08x." alt="" coords="224,475,370,517"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="106,396,153,427,211,460,222,466,220,470,208,465,150,431,103,400"/>
+<area shape="rect" id="Node000024" href="$class_b_n_o08x.html#a29cfd7fc2816483ebebe9d55b677a036" title="Parses product id report and prints device info." alt="" coords="217,541,377,584"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="95,396,140,458,173,495,211,527,218,531,215,536,208,531,170,499,136,462,91,399"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#ab02386f13caa446bab5921c1a71f92ab" title="Updates integrated gyro rotation vector data from SHTP channel 5 (CHANNEL_GYRO) special report data." alt="" coords="461,5,642,48"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="367,393,382,378,404,337,411,296,409,257,402,218,395,178,394,139,404,99,430,58,445,45,449,49,434,62,409,101,399,140,400,178,407,217,414,256,417,297,409,338,386,382,370,397"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a002aa97c9af8f6df2d0c83034e4f7b55" title="Parses data from received input report." alt="" coords="479,72,624,115"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="368,474,382,461,397,439,406,418,414,376,412,335,403,293,395,252,393,210,403,168,414,146,430,125,445,112,463,103,465,107,448,116,434,128,418,149,408,170,398,211,401,251,409,292,417,334,420,376,411,420,401,442,386,464,372,478"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x.html#afe588fbd0055193d3bc08984d7732354" title="Updates accelerometer data from parsed input report." alt="" coords="432,139,670,165"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="368,473,382,461,403,425,411,389,409,353,403,318,397,282,396,247,405,211,430,176,433,173,436,177,434,179,410,213,401,247,402,282,408,317,414,353,416,389,408,427,386,464,372,477"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#a962b695ef4733d558c6f9684da0931ab" title="Updates linear gyro data from parsed input report." alt="" coords="461,189,641,232"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="368,473,382,461,399,433,407,406,407,379,404,352,401,325,402,298,411,270,430,242,446,229,449,233,434,246,415,272,407,299,407,325,409,352,412,379,412,407,404,436,386,464,372,477"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#af971d82426740e62c1f05adcd2c9ce7c" title="Updates command data from parsed input report." alt="" coords="445,256,658,283"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="368,472,382,461,396,440,403,419,404,377,405,335,413,313,430,293,434,289,438,293,434,297,418,316,411,336,409,377,408,420,401,442,386,464,372,476"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#ad7de3999d4df19038e27c01f9b02010e" title="Updates gravity data from parsed input report." alt="" coords="455,307,648,333"/>
+<area shape="poly" id="edge11_Node000007_Node000012" title=" " alt="" coords="367,472,382,461,394,446,400,432,404,402,409,373,417,358,430,343,439,337,442,341,434,347,421,361,414,374,410,403,405,434,398,449,386,465,371,476"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a7416d844f6188c8d16f181d6d4431708" title="Updates linear accelerometer data from parsed input report." alt="" coords="480,357,622,400"/>
+<area shape="poly" id="edge12_Node000007_Node000013" title=" " alt="" coords="363,472,382,460,397,448,406,435,415,422,431,410,464,394,466,399,433,414,419,426,410,438,401,451,386,465,365,476"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a3abf4a199bc7a03ac7447c2781673d88" title="Updates magnetic field data from parsed input report." alt="" coords="459,424,643,451"/>
+<area shape="poly" id="edge13_Node000007_Node000014" title=" " alt="" coords="369,475,431,460,468,452,469,457,433,465,371,480"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x.html#a04489cf9a125495c7cf07c6ba5e9f6c0" title="Updates activity classifier data from parsed input report." alt="" coords="465,475,638,517"/>
+<area shape="poly" id="edge14_Node000007_Node000015" title=" " alt="" coords="370,493,449,493,449,499,370,499"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a83fed63c67957ec4338afd43087d6e22" title="Updates raw accelerometer data from parsed input report." alt="" coords="479,541,623,584"/>
+<area shape="poly" id="edge15_Node000007_Node000016" title=" " alt="" coords="371,512,464,537,463,542,369,518"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x.html#ad0f0fec4e53029b4ba907414a36ac5ea" title="Updates raw gyro data from parsed input report." alt="" coords="479,608,623,651"/>
+<area shape="poly" id="edge16_Node000007_Node000017" title=" " alt="" coords="367,516,386,527,402,545,410,562,418,578,434,594,465,610,463,615,430,598,414,581,405,564,397,548,382,531,364,520"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#a6ddc9600c53a4248d1affcab36f6f245" title="Updates raw magnetic field data from parsed input report." alt="" coords="479,675,623,717"/>
+<area shape="poly" id="edge17_Node000007_Node000018" title=" " alt="" coords="371,516,386,527,399,545,406,563,410,596,414,629,421,645,434,661,466,680,463,685,430,665,416,648,409,631,405,597,401,564,394,548,382,531,368,520"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#aa309152750686fbf8ebf7d6de1f1254b" title="Updates roation vector data from parsed input report." alt="" coords="468,741,635,784"/>
+<area shape="poly" id="edge18_Node000007_Node000019" title=" " alt="" coords="372,515,386,528,403,554,411,580,412,606,409,631,408,655,409,679,417,703,434,727,455,743,452,747,430,731,412,706,404,680,402,655,404,630,406,605,405,581,398,556,382,531,368,519"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x.html#a358316b883928c50dd381f024e6b0645" title="Updates stability classifier data from parsed input report." alt="" coords="467,808,636,851"/>
+<area shape="poly" id="edge19_Node000007_Node000020" title=" " alt="" coords="372,515,386,528,407,563,415,597,414,631,409,664,404,697,404,729,412,762,434,794,454,810,451,814,430,798,407,764,398,730,399,697,404,664,409,631,410,598,402,565,382,531,368,519"/>
+<area shape="rect" id="Node000021" href="$class_b_n_o08x.html#aa390bf840246e3233e07f6a424efcb6f" title="Updates step counter data from parsed input report." alt="" coords="477,875,626,917"/>
+<area shape="poly" id="edge20_Node000007_Node000021" title=" " alt="" coords="372,514,386,528,401,550,411,572,420,615,417,657,409,698,401,739,399,779,408,820,418,840,434,861,447,873,463,881,461,886,444,877,430,864,414,843,403,822,393,780,395,738,403,697,411,656,414,615,406,573,396,552,382,531,368,518"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x.html#ac75b7fb1a1b407d0888ea07d708831b1" title="Updates tap detector data from parsed input report." alt="" coords="480,941,622,984"/>
+<area shape="poly" id="edge21_Node000007_Node000022" title=" " alt="" coords="372,514,386,528,404,554,415,581,422,607,424,632,419,683,408,732,397,781,394,829,396,853,404,878,416,903,434,928,449,941,467,950,464,955,446,945,430,931,411,905,399,880,391,855,388,829,392,780,403,731,414,682,419,632,417,608,410,582,399,557,382,531,368,518"/>
+<area shape="rect" id="Node000023" href="$class_b_n_o08x.html#a8de12c9c47549502147bd85dbb7e364e" title="Updates uncalibrated gyro data from parsed input report." alt="" coords="454,1008,648,1051"/>
+<area shape="poly" id="edge22_Node000007_Node000023" title=" " alt="" coords="372,514,386,528,406,559,419,590,427,620,429,650,422,708,408,766,394,822,388,879,391,907,399,936,413,965,434,994,443,1003,439,1007,430,998,408,968,394,938,386,908,383,879,389,821,403,764,417,707,423,650,421,621,414,591,402,561,382,531,368,518"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="BNO08x::end_calibration" name="BNO08x::end_calibration">
+<area shape="rect" id="Node000001" title="Sends command to end calibration procedure." alt="" coords="5,43,171,69"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ad097849616c5caab1fd3eb3632ee2b91" title="Queues a packet containing a command to calibrate the specified sensor." alt="" coords="222,5,391,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,42,206,37,207,43,171,48"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="219,72,394,99"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="171,64,203,69,203,74,171,70"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a5cc58139e4d5f0587b90e249ceb476f9" title="Queues a packet containing a command." alt="" coords="442,13,619,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="391,24,426,24,426,29,391,29"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="667,13,827,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="620,24,652,24,652,29,620,29"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="BNO08x::save_tare" name="BNO08x::save_tare">
+<area shape="rect" id="Node000001" title="Sends command to save tare into non&#45;volatile memory of BNO08x (See Ref. Manual 6.4...." alt="" coords="5,43,139,69"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a4c6353e795f734ed28613f9a3d161ea2" title="Queues a packet containing a command related to zeroing sensor&#39;s axes. (See Ref. Manual 6...." alt="" coords="203,5,346,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,44,188,37,188,42,140,49"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="187,72,362,99"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="140,63,171,68,171,73,139,68"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a5cc58139e4d5f0587b90e249ceb476f9" title="Queues a packet containing a command." alt="" coords="410,13,587,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="346,24,395,24,395,29,346,29"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="635,13,795,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="588,24,620,24,620,29,588,29"/>
+</map>

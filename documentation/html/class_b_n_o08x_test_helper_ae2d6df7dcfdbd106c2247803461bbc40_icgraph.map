@@ -1,0 +1,24 @@
+<map id="BNO08xTestHelper::destroy_test_imu" name="BNO08xTestHelper::destroy_test_imu">
+<area shape="rect" id="Node000001" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="374,265,557,308"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#a6bd040c7d670a9713f2ab8a8a3913518" title="Calls BNO08x constructor and creates new test IMU on heap." alt="" coords="150,120,326,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="420,258,325,194,277,165,279,161,327,190,423,254"/>
+<area shape="rect" id="Node000006" href="$_init_deinit_tests_8cpp.html#ac4fb371054271d54830b58cc164dc0f6" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="401,262,325,239,266,229,205,224,102,222,102,217,206,219,266,224,327,233,402,257"/>
+<area shape="rect" id="Node000008" href="$_callback_tests_8cpp.html#a574f179a8295301510bc8b5475f02ba8" title=" " alt="" coords="190,248,286,275"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="358,277,286,269,287,264,359,272"/>
+<area shape="rect" id="Node000009" href="$_multi_report_tests_8cpp.html#ac92ec06fe64f7bedbbe37dee3e64c090" title=" " alt="" coords="190,299,286,325"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="359,301,287,309,286,304,358,296"/>
+<area shape="rect" id="Node000010" href="$_single_report_tests_8cpp.html#a697ac897c8756d7553854e52229d36f5" title=" " alt="" coords="190,349,286,376"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="394,316,327,340,287,352,286,347,325,335,392,311"/>
+<area shape="rect" id="Node000011" href="$_init_deinit_tests_8cpp.html#a69680e2934e7ec3c6a1771270dc59f05" title=" " alt="" coords="190,400,286,427"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="430,320,383,357,327,390,287,405,285,400,325,386,380,352,427,316"/>
+<area shape="rect" id="Node000003" href="$_callback_tests_8cpp.html#ac18b9cb122499f587331d82a538f23aa" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="195,112,100,46,81,35,83,30,103,42,198,108"/>
+<area shape="rect" id="Node000004" href="$_multi_report_tests_8cpp.html#a1fd7b6a0d4dbb7f91fd5691b5b054bda" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="166,116,89,86,91,81,168,111"/>
+<area shape="rect" id="Node000005" href="$_single_report_tests_8cpp.html#aac644123799c1f836d379c9789a064ab" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="134,132,102,128,102,123,135,127"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="174,172,87,210,85,205,172,167"/>
+<area shape="rect" id="Node000007" href="$_init_deinit_tests_8cpp.html#a6ed5310154fb7e7f290e619e6fbed708" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="135,160,102,166,101,160,134,155"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BNO08x::get_accel_Y" name="BNO08x::get_accel_Y">
+<area shape="rect" id="Node000001" title="Get y axis acceleration (total acceleration of device, units in m/s^2)." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="204,5,338,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,16,188,16,188,21,156,21"/>
+</map>

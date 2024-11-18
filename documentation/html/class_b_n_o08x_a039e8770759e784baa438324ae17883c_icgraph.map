@@ -1,0 +1,5 @@
+<map id="BNO08x::enable_activity_classifier" name="BNO08x::enable_activity_classifier">
+<area shape="rect" id="Node000001" title="Sends command to enable activity classifier reports (See Ref. Manual 6.5.36)" alt="" coords="150,5,313,48"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#a098111e0f361615318674b5b1b05ece4" title=" " alt="" coords="5,13,102,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
+</map>

@@ -1,0 +1,123 @@
+<map id="BNO08x::q_to_float" name="BNO08x::q_to_float">
+<area shape="rect" id="Node000001" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="694,1120,829,1147"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a3c9797a2a2be14ee6e8126f1295fa885" title="Get full acceleration (total acceleration of device, units in m/s^2)." alt="" coords="493,307,627,333"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="757,1105,753,948,738,721,724,604,704,496,678,407,662,373,644,347,626,333,629,329,648,343,667,370,683,405,709,495,729,603,743,721,759,948,763,1104"/>
+<area shape="rect" id="Node000027" href="$class_b_n_o08x.html#abce574112a9079d2cbc58cfc352b8a69" title="Get x axis acceleration (total acceleration of device, units in m/s^2)." alt="" coords="486,475,634,501"/>
+<area shape="poly" id="edge8_Node000001_Node000027" title=" " alt="" coords="756,1104,747,978,728,801,713,711,694,629,671,561,658,535,644,515,630,504,634,500,648,511,663,532,676,559,699,627,718,710,733,800,753,978,761,1104"/>
+<area shape="rect" id="Node000028" href="$class_b_n_o08x.html#afdf24bb3d54518b23972f21f007817c1" title="Get y axis acceleration (total acceleration of device, units in m/s^2)." alt="" coords="485,525,635,552"/>
+<area shape="poly" id="edge9_Node000001_Node000028" title=" " alt="" coords="756,1105,745,988,725,826,710,744,691,669,670,607,644,566,630,555,633,550,648,562,674,605,697,667,715,743,730,825,751,987,761,1104"/>
+<area shape="rect" id="Node000029" href="$class_b_n_o08x.html#a0a72477cb7a330fedbcb3e2126b882b1" title="Get z axis acceleration (total acceleration of device, units in m/s^2)." alt="" coords="486,576,634,603"/>
+<area shape="poly" id="edge10_Node000001_Node000029" title=" " alt="" coords="755,1105,743,997,721,851,706,777,689,709,668,654,644,616,630,605,633,601,648,613,673,651,694,707,712,775,727,850,749,997,760,1104"/>
+<area shape="rect" id="Node000030" href="$class_b_n_o08x.html#aa9291dec6c05a3786fe58221e6856e8f" title="Get full rotational velocity with drift compensation (units in Rad/s)." alt="" coords="480,357,639,400"/>
+<area shape="poly" id="edge11_Node000001_Node000030" title=" " alt="" coords="757,1105,750,961,732,754,717,648,698,550,674,469,660,438,644,414,632,403,636,399,648,410,664,435,679,467,703,549,722,647,737,754,755,961,762,1104"/>
+<area shape="rect" id="Node000031" href="$class_b_n_o08x.html#a7710e8bee76742e351cecfaf441f0889" title="Get calibrated gyro x axis angular velocity measurement." alt="" coords="480,627,639,669"/>
+<area shape="poly" id="edge13_Node000001_Node000031" title=" " alt="" coords="754,1105,739,1010,716,884,683,763,665,716,644,683,631,672,635,668,648,680,669,713,688,761,721,883,745,1009,759,1104"/>
+<area shape="rect" id="Node000032" href="$class_b_n_o08x.html#a492d5bde7377d9f6773eae1d70967f50" title="Get calibrated gyro y axis angular velocity measurement." alt="" coords="480,693,639,736"/>
+<area shape="poly" id="edge14_Node000001_Node000032" title=" " alt="" coords="757,1105,752,1035,736,940,721,889,702,839,676,792,644,750,631,739,634,735,648,746,681,789,707,837,726,888,741,939,757,1034,763,1105"/>
+<area shape="rect" id="Node000033" href="$class_b_n_o08x.html#a1599c0515f05a08c043f237c46d29dea" title="Get calibrated gyro z axis angular velocity measurement." alt="" coords="480,760,639,803"/>
+<area shape="poly" id="edge15_Node000001_Node000033" title=" " alt="" coords="755,1105,746,1046,727,969,713,928,695,888,672,850,644,817,630,805,634,801,648,813,676,847,699,885,718,926,733,967,752,1045,760,1104"/>
+<area shape="rect" id="Node000034" href="$class_b_n_o08x.html#a067678914e928a6691625b17c40237a0" title="Get full reported gravity vector, units in m/s^2." alt="" coords="490,424,630,451"/>
+<area shape="poly" id="edge16_Node000001_Node000034" title=" " alt="" coords="757,1105,749,969,731,777,716,679,697,589,673,515,660,486,644,465,629,452,632,448,648,461,664,483,678,513,702,587,722,678,736,776,755,969,762,1104"/>
+<area shape="rect" id="Node000035" href="$class_b_n_o08x.html#a88679bccd9339b87ec35fc4fc4e745ae" title="Get the reported x axis gravity." alt="" coords="483,827,637,853"/>
+<area shape="poly" id="edge18_Node000001_Node000035" title=" " alt="" coords="754,1105,743,1054,723,990,691,924,670,894,645,867,627,856,630,852,648,863,674,890,695,921,728,988,748,1053,759,1104"/>
+<area shape="rect" id="Node000036" href="$class_b_n_o08x.html#a8a36db7f1c932f33e05e494632059801" title="Get the reported y axis gravity." alt="" coords="482,877,638,904"/>
+<area shape="poly" id="edge19_Node000001_Node000036" title=" " alt="" coords="751,1106,737,1064,716,1014,685,962,666,939,645,918,626,907,629,902,648,914,670,935,689,959,720,1011,742,1063,756,1105"/>
+<area shape="rect" id="Node000037" href="$class_b_n_o08x.html#a5622b4d1754648ea7eb400c1adf9e807" title="Get the reported z axis gravity." alt="" coords="483,928,637,955"/>
+<area shape="poly" id="edge20_Node000001_Node000037" title=" " alt="" coords="746,1107,708,1037,679,1000,645,969,624,958,627,953,648,965,683,997,712,1035,751,1105"/>
+<area shape="rect" id="Node000038" href="$class_b_n_o08x.html#a8f4a10a8427a266fa28fc1c85c8e850f" title="Full rotational velocity from gyro&#45;integrated rotation vector (See Ref. Manual 6.5...." alt="" coords="480,5,640,48"/>
+<area shape="poly" id="edge21_Node000001_Node000038" title=" " alt="" coords="756,1104,745,884,722,553,706,385,688,237,667,123,656,85,644,62,633,50,636,46,648,58,661,83,672,122,693,236,711,385,727,553,750,884,762,1104"/>
+<area shape="rect" id="Node000039" href="$class_b_n_o08x.html#a2eb2accfbc70366e6e3eaf391622c1ff" title="Get x axis angular velocity from gyro&#45;integrated rotation vector. (See Ref. Manual 6...." alt="" coords="480,979,640,1021"/>
+<area shape="poly" id="edge23_Node000001_Node000039" title=" " alt="" coords="735,1111,695,1073,645,1036,623,1024,626,1020,648,1031,698,1069,739,1107"/>
+<area shape="rect" id="Node000040" href="$class_b_n_o08x.html#aff9a7e0190b228f5032474a3f4feb9a1" title="Get y axis angular velocity from gyro&#45;integrated rotation vector. (See Ref. Manual 6...." alt="" coords="480,1045,640,1088"/>
+<area shape="poly" id="edge24_Node000001_Node000040" title=" " alt="" coords="703,1117,626,1091,627,1086,705,1112"/>
+<area shape="rect" id="Node000041" href="$class_b_n_o08x.html#aa5b483cb0036e9dd43bf797259634add" title="Get z axis angular velocity from gyro&#45;integrated rotation vector. (See Ref. Manual 6...." alt="" coords="480,1112,640,1155"/>
+<area shape="poly" id="edge25_Node000001_Node000041" title=" " alt="" coords="679,1136,640,1136,640,1131,679,1131"/>
+<area shape="rect" id="Node000042" href="$class_b_n_o08x.html#a4bef64b34cbff3922848c7a93aa21e46" title="Get full linear acceleration (acceleration of the device minus gravity, units in m/s^2)." alt="" coords="493,72,627,115"/>
+<area shape="poly" id="edge26_Node000001_Node000042" title=" " alt="" coords="756,1105,744,897,720,587,704,430,686,292,666,186,655,150,644,128,625,112,629,108,648,125,660,148,671,185,691,291,709,430,725,587,749,897,761,1104"/>
+<area shape="rect" id="Node000043" href="$class_b_n_o08x.html#a763c3a9699a1081d430fd9b9b7bc49a3" title="Get x axis linear acceleration (acceleration of device minus gravity, units in m/s^2)" alt="" coords="493,1179,627,1221"/>
+<area shape="poly" id="edge28_Node000001_Node000043" title=" " alt="" coords="705,1155,627,1181,626,1176,703,1150"/>
+<area shape="rect" id="Node000044" href="$class_b_n_o08x.html#a1033bdd65b42b6706d1dfc67ece66191" title="Get y axis linear acceleration (acceleration of device minus gravity, units in m/s^2)" alt="" coords="493,1245,627,1288"/>
+<area shape="poly" id="edge29_Node000001_Node000044" title=" " alt="" coords="739,1160,698,1198,648,1236,626,1247,623,1242,645,1231,695,1194,735,1156"/>
+<area shape="rect" id="Node000045" href="$class_b_n_o08x.html#afdfa7d50362702da689c5d18bf17fd84" title="Get z axis linear acceleration (acceleration of device minus gravity, units in m/s^2)" alt="" coords="493,1312,627,1355"/>
+<area shape="poly" id="edge30_Node000001_Node000045" title=" " alt="" coords="750,1162,711,1231,682,1269,648,1302,629,1314,626,1310,645,1298,678,1265,706,1228,746,1159"/>
+<area shape="rect" id="Node000046" href="$class_b_n_o08x.html#ae766248440e76fb26bbadc6ee0b54ddb" title="Get the full magnetic field vector." alt="" coords="494,139,625,165"/>
+<area shape="poly" id="edge31_Node000001_Node000046" title=" " alt="" coords="756,1105,743,906,720,612,704,463,686,332,666,233,655,199,644,179,624,164,627,160,648,176,660,197,671,231,691,331,709,462,725,611,749,906,761,1104"/>
+<area shape="rect" id="Node000047" href="$class_b_n_o08x.html#a111601243b913751eb51c1f37cba4e7d" title="Get X component of magnetic field vector." alt="" coords="487,1379,632,1405"/>
+<area shape="poly" id="edge33_Node000001_Node000047" title=" " alt="" coords="757,1163,744,1208,723,1263,691,1320,671,1346,648,1369,630,1380,627,1376,645,1365,667,1342,687,1317,718,1261,739,1206,752,1161"/>
+<area shape="rect" id="Node000049" href="$class_b_n_o08x.html#a82ed8d7b9a5c25374839df75a3d220ea" title="Get Y component of magnetic field vector." alt="" coords="486,1429,633,1456"/>
+<area shape="poly" id="edge35_Node000001_Node000049" title=" " alt="" coords="760,1162,750,1217,730,1286,697,1357,675,1390,648,1419,631,1431,628,1427,645,1415,671,1387,693,1355,725,1284,744,1215,754,1161"/>
+<area shape="rect" id="Node000050" href="$class_b_n_o08x.html#ab4c48a91d2f8b29430abc17b7f015282" title="Get Z component of magnetic field vector." alt="" coords="487,1480,632,1507"/>
+<area shape="poly" id="edge37_Node000001_Node000050" title=" " alt="" coords="762,1163,754,1226,737,1308,722,1352,703,1395,679,1435,648,1470,632,1482,628,1477,645,1466,674,1432,698,1392,717,1350,732,1307,749,1225,756,1162"/>
+<area shape="rect" id="Node000051" href="$class_b_n_o08x.html#af5d6dae7c0f8d36b6ac91adff614ab3a" title="Get the full quaternion reading." alt="" coords="496,189,624,216"/>
+<area shape="poly" id="edge39_Node000001_Node000051" title=" " alt="" coords="758,1104,757,928,753,802,745,665,731,529,711,403,697,348,682,300,664,260,644,230,623,214,626,210,648,226,669,258,687,298,703,347,716,402,736,528,750,665,758,802,762,928,763,1104"/>
+<area shape="rect" id="Node000052" href="$class_b_n_o08x.html#a12c12a8e078b28480fb8828d306656f5" title="Get I component of reported quaternion." alt="" coords="491,1683,629,1709"/>
+<area shape="poly" id="edge41_Node000001_Node000052" title=" " alt="" coords="761,1163,749,1274,728,1426,713,1504,695,1574,673,1632,648,1672,631,1686,628,1681,644,1669,668,1630,690,1573,708,1502,723,1425,744,1273,755,1162"/>
+<area shape="rect" id="Node000059" href="$class_b_n_o08x.html#a9f6bb642fa0297a7b9bcc94dd7374015" title="Get J component of reported quaternion." alt="" coords="489,1531,630,1557"/>
+<area shape="poly" id="edge46_Node000001_Node000059" title=" " alt="" coords="763,1163,759,1234,743,1330,729,1381,709,1432,682,1479,648,1521,632,1532,629,1528,645,1517,678,1476,704,1429,724,1380,738,1329,754,1234,758,1162"/>
+<area shape="rect" id="Node000060" href="$class_b_n_o08x.html#a9f42c70c2337a0d831064a40ecfe2dd8" title="Get K component of reported quaternion." alt="" coords="488,1581,632,1608"/>
+<area shape="poly" id="edge51_Node000001_Node000060" title=" " alt="" coords="759,1163,745,1255,721,1377,689,1494,669,1540,648,1571,633,1583,630,1579,644,1567,665,1537,684,1492,716,1376,739,1254,754,1162"/>
+<area shape="rect" id="Node000061" href="$class_b_n_o08x.html#a61b7d10a98afc6903fea6b2cede27630" title="Get radian accuracy of reported quaternion." alt="" coords="475,1733,645,1776"/>
+<area shape="poly" id="edge56_Node000001_Node000061" title=" " alt="" coords="761,1162,750,1282,729,1449,714,1535,696,1613,674,1678,648,1723,635,1735,632,1731,644,1720,669,1676,691,1611,709,1533,724,1448,745,1282,756,1162"/>
+<area shape="rect" id="Node000062" href="$class_b_n_o08x.html#a5a556c5ec1baaa7f1156779dbe47a7b7" title="Get real component of reported quaternion." alt="" coords="482,1632,638,1659"/>
+<area shape="poly" id="edge57_Node000001_Node000062" title=" " alt="" coords="760,1162,747,1264,725,1401,709,1471,692,1534,671,1586,648,1622,633,1634,630,1629,644,1618,667,1584,687,1532,704,1469,719,1400,742,1263,755,1162"/>
+<area shape="rect" id="Node000063" href="$class_b_n_o08x.html#a0fff04c42c9502615ad73cd1457cb9b0" title="Gets range from BNO08x FRS (flash record system)." alt="" coords="492,1800,627,1827"/>
+<area shape="poly" id="edge62_Node000001_Node000063" title=" " alt="" coords="762,1162,754,1295,735,1483,720,1579,702,1667,678,1740,664,1768,648,1790,629,1804,626,1800,644,1786,659,1765,673,1738,696,1665,715,1578,730,1482,749,1294,756,1162"/>
+<area shape="rect" id="Node000064" href="$class_b_n_o08x.html#a1d6ea02d0d4b23ff6a15e9d5c6c92372" title="Gets resolution from BNO08x FRS (flash record system)." alt="" coords="480,1851,639,1877"/>
+<area shape="poly" id="edge63_Node000001_Node000064" title=" " alt="" coords="762,1162,756,1303,738,1506,724,1611,704,1707,680,1786,665,1817,648,1840,634,1852,631,1848,644,1837,660,1814,675,1784,699,1705,719,1610,733,1506,751,1303,757,1162"/>
+<area shape="rect" id="Node000065" href="$class_b_n_o08x.html#ad228cdf352b7ea95e484da993045a47b" title="Get uncalibrated gyro x axis drift estimate." alt="" coords="473,1901,646,1944"/>
+<area shape="poly" id="edge64_Node000001_Node000065" title=" " alt="" coords="762,1162,756,1312,739,1529,725,1641,705,1745,680,1831,665,1865,648,1891,636,1903,632,1899,644,1888,660,1862,675,1829,700,1744,719,1641,734,1528,751,1311,757,1162"/>
+<area shape="rect" id="Node000066" href="$class_b_n_o08x.html#a74725517129dd548c7a3de705d5861bd" title="Get uncalibrated gyro Y axis drift estimate." alt="" coords="473,1968,646,2011"/>
+<area shape="poly" id="edge65_Node000001_Node000066" title=" " alt="" coords="763,1162,758,1323,743,1561,729,1684,709,1797,682,1892,666,1929,648,1958,636,1969,632,1966,644,1954,662,1926,677,1890,704,1796,723,1683,738,1560,753,1323,757,1162"/>
+<area shape="rect" id="Node000067" href="$class_b_n_o08x.html#a5050359272abd146ab3c7a6101effbd7" title="Get uncalibrated gyro Z axis drift estimate." alt="" coords="473,2035,646,2077"/>
+<area shape="poly" id="edge66_Node000001_Node000067" title=" " alt="" coords="763,1162,760,1334,747,1592,733,1726,712,1849,685,1952,668,1993,648,2024,636,2036,632,2032,644,2021,663,1990,680,1951,707,1848,727,1725,741,1591,755,1334,758,1162"/>
+<area shape="rect" id="Node000068" href="$class_b_n_o08x.html#a86ff710f2b359e905c7154bfb7d5b104" title="Get full rotational velocity without drift compensation (units in Rad/s). An estimate of drift is giv..." alt="" coords="473,240,646,283"/>
+<area shape="poly" id="edge67_Node000001_Node000068" title=" " alt="" coords="757,1104,753,940,738,698,724,573,704,458,678,362,662,325,644,296,632,285,636,281,648,293,667,322,683,360,710,457,729,572,744,698,759,940,763,1104"/>
+<area shape="rect" id="Node000069" href="$class_b_n_o08x.html#a71bbcd4b4d63d55d4f7d5f0de6154486" title="Get uncalibrated gyro x axis angular velocity measurement." alt="" coords="473,2101,646,2144"/>
+<area shape="poly" id="edge69_Node000001_Node000069" title=" " alt="" coords="763,1162,762,1346,758,1479,750,1623,737,1768,716,1902,703,1961,687,2013,669,2057,648,2091,636,2103,633,2099,644,2088,664,2055,682,2011,697,1960,711,1901,731,1767,745,1623,753,1479,757,1346,758,1162"/>
+<area shape="rect" id="Node000070" href="$class_b_n_o08x.html#a2d5a9fa5c960b9efa96d311d25f711de" title="Get uncalibrated gyro Y axis angular velocity measurement." alt="" coords="473,2168,646,2211"/>
+<area shape="poly" id="edge70_Node000001_Node000070" title=" " alt="" coords="761,1163,749,1373,725,1689,710,1848,692,1989,671,2097,660,2134,648,2158,636,2169,633,2166,644,2154,655,2132,666,2096,686,1988,704,1848,720,1688,744,1373,756,1162"/>
+<area shape="rect" id="Node000071" href="$class_b_n_o08x.html#ab6dc34d058002e21978f8a7e4cf24592" title="Get uncalibrated gyro Z axis angular velocity measurement." alt="" coords="473,2235,646,2277"/>
+<area shape="poly" id="edge71_Node000001_Node000071" title=" " alt="" coords="762,1162,750,1385,727,1722,712,1893,693,2044,672,2160,661,2199,648,2224,636,2236,633,2232,644,2221,656,2197,667,2158,688,2043,706,1892,722,1721,745,1385,756,1162"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_test_helper.html#ac81c63583b19e5c7b3233324aaea98e2" title="Updates report data with calls relevant test_imu methods." alt="" coords="243,211,422,253"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="492,304,472,297,377,256,379,251,474,292,494,299"/>
+<area shape="rect" id="Node000004" href="$_callback_tests_8cpp.html#a3e937c8c4a4c07b81fb20077ee984fc0" title=" " alt="" coords="5,117,192,144"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="282,205,238,181,191,158,157,147,159,142,193,154,241,176,285,200"/>
+<area shape="rect" id="Node000005" href="$_callback_tests_8cpp.html#a4ac223c58b5ab6a6c5203661fafa1caa" title=" " alt="" coords="79,168,118,195"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="227,212,117,188,118,183,228,207"/>
+<area shape="rect" id="Node000006" href="$_callback_tests_8cpp.html#a6df8508e34beaeb28f34554ce0e20573" title=" " alt="" coords="56,219,141,245"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="227,235,142,235,142,229,227,229"/>
+<area shape="rect" id="Node000007" href="$_callback_tests_8cpp.html#a8dba989b01b464871f3232223050ec73" title=" " alt="" coords="56,269,141,296"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="228,257,142,276,141,271,227,252"/>
+<area shape="rect" id="Node000008" href="$_multi_report_tests_8cpp.html#aa9e0389fa75046b52d13286af2c3b2a7" title=" " alt="" coords="50,320,147,347"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="285,264,241,288,193,310,148,325,146,320,191,306,238,283,282,259"/>
+<area shape="poly" id="edge12_Node000030_Node000003" title=" " alt="" coords="481,353,472,348,406,301,354,256,357,252,409,297,474,343,483,348"/>
+<area shape="poly" id="edge17_Node000034_Node000003" title=" " alt="" coords="480,419,471,414,428,377,391,333,362,290,342,255,347,253,367,287,395,330,432,373,475,410,483,415"/>
+<area shape="poly" id="edge22_Node000038_Node000003" title=" " alt="" coords="480,58,475,62,434,98,398,139,348,212,344,209,394,136,430,94,471,58,477,54"/>
+<area shape="poly" id="edge27_Node000042_Node000003" title=" " alt="" coords="484,124,474,129,411,171,360,212,356,208,408,167,472,124,481,119"/>
+<area shape="poly" id="edge32_Node000046_Node000003" title=" " alt="" coords="495,173,474,180,387,213,385,208,472,175,493,168"/>
+<area shape="rect" id="Node000048" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="240,1515,425,1557"/>
+<area shape="poly" id="edge34_Node000047_Node000048" title=" " alt="" coords="487,1414,474,1420,439,1442,407,1467,356,1516,352,1512,403,1463,436,1437,472,1415,484,1409"/>
+<area shape="poly" id="edge36_Node000049_Node000048" title=" " alt="" coords="493,1464,474,1470,375,1517,373,1512,472,1466,491,1459"/>
+<area shape="poly" id="edge38_Node000050_Node000048" title=" " alt="" coords="472,1512,426,1521,425,1516,471,1507"/>
+<area shape="poly" id="edge40_Node000051_Node000003" title=" " alt="" coords="481,215,423,223,422,218,480,210"/>
+<area shape="poly" id="edge45_Node000052_Node000048" title=" " alt="" coords="477,1677,471,1673,459,1660,452,1647,446,1621,440,1596,434,1583,423,1571,408,1560,411,1556,427,1567,438,1580,445,1594,451,1620,457,1645,464,1657,475,1669,480,1673"/>
+<area shape="rect" id="Node000053" href="$class_b_n_o08x.html#a1b91f234d81c45f1f5ca2f27c9f0f6a3" title="Get the reported rotation about y axis." alt="" coords="267,1581,398,1608"/>
+<area shape="poly" id="edge42_Node000052_Node000053" title=" " alt="" coords="482,1679,471,1673,456,1660,447,1647,438,1634,424,1622,397,1610,399,1605,426,1618,442,1631,451,1644,460,1656,475,1668,484,1674"/>
+<area shape="rect" id="Node000055" href="$class_b_n_o08x.html#a89618eba08186ee8e679e7313907ddef" title="Get the reported rotation about x axis." alt="" coords="272,1632,393,1659"/>
+<area shape="poly" id="edge43_Node000052_Node000055" title=" " alt="" coords="481,1681,393,1661,394,1656,482,1676"/>
+<area shape="rect" id="Node000057" href="$class_b_n_o08x.html#a64d3e41750c6de9413d6982511f78f17" title="Get the reported rotation about z axis." alt="" coords="269,1683,396,1709"/>
+<area shape="poly" id="edge44_Node000052_Node000057" title=" " alt="" coords="475,1699,396,1699,396,1693,475,1693"/>
+<area shape="poly" id="edge50_Node000059_Node000048" title=" " alt="" coords="473,1544,425,1542,425,1537,473,1538"/>
+<area shape="poly" id="edge47_Node000059_Node000053" title=" " alt="" coords="482,1564,396,1583,395,1578,481,1559"/>
+<area shape="poly" id="edge48_Node000059_Node000055" title=" " alt="" coords="484,1566,475,1572,460,1584,451,1596,442,1609,426,1622,394,1636,392,1631,424,1618,438,1606,447,1593,456,1580,471,1567,482,1561"/>
+<area shape="poly" id="edge49_Node000059_Node000057" title=" " alt="" coords="480,1567,475,1571,464,1583,457,1595,452,1621,446,1647,439,1660,427,1673,397,1689,394,1684,423,1669,434,1657,441,1645,447,1620,452,1593,459,1580,471,1567,477,1563"/>
+<area shape="poly" id="edge55_Node000060_Node000048" title=" " alt="" coords="490,1580,417,1561,418,1555,491,1574"/>
+<area shape="poly" id="edge52_Node000060_Node000053" title=" " alt="" coords="472,1597,399,1597,399,1592,472,1592"/>
+<area shape="poly" id="edge53_Node000060_Node000055" title=" " alt="" coords="482,1615,394,1635,393,1629,481,1609"/>
+<area shape="poly" id="edge54_Node000060_Node000057" title=" " alt="" coords="484,1617,475,1622,460,1634,451,1647,442,1660,426,1673,397,1686,395,1681,424,1668,438,1656,447,1644,456,1631,471,1618,482,1612"/>
+<area shape="poly" id="edge61_Node000062_Node000048" title=" " alt="" coords="482,1628,472,1622,456,1609,447,1597,438,1584,423,1572,403,1560,405,1556,427,1567,442,1580,451,1593,460,1606,474,1618,484,1623"/>
+<area shape="poly" id="edge58_Node000062_Node000053" title=" " alt="" coords="481,1631,395,1611,396,1606,482,1625"/>
+<area shape="poly" id="edge59_Node000062_Node000055" title=" " alt="" coords="466,1648,393,1648,393,1643,466,1643"/>
+<area shape="poly" id="edge60_Node000062_Node000057" title=" " alt="" coords="482,1665,396,1685,395,1679,481,1660"/>
+<area shape="poly" id="edge68_Node000068_Node000003" title=" " alt="" coords="458,251,422,246,423,241,458,246"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="BNO08x::~BNO08x" name="BNO08x::~BNO08x">
+<area shape="rect" id="Node000001" title="BNO08x imu deconstructor." alt="" coords="5,123,141,149"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a4f007dd431f10e741414d197bb4926c3" title="Deinitializes GPIO, called from deconstructor." alt="" coords="198,47,338,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,120,188,83,206,76,208,81,190,88,105,124"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a9d96108b0f5b1e1e1ac431bc993ca758" title="Deinitializes host interrupt ISR, called from deconstructor." alt="" coords="189,97,347,124"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="141,125,173,120,173,126,141,130"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a233920ce97f685fbdabecccacf471d85" title="Deinitializes SPI." alt="" coords="201,148,335,175"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="141,142,186,148,185,153,141,147"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a5adc21b484ff98c42622e2ad9871d5a0" title="Deletes spi_task and data_proc_task safely on deconstructor call." alt="" coords="191,199,345,225"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="105,148,190,184,208,191,206,196,188,189,103,152"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a1f0f4cd8dc7d38448e2198ea47d0018c" title="Deinitializes GPIO inputs, called from deconstructor." alt="" coords="395,5,535,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="338,46,380,38,380,44,339,51"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#ab132a061bd437fd109225446aa1f6010" title="Deinitializes GPIO outputs, called from deconstructor." alt="" coords="395,72,535,115"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="339,69,380,76,380,82,338,74"/>
+</map>

@@ -70,7 +70,7 @@ class BNO08x
         void enable_tap_detector(uint32_t time_between_reports);
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
-        void enable_activity_classifier(uint32_t time_between_reports, ActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_activity_classifier(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
         void enable_raw_mems_gyro(uint32_t time_between_reports);
         void enable_raw_mems_accelerometer(uint32_t time_between_reports);
         void enable_raw_mems_magnetometer(uint32_t time_between_reports);
@@ -180,8 +180,8 @@ class BNO08x
 
         uint8_t get_tap_detector();
         uint16_t get_step_count();
-        Stability get_stability_classifier();
-        Activity get_activity_classifier();
+        BNO08xStability get_stability_classifier();
+        BNO08xActivity get_activity_classifier();
 
         // Metadata functions
         int16_t get_Q1(uint16_t record_ID);
@@ -406,8 +406,8 @@ class BNO08x
                 magf_accuracy;                   ///<Calibrated magnetic field reading in uTesla (See SH-2 Ref. Manual 6.5.16)
         uint8_t tap_detector;                    ///<Tap detector reading (See SH-2 Ref. Manual 6.5.27)
         uint16_t step_count;                     ///<Step counter reading (See SH-2 Ref. Manual 6.5.29)
-        uint8_t stability_classifier;            ///<Stability status reading (See SH-2 Ref. Manual 6.5.31)
-        uint8_t activity_classifier;             ///<Activity status reading (See SH-2 Ref. Manual 6.5.36)
+        uint8_t stability_classifier;            ///<BNO08xStability status reading (See SH-2 Ref. Manual 6.5.31)
+        uint8_t activity_classifier;             ///<BNO08xActivity status reading (See SH-2 Ref. Manual 6.5.36)
         uint8_t* activity_confidences = nullptr; ///<Confidence of read activities (See SH-2 Ref. Manual 6.5.36)
         uint8_t calibration_status;              ///<Calibration status of device (See SH-2 Ref. Manual 6.4.7.1 & 6.4.7.2)
         uint16_t mems_raw_accel_X, mems_raw_accel_Y,

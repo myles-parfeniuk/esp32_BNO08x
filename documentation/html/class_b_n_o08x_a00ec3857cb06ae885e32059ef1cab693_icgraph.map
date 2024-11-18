@@ -1,0 +1,90 @@
+<map id="BNO08x::disable_report" name="BNO08x::disable_report">
+<area shape="rect" id="Node000001" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="426,663,585,689"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ad5c991150895b80bee68c933059a4058" title="Sends command to disable accelerometer reports by setting report interval to 0." alt="" coords="160,265,368,292"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="501,648,494,578,476,485,460,436,438,388,411,344,376,306,360,295,363,290,380,302,415,341,443,386,465,434,481,484,500,577,506,647"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a4fdc39294922a9553d84cd96bdae4376" title="Sends command to disable activity classifier reports by setting report interval to 0." alt="" coords="181,617,347,660"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="410,664,347,654,348,649,411,659"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x.html#ab187fe50fcfbb04bec9e80eb0fccf61c" title="Sends command to disable ARVR stabilized game rotation vector reports by setting report interval to 0..." alt="" coords="178,684,350,743"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="411,693,351,703,350,697,410,688"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#aa59e3d8953c96dc1cc5958a1ac628df4" title="Sends command to disable ARVR stabilized rotation vector reports by setting report interval to 0." alt="" coords="183,767,345,825"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="474,701,430,729,379,757,347,771,344,766,377,752,427,725,471,696"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x.html#a4d6832a3c0b2b4014e28145e6ffe9c2c" title="Sends command to disable calibrated gyro reports by setting report interval to 0." alt="" coords="157,164,371,191"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="498,648,483,548,457,414,440,347,421,287,399,237,376,205,360,193,364,189,380,201,404,235,426,285,445,346,462,413,488,547,503,647"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x.html#a7665cce95e791c89161ec863f49c0392" title="Sends command to disable game rotation vector reports by setting report interval to 0." alt="" coords="185,849,343,892"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="493,704,448,772,417,808,379,840,344,857,342,852,377,835,413,805,444,769,488,701"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x.html#a5e63a9e68dbe2968b37dcb6dae04de6f" title="Sends command to disable gravity reports by setting report interval to 0." alt="" coords="182,215,346,241"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="502,647,499,569,493,518,482,463,467,406,444,351,415,300,376,255,362,245,345,237,347,233,364,240,380,251,419,297,449,349,472,404,488,462,498,517,504,568,508,647"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x.html#aac0a00bed7825d8a2c357a48c3626931" title="Sends command to disable gyro integrated rotation vector reports by setting report interval to 0." alt="" coords="188,916,340,975"/>
+<area shape="poly" id="edge21_Node000001_Node000020" title=" " alt="" coords="499,704,483,748,458,802,424,857,403,883,380,906,341,929,338,924,376,902,399,880,419,854,453,799,478,746,494,703"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x.html#afbd2b02d5abe7084ce9de49ee2c9142f" title="Sends command to disable linear accelerometer reports by setting report interval to 0." alt="" coords="185,316,343,359"/>
+<area shape="poly" id="edge23_Node000001_Node000022" title=" " alt="" coords="498,647,487,589,465,515,449,476,429,439,405,403,376,373,360,361,342,353,344,348,363,357,380,369,409,400,434,436,454,474,470,514,492,588,503,646"/>
+<area shape="rect" id="Node000025" href="$class_b_n_o08x.html#a6671b082d20dda8bf5c53cb47db0c338" title="Sends command to disable magnetometer reports by setting report interval to 0." alt="" coords="159,383,369,409"/>
+<area shape="poly" id="edge30_Node000001_Node000025" title=" " alt="" coords="496,648,483,599,459,537,424,475,402,447,376,423,357,412,360,408,380,419,406,444,429,472,464,535,488,597,501,647"/>
+<area shape="rect" id="Node000027" href="$class_b_n_o08x.html#a6cd96063eeac75af5f292bdcd31972ce" title="Sends command to disable raw accelerometer reports by setting report interval to 0." alt="" coords="187,999,341,1041"/>
+<area shape="poly" id="edge35_Node000001_Node000027" title=" " alt="" coords="504,705,493,764,471,840,455,880,434,920,410,956,380,989,362,1001,342,1010,340,1005,359,997,376,985,405,953,430,917,450,878,466,838,488,763,498,704"/>
+<area shape="rect" id="Node000028" href="$class_b_n_o08x.html#a5d3ed8a44a34553cf5239cdd4032e725" title="Sends command to disable raw gyro reports by setting report interval to 0." alt="" coords="191,1065,337,1108"/>
+<area shape="poly" id="edge36_Node000001_Node000028" title=" " alt="" coords="506,705,499,775,480,869,464,919,442,969,414,1015,380,1055,360,1069,339,1079,336,1074,358,1065,376,1051,410,1012,437,966,459,918,475,868,494,774,501,704"/>
+<area shape="rect" id="Node000029" href="$class_b_n_o08x.html#a62d634fc9bced0197103f2973f27bae2" title="Sends command to disable raw magnetometer reports by setting report interval to 0." alt="" coords="187,1132,341,1175"/>
+<area shape="poly" id="edge37_Node000001_Node000029" title=" " alt="" coords="508,705,504,787,498,840,488,898,472,958,450,1018,419,1073,380,1122,362,1135,343,1145,340,1140,360,1131,376,1118,415,1070,445,1015,467,957,483,897,493,840,499,786,502,705"/>
+<area shape="rect" id="Node000030" href="$class_b_n_o08x.html#a1ebd456d2a67a22b5ba0911a95915921" title="Sends command to disable rotation vector reports by setting report interval to 0." alt="" coords="179,433,349,476"/>
+<area shape="poly" id="edge38_Node000001_Node000030" title=" " alt="" coords="491,650,473,613,448,570,416,527,376,490,348,475,350,470,380,486,420,523,453,567,478,611,496,647"/>
+<area shape="rect" id="Node000032" href="$class_b_n_o08x.html#ab307ed3352e04c9e998ab4dd066f8932" title="Sends command to disable stability reports by setting report interval to 0." alt="" coords="178,1199,350,1241"/>
+<area shape="poly" id="edge42_Node000001_Node000032" title=" " alt="" coords="504,705,489,812,463,956,446,1029,427,1096,405,1151,380,1189,351,1208,348,1204,376,1185,400,1148,422,1094,441,1028,458,955,484,811,498,705"/>
+<area shape="rect" id="Node000034" href="$class_b_n_o08x.html#a427550a4ba25252912436b899124e157" title="Sends command to disable step counter reports by setting report interval to 0." alt="" coords="188,500,340,543"/>
+<area shape="poly" id="edge44_Node000001_Node000034" title=" " alt="" coords="482,652,437,604,408,578,377,557,339,540,341,536,379,552,411,574,441,600,486,649"/>
+<area shape="rect" id="Node000036" href="$class_b_n_o08x.html#a16f83d1e85576a51abf2c65e5de58cd2" title="Sends command to disable tap detector reports by setting report interval to 0." alt="" coords="192,1265,336,1308"/>
+<area shape="poly" id="edge47_Node000001_Node000036" title=" " alt="" coords="504,705,492,824,467,989,451,1072,431,1149,407,1212,380,1255,360,1270,338,1280,336,1275,358,1266,376,1252,402,1209,426,1147,446,1071,462,988,486,824,499,705"/>
+<area shape="rect" id="Node000037" href="$class_b_n_o08x.html#aaf28212a5f1960c62a73282976142cfc" title="Sends command to disable uncalibrated gyro reports by setting report interval to 0." alt="" coords="150,567,378,593"/>
+<area shape="poly" id="edge48_Node000001_Node000037" title=" " alt="" coords="470,656,427,631,377,608,341,596,342,591,379,603,429,626,473,652"/>
+<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#aa9e0389fa75046b52d13286af2c3b2a7" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="159,261,148,256,132,242,122,227,114,213,100,198,83,187,86,182,103,194,118,210,127,225,136,238,151,251,161,257"/>
+<area shape="rect" id="Node000004" href="$_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="153,260,148,255,135,242,128,229,121,202,116,175,110,161,100,147,85,136,89,132,104,143,115,158,121,173,126,201,133,227,140,239,151,251,157,255"/>
+<area shape="rect" id="Node000005" href="$_multi_report_tests_8cpp.html#ad96cfd7c30e8693897688ce24bb53996" title=" " alt="" coords="5,411,102,437"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="157,302,151,306,133,328,127,350,120,375,104,400,89,412,85,408,100,397,115,373,121,349,129,325,148,302,154,297"/>
+<area shape="rect" id="Node000006" href="$_multi_report_tests_8cpp.html#a1438f6b8587b635b6096dda2927fa9a1" title=" " alt="" coords="5,360,102,387"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="164,300,151,306,136,316,127,327,103,350,85,362,82,357,100,346,123,323,133,312,148,302,162,295"/>
+<area shape="rect" id="Node000007" href="$_multi_report_tests_8cpp.html#a915d6c272bf95057a8bb22abfb307882" title=" " alt="" coords="5,309,102,336"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="183,298,102,315,101,310,181,293"/>
+<area shape="rect" id="Node000009" href="$_single_report_tests_8cpp.html#a098111e0f361615318674b5b1b05ece4" title=" " alt="" coords="5,664,102,691"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="166,659,103,671,102,666,165,654"/>
+<area shape="rect" id="Node000011" href="$_single_report_tests_8cpp.html#a35b0417a053d9fbf61a91a2110c3495c" title=" " alt="" coords="5,715,102,741"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="162,723,102,727,102,722,162,718"/>
+<area shape="rect" id="Node000013" href="$_single_report_tests_8cpp.html#af9d07441bd8651bc21743664b7f99bb8" title=" " alt="" coords="5,783,102,809"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="167,799,102,799,102,793,167,793"/>
+<area shape="poly" id="edge15_Node000014_Node000005" title=" " alt="" coords="155,202,152,204,134,227,125,250,123,274,125,297,126,347,119,373,104,400,90,412,87,408,100,397,114,371,121,347,120,298,118,274,120,249,129,225,148,201,151,198"/>
+<area shape="rect" id="Node000015" href="$_single_report_tests_8cpp.html#ace1544ccc126d0b9eadd433f9cb41486" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="235,155,175,103,100,46,81,35,84,30,103,42,178,99,239,151"/>
+<area shape="rect" id="Node000017" href="$_single_report_tests_8cpp.html#a90980a9fc26b3a692ab2529c9f8e4747" title=" " alt="" coords="5,857,102,884"/>
+<area shape="poly" id="edge17_Node000016_Node000017" title=" " alt="" coords="169,873,102,873,102,868,169,868"/>
+<area shape="poly" id="edge20_Node000018_Node000005" title=" " alt="" coords="169,243,151,255,137,272,130,289,126,324,123,361,117,380,104,400,90,412,86,408,100,397,112,378,118,360,120,323,124,287,133,269,148,251,166,239"/>
+<area shape="rect" id="Node000019" href="$_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="166,216,148,205,135,192,128,178,121,151,116,124,110,110,100,97,85,85,89,81,104,93,115,108,121,122,126,150,133,176,140,188,151,201,169,212"/>
+<area shape="rect" id="Node000021" href="$_single_report_tests_8cpp.html#a713376354af2a970230882e2a487050e" title=" " alt="" coords="5,932,102,959"/>
+<area shape="poly" id="edge22_Node000020_Node000021" title=" " alt="" coords="172,948,102,948,102,943,172,943"/>
+<area shape="poly" id="edge24_Node000022_Node000003" title=" " alt="" coords="170,321,148,306,136,293,128,279,122,252,116,225,110,212,100,198,85,187,89,182,104,194,115,209,121,223,127,251,133,277,140,289,151,302,173,316"/>
+<area shape="poly" id="edge27_Node000022_Node000005" title=" " alt="" coords="171,365,151,373,127,386,103,401,82,413,79,408,100,396,124,381,149,368,169,360"/>
+<area shape="poly" id="edge28_Node000022_Node000006" title=" " alt="" coords="170,356,102,368,101,363,169,351"/>
+<area shape="poly" id="edge29_Node000022_Node000007" title=" " alt="" coords="169,333,102,329,102,323,170,328"/>
+<area shape="rect" id="Node000023" href="$_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,259,102,285"/>
+<area shape="poly" id="edge25_Node000022_Node000023" title=" " alt="" coords="172,314,149,307,94,288,96,283,150,301,174,309"/>
+<area shape="rect" id="Node000024" href="$_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" id="edge26_Node000022_Node000024" title=" " alt="" coords="169,318,148,306,132,292,123,278,114,264,100,249,83,237,86,233,103,245,118,260,127,275,136,289,151,302,172,313"/>
+<area shape="poly" id="edge32_Node000025_Node000005" title=" " alt="" coords="144,415,102,420,102,415,143,409"/>
+<area shape="poly" id="edge33_Node000025_Node000006" title=" " alt="" coords="144,386,102,381,102,376,144,380"/>
+<area shape="poly" id="edge34_Node000025_Node000007" title=" " alt="" coords="173,381,149,373,79,339,81,334,151,368,174,376"/>
+<area shape="rect" id="Node000026" href="$_single_report_tests_8cpp.html#a429f6e7897a9609ddd093d66b6f7b1ff" title=" " alt="" coords="5,461,102,488"/>
+<area shape="poly" id="edge31_Node000025_Node000026" title=" " alt="" coords="172,416,151,424,126,436,103,452,82,463,79,459,100,447,124,432,149,419,170,411"/>
+<area shape="poly" id="edge40_Node000030_Node000005" title=" " alt="" coords="163,443,102,434,102,428,164,437"/>
+<area shape="poly" id="edge41_Node000030_Node000006" title=" " alt="" coords="167,430,149,424,80,390,82,385,151,419,168,425"/>
+<area shape="rect" id="Node000031" href="$_single_report_tests_8cpp.html#ae436161f7f0085f01ce63d9373944ae8" title=" " alt="" coords="5,512,102,539"/>
+<area shape="poly" id="edge39_Node000030_Node000031" title=" " alt="" coords="171,484,151,491,89,514,87,509,149,485,170,479"/>
+<area shape="rect" id="Node000033" href="$_single_report_tests_8cpp.html#acf249e215fca056266de6e833875925e" title=" " alt="" coords="5,1207,102,1233"/>
+<area shape="poly" id="edge43_Node000032_Node000033" title=" " alt="" coords="163,1223,102,1223,102,1217,163,1217"/>
+<area shape="poly" id="edge46_Node000034_Node000005" title=" " alt="" coords="173,501,148,490,123,472,100,451,81,440,84,436,103,447,127,468,151,486,175,496"/>
+<area shape="rect" id="Node000035" href="$_single_report_tests_8cpp.html#a9f2e049a5b61721869c5f4757e313502" title=" " alt="" coords="5,563,102,589"/>
+<area shape="poly" id="edge45_Node000034_Node000035" title=" " alt="" coords="174,547,103,566,101,561,172,542"/>
+<area shape="poly" id="edge50_Node000037_Node000005" title=" " alt="" coords="154,561,148,557,135,544,128,531,121,505,116,478,110,465,100,451,85,440,89,436,104,447,114,462,121,476,126,503,133,529,140,541,151,553,157,557"/>
+<area shape="rect" id="Node000038" href="$_single_report_tests_8cpp.html#a3cce613b379b768244a176a32b37667c" title=" " alt="" coords="5,613,102,640"/>
+<area shape="poly" id="edge49_Node000037_Node000038" title=" " alt="" coords="186,600,150,608,103,619,102,613,149,603,185,595"/>
+</map>

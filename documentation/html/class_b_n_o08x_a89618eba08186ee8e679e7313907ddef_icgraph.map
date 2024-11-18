@@ -1,0 +1,5 @@
+<map id="BNO08x::get_roll" name="BNO08x::get_roll">
+<area shape="rect" id="Node000001" title="Get the reported rotation about x axis." alt="" coords="202,5,322,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a7077b9a130f1dcf0192454e387968dd6" title="Get the reported rotation about x axis." alt="" coords="5,5,154,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,21,154,21,154,16,186,16"/>
+</map>

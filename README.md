@@ -82,7 +82,7 @@ To access the menu:
 2. Scroll down to the esp_BNO08x menu and enter it, if you're using vsCode you may have to use the "j" and "k" keys instead of the arrow keys.
     ![image](README_images/esp32_BNO08x_menuconfig_1.png)
 
-3. Modify whatever settings you'd like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default SCLK frequency and host peripheral to be modified.
+3. Modify whatever settings you'd like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default host peripheral, SCLK frequency, and queue size to be modified, the Logging menu allows for the enabling and disabling of log/print statements, and the Callbacks menu allows for the default size of the call-back execution task to be modified.
     ![image](README_images/esp32_BNO08x_menuconfig_2.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -199,7 +199,7 @@ extern "C" void app_main(void)
 
 ## Unit Tests
 A basic unit testing suite is included with this library, but it is very rudimentary.  
-It can be used to verify some of the basic features of a BNO08x device.
+It can be used to verify some of the basic features of a BNO08x device and this library.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Running Tests

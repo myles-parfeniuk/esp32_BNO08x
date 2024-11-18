@@ -73,8 +73,8 @@ class BNO08xTestHelper
                 uint16_t raw_mems_gyro_z;
 
                 uint16_t step_count;
-                Stability stability_classifier;
-                Activity activity_classifier;
+                BNO08xStability stability_classifier;
+                BNO08xActivity activity_classifier;
 
         } imu_report_data_t;
 
@@ -602,8 +602,8 @@ class BNO08xTestHelper
 
             test_imu->tap_detector = TEST_VAL_UINT8;
             test_imu->step_count = TEST_VAL_UINT16;
-            test_imu->stability_classifier = static_cast<uint16_t>(Stability::UNDEFINED);
-            test_imu->activity_classifier = static_cast<uint16_t>(Activity::UNDEFINED);
+            test_imu->stability_classifier = static_cast<uint16_t>(BNO08xStability::UNDEFINED);
+            test_imu->activity_classifier = static_cast<uint16_t>(BNO08xActivity::UNDEFINED);
 
             test_imu->mems_raw_accel_X = TEST_VAL_UINT16;
             test_imu->mems_raw_accel_Y = TEST_VAL_UINT16;
@@ -643,23 +643,23 @@ class BNO08xTestHelper
         };
 
         /**
-         * @brief Converts Stability enum class object to string.
+         * @brief Converts BNO08xStability enum class object to string.
          *
-         * @param stability Stability object to convert to string.
+         * @param stability BNO08xStability object to convert to string.
          *
          * @return The resulting string conversion.
          */
-        static const char* BNO08xStability_to_str(Stability stability)
+        static const char* BNO08xStability_to_str(BNO08xStability stability)
         {
             switch (stability)
             {
-                case Stability::UNKNOWN:
+                case BNO08xStability::UNKNOWN:
                     return "UNKNOWN";
-                case Stability::ON_TABLE:
+                case BNO08xStability::ON_TABLE:
                     return "ON TABLE";
-                case Stability::STATIONARY:
+                case BNO08xStability::STATIONARY:
                     return "STATIONARY";
-                case Stability::UNDEFINED:
+                case BNO08xStability::UNDEFINED:
                     return "UNDEFINED";
                 default:
                     return "INVALID";
@@ -667,35 +667,35 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Converts Activity enum class object to string.
+         * @brief Converts BNO08xActivity enum class object to string.
          *
-         * @param activity Activity object to convert to string.
+         * @param activity BNO08xActivity object to convert to string.
          *
          * @return The resulting string conversion.
          */
-        static const char* BNO08xActivity_to_str(Activity activity)
+        static const char* BNO08xActivity_to_str(BNO08xActivity activity)
         {
             switch (activity)
             {
-                case Activity::UNKNOWN:
+                case BNO08xActivity::UNKNOWN:
                     return "UNKNOWN";
-                case Activity::IN_VEHICLE:
+                case BNO08xActivity::IN_VEHICLE:
                     return "IN VEHICLE";
-                case Activity::ON_BICYCLE:
+                case BNO08xActivity::ON_BICYCLE:
                     return "ON BICYCLE";
-                case Activity::ON_FOOT:
+                case BNO08xActivity::ON_FOOT:
                     return "ON FOOT";
-                case Activity::STILL:
+                case BNO08xActivity::STILL:
                     return "STILL";
-                case Activity::TILTING:
+                case BNO08xActivity::TILTING:
                     return "TILTING";
-                case Activity::WALKING:
+                case BNO08xActivity::WALKING:
                     return "WALKING";
-                case Activity::RUNNING:
+                case BNO08xActivity::RUNNING:
                     return "RUNNING";
-                case Activity::ON_STAIRS:
+                case BNO08xActivity::ON_STAIRS:
                     return "ON STAIRS";
-                case Activity::UNDEFINED:
+                case BNO08xActivity::UNDEFINED:
                     return "UNDEFINED";
                 default:
                     return "INVALID";

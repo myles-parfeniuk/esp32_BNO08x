@@ -1,0 +1,7 @@
+<map id="BNO08x::FRS_read_request" name="BNO08x::FRS_read_request">
+<area shape="rect" id="Node000001" title="Requests meta data from BNO08x FRS (flash record system) given the record ID. Contains Q points and o..." alt="" coords="5,31,192,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="248,5,407,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,31,232,27,233,32,192,36"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="240,56,415,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,52,224,55,224,61,192,57"/>
+</map>

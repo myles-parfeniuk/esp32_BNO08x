@@ -1,0 +1,294 @@
+\chapter{README}
+\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e}{}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e}\index{README@{README}}
+Table of Contents.
+
+\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_readme-top}%
+\Hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_readme-top}%
+ 
+
+
+\begin{DoxyEnumerate}
+\item \href{\#about}{\texttt{ About}}  
+\item \href{\#getting-started}{\texttt{ Getting Started}} 
+\begin{DoxyItemize}
+\item \href{\#wiring}{\texttt{ Wiring}} 
+\item \href{\#adding-to-project}{\texttt{ Adding to Project}} 
+\item \href{\#menuconfig}{\texttt{ Menuconfig}} 
+\item \href{\#examples}{\texttt{ Examples}} 
+\end{DoxyItemize}
+\item \href{\#unit-tests}{\texttt{ Unit Tests}} 
+\begin{DoxyItemize}
+\item \href{\#running-tests}{\texttt{ Running Tests}} 
+\item \href{\#adding-tests}{\texttt{ Adding Tests}} 
+\end{DoxyItemize}
+\item \href{\#documentation}{\texttt{ Documentation}} 
+\item \href{\#program-flowcharts}{\texttt{ Program Flowcharts}} 
+\item \href{\#acknowledgements}{\texttt{ Acknowledgements}} 
+\item \href{\#license}{\texttt{ License}} 
+\item \href{\#contact}{\texttt{ Contact}} 
+\end{DoxyEnumerate}\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md0}{}\doxysubsection{\texorpdfstring{About}{About}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md0}
+esp32\+\_\+\+BNO08x is a C++ component for esp-\/idf v5.\+x, serving as a driver for both BNO080 and BNO085 IMUs. ~\newline
+
+
+Originally based on the Spark\+Fun BNO080 Arduino Library, it has since diverged significantly in implementation while retaining all original features and more, including callback functions enabled by its multi-\/tasked approach.
+
+Currently, only SPI is supported. There are no plans to support I2C due to unpredictable behavior caused by an esp32 I2C driver silicon bug. UART support may be implemented in the future.\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md1}{}\doxysubsection{\texorpdfstring{Getting Started}{Getting Started}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md1}
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{Wiring}{Wiring}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md2}
+The default wiring is depicted below, it can be changed at driver initialization (see example section). ~\newline
+
+
+If your ESP does not have the GPIO pin numbers depicted below, you {\bfseries{must change the default GPIO settings in menuconfig}}. See the Menuconfig section.
+
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{Adding to Project}{Adding to Project}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Create a "{}components"{} directory in the root workspace directory of your esp-\/idf project if it does not exist already. ~\newline
+
+
+In workspace directory\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ components}
+
+\end{DoxyCode}
+
+\item Cd into the components directory and clone the esp32\+\_\+\+BNO08x repo.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ components}
+\DoxyCodeLine{git\ clone\ https://github.com/myles-\/parfeniuk/esp32\_BNO08x.git}
+
+\end{DoxyCode}
+
+\item Ensure you clean your esp-\/idf project before rebuilding. ~\newline
+ Within esp-\/idf enabled terminal\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ fullclean}
+
+\end{DoxyCode}
+ 
+\end{DoxyEnumerate}
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Menuconfig}{Menuconfig}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md4}
+This library provides a menuconfig menu configured in Kconfig.\+projbuild. It contains settings to control the default GPIO and a few other things. ~\newline
+
+
+To access the menu\+:
+
+
+\begin{DoxyEnumerate}
+\item Within esp-\/idf enabled terminal, execute the menuconfig command\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf.py\ menuconfig}
+
+\end{DoxyCode}
+
+\item Scroll down to the esp\+\_\+\+BNO08x menu and enter it, if you\textquotesingle{}re using vs\+Code you may have to use the "{}j"{} and "{}k"{} keys instead of the arrow keys. 
+\item Modify whatever settings you\textquotesingle{}d like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default host peripheral, SCLK frequency, and queue size to be modified, the Logging menu allows for the enabling and disabling of log/print statements, and the Callbacks menu allows for the default size of the call-\/back execution task to be modified.  
+\end{DoxyEnumerate}
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{Examples}{Examples}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md5}
+There are two ways data returned from the \doxylink{class_b_n_o08x}{BNO08x} can be accessed with this library\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Polling Method with}} {\ttfamily data\+\_\+available()} {\bfseries{Function}}\+:
+\begin{DoxyItemize}
+\item Use the {\ttfamily data\+\_\+available()} function to poll for new data, similar to the Spark\+Fun library.
+\item Behavior\+: It is a blocking function that returns {\ttfamily true} when new data is received or {\ttfamily false} if a timeout occurs.
+\item See the {\bfseries{Polling Example}} below.
+\end{DoxyItemize}
+\item {\bfseries{Callback Registration with}} {\ttfamily \doxylink{_callback_tests_8cpp_a6df8508e34beaeb28f34554ce0e20573}{register\+\_\+cb()}} {\bfseries{Function}}\+:
+\begin{DoxyItemize}
+\item Register callback functions that automatically execute upon receiving new data.
+\item Behavior\+: The registered callback will be invoked whenever new data is available.
+\item See the {\bfseries{Call-\/\+Back Function Example}} below.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md6}{}\doxyparagraph{\texorpdfstring{Polling Example}{Polling Example}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.hpp}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \textcolor{keywordtype}{void}\ app\_main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}};\ \textcolor{comment}{//create\ IMU\ object\ with\ default\ wiring\ scheme}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ z\ =\ 0;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//if\ a\ custom\ wiring\ scheme\ is\ desired\ instead\ of\ default:}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ bno08x\_config\_t\ imu\_config;\ \ \ \ \ //create\ config\ struct}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_mosi\ =\ GPIO\_NUM\_X;\ //assign\ pin}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_miso\ =\ GPIO\_NUM\_X;\ //assign\ pin}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ //etc...}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ BNO08x\ imu(imu\_config);\ //pass\ config\ to\ BNO08x\ constructor}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_aea8e2c6dd7a2c9899479a7f39fe94798}{initialize}}();\ \ \textcolor{comment}{//initialize\ IMU}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//enable\ gyro\ \&\ game\ rotation\ vector}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_abe04c38b5bd52d331bd8aefae1f51947}{enable\_game\_rotation\_vector}}(100000UL);\ \textcolor{comment}{//100,000us\ ==\ 100ms\ report\ interval}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.enable\_gyro(150000UL);\ \textcolor{comment}{//150,000us\ ==\ 150ms\ report\ interval\ }}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}(1)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//print\ absolute\ heading\ in\ degrees\ and\ angular\ velocity\ in\ Rad/s}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_ab56b185d6c9e972a2b28c2621387bb86}{data\_available}}())}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ x\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_X();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ y\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_Y();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ z\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_Z();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGW(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Velocity:\ x:\ \%.3f\ y:\ \%.3f\ z:\ \%.3f"{}},\ x,\ y,\ z);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ x\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_a7077b9a130f1dcf0192454e387968dd6}{get\_roll\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ y\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_af50010400cbd1445e9ddfa259384b412}{get\_pitch\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ z\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_af80f7795656e695e036d3b1557aed94c}{get\_yaw\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Euler\ Angle:\ x\ (roll):\ \%.3f\ y\ (pitch):\ \%.3f\ z\ (yaw):\ \%.3f"{}},\ x,\ y,\ z);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md7}{}\doxyparagraph{\texorpdfstring{Call-\/\+Back Function Example}{Call-\/\+Back Function Example}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md7}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.hpp}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \textcolor{keywordtype}{void}\ app\_main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}};\ \textcolor{comment}{//\ create\ IMU\ object\ with\ default\ wiring\ scheme}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ if\ a\ custom\ wiring\ scheme\ is\ desired\ instead\ of\ default:}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ bno08x\_config\_t\ imu\_config;\ \ \ \ \ //create\ config\ struct}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_mosi\ =\ GPIO\_NUM\_X;\ //assign\ pin}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ imu\_config.io\_miso\ =\ GPIO\_NUM\_X;\ //assign\ pin}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ //etc...}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ BNO08x\ imu(imu\_config);\ //pass\ config\ to\ BNO08x\ constructor}}
+\DoxyCodeLine{\textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_aea8e2c6dd7a2c9899479a7f39fe94798}{initialize}}();\ \textcolor{comment}{//\ initialize\ IMU}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ enable\ gyro\ \&\ game\ rotation\ vector}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_abe04c38b5bd52d331bd8aefae1f51947}{enable\_game\_rotation\_vector}}(100000UL);\ \textcolor{comment}{//\ 100,000us\ ==\ 100ms\ report\ interval}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.enable\_gyro(150000UL);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 150,000us\ ==\ 150ms\ report\ interval}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ register\ a\ callback\ function\ (in\ this\ case\ a\ lambda\ function,\ but\ it\ doesn't\ have\ to\ be)}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_a06bb0c70305421b5357e64f31579fdc7}{register\_cb}}(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ [\&\mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}]()}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ callback\ function\ contents,\ executed\ whenever\ new\ data\ is\ parsed}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ print\ absolute\ heading\ in\ degrees\ and\ angular\ velocity\ in\ Rad/s}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y,\ z\ =\ 0;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ x\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_X();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ y\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_Y();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ z\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.get\_gyro\_calibrated\_velocity\_Z();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGW(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Velocity:\ x:\ \%.3f\ y:\ \%.3f\ z:\ \%.3f"{}},\ x,\ y,\ z);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ x\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_a7077b9a130f1dcf0192454e387968dd6}{get\_roll\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ y\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_af50010400cbd1445e9ddfa259384b412}{get\_pitch\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ z\ =\ \mbox{\hyperlink{_callback_tests_8cpp_ac36e56130d5d806898f3545d4cdf0f70}{imu}}.\mbox{\hyperlink{class_b_n_o08x_af80f7795656e695e036d3b1557aed94c}{get\_yaw\_deg}}();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ESP\_LOGI(\textcolor{stringliteral}{"{}Main"{}},\ \textcolor{stringliteral}{"{}Euler\ Angle:\ x\ (roll):\ \%.3f\ y\ (pitch):\ \%.3f\ z\ (yaw):\ \%.3f"{}},\ x,\ y,\ z);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ vTaskDelay(300\ /\ portTICK\_PERIOD\_MS);\ \textcolor{comment}{//\ delay\ here\ is\ irrelevant,\ we\ just\ don't\ want\ to\ trip\ cpu\ watchdog}}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md8}{}\doxysubsection{\texorpdfstring{Unit Tests}{Unit Tests}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md8}
+A basic unit testing suite is included with this library, but it is very rudimentary. ~\newline
+ It can be used to verify some of the basic features of a \doxylink{class_b_n_o08x}{BNO08x} device and this library. 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{Running Tests}{Running Tests}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md9}
+
+\begin{DoxyEnumerate}
+\item Create a project and add the component as described in the getting started guide.
+\item Open the outermost CMake\+Lists.\+txt file in the project root directory, as depicted below. ~\newline
+
+
+
+\item Modify the file by adding "{}set(\+TEST\+\_\+\+COMPONENTS "{}esp32\+\_\+\+BNO08x"{} CACHE STRING "{}Components to test."{})"{} as depicted below\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ For\ more\ information\ about\ build\ system\ see}
+\DoxyCodeLine{\#\ https://docs.espressif.com/projects/esp-\/idf/en/latest/api-\/guides/build-\/system.html}
+\DoxyCodeLine{\#\ The\ following\ five\ lines\ of\ boilerplate\ have\ to\ be\ in\ your\ project's}
+\DoxyCodeLine{\#\ CMakeLists\ in\ this\ exact\ order\ for\ cmake\ to\ work\ correctly}
+\DoxyCodeLine{cmake\_minimum\_required(VERSION\ 3.16)}
+\DoxyCodeLine{add\_compile\_definitions("{}ESP32C3\_IMU\_CONFIG"{})}
+\DoxyCodeLine{set(TEST\_COMPONENTS\ "{}esp32\_BNO08x"{}\ CACHE\ STRING\ "{}Components\ to\ test."{})}
+\DoxyCodeLine{include(\$ENV\{IDF\_PATH\}/tools/cmake/project.cmake)}
+\DoxyCodeLine{project(bno08x\_update)}
+
+\end{DoxyCode}
+
+\item Include the test suite in your main file and launch into the test suite\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_test_suite_8hpp}{BNO08xTestSuite.hpp}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \textcolor{keywordtype}{void}\ app\_main(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{class_b_n_o08x_test_suite_ac12545fe311a98e9c0ae6fea77da95fd}{BNO08xTestSuite::run\_all\_tests}}();\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+\item Ensure you run {\ttfamily idf.\+py fullclean} or delete your build directory before building for the first time after modifying the CMake\+Lists.\+txt file in step 3.
+\end{DoxyEnumerate}
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{Adding Tests}{Adding Tests}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md10}
+Tests are implemented with the \href{https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/unit-tests.html}{\texttt{ unity unit testing component}}.
+
+To add a test, create a new .cpp file, or modify one of the existing ones in {\ttfamily esp32\+\_\+\+BNO08x/test/}. Follow the existing test structure as an example, use the {\ttfamily \doxylink{_callback_tests_8cpp_ac18b9cb122499f587331d82a538f23aa}{TEST\+\_\+\+CASE()}\{\}} macro. ~\newline
+
+
+Any tests added will automatically be detected at build time. 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md11}{}\doxysubsection{\texorpdfstring{Documentation}{Documentation}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md11}
+API documentation generated with doxygen can be found in the documentation directory of the master branch. ~\newline
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md12}{}\doxysubsection{\texorpdfstring{Program Flowcharts}{Program Flowcharts}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md12}
+The following charts illustrate the program flow this library implements for sending and receiving data from \doxylink{class_b_n_o08x}{BNO08x}. ~\newline
+ These are here to aid development for anyone looking to modify, fork, or contribute. ~\newline
+
+
+ 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md13}{}\doxysubsection{\texorpdfstring{Acknowledgements}{Acknowledgements}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md13}
+Special thanks to the original creators of the sparkfun BNO080 library. Developing this without a reference would have been much more time consuming. ~\newline
+ \href{https://github.com/sparkfun/SparkFun_BNO080_Arduino_Library}{\texttt{ https\+://github.\+com/sparkfun/\+Spark\+Fun\+\_\+\+BNO080\+\_\+\+Arduino\+\_\+\+Library}} ~\newline
+
+
+Special thanks to Anton Babiy, aka hw\+Birdy007 for helping with debugging SPI. ~\newline
+ \href{https://github.com/hwBirdy007}{\texttt{ https\+://github.\+com/hw\+Birdy007}} ~\newline
+
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md14}{}\doxysubsection{\texorpdfstring{License}{License}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md14}
+Distributed under the MIT License. See {\ttfamily LICENSE.\+md} for more information. 
+
+(\href{\#readme-top}{\texttt{ back to top}})\hypertarget{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md15}{}\doxysubsection{\texorpdfstring{Contact}{Contact}}\label{md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e_autotoc_md15}
+Myles Parfeniuk -\/ \href{mailto:myles.parfenyuk@gmail.com}{\texttt{ myles.\+parfenyuk@gmail.\+com}}
+
+Project Link\+: \href{https://github.com/myles-parfeniuk/esp32_BNO08x.git}{\texttt{ https\+://github.\+com/myles-\/parfeniuk/esp32\+\_\+\+BNO08x.\+git}} 
+
+(\href{\#readme-top}{\texttt{ back to top}})

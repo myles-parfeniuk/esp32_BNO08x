@@ -1,0 +1,738 @@
+\doxysection{BNO08x\+\_\+macros.\+hpp File Reference}
+\hypertarget{_b_n_o08x__macros_8hpp}{}\label{_b_n_o08x__macros_8hpp}\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$freertos/\+Free\+RTOS.\+h$>$}\newline
+{\ttfamily \#include $<$freertos/event\+\_\+groups.\+h$>$}\newline
+Include dependency graph for BNO08x\+\_\+macros.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_b_n_o08x__macros_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=189pt]{_b_n_o08x__macros_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a59dd17f0673fdd60f6a65bba104a6f80}{CHECK\+\_\+\+TASKS\+\_\+\+RUNNING}}(evt\+\_\+grp\+\_\+task\+\_\+flow,  running\+\_\+bit)~((x\+Event\+Group\+Get\+Bits(evt\+\_\+grp\+\_\+task\+\_\+flow) \& (running\+\_\+bit)) != 0)
+\begin{DoxyCompactList}\small\item\em Clears the most significant byte of a 16-\/bit value. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(val\+\_\+16bit)~((val\+\_\+16bit) \& 0x00\+FFU)
+\begin{DoxyCompactList}\small\item\em Clears the most significant byte of a 16-\/bit value. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(val\+\_\+16bit)~((val\+\_\+16bit) \& 0x\+FF00U)
+\begin{DoxyCompactList}\small\item\em Clears the least significant byte of a 16-\/bit value. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a7de5c0b84ba545981105e1216925d8e9}{UINT32\+\_\+\+CLR\+\_\+\+BYTE}}(val\+\_\+32bit,  byte2clear)~((val\+\_\+32bit) \& \texorpdfstring{$\sim$}{\string~}(0x\+FFUL $<$$<$ (byte2clear \texorpdfstring{$\ast$}{*} 8UL)))
+\begin{DoxyCompactList}\small\item\em Clears a specified byte in a 32-\/bit value. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(val\+\_\+32bit,  byte2mask)~((val\+\_\+32bit) \& (0x\+FFUL $<$$<$ (byte2mask \texorpdfstring{$\ast$}{*} 8UL)))
+\begin{DoxyCompactList}\small\item\em Masks a specified byte in a 32-\/bit value. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a432e15325e64ab36d5a3b30b65a71bf1}{PARSE\+\_\+\+PACKET\+\_\+\+LENGTH}}(packet\+\_\+ptr)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+ptr-\/$>$header\mbox{[}1\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+ptr-\/$>$header\mbox{[}0\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse length from SHTP packet header. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_afa3b6d75bbe499250e69043547a39208}{PARSE\+\_\+\+PACKET\+\_\+\+TIMESTAMP}}(packet\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em Parse timestamp from SHTP packet. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a4c1a6f80fc6ab0ab5d6f803bc175b3e1}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+RESET\+\_\+\+REASON}}(packet\+\_\+ptr)~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet\+\_\+ptr-\/$>$body\mbox{[}1\mbox{]}), 0\+UL)
+\begin{DoxyCompactList}\small\item\em Parse reset reason from SHTP packet containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a5e6be52a05421d50c4b3600c35868540}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+PART\+\_\+\+NO}}(packet\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em Parse sw part number from SHTP packet containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a24ff2498d4883f329d70fb2a6f10e04a}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+BUILD\+\_\+\+NO}}(packet\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em Parse sw build number from SHTP packet containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a23baa3c8a71f3b3021f135bef27a8ed9}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+PATCH}}(packet\+\_\+ptr)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}13\mbox{]}) $<$$<$ 8UL, 1UL) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}12\mbox{]}), 0\+UL))
+\begin{DoxyCompactList}\small\item\em Parse sw version patch from SHTP packet containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a37c86278c2de384fe3b9304b8d2d3370}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+PRODUCT\+\_\+\+ID}}(packet\+\_\+ptr)~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}0\mbox{]}), 0\+UL)
+\begin{DoxyCompactList}\small\item\em Parse product ID SHTP packet containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_af59b362a169fe8c11a0b679ca99383ee}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+MAJOR}}(packet\+\_\+ptr)~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}2\mbox{]}), 0\+UL)
+\begin{DoxyCompactList}\small\item\em Parse product sw version major containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad9773ac824ab751df0e331a7c16080a1}{PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+MINOR}}(packet\+\_\+ptr)~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}3\mbox{]}), 0\+UL)
+\begin{DoxyCompactList}\small\item\em Parse product sw version minor containing product ID report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a1f20ab3d051d5acb254e5a5e7b4505de}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+I}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}1\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}0\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse quat I data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_afe721365113756a8b38a5db255f9d061}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+J}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}3\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}2\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse quat J data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a3ae7fd4e8febc54026e59e1ac544db84}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+K}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}4\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse quat K data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a73d50f6a746370f614161ee6b9b08424}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+\+REAL}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}7\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}6\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse quat real data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a7aed5272074b2ee03da81b6fb7222813}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+X}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}9\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}8\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse x axis velocity data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a823d8c92faf40d07f5b0bb324f2a51bd}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+Y}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}11\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}10\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse y axis velocity data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_afcc41ef70ba1860c3178072e13ccf512}{PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+Z}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}12\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse z axis velocity data from integrated gyro rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac4cad93c425c38fd5cd90d0982897611}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+STATUS\+\_\+\+BITS}}(packet)~(packet-\/$>$body\mbox{[}5 + 2\mbox{]} \& 0x03U)
+\begin{DoxyCompactList}\small\item\em Parse status bits from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a5be1d9a953a0657a4b8df88681b211bc}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+REPORT\+\_\+\+ID}}(packet)~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5\mbox{]}))
+\begin{DoxyCompactList}\small\item\em Parse report ID from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a4664b5298e0059c173f71bb73a87d239}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+1}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 5\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 4\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse first data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a455a8649345748be2d5f35036052f78a}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+2}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 7\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 6\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse second data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a7d38fbfe154c526c822748fc812e7d52}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+3}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 9\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 8\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse third data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a3d6971a39ce4858314247bdbbb754b33}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+4}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 11\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 10\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse fourth data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_afd61b5f28723a3f20874097b1bd46e1a}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+5}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 12\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse fifth data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ae66870a6ac704d1ee582f4f7bd2ba6a7}{PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+6}}(packet)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 15\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 14\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse sixth data block from input report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a84602d112b6000375ad608904de5b0e3}{IS\+\_\+\+ROTATION\+\_\+\+VECTOR\+\_\+\+REPORT}}(packet)
+\begin{DoxyCompactList}\small\item\em Checks if packet containing input report is a rotation vector report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_aa23c7c4d9748ce5551fcc0e5734e0a40}{PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+RECORD\+\_\+\+ID}}(packet\+\_\+body)~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+body\mbox{[}13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+body\mbox{[}12\mbox{]})))
+\begin{DoxyCompactList}\small\item\em Parse FRS record ID from FRS read response report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac70cde2db98355de4f0e56c8650556fe}{PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+DATA\+\_\+1}}(packet\+\_\+body)
+\begin{DoxyCompactList}\small\item\em Parse data block 1 from FRS read response report. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a2fcd254e9531069d6982795f575cb17a}{PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+DATA\+\_\+2}}(packet\+\_\+body)
+\begin{DoxyCompactList}\small\item\em Parse data block 2 from FRS read response report. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Myles Parfeniuk 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_b_n_o08x__macros_8hpp_a59dd17f0673fdd60f6a65bba104a6f80}\label{_b_n_o08x__macros_8hpp_a59dd17f0673fdd60f6a65bba104a6f80} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!CHECK\_TASKS\_RUNNING@{CHECK\_TASKS\_RUNNING}}
+\index{CHECK\_TASKS\_RUNNING@{CHECK\_TASKS\_RUNNING}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{CHECK\_TASKS\_RUNNING}{CHECK\_TASKS\_RUNNING}}
+{\footnotesize\ttfamily \#define CHECK\+\_\+\+TASKS\+\_\+\+RUNNING(\begin{DoxyParamCaption}\item[{}]{evt\+\_\+grp\+\_\+task\+\_\+flow,  }\item[{}]{running\+\_\+bit }\end{DoxyParamCaption})~((x\+Event\+Group\+Get\+Bits(evt\+\_\+grp\+\_\+task\+\_\+flow) \& (running\+\_\+bit)) != 0)}
+
+
+
+Clears the most significant byte of a 16-\/bit value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em evt\+\_\+grp\+\_\+task\+\_\+flow} & Task flow event group handle. \\
+\hline
+{\em running\+\_\+bit} & EVT\+\_\+\+GRP\+\_\+\+TSK\+\_\+\+FLW\+\_\+\+RUNNING\+\_\+\+BIT\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value with the MSB cleared. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a84602d112b6000375ad608904de5b0e3}\label{_b_n_o08x__macros_8hpp_a84602d112b6000375ad608904de5b0e3} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!IS\_ROTATION\_VECTOR\_REPORT@{IS\_ROTATION\_VECTOR\_REPORT}}
+\index{IS\_ROTATION\_VECTOR\_REPORT@{IS\_ROTATION\_VECTOR\_REPORT}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{IS\_ROTATION\_VECTOR\_REPORT}{IS\_ROTATION\_VECTOR\_REPORT}}
+{\footnotesize\ttfamily \#define IS\+\_\+\+ROTATION\+\_\+\+VECTOR\+\_\+\+REPORT(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ ((packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ROTATION\_VECTOR\ ||\ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_GAME\_ROTATION\_VECTOR\ ||\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ARVR\_STABILIZED\_ROTATION\_VECTOR\ ||\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (packet)-\/>body[5]\ ==\ SENSOR\_REPORT\_ID\_ARVR\_STABILIZED\_GAME\_ROTATION\_VECTOR)}
+
+\end{DoxyCode}
+
+
+Checks if packet containing input report is a rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if contained input report is rotation vector report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ac70cde2db98355de4f0e56c8650556fe}\label{_b_n_o08x__macros_8hpp_ac70cde2db98355de4f0e56c8650556fe} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1}}
+\index{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1}{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_1}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+DATA\+\_\+1(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+body }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[7])\ <<\ 24UL,\ 3UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[6])\ <<\ 16UL,\ 2UL)\ |\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[5])\ <<\ 8UL,\ 1UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[4]),\ 0UL))}
+
+\end{DoxyCode}
+
+
+Parse data block 1 from FRS read response report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+FRS read response data block 1. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a2fcd254e9531069d6982795f575cb17a}\label{_b_n_o08x__macros_8hpp_a2fcd254e9531069d6982795f575cb17a} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2}}
+\index{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2}{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_DATA\_2}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+DATA\+\_\+2(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+body }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[11])\ <<\ 24UL,\ 3UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[10])\ <<\ 16UL,\ 2UL)\ |\ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[9])\ <<\ 8UL,\ 1UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_body[8]),\ 0UL))}
+
+\end{DoxyCode}
+
+
+Parse data block 2 from FRS read response report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+FRS read response data block 2. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_aa23c7c4d9748ce5551fcc0e5734e0a40}\label{_b_n_o08x__macros_8hpp_aa23c7c4d9748ce5551fcc0e5734e0a40} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID}}
+\index{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID@{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID}{PARSE\_FRS\_READ\_RESPONSE\_REPORT\_RECORD\_ID}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+FRS\+\_\+\+READ\+\_\+\+RESPONSE\+\_\+\+REPORT\+\_\+\+RECORD\+\_\+\+ID(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+body }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+body\mbox{[}13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+body\mbox{[}12\mbox{]})))}
+
+
+
+Parse FRS record ID from FRS read response report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+FRS record ID. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a7aed5272074b2ee03da81b6fb7222813}\label{_b_n_o08x__macros_8hpp_a7aed5272074b2ee03da81b6fb7222813} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X}{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_X}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+X(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}9\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}8\mbox{]})))}
+
+
+
+Parse x axis velocity data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+x velocity data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a823d8c92faf40d07f5b0bb324f2a51bd}\label{_b_n_o08x__macros_8hpp_a823d8c92faf40d07f5b0bb324f2a51bd} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y}{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Y}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+Y(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}11\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}10\mbox{]})))}
+
+
+
+Parse y axis velocity data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+y velocity data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_afcc41ef70ba1860c3178072e13ccf512}\label{_b_n_o08x__macros_8hpp_afcc41ef70ba1860c3178072e13ccf512} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z@{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z}{PARSE\_GYRO\_REPORT\_RAW\_GYRO\_VEL\_Z}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+VEL\+\_\+Z(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}12\mbox{]})))}
+
+
+
+Parse z axis velocity data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+z velocity data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a1f20ab3d051d5acb254e5a5e7b4505de}\label{_b_n_o08x__macros_8hpp_a1f20ab3d051d5acb254e5a5e7b4505de} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I}{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_I}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+I(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}1\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}0\mbox{]})))}
+
+
+
+Parse quat I data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Quat I data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_afe721365113756a8b38a5db255f9d061}\label{_b_n_o08x__macros_8hpp_afe721365113756a8b38a5db255f9d061} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J}{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_J}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+J(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}3\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}2\mbox{]})))}
+
+
+
+Parse quat J data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Quat J data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a3ae7fd4e8febc54026e59e1ac544db84}\label{_b_n_o08x__macros_8hpp_a3ae7fd4e8febc54026e59e1ac544db84} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K}{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_K}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+K(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}4\mbox{]})))}
+
+
+
+Parse quat K data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Quat K data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a73d50f6a746370f614161ee6b9b08424}\label{_b_n_o08x__macros_8hpp_a73d50f6a746370f614161ee6b9b08424} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL}}
+\index{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL@{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL}{PARSE\_GYRO\_REPORT\_RAW\_QUAT\_REAL}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+GYRO\+\_\+\+REPORT\+\_\+\+RAW\+\_\+\+QUAT\+\_\+\+REAL(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}7\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}6\mbox{]})))}
+
+
+
+Parse quat real data from integrated gyro rotation vector report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Quat real data. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a4664b5298e0059c173f71bb73a87d239}\label{_b_n_o08x__macros_8hpp_a4664b5298e0059c173f71bb73a87d239} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_1@{PARSE\_INPUT\_REPORT\_DATA\_1}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_1@{PARSE\_INPUT\_REPORT\_DATA\_1}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_1}{PARSE\_INPUT\_REPORT\_DATA\_1}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+1(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 5\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 4\mbox{]})))}
+
+
+
+Parse first data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+First data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a455a8649345748be2d5f35036052f78a}\label{_b_n_o08x__macros_8hpp_a455a8649345748be2d5f35036052f78a} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_2@{PARSE\_INPUT\_REPORT\_DATA\_2}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_2@{PARSE\_INPUT\_REPORT\_DATA\_2}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_2}{PARSE\_INPUT\_REPORT\_DATA\_2}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+2(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 7\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 6\mbox{]})))}
+
+
+
+Parse second data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Second data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a7d38fbfe154c526c822748fc812e7d52}\label{_b_n_o08x__macros_8hpp_a7d38fbfe154c526c822748fc812e7d52} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_3@{PARSE\_INPUT\_REPORT\_DATA\_3}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_3@{PARSE\_INPUT\_REPORT\_DATA\_3}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_3}{PARSE\_INPUT\_REPORT\_DATA\_3}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+3(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 9\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 8\mbox{]})))}
+
+
+
+Parse third data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+third data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a3d6971a39ce4858314247bdbbb754b33}\label{_b_n_o08x__macros_8hpp_a3d6971a39ce4858314247bdbbb754b33} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_4@{PARSE\_INPUT\_REPORT\_DATA\_4}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_4@{PARSE\_INPUT\_REPORT\_DATA\_4}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_4}{PARSE\_INPUT\_REPORT\_DATA\_4}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+4(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 11\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 10\mbox{]})))}
+
+
+
+Parse fourth data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+fourth data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_afd61b5f28723a3f20874097b1bd46e1a}\label{_b_n_o08x__macros_8hpp_afd61b5f28723a3f20874097b1bd46e1a} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_5@{PARSE\_INPUT\_REPORT\_DATA\_5}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_5@{PARSE\_INPUT\_REPORT\_DATA\_5}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_5}{PARSE\_INPUT\_REPORT\_DATA\_5}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+5(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 13\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 12\mbox{]})))}
+
+
+
+Parse fifth data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+fifth data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ae66870a6ac704d1ee582f4f7bd2ba6a7}\label{_b_n_o08x__macros_8hpp_ae66870a6ac704d1ee582f4f7bd2ba6a7} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_DATA\_6@{PARSE\_INPUT\_REPORT\_DATA\_6}}
+\index{PARSE\_INPUT\_REPORT\_DATA\_6@{PARSE\_INPUT\_REPORT\_DATA\_6}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_DATA\_6}{PARSE\_INPUT\_REPORT\_DATA\_6}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+DATA\+\_\+6(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 15\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5 + 14\mbox{]})))}
+
+
+
+Parse sixth data block from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sixth data block of input report. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a5be1d9a953a0657a4b8df88681b211bc}\label{_b_n_o08x__macros_8hpp_a5be1d9a953a0657a4b8df88681b211bc} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_REPORT\_ID@{PARSE\_INPUT\_REPORT\_REPORT\_ID}}
+\index{PARSE\_INPUT\_REPORT\_REPORT\_ID@{PARSE\_INPUT\_REPORT\_REPORT\_ID}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_REPORT\_ID}{PARSE\_INPUT\_REPORT\_REPORT\_ID}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+REPORT\+\_\+\+ID(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet-\/$>$body\mbox{[}5\mbox{]}))}
+
+
+
+Parse report ID from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Report ID. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ac4cad93c425c38fd5cd90d0982897611}\label{_b_n_o08x__macros_8hpp_ac4cad93c425c38fd5cd90d0982897611} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_INPUT\_REPORT\_STATUS\_BITS@{PARSE\_INPUT\_REPORT\_STATUS\_BITS}}
+\index{PARSE\_INPUT\_REPORT\_STATUS\_BITS@{PARSE\_INPUT\_REPORT\_STATUS\_BITS}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_INPUT\_REPORT\_STATUS\_BITS}{PARSE\_INPUT\_REPORT\_STATUS\_BITS}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+INPUT\+\_\+\+REPORT\+\_\+\+STATUS\+\_\+\+BITS(\begin{DoxyParamCaption}\item[{}]{packet }\end{DoxyParamCaption})~(packet-\/$>$body\mbox{[}5 + 2\mbox{]} \& 0x03U)}
+
+
+
+Parse status bits from input report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Input report status bits. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a432e15325e64ab36d5a3b30b65a71bf1}\label{_b_n_o08x__macros_8hpp_a432e15325e64ab36d5a3b30b65a71bf1} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PACKET\_LENGTH@{PARSE\_PACKET\_LENGTH}}
+\index{PARSE\_PACKET\_LENGTH@{PARSE\_PACKET\_LENGTH}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PACKET\_LENGTH}{PARSE\_PACKET\_LENGTH}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PACKET\+\_\+\+LENGTH(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}{UINT16\+\_\+\+CLR\+\_\+\+LSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+ptr-\/$>$header\mbox{[}1\mbox{]}) $<$$<$ 8U) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}{UINT16\+\_\+\+CLR\+\_\+\+MSB}}(static\+\_\+cast$<$uint16\+\_\+t$>$(packet\+\_\+ptr-\/$>$header\mbox{[}0\mbox{]})))}
+
+
+
+Parse length from SHTP packet header. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Length of SHTP packet. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_afa3b6d75bbe499250e69043547a39208}\label{_b_n_o08x__macros_8hpp_afa3b6d75bbe499250e69043547a39208} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PACKET\_TIMESTAMP@{PARSE\_PACKET\_TIMESTAMP}}
+\index{PARSE\_PACKET\_TIMESTAMP@{PARSE\_PACKET\_TIMESTAMP}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PACKET\_TIMESTAMP}{PARSE\_PACKET\_TIMESTAMP}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PACKET\+\_\+\+TIMESTAMP(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[4])\ <<\ 24UL,\ 3UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[3])\ <<\ 16UL,\ 2UL)\ |\ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[2])\ <<\ 8UL,\ 1UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[1]),\ 0UL))}
+
+\end{DoxyCode}
+
+
+Parse timestamp from SHTP packet. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Packet timestamp. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a37c86278c2de384fe3b9304b8d2d3370}\label{_b_n_o08x__macros_8hpp_a37c86278c2de384fe3b9304b8d2d3370} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID@{PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID@{PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID}{PARSE\_PRODUCT\_ID\_REPORT\_PRODUCT\_ID}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+PRODUCT\+\_\+\+ID(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}0\mbox{]}), 0\+UL)}
+
+
+
+Parse product ID SHTP packet containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Product ID. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a4c1a6f80fc6ab0ab5d6f803bc175b3e1}\label{_b_n_o08x__macros_8hpp_a4c1a6f80fc6ab0ab5d6f803bc175b3e1} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON@{PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON@{PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON}{PARSE\_PRODUCT\_ID\_REPORT\_RESET\_REASON}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+RESET\+\_\+\+REASON(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet\+\_\+ptr-\/$>$body\mbox{[}1\mbox{]}), 0\+UL)}
+
+
+
+Parse reset reason from SHTP packet containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reset reason. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a24ff2498d4883f329d70fb2a6f10e04a}\label{_b_n_o08x__macros_8hpp_a24ff2498d4883f329d70fb2a6f10e04a} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO}{PARSE\_PRODUCT\_ID\_REPORT\_SW\_BUILD\_NO}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+BUILD\+\_\+\+NO(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[11])\ <<\ 24UL,\ 3UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[10])\ <<\ 16UL,\ 2UL)\ |\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[9])\ <<\ 8UL,\ 1UL)\ |\ \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet-\/>body[8]),\ 0UL)}
+
+\end{DoxyCode}
+
+
+Parse sw build number from SHTP packet containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sw build number. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a5e6be52a05421d50c4b3600c35868540}\label{_b_n_o08x__macros_8hpp_a5e6be52a05421d50c4b3600c35868540} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO}{PARSE\_PRODUCT\_ID\_REPORT\_SW\_PART\_NO}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+PART\+\_\+\+NO(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\_MSK\_BYTE}}(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_ptr-\/>body[7])\ <<\ 24UL,\ 3UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_ptr-\/>body[6])\ <<\ 16UL,\ 2UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_ptr-\/>body[5])\ <<\ 8UL,\ 1UL)\ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ UINT32\_MSK\_BYTE(\textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(packet\_ptr-\/>body[4]),\ 0UL))}
+
+\end{DoxyCode}
+
+
+Parse sw part number from SHTP packet containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sw part number. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_af59b362a169fe8c11a0b679ca99383ee}\label{_b_n_o08x__macros_8hpp_af59b362a169fe8c11a0b679ca99383ee} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR}{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MAJOR}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+MAJOR(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}2\mbox{]}), 0\+UL)}
+
+
+
+Parse product sw version major containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sw version major. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ad9773ac824ab751df0e331a7c16080a1}\label{_b_n_o08x__macros_8hpp_ad9773ac824ab751df0e331a7c16080a1} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR}{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_MINOR}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+MINOR(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}3\mbox{]}), 0\+UL)}
+
+
+
+Parse product sw version minor containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sw version minor. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a23baa3c8a71f3b3021f135bef27a8ed9}\label{_b_n_o08x__macros_8hpp_a23baa3c8a71f3b3021f135bef27a8ed9} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH}}
+\index{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH@{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH}{PARSE\_PRODUCT\_ID\_REPORT\_SW\_VERSION\_PATCH}}
+{\footnotesize\ttfamily \#define PARSE\+\_\+\+PRODUCT\+\_\+\+ID\+\_\+\+REPORT\+\_\+\+SW\+\_\+\+VERSION\+\_\+\+PATCH(\begin{DoxyParamCaption}\item[{}]{packet\+\_\+ptr }\end{DoxyParamCaption})~    (\mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}13\mbox{]}) $<$$<$ 8UL, 1UL) \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}{UINT32\+\_\+\+MSK\+\_\+\+BYTE}}(static\+\_\+cast$<$uint32\+\_\+t$>$(packet-\/$>$body\mbox{[}12\mbox{]}), 0\+UL))}
+
+
+
+Parse sw version patch from SHTP packet containing product ID report. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to bno08x\+\_\+rx\+\_\+packet\+\_\+t containing data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sw version patch. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b}\label{_b_n_o08x__macros_8hpp_ac89a0ae0c3d3067f02e9fa275521606b} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!UINT16\_CLR\_LSB@{UINT16\_CLR\_LSB}}
+\index{UINT16\_CLR\_LSB@{UINT16\_CLR\_LSB}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{UINT16\_CLR\_LSB}{UINT16\_CLR\_LSB}}
+{\footnotesize\ttfamily \#define UINT16\+\_\+\+CLR\+\_\+\+LSB(\begin{DoxyParamCaption}\item[{}]{val\+\_\+16bit }\end{DoxyParamCaption})~((val\+\_\+16bit) \& 0x\+FF00U)}
+
+
+
+Clears the least significant byte of a 16-\/bit value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+16bit} & The 16-\/bit value to modify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value with the MSB cleared. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40}\label{_b_n_o08x__macros_8hpp_ad98f2fa811436866ff297a8288e34f40} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!UINT16\_CLR\_MSB@{UINT16\_CLR\_MSB}}
+\index{UINT16\_CLR\_MSB@{UINT16\_CLR\_MSB}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{UINT16\_CLR\_MSB}{UINT16\_CLR\_MSB}}
+{\footnotesize\ttfamily \#define UINT16\+\_\+\+CLR\+\_\+\+MSB(\begin{DoxyParamCaption}\item[{}]{val\+\_\+16bit }\end{DoxyParamCaption})~((val\+\_\+16bit) \& 0x00\+FFU)}
+
+
+
+Clears the most significant byte of a 16-\/bit value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+16bit} & The 16-\/bit value to modify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value with the MSB cleared. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a7de5c0b84ba545981105e1216925d8e9}\label{_b_n_o08x__macros_8hpp_a7de5c0b84ba545981105e1216925d8e9} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!UINT32\_CLR\_BYTE@{UINT32\_CLR\_BYTE}}
+\index{UINT32\_CLR\_BYTE@{UINT32\_CLR\_BYTE}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{UINT32\_CLR\_BYTE}{UINT32\_CLR\_BYTE}}
+{\footnotesize\ttfamily \#define UINT32\+\_\+\+CLR\+\_\+\+BYTE(\begin{DoxyParamCaption}\item[{}]{val\+\_\+32bit,  }\item[{}]{byte2clear }\end{DoxyParamCaption})~((val\+\_\+32bit) \& \texorpdfstring{$\sim$}{\string~}(0x\+FFUL $<$$<$ (byte2clear \texorpdfstring{$\ast$}{*} 8UL)))}
+
+
+
+Clears a specified byte in a 32-\/bit value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+32bit} & The 32-\/bit value to modify. \\
+\hline
+{\em byte2clear} & The byte index to clear (0 = LSB, 3 = MSB). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value with the specified byte cleared. 
+\end{DoxyReturn}
+\Hypertarget{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8}\label{_b_n_o08x__macros_8hpp_a6f459cc2cce1722c63d22a9556f06bc8} 
+\index{BNO08x\_macros.hpp@{BNO08x\_macros.hpp}!UINT32\_MSK\_BYTE@{UINT32\_MSK\_BYTE}}
+\index{UINT32\_MSK\_BYTE@{UINT32\_MSK\_BYTE}!BNO08x\_macros.hpp@{BNO08x\_macros.hpp}}
+\doxysubsubsection{\texorpdfstring{UINT32\_MSK\_BYTE}{UINT32\_MSK\_BYTE}}
+{\footnotesize\ttfamily \#define UINT32\+\_\+\+MSK\+\_\+\+BYTE(\begin{DoxyParamCaption}\item[{}]{val\+\_\+32bit,  }\item[{}]{byte2mask }\end{DoxyParamCaption})~((val\+\_\+32bit) \& (0x\+FFUL $<$$<$ (byte2mask \texorpdfstring{$\ast$}{*} 8UL)))}
+
+
+
+Masks a specified byte in a 32-\/bit value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val\+\_\+32bit} & The 32-\/bit value to modify. \\
+\hline
+{\em byte2mask} & The byte index to mask (0 = LSB, 3 = MSB). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value with the specified byte masked. 
+\end{DoxyReturn}

@@ -1,0 +1,5 @@
+<map id="BNO08x::deinit_hint_isr" name="BNO08x::deinit_hint_isr">
+<area shape="rect" id="Node000001" title="Deinitializes host interrupt ISR, called from deconstructor." alt="" coords="189,5,347,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a687eee44d68e1bcabce04780d7eb5fb9" title="BNO08x imu deconstructor." alt="" coords="5,5,141,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,21,141,21,141,16,173,16"/>
+</map>

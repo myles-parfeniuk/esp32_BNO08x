@@ -1,0 +1,9 @@
+<map id="BNO08x::save_calibration" name="BNO08x::save_calibration">
+<area shape="rect" id="Node000001" title="Sends command to save internal calibration data (See Ref. Manual 6.4.7)." alt="" coords="5,31,176,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a5cc58139e4d5f0587b90e249ceb476f9" title="Queues a packet containing a command." alt="" coords="224,5,401,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,32,208,28,208,33,176,37"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="225,56,400,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="176,51,209,55,209,60,176,56"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="449,5,608,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="401,16,434,16,434,21,401,21"/>
+</map>

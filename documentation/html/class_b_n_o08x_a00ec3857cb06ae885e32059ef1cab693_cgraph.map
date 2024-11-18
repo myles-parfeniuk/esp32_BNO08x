@@ -1,0 +1,13 @@
+<map id="BNO08x::disable_report" name="BNO08x::disable_report">
+<area shape="rect" id="Node000001" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="5,80,165,107"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#af7f960dbd26c6f1834661ef5f5bbd4d3" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="221,5,380,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,77,214,51,215,56,132,82"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a0ec9b1a10bbf25a057273605575f0d64" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="222,72,379,115"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,91,206,91,206,96,165,96"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="213,139,388,165"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="137,105,235,132,233,137,136,110"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="444,13,603,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="381,24,428,24,428,29,381,29"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="436,72,610,115"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="379,91,421,91,421,96,379,96"/>
+</map>

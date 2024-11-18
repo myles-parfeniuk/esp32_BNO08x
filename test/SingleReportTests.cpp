@@ -1216,7 +1216,7 @@ TEST_CASE("Enable/Disable Activity Classifier", "[SingleReportEnableDisable]")
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Report enabled testing phase started.");
     /*enable respective report to test and ensure it reports new data */
-    imu->enable_activity_classifier(5 * REPORT_PERIOD, ActivityEnable::ALL, activity_confidence_vals);
+    imu->enable_activity_classifier(5 * REPORT_PERIOD, BNO08xActivityEnable::ALL, activity_confidence_vals);
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {

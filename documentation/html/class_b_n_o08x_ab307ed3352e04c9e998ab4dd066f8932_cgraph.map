@@ -1,0 +1,15 @@
+<map id="BNO08x::disable_stability_classifier" name="BNO08x::disable_stability_classifier">
+<area shape="rect" id="Node000001" title="Sends command to disable stability reports by setting report interval to 0." alt="" coords="5,72,177,115"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a00ec3857cb06ae885e32059ef1cab693" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="225,80,384,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,91,209,91,209,96,177,96"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#af7f960dbd26c6f1834661ef5f5bbd4d3" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="440,5,599,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,77,433,51,435,56,351,82"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a0ec9b1a10bbf25a057273605575f0d64" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="441,72,598,115"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="384,91,425,91,425,96,384,96"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or host_int_timeout_ms to elapse." alt="" coords="432,139,607,165"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="357,105,454,132,453,137,355,110"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="663,13,822,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="600,24,647,24,647,29,600,29"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="655,72,830,115"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="599,91,640,91,640,96,599,96"/>
+</map>

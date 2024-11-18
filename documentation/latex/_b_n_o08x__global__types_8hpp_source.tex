@@ -1,0 +1,114 @@
+\doxysection{BNO08x\+\_\+global\+\_\+types.\+hpp}
+\hypertarget{_b_n_o08x__global__types_8hpp_source}{}\label{_b_n_o08x__global__types_8hpp_source}\index{BNO08x\_global\_types.hpp@{BNO08x\_global\_types.hpp}}
+\mbox{\hyperlink{_b_n_o08x__global__types_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <driver/gpio.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <driver/spi\_common.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <driver/spi\_master.h>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0}{BNO08xAccuracy}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a41bc94cbd8eebea13ce0491b2ac11b88}{LOW}}\ =\ 1,}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a2ad6d5975c45da2e711c796f3a1b029c}{MED}},}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0ab89de3b4b81c4facfac906edf29aec8c}{HIGH}},}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a0db45d2a4141101bdfe48e3314cfbca3}{UNDEFINED}}}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0}{IMUAccuracy}}\ =\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0}{BNO08xAccuracy}};\ \textcolor{comment}{//\ legacy\ version\ compatibility}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147}{BNO08xResetReason}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a0db45d2a4141101bdfe48e3314cfbca3}{UNDEFINED}},\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147a7b47bb0f9f8c72f84d891e8e22a1fb92}{POR}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147acc069cf9b33eb4e7fb3696f0f42d752f}{INT\_RST}},\ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147a764caaf44e35ee682f4079bd0878fa36}{WTD}},\ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147ac4e100317ca17eda786308c1c39eded5}{EXT\_RST}},\ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147a03570470bad94692ce93e32700d2e1cb}{OTHER}}\ \ \ \ \ \ }
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ \textcolor{keyword}{using\ }\mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147}{IMUResetReason}}\ =\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147}{BNO08xResetReason}};\ \textcolor{comment}{//\ legacy\ version\ compatibility}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08xActivityEnable}}}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}}\ =\ (1U\ <<\ 0U),}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fab166a3ce74dd5434e4a940dfa2af76e4}{IN\_VEHICLE}}\ =\ (1U\ <<\ 1U),}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa93d94a2f3a627533453a40e302fb35a4}{ON\_BICYCLE}}\ =\ (1U\ <<\ 2U),}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa7089542e0146a3499986c81e24924b58}{ON\_FOOT}}\ =\ (1U\ <<\ 3U),}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa8b572d218013b9626d59e6a2b38f18b6}{STILL}}\ =\ (1U\ <<\ 4U),}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa69909b62e08f212da31719aebf67b70c}{TILTING}}\ =\ (1U\ <<\ 5U),}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa606c114184493a665cf1f6a12fbab9d3}{WALKING}}\ =\ (1U\ <<\ 6U),}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa43491564ebcfd38568918efbd6e840fd}{RUNNING}}\ =\ (1U\ <<\ 7U),}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fabbf2a614429826a84bd76b4a47fc7515}{ON\_STAIRS}}\ =\ (1U\ <<\ 8U),}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa5fb1f955b45e38e31789286a1790398d}{ALL}}\ =\ 0x1FU}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_abcc5d57e21ea6ed79e792deafcb62187}{BNO08xActivity}}}
+\DoxyCodeLine{00050\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}}\ =\ 0,\ \ \ \ \textcolor{comment}{//\ 0\ =\ unknown}}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fab166a3ce74dd5434e4a940dfa2af76e4}{IN\_VEHICLE}}\ =\ 1,\ \textcolor{comment}{//\ 1\ =\ in\ vehicle}}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa93d94a2f3a627533453a40e302fb35a4}{ON\_BICYCLE}}\ =\ 2,\ \textcolor{comment}{//\ 2\ =\ on\ bicycle}}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa7089542e0146a3499986c81e24924b58}{ON\_FOOT}}\ =\ 3,\ \ \ \ \textcolor{comment}{//\ 3\ =\ on\ foot}}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa8b572d218013b9626d59e6a2b38f18b6}{STILL}}\ =\ 4,\ \ \ \ \ \ \textcolor{comment}{//\ 4\ =\ still}}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa69909b62e08f212da31719aebf67b70c}{TILTING}}\ =\ 5,\ \ \ \ \textcolor{comment}{//\ 5\ =\ tilting}}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa606c114184493a665cf1f6a12fbab9d3}{WALKING}}\ =\ 6,\ \ \ \ \textcolor{comment}{//\ 6\ =\ walking}}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa43491564ebcfd38568918efbd6e840fd}{RUNNING}}\ =\ 7,\ \ \ \ \textcolor{comment}{//\ 7\ =\ running}}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fabbf2a614429826a84bd76b4a47fc7515}{ON\_STAIRS}}\ =\ 8,\ \ \textcolor{comment}{//\ 8\ =\ on\ stairs}}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a0db45d2a4141101bdfe48e3314cfbca3}{UNDEFINED}}\ =\ 9\ \ \ \textcolor{comment}{//\ used\ for\ unit\ tests}}
+\DoxyCodeLine{00061\ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_a498b35f9e00b24e51f8f60b029751ab5}{BNO08xStability}}}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}}\ =\ 0,\ \ \ \ \textcolor{comment}{//\ 0\ =\ unknown}}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_a498b35f9e00b24e51f8f60b029751ab5a71149a62cd9fec4756e3538d1754486a}{ON\_TABLE}}\ =\ 1,\ \ \ \textcolor{comment}{//\ 1\ =\ on\ table}}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_a498b35f9e00b24e51f8f60b029751ab5a4120eb7591bd0789af75a8973d5f9146}{STATIONARY}}\ =\ 2,\ \textcolor{comment}{//\ 2\ =\ stationary}}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aed7bab8e55be415938e078ebe72562a0a0db45d2a4141101bdfe48e3314cfbca3}{UNDEFINED}}\ =\ 3\ \ \ \textcolor{comment}{//\ used\ for\ unit\ tests}}
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}}}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ spi\_host\_device\_t\ \mbox{\hyperlink{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec}{spi\_peripheral}};\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861}{io\_mosi}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3}{io\_miso}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a639685b91ae3198909d722316495246a}{io\_sclk}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505}{io\_cs}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f}{io\_int}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a62745c761219139f66ecd173b51577fc}{io\_rst}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0}{io\_wake}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structbno08x__config__t_a231614c3b20888360def2ce9db83f52a}{sclk\_speed}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}};\ }
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__config__t_a68e051212415a62e64c23678e7b40552}{bno08x\_config\_t}}(\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}}\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec}{spi\_peripheral}}((spi\_host\_device\_t)\ CONFIG\_ESP32\_BNO08x\_SPI\_HOST)}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861}{io\_mosi}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_DI))\ \ \ \ \ \ \ \textcolor{comment}{//\ default:\ 23}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3}{io\_miso}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_SDA))\ \ \ \ \ \ \textcolor{comment}{//\ default:\ 19}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a639685b91ae3198909d722316495246a}{io\_sclk}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_SCL))\ \ \ \ \ \ \textcolor{comment}{//\ default:\ 18}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505}{io\_cs}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_CS))\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ default:\ 33}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f}{io\_int}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_HINT))\ \ \ \ \ \ \textcolor{comment}{//\ default:\ 26}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a62745c761219139f66ecd173b51577fc}{io\_rst}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_RST))\ \ \ \ \ \ \ \textcolor{comment}{//\ default:\ 32}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0}{io\_wake}}(static\_cast<gpio\_num\_t>(CONFIG\_ESP32\_BNO08X\_GPIO\_WAKE))\ \ \ \ \ \textcolor{comment}{//\ default:\ -\/1\ (unused)}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a231614c3b20888360def2ce9db83f52a}{sclk\_speed}}(static\_cast<uint32\_t>(CONFIG\_ESP32\_BNO08X\_SCL\_SPEED\_HZ))\ \textcolor{comment}{//\ default:\ 2MHz}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}}(\mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}})\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ default:\ true}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__config__t_a3a4ef8ef437403592278110a73cafe70}{bno08x\_config\_t}}(spi\_host\_device\_t\ \mbox{\hyperlink{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec}{spi\_peripheral}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861}{io\_mosi}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3}{io\_miso}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a639685b91ae3198909d722316495246a}{io\_sclk}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505}{io\_cs}},}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f}{io\_int}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a62745c761219139f66ecd173b51577fc}{io\_rst}},\ gpio\_num\_t\ \mbox{\hyperlink{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0}{io\_wake}},\ uint32\_t\ \mbox{\hyperlink{structbno08x__config__t_a231614c3b20888360def2ce9db83f52a}{sclk\_speed}},\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}}\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec}{spi\_peripheral}}(\mbox{\hyperlink{structbno08x__config__t_a020d2343750bb7debc2a108ae038c9ec}{spi\_peripheral}})}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861}{io\_mosi}}(\mbox{\hyperlink{structbno08x__config__t_a79023fd80039e41a22b7f73ccd5fc861}{io\_mosi}})}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3}{io\_miso}}(\mbox{\hyperlink{structbno08x__config__t_a9468180a773892977db39cc5ed9368e3}{io\_miso}})}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a639685b91ae3198909d722316495246a}{io\_sclk}}(\mbox{\hyperlink{structbno08x__config__t_a639685b91ae3198909d722316495246a}{io\_sclk}})}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505}{io\_cs}}(\mbox{\hyperlink{structbno08x__config__t_ab1b5351b63da0c172c942463d0dc2505}{io\_cs}})}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f}{io\_int}}(\mbox{\hyperlink{structbno08x__config__t_a3cfe965659cfbc6b0c5269bd0211975f}{io\_int}})}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a62745c761219139f66ecd173b51577fc}{io\_rst}}(\mbox{\hyperlink{structbno08x__config__t_a62745c761219139f66ecd173b51577fc}{io\_rst}})}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0}{io\_wake}}(\mbox{\hyperlink{structbno08x__config__t_a90ad7f316dc443874d19dc7e723a0ce0}{io\_wake}})}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a231614c3b20888360def2ce9db83f52a}{sclk\_speed}}(\mbox{\hyperlink{structbno08x__config__t_a231614c3b20888360def2ce9db83f52a}{sclk\_speed}})}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ ,\ \mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}}(\mbox{\hyperlink{structbno08x__config__t_a0f629aaef6756aa80fec96b34476c627}{install\_isr\_service}})}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_a648bbdbf22731476890dd8da977d7503}{bno08x\_config\_t}};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}}\ \mbox{\hyperlink{_b_n_o08x__global__types_8hpp_aae502b3d91ddf903bba797646fd28d00}{imu\_config\_t}};\ \textcolor{comment}{//\ legacy\ version\ compatibility}}
+
+\end{DoxyCode}

@@ -1,0 +1,5 @@
+<map id="BNO08x::enable_gyro_integrated_rotation_vector" name="BNO08x::enable_gyro_integrated_rotation_vector">
+<area shape="rect" id="Node000001" title="Sends command to enable gyro integrated rotation vector reports (See Ref. Manual 6...." alt="" coords="150,5,298,64"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#a713376354af2a970230882e2a487050e" title=" " alt="" coords="5,21,102,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,37,102,37,102,32,134,32"/>
+</map>

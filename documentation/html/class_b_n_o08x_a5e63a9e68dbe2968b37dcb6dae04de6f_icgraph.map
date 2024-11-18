@@ -1,0 +1,7 @@
+<map id="BNO08x::disable_gravity" name="BNO08x::disable_gravity">
+<area shape="rect" id="Node000001" title="Sends command to disable gravity reports by setting report interval to 0." alt="" coords="150,31,313,57"/>
+<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,33,102,28,102,23,134,27"/>
+<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#ad96cfd7c30e8693897688ce24bb53996" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,61,102,65,102,60,134,55"/>
+</map>
