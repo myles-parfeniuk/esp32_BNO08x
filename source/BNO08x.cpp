@@ -1056,7 +1056,7 @@ void BNO08x::enable_report(uint8_t report_ID, uint32_t time_between_reports, con
     }
 
     // flush the first few reports returned to ensure new data
-    flush_rx_packets(2);
+    flush_rx_packets(3);
 }
 
 /**
@@ -1105,6 +1105,8 @@ void BNO08x::disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_
             host_int_timeout_ms = HOST_INT_TIMEOUT_DEFAULT_MS;
             gpio_intr_disable(imu_config.io_int);
         }
+
+        flush_rx_packets(2);
     }
 }
 
