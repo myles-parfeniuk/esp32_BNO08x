@@ -15,13 +15,13 @@
 class BNO08xTestHelper
 {
     private:
-        inline static BNO08x* test_imu = nullptr;
-        inline static bno08x_config_t imu_cfg;
+        inline static BNO08x* test_imu = nullptr; ///< IMU to be used in unit tets, created and destroyed with create_test_imu() and destroy_test_imu().
+        inline static bno08x_config_t imu_cfg; ///< Config for test imu, set with set_test_imu_config(). 
 
-        static const constexpr char* TAG = "BNO08xTestHelper";
+        static const constexpr char* TAG = "BNO08xTestHelper"; ///< Class tag for debug statements. 
 
     public:
-        /// @brief IMU configuration settings passed into constructor
+        /// @brief Container for report data returned from BNO08x getter functions. 
         typedef struct imu_report_data_t
         {
                 uint32_t time_stamp;
@@ -137,7 +137,7 @@ class BNO08xTestHelper
             if (test_imu != nullptr)
                 destroy_test_imu();
 
-            test_imu = new BNO08x();
+            test_imu = new BNO08x(imu_cfg);
         }
 
         /**
@@ -155,7 +155,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Deletes test IMU calling deconstructor and releases heap allocated memory.
+         * @brief Returns pointer to test_imu that was created with create_test_imu().
          *
          * @return Pointer to BNO08x IMU object to test.
          */
@@ -230,7 +230,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -264,7 +264,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -300,7 +300,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -333,7 +333,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -357,7 +357,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -384,7 +384,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -411,7 +411,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -438,7 +438,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -465,7 +465,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -483,7 +483,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -501,7 +501,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Checks if report_data matches the default states stored within prev_report_data data for respective report.
+         * @brief Checks if report_data matches the default states stored within default_report_data data for respective report.
          *
          * @param report_data Current report data.
          * @param default_report_data Default report data to compare (should always contain default values)
@@ -547,7 +547,7 @@ class BNO08xTestHelper
         }
 
         /**
-         * @brief Resets internal test imu data with test defaults.
+         * @brief Resets internal test imu data with test defaults via accessing its private members directly.
          *
          * @return void, nothing to return.
          */
@@ -572,10 +572,10 @@ class BNO08xTestHelper
             test_imu->raw_calib_gyro_Z = TEST_VAL_UINT16;
 
             // reset quaternion to nan
-            test_imu->raw_quat_I = TEST_VAL_UINT16;
-            test_imu->raw_quat_J = TEST_VAL_UINT16;
-            test_imu->raw_quat_K = TEST_VAL_UINT16;
-            test_imu->raw_quat_real = TEST_VAL_UINT16;
+            test_imu->raw_quat_I = 0U;
+            test_imu->raw_quat_J = 0U;
+            test_imu->raw_quat_K = 0U;
+            test_imu->raw_quat_real = 0U;
             test_imu->raw_quat_radian_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
             test_imu->quat_accuracy = static_cast<uint16_t>(BNO08xAccuracy::UNDEFINED);
 
