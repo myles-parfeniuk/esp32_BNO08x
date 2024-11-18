@@ -27,7 +27,7 @@
 
 /**
  * @class BNO08x
- * 
+ *
  * @brief BNO08x IMU driver class.
  * */
 class BNO08x
@@ -70,7 +70,8 @@ class BNO08x
         void enable_tap_detector(uint32_t time_between_reports);
         void enable_step_counter(uint32_t time_between_reports);
         void enable_stability_classifier(uint32_t time_between_reports);
-        void enable_activity_classifier(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
+        void enable_activity_classifier(
+                uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9]);
         void enable_raw_mems_gyro(uint32_t time_between_reports);
         void enable_raw_mems_accelerometer(uint32_t time_between_reports);
         void enable_raw_mems_magnetometer(uint32_t time_between_reports);
@@ -236,20 +237,13 @@ class BNO08x
             CHANNEL_GYRO
         };
 
-        /// @brief Holds data that is received over spi.
-        typedef struct bno08x_rx_packet_t
+        /// @brief Holds data that is sent and received over spi.
+        typedef struct sh2_packet_t
         {
                 uint8_t header[4]; ///< Header of SHTP packet.
                 uint8_t body[300]; /// Body of SHTP packet.
                 uint16_t length;   ///< Packet length in bytes.
-        } bno08x_rx_packet_t;
-
-        /// @brief Holds data that is sent over spi.
-        typedef struct bno08x_tx_packet_t
-        {
-                uint8_t body[50]; ///< Body of SHTP the packet (header + body)
-                uint16_t length;  ///< Packet length in bytes.
-        } bno08x_tx_packet_t;
+        } sh2_packet_t;
 
         typedef struct bno08x_report_period_tracker_t
         {
@@ -300,10 +294,9 @@ class BNO08x
         bool wait_for_rx_done();
         bool wait_for_tx_done();
         bool wait_for_data();
-        esp_err_t receive_packet();
-        esp_err_t receive_packet_header(bno08x_rx_packet_t* packet);
-        esp_err_t receive_packet_body(bno08x_rx_packet_t* packet);
-        void send_packet(bno08x_tx_packet_t* packet);
+        esp_err_t transmit_packet();
+        esp_err_t transmit_packet_header(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet);
+        esp_err_t transmit_packet_body(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet);
         void flush_rx_packets(uint8_t flush_count);
         void enable_report(uint8_t report_ID, uint32_t time_between_reports, const EventBits_t report_evt_grp_bit, uint32_t special_config = 0);
         void disable_report(uint8_t report_ID, const EventBits_t report_evt_grp_bit);
@@ -315,14 +308,14 @@ class BNO08x
         void queue_request_product_id_command();
 
         // functions to parse packets received from bno08x
-        uint16_t parse_packet(bno08x_rx_packet_t* packet, bool& notify_users);
-        uint16_t parse_product_id_report(bno08x_rx_packet_t* packet);
-        uint16_t parse_frs_read_response_report(bno08x_rx_packet_t* packet);
-        uint16_t parse_feature_get_response_report(bno08x_rx_packet_t* packet);
-        uint16_t parse_input_report(bno08x_rx_packet_t* packet);
-        void parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data, uint16_t data_length);
-        uint16_t parse_gyro_integrated_rotation_vector_report(bno08x_rx_packet_t* packet);
-        uint16_t parse_command_report(bno08x_rx_packet_t* packet);
+        uint16_t parse_packet(sh2_packet_t* packet, bool& notify_users);
+        uint16_t parse_product_id_report(sh2_packet_t* packet);
+        uint16_t parse_frs_read_response_report(sh2_packet_t* packet);
+        uint16_t parse_feature_get_response_report(sh2_packet_t* packet);
+        uint16_t parse_input_report(sh2_packet_t* packet);
+        void parse_input_report_data(sh2_packet_t* packet, uint16_t* data, uint16_t data_length);
+        uint16_t parse_gyro_integrated_rotation_vector_report(sh2_packet_t* packet);
+        uint16_t parse_command_report(sh2_packet_t* packet);
 
         // functions to update data returned to user
         void update_accelerometer_data(uint16_t* data, uint8_t status);
@@ -336,15 +329,15 @@ class BNO08x
         void update_raw_accelerometer_data(uint16_t* data);
         void update_raw_gyro_data(uint16_t* data);
         void update_raw_magf_data(uint16_t* data);
-        void update_tap_detector_data(bno08x_rx_packet_t* packet);
-        void update_stability_classifier_data(bno08x_rx_packet_t* packet);
-        void update_personal_activity_classifier_data(bno08x_rx_packet_t* packet);
-        void update_command_data(bno08x_rx_packet_t* packet);
-        void update_integrated_gyro_rotation_vector_data(bno08x_rx_packet_t* packet);
+        void update_tap_detector_data(sh2_packet_t* packet);
+        void update_stability_classifier_data(sh2_packet_t* packet);
+        void update_personal_activity_classifier_data(sh2_packet_t* packet);
+        void update_command_data(sh2_packet_t* packet);
+        void update_integrated_gyro_rotation_vector_data(sh2_packet_t* packet);
 
         // for debug
-        void print_header(bno08x_rx_packet_t* packet);
-        void print_packet(bno08x_rx_packet_t* packet);
+        void print_header(sh2_packet_t* packet);
+        void print_packet(sh2_packet_t* packet);
         bool first_boot = true; ///< true only for first execution of hard_reset(), used to suppress the printing of product ID report.
 
         // spi task

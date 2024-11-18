@@ -15,8 +15,8 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , evt_grp_spi(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
     , evt_grp_task_flow(xEventGroupCreate())
-    , queue_rx_data(xQueueCreate(1, sizeof(bno08x_rx_packet_t)))
-    , queue_tx_data(xQueueCreate(1, sizeof(bno08x_tx_packet_t)))
+    , queue_rx_data(xQueueCreate(1, sizeof(sh2_packet_t)))
+    , queue_tx_data(xQueueCreate(1, sizeof(sh2_packet_t)))
     , queue_frs_read_data(xQueueCreate(1, RX_DATA_LENGTH * sizeof(uint8_t)))
     , queue_reset_reason(xQueueCreate(1, sizeof(uint32_t)))
     , imu_config(imu_config)
@@ -826,6 +826,7 @@ bool BNO08x::soft_reset()
 BNO08xResetReason BNO08x::get_reset_reason()
 {
     uint32_t reset_reason = 0;
+    bool reason_received = false;
 
     // queue request for product ID command
     queue_request_product_id_command();
@@ -841,11 +842,20 @@ BNO08xResetReason BNO08x::get_reset_reason()
     else
     {
         // receive product ID report
-        if (wait_for_data())
+        for (int i = 0; i < 3; i++)
         {
-            xQueueReceive(queue_reset_reason, &reset_reason, host_int_timeout_ms);
+            if(wait_for_data())
+                if (xQueueReceive(queue_reset_reason, &reset_reason, 10UL / portTICK_PERIOD_MS))
+                {
+                    reason_received = true;
+                    break;
+                }
         }
-        else
+
+        if (xEventGroupGetBits(evt_grp_report_en) == 0)
+            gpio_intr_disable(imu_config.io_int); // disable interrupts
+
+        if (!reason_received)
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
@@ -899,13 +909,13 @@ bool BNO08x::mode_sleep()
 }
 
 /**
- * @brief Receives a SHTP packet via SPI and sends it to data_proc_task()
+ * @brief Receives/sends a SHTP packet via SPI. Sends any received packets to data_proc_task().
  *
  * @return void, nothing to return
  */
-esp_err_t BNO08x::receive_packet()
+esp_err_t BNO08x::transmit_packet()
 {
-    bno08x_rx_packet_t packet;
+    static sh2_packet_t rx_packet, tx_packet;
     esp_err_t ret = ESP_OK;
 
     if (gpio_get_level(imu_config.io_int)) // ensure INT pin is low
@@ -913,8 +923,13 @@ esp_err_t BNO08x::receive_packet()
 
     gpio_set_level(imu_config.io_cs, 0); // assert chip select
 
-    // receive packet header
-    ret = receive_packet_header(&packet);
+    if (xQueueReceive(queue_tx_data, &tx_packet, 0) == pdFALSE) // check for queued packet to be sent, non blocking
+    {
+        memset(&tx_packet, 0U, sizeof(sh2_packet_t)); // no queued packet to send, set everything to 0
+    }
+
+    // receive/send packet header
+    ret = transmit_packet_header(&rx_packet, &tx_packet);
     if (ret != ESP_OK)
     {
         gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
@@ -923,20 +938,24 @@ esp_err_t BNO08x::receive_packet()
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    ESP_LOGW(TAG, "packet rx length: %d", packet.length);
+    ESP_LOGW(TAG, "packet rx length: %d", rx_packet.length);
     #endif
     // clang-format on
 
-    if (packet.length == 0)
+    if (rx_packet.length == 0)
     {
         gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
         return ESP_ERR_INVALID_RESPONSE;
     }
 
-    ret = receive_packet_body(&packet);
+    ret = transmit_packet_body(&rx_packet, &tx_packet);
     if (ret == ESP_OK)
     {
-        xQueueSend(queue_rx_data, &packet, 0); // send received data to data_proc_task
+        // tx_packet non-zero length implies one was rx'd through queue
+        if (tx_packet.length != 0)
+            xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
+
+        xQueueSend(queue_rx_data, &rx_packet, 0); // send received data to data_proc_task
         xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT);
     }
 
@@ -946,21 +965,21 @@ esp_err_t BNO08x::receive_packet()
 }
 
 /**
- * @brief Receives a SHTP packet header via SPI.
+ * @brief Receives/sends a SHTP packet header via SPI.
  *
- * @param packet Pointer to bno08x_rx_packet_t to save header to.
+ * @param rx_packet Pointer to packet to receive header into.
+ * @param tx_packet Pointer to packet with header to send.
  *
  * @return ESP_OK if receive was success.
  */
-esp_err_t BNO08x::receive_packet_header(bno08x_rx_packet_t* packet)
+esp_err_t BNO08x::transmit_packet_header(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet)
 {
 
     esp_err_t ret = ESP_OK;
-    uint8_t dummy_header_tx[4] = {0};
 
-    // setup transaction to receive first 4 bytes (packet header)
-    spi_transaction.rx_buffer = packet->header;
-    spi_transaction.tx_buffer = dummy_header_tx;
+    // setup transaction to send/receive first 4 bytes (packet header)
+    spi_transaction.rx_buffer = rx_packet->header;
+    spi_transaction.tx_buffer = tx_packet->header;
     spi_transaction.length = 4 * 8;
     spi_transaction.rxlength = 4 * 8;
     spi_transaction.flags = 0;
@@ -970,31 +989,34 @@ esp_err_t BNO08x::receive_packet_header(bno08x_rx_packet_t* packet)
     if (ret == ESP_OK)
     {
         // calculate length of packet from received header
-        packet->length = PARSE_PACKET_LENGTH(packet);
-        packet->length &= ~(1U << 15U); // clear the MSbit
+        rx_packet->length = PARSE_PACKET_LENGTH(rx_packet);
+        rx_packet->length &= ~(1U << 15U); // clear the MSbit
+        rx_packet->length -= 4;            // remove 4 header bytes from rx packet length (we already read those)
+
+        if (tx_packet->length != 0)
+            tx_packet->length -= 4; // remove 4 header bytes from tx packet length (we already sent those)
     }
 
     return ret;
 }
 
 /**
- * @brief Receives a SHTP packet body via SPI.
+ * @brief Receives/sends a SHTP packet body via SPI.
  *
- * @param packet Pointer to bno08x_rx_packet_t to save body to.
+ * @param rx_packet Pointer to packet to save body to.
+ * @param packet_tx Pointer to packet with body to send.
  *
  * @return ESP_OK if receive was success.
  */
-esp_err_t BNO08x::receive_packet_body(bno08x_rx_packet_t* packet)
+esp_err_t BNO08x::transmit_packet_body(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet)
 {
     esp_err_t ret = ESP_OK;
-
-    packet->length -= 4; // remove 4 header bytes from packet length (we already read those)
-
+    const uint16_t transaction_length = (rx_packet->length > tx_packet->length) ? rx_packet->length : tx_packet->length;
     // setup transacton to read the data packet
-    spi_transaction.rx_buffer = packet->body;
-    spi_transaction.tx_buffer = NULL;
-    spi_transaction.length = packet->length * 8;
-    spi_transaction.rxlength = packet->length * 8;
+    spi_transaction.rx_buffer = rx_packet->body;
+    spi_transaction.tx_buffer = tx_packet->body;
+    spi_transaction.length = transaction_length * 8;
+    spi_transaction.rxlength = rx_packet->length * 8;
     spi_transaction.flags = 0;
 
     ret = spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive rest of packet
@@ -1099,46 +1121,22 @@ void BNO08x::queue_packet(uint8_t channel_number, uint8_t data_length, uint8_t* 
 {
 
     static uint8_t sequence_number[6] = {0}; // Sequence num of each com channel, 6 in total
-    bno08x_tx_packet_t packet;
+    sh2_packet_t tx_packet;
 
-    packet.length = data_length + 4; // add 4 bytes for header
+    tx_packet.length = data_length + 4; // add 4 bytes for header length
 
-    packet.body[0] = packet.length & 0xFF;              // packet length LSB
-    packet.body[1] = packet.length >> 8;                // packet length MSB
-    packet.body[2] = channel_number;                    // channel number to write to
-    packet.body[3] = sequence_number[channel_number]++; // increment and send sequence number (packet counter)
+    tx_packet.header[0] = tx_packet.length & 0xFF;           // packet length LSB
+    tx_packet.header[1] = tx_packet.length >> 8;             // packet length MSB
+    tx_packet.header[2] = channel_number;                    // channel number to write to
+    tx_packet.header[3] = sequence_number[channel_number]++; // increment and send sequence number (packet counter)
 
     // save commands to send to tx_buffer
     for (int i = 0; i < data_length; i++)
     {
-        packet.body[i + 4] = commands[i];
+        tx_packet.body[i] = commands[i];
     }
 
-    xQueueSend(queue_tx_data, &packet, 0);
-}
-
-/**
- * @brief Sends a queued SHTP packet via SPI.
- *
- * @param packet The packet queued to be sent.
- *
- * @return void, nothing to return
- */
-void BNO08x::send_packet(bno08x_tx_packet_t* packet)
-{
-    // setup transaction to send packet
-    spi_transaction.length = packet->length * 8;
-    spi_transaction.rxlength = 0;
-    spi_transaction.tx_buffer = packet->body;
-    spi_transaction.rx_buffer = NULL;
-    spi_transaction.flags = 0;
-
-    gpio_set_level(imu_config.io_cs, 0);                    // assert chip select
-    spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
-
-    gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-
-    xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
+    xQueueSend(queue_tx_data, &tx_packet, 0);
 }
 
 void BNO08x::flush_rx_packets(uint8_t flush_count)
@@ -1403,7 +1401,7 @@ bool BNO08x::run_full_calibration_routine()
             #endif
             // clang-format on
 
-            vTaskDelay(5 / portTICK_PERIOD_MS);
+            vTaskDelay(5UL / portTICK_PERIOD_MS);
 
             if ((magnetometer_accuracy >= BNO08xAccuracy::MED) && (quat_accuracy == BNO08xAccuracy::HIGH))
                 high_accuracy++;
@@ -1504,7 +1502,7 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  *
  * @return 0 if invalid packet, non-zero if otherwise.
  */
-uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
+uint16_t BNO08x::parse_packet(sh2_packet_t* packet, bool& notify_users)
 {
     notify_users = true;
 
@@ -1613,7 +1611,7 @@ uint16_t BNO08x::parse_packet(bno08x_rx_packet_t* packet, bool& notify_users)
  *
  * @return 1, always valid.
  */
-uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_product_id_report(sh2_packet_t* packet)
 {
 
     const uint32_t reset_reason = PARSE_PRODUCT_ID_REPORT_RESET_REASON(packet);
@@ -1660,27 +1658,27 @@ uint16_t BNO08x::parse_product_id_report(bno08x_rx_packet_t* packet)
  *
  * @return 1, always valid, parsing for this happens in frs_read_word()
  */
-uint16_t BNO08x::parse_frs_read_response_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_frs_read_response_report(sh2_packet_t* packet)
 {
     xQueueSend(queue_frs_read_data, &packet->body, 0);
     return 1;
 }
 
 /**
- * @brief Parses get feature request report received from BNO08x. 
- *  
+ * @brief Parses get feature request report received from BNO08x.
+ *
  * Note there is no means in this library currently to request feature reports, this is simply to handle the
  * unsolicited get feature request reports that come with report rate changes (ie when a report is disabled by setting it 0)
  * such that they aren't detected as invalid packets.
- * 
+ *
  * "6.5.5 of SH-2 Ref manual: "Note that SH-2 protocol version 1.0.1 and higher will send Get Feature Response messages
  *  unsolicited if a sensor’s rate changes (e.g. due to change in the rate of a related sensor."
- * 
+ *
  * @param packet bno8x_rx_packet_t containing the get feature request report to parse.
  *
  * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_ACCELEROMETER, 0 if invalid.
  */
-uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_feature_get_response_report(sh2_packet_t* packet)
 {
     uint16_t report_ID = 0;
 
@@ -1791,7 +1789,7 @@ uint16_t BNO08x::parse_feature_get_response_report(bno08x_rx_packet_t* packet)
  *
  * @return The report ID of the respective sensor, for ex. SENSOR_REPORT_ID_ACCELEROMETER, 0 if invalid.
  */
-uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_input_report(sh2_packet_t* packet)
 {
     uint8_t status = PARSE_INPUT_REPORT_STATUS_BITS(packet);
     uint16_t data_length = PARSE_PACKET_LENGTH(packet);
@@ -1888,7 +1886,7 @@ uint16_t BNO08x::parse_input_report(bno08x_rx_packet_t* packet)
  *
  * @return void, nothing to return
  */
-void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data, uint16_t data_length)
+void BNO08x::parse_input_report_data(sh2_packet_t* packet, uint16_t* data, uint16_t data_length)
 {
 
     data[0] = PARSE_INPUT_REPORT_DATA_1(packet);
@@ -1927,7 +1925,7 @@ void BNO08x::parse_input_report_data(bno08x_rx_packet_t* packet, uint16_t* data,
  *
  * @return Integrated rotation vector report ID (always valid)
  */
-uint16_t BNO08x::parse_gyro_integrated_rotation_vector_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_gyro_integrated_rotation_vector_report(sh2_packet_t* packet)
 {
     // the gyro-integrated input reports are sent via the special gyro channel and do not include the usual ID, sequence, and status fields
     update_integrated_gyro_rotation_vector_data(packet);
@@ -1940,7 +1938,7 @@ uint16_t BNO08x::parse_gyro_integrated_rotation_vector_report(bno08x_rx_packet_t
  *
  * @return The command report ID, 0 if invalid.
  */
-uint16_t BNO08x::parse_command_report(bno08x_rx_packet_t* packet)
+uint16_t BNO08x::parse_command_report(sh2_packet_t* packet)
 {
     uint8_t command = 0;
 
@@ -2139,11 +2137,11 @@ void BNO08x::update_raw_magf_data(uint16_t* data)
 /**
  * @brief Updates tap detector data from parsed input report.
  *
- * @param packet bno08x_rx_packet_t containing the packet with tap detector report.
+ * @param packet sh2_packet_t containing the packet with tap detector report.
  *
  * @return void, nothing to return
  */
-void BNO08x::update_tap_detector_data(bno08x_rx_packet_t* packet)
+void BNO08x::update_tap_detector_data(sh2_packet_t* packet)
 {
     tap_detector = packet->body[5 + 4]; // Byte 4 only
 }
@@ -2151,11 +2149,11 @@ void BNO08x::update_tap_detector_data(bno08x_rx_packet_t* packet)
 /**
  * @brief Updates stability classifier data from parsed input report.
  *
- * @param packet bno08x_rx_packet_t containing the packet with stability classifier report.
+ * @param packet sh2_packet_t containing the packet with stability classifier report.
  *
  * @return void, nothing to return
  */
-void BNO08x::update_stability_classifier_data(bno08x_rx_packet_t* packet)
+void BNO08x::update_stability_classifier_data(sh2_packet_t* packet)
 {
     stability_classifier = packet->body[5 + 4]; // Byte 4 only
 }
@@ -2163,11 +2161,11 @@ void BNO08x::update_stability_classifier_data(bno08x_rx_packet_t* packet)
 /**
  * @brief Updates activity classifier data from parsed input report.
  *
- * @param packet bno08x_rx_packet_t containing the packet with activity classifier report.
+ * @param packet sh2_packet_t containing the packet with activity classifier report.
  *
  * @return void, nothing to return
  */
-void BNO08x::update_personal_activity_classifier_data(bno08x_rx_packet_t* packet)
+void BNO08x::update_personal_activity_classifier_data(sh2_packet_t* packet)
 {
     activity_classifier = packet->body[5 + 5]; // Most likely state
 
@@ -2181,11 +2179,11 @@ void BNO08x::update_personal_activity_classifier_data(bno08x_rx_packet_t* packet
 /**
  * @brief Updates command data from parsed input report.
  *
- * @param packet bno08x_rx_packet_t containing the packet with command response report.
+ * @param packet sh2_packet_t containing the packet with command response report.
  *
  * @return void, nothing to return
  */
-void BNO08x::update_command_data(bno08x_rx_packet_t* packet)
+void BNO08x::update_command_data(sh2_packet_t* packet)
 {
     uint8_t command = 0;
 
@@ -2199,11 +2197,11 @@ void BNO08x::update_command_data(bno08x_rx_packet_t* packet)
 /**
  * @brief Updates integrated gyro rotation vector data from SHTP channel 5 (CHANNEL_GYRO) special report data.
  *
- * @param packet bno08x_rx_packet_t containing the packet with command response report.
+ * @param packet sh2_packet_t containing the packet with command response report.
  *
  * @return void, nothing to return
  */
-void BNO08x::update_integrated_gyro_rotation_vector_data(bno08x_rx_packet_t* packet)
+void BNO08x::update_integrated_gyro_rotation_vector_data(sh2_packet_t* packet)
 {
     raw_quat_I = PARSE_GYRO_REPORT_RAW_QUAT_I(packet);
     raw_quat_J = PARSE_GYRO_REPORT_RAW_QUAT_J(packet);
@@ -2376,7 +2374,8 @@ void BNO08x::enable_stability_classifier(uint32_t time_between_reports)
  *  @param activity_confidence_vals Returned activity level confidences.
  * @return void, nothing to return
  */
-void BNO08x::enable_activity_classifier(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
+void BNO08x::enable_activity_classifier(
+        uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, uint8_t (&activity_confidence_vals)[9])
 {
     activity_confidences = activity_confidence_vals; // Store pointer to array
     enable_report(SENSOR_REPORT_ID_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT,
@@ -3535,7 +3534,7 @@ BNO08xActivity BNO08x::get_activity_classifier()
  * @param packet The packet containing the header to be printed.
  * @return void, nothing to return
  */
-void BNO08x::print_header(bno08x_rx_packet_t* packet)
+void BNO08x::print_header(sh2_packet_t* packet)
 {
     // print most recent header
     ESP_LOGI(TAG,
@@ -3562,7 +3561,7 @@ void BNO08x::print_header(bno08x_rx_packet_t* packet)
  * @param packet The packet to be printed.
  * @return void, nothing to return
  */
-void BNO08x::print_packet(bno08x_rx_packet_t* packet)
+void BNO08x::print_packet(sh2_packet_t* packet)
 {
     uint8_t i = 0;
     uint16_t print_length = 0;
@@ -3891,8 +3890,6 @@ void BNO08x::spi_task()
     #endif
     // clang-format on
 
-    bno08x_tx_packet_t tx_packet;
-
     while (1)
     {
         /*only re-enable interrupts if there are reports enabled, if no reports are enabled
@@ -3913,10 +3910,7 @@ void BNO08x::spi_task()
             #endif
             // clang-format on
 
-            if (xQueueReceive(queue_tx_data, &tx_packet, 0)) // check for queued packet to be sent, non blocking
-                send_packet(&tx_packet);                     // send packet
-            else
-                receive_packet(); // receive packet
+            transmit_packet();
         }
         else
         {
@@ -3950,7 +3944,7 @@ void BNO08x::data_proc_task_trampoline(void* arg)
  */
 void BNO08x::data_proc_task()
 {
-    bno08x_rx_packet_t packet;
+    sh2_packet_t packet;
     bool notify_users = false;
 
     while (1) // receive packet from spi_task()
@@ -4056,10 +4050,10 @@ esp_err_t BNO08x::kill_all_tasks()
 {
     static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10;
     uint8_t kill_count = 0;
-    bno08x_rx_packet_t dummy_packet;
+    sh2_packet_t dummy_packet;
     sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_count, 0);
 
-    memset(&dummy_packet, 0, sizeof(bno08x_rx_packet_t));
+    memset(&dummy_packet, 0, sizeof(sh2_packet_t));
 
     xEventGroupClearBits(
             evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks
