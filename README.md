@@ -218,10 +218,9 @@ It can be used to verify some of the basic features of a BNO08x device and this 
     # The following five lines of boilerplate have to be in your project's
     # CMakeLists in this exact order for cmake to work correctly
     cmake_minimum_required(VERSION 3.16)
-    add_compile_definitions("ESP32C3_IMU_CONFIG")
-    set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
+    set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.") 
     include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-    project(bno08x_update)
+    project(your_project_name)
     ```
 
 4. Include the test suite in your main file and launch into the test suite:  
