@@ -124,16 +124,16 @@ extern "C" void app_main(void)
 
     //enable gyro & game rotation vector
     imu.enable_game_rotation_vector(100000UL); //100,000us == 100ms report interval
-    imu.enable_gyro(150000UL); //150,000us == 150ms report interval 
+    imu.enable_calibrated_gyro(150000UL); //150,000us == 150ms report interval 
 
     while(1)
     {
         //print absolute heading in degrees and angular velocity in Rad/s
         if(imu.data_available())
         {
-            x = imu.get_gyro_calibrated_velocity_X();
-            y = imu.get_gyro_calibrated_velocity_Y();
-            z = imu.get_gyro_calibrated_velocity_Z();
+            x = imu.get_calibrated_gyro_velocity_X();
+            y = imu.get_calibrated_gyro_velocity_Y();
+            z = imu.get_calibrated_gyro_velocity_Z();
             ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", x, y, z);
 
             x = imu.get_roll_deg();
@@ -169,7 +169,7 @@ extern "C" void app_main(void)
 
     // enable gyro & game rotation vector
     imu.enable_game_rotation_vector(100000UL); // 100,000us == 100ms report interval
-    imu.enable_gyro(150000UL);                 // 150,000us == 150ms report interval
+    imu.enable_calibrated_gyro(150000UL);                 // 150,000us == 150ms report interval
 
     // register a callback function (in this case a lambda function, but it doesn't have to be)
     imu.register_cb(
@@ -178,9 +178,9 @@ extern "C" void app_main(void)
             // callback function contents, executed whenever new data is parsed
             // print absolute heading in degrees and angular velocity in Rad/s
             float x, y, z = 0;
-            x = imu.get_gyro_calibrated_velocity_X();
-            y = imu.get_gyro_calibrated_velocity_Y();
-            z = imu.get_gyro_calibrated_velocity_Z();
+            x = imu.get_calibrated_gyro_velocity_X();
+            y = imu.get_calibrated_gyro_velocity_Y();
+            z = imu.get_calibrated_gyro_velocity_Z();
             ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", x, y, z);
 
             x = imu.get_roll_deg();
