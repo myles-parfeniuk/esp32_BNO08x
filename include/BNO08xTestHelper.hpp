@@ -9,6 +9,7 @@
 
 /**
  * @class BNO08xTestHelper
+ * 
  * @brief BNO08x unit test helper class.
  * */
 class BNO08xTestHelper

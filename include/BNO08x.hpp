@@ -27,6 +27,7 @@
 
 /**
  * @class BNO08x
+ * 
  * @brief BNO08x IMU driver class.
  * */
 class BNO08x

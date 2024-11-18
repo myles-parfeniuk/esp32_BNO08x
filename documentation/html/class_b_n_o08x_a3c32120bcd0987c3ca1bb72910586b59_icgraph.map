@@ -1,5 +1,0 @@
-<map id="BNO08x::enable_magnetometer" name="BNO08x::enable_magnetometer">
-<area shape="rect" id="Node000001" title="Sends command to enable magnetometer reports (See Ref. Manual 6.5.16)" alt="" coords="239,13,445,40"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="5,5,191,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,29,191,29,191,24,223,24"/>
-</map>

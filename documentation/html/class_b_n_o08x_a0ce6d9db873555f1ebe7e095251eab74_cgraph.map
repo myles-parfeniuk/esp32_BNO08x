@@ -1,9 +1,0 @@
-<map id="BNO08x::spi_task_trampoline" name="BNO08x::spi_task_trampoline">
-<area shape="rect" id="Node000001" title="Static function used to launch spi task." alt="" coords="5,31,200,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a2ecd4ed60f82730ae230c61687ec92bf" title="Task responsible for SPI transactions. Executed when HINT in is asserted by BNO08x." alt="" coords="248,31,375,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,41,232,41,232,47,200,47"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#ae540799865934fcff54caed0772df071" title="Receives a SHTP packet via SPI and sends it to data_proc_task()" alt="" coords="423,5,587,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,33,407,29,408,34,376,38"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2c359a44a2c8e83ecb258a340e2d0e1a" title="Sends a queued SHTP packet via SPI." alt="" coords="429,56,581,83"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="376,50,414,55,413,60,375,55"/>
-</map>

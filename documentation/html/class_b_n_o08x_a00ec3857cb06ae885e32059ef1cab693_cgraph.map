@@ -1,8 +1,0 @@
-<map id="BNO08x::disable_report" name="BNO08x::disable_report">
-<area shape="rect" id="Node000001" title="Disables a sensor report for a given ID by setting its time interval to 0." alt="" coords="5,67,165,93"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#af2951f6ea448af7cf7932fbfed9fec3c" title="Queues a packet containing a command with a request for sensor reports, reported periodically...." alt="" coords="221,29,380,72"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,67,205,61,205,66,165,72"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="213,96,388,123"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="165,88,197,93,197,98,165,93"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,29,258,19,265,10,279,5,300,3,323,5,337,11,335,16,322,10,300,8,280,10,268,15,263,21,265,28"/>
-</map>

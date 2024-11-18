@@ -1,5 +1,0 @@
-<map id="BNO08x::get_magf_Y" name="BNO08x::get_magf_Y">
-<area shape="rect" id="Node000001" title="Get Y component of magnetic field vector." alt="" coords="239,13,386,40"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="5,5,191,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,29,191,29,191,24,223,24"/>
-</map>

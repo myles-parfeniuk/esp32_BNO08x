@@ -15,6 +15,7 @@
 
 /**
  * @class BNO08xTestSuite
+ * 
  * @brief BNO08x unit test launch point class.
  * */
 class BNO08xTestSuite

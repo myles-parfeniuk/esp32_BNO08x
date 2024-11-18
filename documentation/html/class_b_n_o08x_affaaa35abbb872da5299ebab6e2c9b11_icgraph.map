@@ -1,5 +1,0 @@
-<map id="BNO08x::request_calibration_status" name="BNO08x::request_calibration_status">
-<area shape="rect" id="Node000001" title="Requests ME calibration status from BNO08x (see Ref. Manual 6.4.7.2)" alt="" coords="239,5,426,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ae6e875a27ae74ebed806ee1a4576845a" title="Runs full calibration routine." alt="" coords="5,5,191,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,29,191,29,191,24,223,24"/>
-</map>

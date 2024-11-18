@@ -1,5 +1,5 @@
 /**
- * @file BNO08xTestHelper.hpp
+ * @file BNO08x_macros.hpp
  * @author Myles Parfeniuk
  */
 #pragma once

@@ -1,9 +1,0 @@
-<map id="BNO08x::request_calibration_status" name="BNO08x::request_calibration_status">
-<area shape="rect" id="Node000001" title="Requests ME calibration status from BNO08x (see Ref. Manual 6.4.7.2)" alt="" coords="5,23,193,65"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a5cc58139e4d5f0587b90e249ceb476f9" title="Queues a packet containing a command." alt="" coords="241,5,418,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,31,225,27,225,33,193,36"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7cdeb849e728487de961cdfd4030c773" title="Waits for a queued packet to be sent or HOST_INT_TIMEOUT_MS to elapse." alt="" coords="242,56,417,83"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="193,52,227,55,226,61,193,57"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a62c570ba96512f4d0d10b2594048de1f" title="Queues an SHTP packet to be sent via SPI." alt="" coords="466,5,625,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="418,16,451,16,451,21,418,21"/>
-</map>
