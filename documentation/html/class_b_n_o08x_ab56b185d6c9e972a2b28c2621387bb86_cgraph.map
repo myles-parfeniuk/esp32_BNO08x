@@ -1,5 +1,0 @@
-<map id="BNO08x::data_available" name="BNO08x::data_available">
-<area shape="rect" id="Node000001" title="Checks if BNO08x has asserted interrupt and sent data." alt="" coords="5,5,165,32"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a4f12de628073f44b2a3fab2688cf1caf" title="Waits for a valid or invalid packet to be received or host_int_timeout_ms to elapse." alt="" coords="213,5,367,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,16,197,16,197,21,165,21"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="BNO08x::receive_packet" name="BNO08x::receive_packet">
-<area shape="rect" id="Node000001" title="Receives a SHTP packet via SPI and sends it to data_proc_task()" alt="" coords="5,35,170,61"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a9ee7e73f695af8965a9ede50136d5a8c" title="Receives a SHTP packet body via SPI." alt="" coords="218,5,417,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,35,202,31,202,36,171,40"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#acb246769719351e02bf2aff06d039475" title="Receives a SHTP packet header via SPI." alt="" coords="235,56,400,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,56,220,62,219,68,170,61"/>
-</map>

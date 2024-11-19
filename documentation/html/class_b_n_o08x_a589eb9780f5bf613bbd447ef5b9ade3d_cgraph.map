@@ -1,5 +1,0 @@
-<map id="BNO08x::init_config_args" name="BNO08x::init_config_args">
-<area shape="rect" id="Node000001" title="Initializes required esp&#45;idf SPI data structures with values from user passed bno08x_config_t struct." alt="" coords="5,13,174,40"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a453ec8a70646651d4e5b10bf0b2e4d61" title="Resets all data returned by public getter APIs to initial values of 0 and low accuracy." alt="" coords="222,5,381,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,24,206,24,206,29,174,29"/>
-</map>

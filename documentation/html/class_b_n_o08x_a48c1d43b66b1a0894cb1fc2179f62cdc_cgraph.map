@@ -1,5 +1,0 @@
-<map id="BNO08x::flush_rx_packets" name="BNO08x::flush_rx_packets">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,182,32"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or host_int_timeout_ms to elapse." alt="" coords="230,5,405,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,16,214,16,214,21,182,21"/>
-</map>

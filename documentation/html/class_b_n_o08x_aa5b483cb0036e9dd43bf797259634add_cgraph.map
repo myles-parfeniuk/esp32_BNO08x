@@ -1,5 +1,0 @@
-<map id="BNO08x::get_integrated_gyro_velocity_Z" name="BNO08x::get_integrated_gyro_velocity_Z">
-<area shape="rect" id="Node000001" title="Get z axis angular velocity from gyro&#45;integrated rotation vector. (See Ref. Manual 6...." alt="" coords="5,5,166,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a27fb24e894f794ec6228ef142b6ff8d9" title="Converts a register value to a float using its associated Q point. (See https://en...." alt="" coords="214,13,348,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,24,198,24,198,29,166,29"/>
-</map>

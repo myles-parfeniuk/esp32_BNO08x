@@ -1,7 +1,0 @@
-<map id="BNO08x::disable_calibrated_gyro" name="BNO08x::disable_calibrated_gyro">
-<area shape="rect" id="Node000001" title="Sends command to disable calibrated gyro reports by setting report interval to 0." alt="" coords="150,31,364,57"/>
-<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#ace1544ccc126d0b9eadd433f9cb41486" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,31,102,27,102,22,135,26"/>
-<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#ad96cfd7c30e8693897688ce24bb53996" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,62,102,66,102,61,134,57"/>
-</map>

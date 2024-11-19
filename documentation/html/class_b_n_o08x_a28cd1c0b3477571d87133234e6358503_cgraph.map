@@ -1,5 +1,0 @@
-<map id="BNO08x::hard_reset" name="BNO08x::hard_reset">
-<area shape="rect" id="Node000001" title="Hard resets BNO08x sensor." alt="" coords="5,5,145,32"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a2897a178bf2c53cd99df0d4570edf72e" title="Waits for data to be received over SPI, or host_int_timeout_ms to elapse." alt="" coords="193,5,368,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,16,177,16,177,21,145,21"/>
-</map>

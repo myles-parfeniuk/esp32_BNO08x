@@ -1,5 +1,0 @@
-<map id="BNO08x::update_report_period_trackers" name="BNO08x::update_report_period_trackers">
-<area shape="rect" id="Node000001" title="Updates period of respective report in report_period_trackers and recalculates host_int_timeout_ms ac..." alt="" coords="5,5,163,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a27b5317d11a5b81028b87a73b7024bfa" title="Converts report id to respective index in report_period_trackers." alt="" coords="211,5,385,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,24,195,24,195,29,163,29"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="BNO08x::parse_gyro_integrated_rotation_vector_report" name="BNO08x::parse_gyro_integrated_rotation_vector_report">
-<area shape="rect" id="Node000001" title="Parses received gyro integrated rotation vector report sent by BNO08x." alt="" coords="5,5,148,64"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ab02386f13caa446bab5921c1a71f92ab" title="Updates integrated gyro rotation vector data from SHTP channel 5 (CHANNEL_GYRO) special report data." alt="" coords="196,13,377,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,32,180,32,180,37,148,37"/>
-</map>
