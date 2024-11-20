@@ -36,5 +36,5 @@ class BNO08xSH2HAL
         static uint16_t spi_read_sh2_packet_header(uint8_t* pBuffer);
         static int spi_read_sh2_packet_body(uint8_t* pBuffer, uint16_t packet_sz);
 
-        static const constexpr char *TAG = "BNO08xSH2HAL";
+        static const constexpr char* TAG = "BNO08xSH2HAL";
 };

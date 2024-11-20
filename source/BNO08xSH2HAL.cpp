@@ -81,7 +81,7 @@ uint32_t BNO08xSH2HAL::get_time_us(sh2_Hal_t* self)
 void BNO08xSH2HAL::hal_cb(void* cookie, sh2_AsyncEvent_t* pEvent)
 {
     if (pEvent->eventId == SH2_RESET)
-        imu->reset_occurred = true;
+        xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 }
 
 void BNO08xSH2HAL::sensor_event_cb(void* cookie, sh2_SensorEvent_t* event)

@@ -13,7 +13,9 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     : data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , sh2_HAL_lock(xSemaphoreCreateMutex())
-    , evt_grp_spi(xEventGroupCreate())
+    , data_lock(xSemaphoreCreateMutex())
+    , sem_kill_tasks(NULL)
+    , evt_grp_bno08x_task(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
     , queue_rx_sensor_event(xQueueCreate(5, sizeof(sh2_SensorEvent_t)))
     , imu_config(imu_config)
@@ -47,8 +49,14 @@ BNO08x::~BNO08x()
     // deinitialize tasks if they have been initialized
     ESP_ERROR_CHECK(deinit_tasks());
 
+    // delete all semaphores
+    vSemaphoreDelete(sh2_HAL_lock);
+    vSemaphoreDelete(data_lock);
+    if (sem_kill_tasks != NULL)
+        vSemaphoreDelete(sem_kill_tasks);
+
     // delete event groups
-    vEventGroupDelete(evt_grp_spi);
+    vEventGroupDelete(evt_grp_bno08x_task);
     vEventGroupDelete(evt_grp_report_en);
 
     // delete all queues
@@ -123,6 +131,7 @@ void BNO08x::data_proc_task_trampoline(void* arg)
  */
 void BNO08x::data_proc_task()
 {
+    EventBits_t evt_grp_bno08x_task_bits = 0U;
     sh2_SensorEvent_t sensor_evt;
     sh2_SensorValue_t sensor_val;
 
@@ -130,10 +139,23 @@ void BNO08x::data_proc_task()
     {
         if (xQueueReceive(queue_rx_sensor_event, &sensor_evt, portMAX_DELAY) == pdTRUE)
         {
-            if (sh2_decodeSensorEvent(&sensor_val, &sensor_evt) != SH2_ERR)
-                handle_sensor_report(&sensor_val);
+            evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+
+            if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
+            {
+
+                if (sh2_decodeSensorEvent(&sensor_val, &sensor_evt) != SH2_ERR)
+                    handle_sensor_report(&sensor_val);
+            }
+            else
+            {
+                break; // exit loop, deconstructor requested task to commit self-deletion
+            }
         }
     }
+
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    vTaskDelete(NULL);
 }
 
 void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
@@ -144,20 +166,73 @@ void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
 
 void BNO08x::sh2_HAL_service_task()
 {
+    EventBits_t evt_grp_bno08x_task_bits = 0U;
+
     while (1)
     {
-        xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
+        xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
 
-        if (reset_occurred)
+        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+
+        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
         {
-            reset_occurred = false;
-            re_enable_reports();
-        }
+            if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
+            {
+                re_enable_reports();
+            }
 
-        xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
-        sh2_service();
-        xSemaphoreGive(sh2_HAL_lock);
+            lock_sh2_HAL();
+            sh2_service();
+            unlock_sh2_HAL();
+        }
+        else
+        {
+            break; // exit loop, deconstructor requested task to commit self-deletion
+        }
     }
+
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    vTaskDelete(NULL);
+}
+
+/**
+ * @brief Locks sh2 HAL lib to only allow the calling task to call its APIs.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::lock_sh2_HAL()
+{
+    xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
+}
+
+/**
+ * @brief Unlocks sh2 HAL lib to allow other tasks to call its APIs.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::unlock_sh2_HAL()
+{
+    xSemaphoreGive(sh2_HAL_lock);
+}
+
+/**
+ * @brief Locks bno08x_data_t data member struct to only allow the calling task to read/modify it.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::lock_user_data()
+{
+    xSemaphoreTake(data_lock, portMAX_DELAY);
+}
+
+/**
+ * @brief Unlocks bno08x_data_t data member struct to allow other tasks to read/modify it.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::unlock_user_data()
+{
+    xSemaphoreGive(data_lock);
 }
 
 void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
@@ -166,13 +241,17 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     {
         case SH2_GRAVITY:
             update_gravity_data(sensor_val);
-            ESP_LOGW(TAG, "grav: %.3lf %.3lf %.3lf", sensor_val->un.gravity.x, sensor_val->un.gravity.y, sensor_val->un.gravity.z);
+            ESP_LOGW(TAG, "grav: %.3lf %.3lf %.3lf", data.gravity.x, data.gravity.y, data.gravity.z);
             break;
 
         case SH2_LINEAR_ACCELERATION:
             update_linear_accelerometer_data(sensor_val);
-            ESP_LOGW(TAG, "accl: %.3lf %.3lf %.3lf", sensor_val->un.linearAcceleration.x, sensor_val->un.linearAcceleration.y,
-                    sensor_val->un.linearAcceleration.z);
+            ESP_LOGW(TAG, "lin_accl: %.3lf %.3lf %.3lf", data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z);
+            break;
+
+        case SH2_ACCELEROMETER:
+            update_accelerometer_data(sensor_val);
+            ESP_LOGW(TAG, "accl: %.3lf %.3lf %.3lf", data.acceleration.x, data.acceleration.y, data.acceleration.z);
             break;
 
         default:
@@ -190,9 +269,11 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
  */
 void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
 {
+    lock_user_data();
     data.gravity.x = sensor_val->un.gravity.x;
     data.gravity.y = sensor_val->un.gravity.y;
     data.gravity.z = sensor_val->un.gravity.z;
+    unlock_user_data();
 }
 
 /**
@@ -204,9 +285,27 @@ void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
  */
 void BNO08x::update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val)
 {
+    lock_user_data();
     data.linear_acceleration.x = sensor_val->un.linearAcceleration.x;
     data.linear_acceleration.y = sensor_val->un.linearAcceleration.y;
     data.linear_acceleration.z = sensor_val->un.linearAcceleration.z;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates accelerometer data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_accelerometer_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.acceleration.x = sensor_val->un.accelerometer.x;
+    data.acceleration.y = sensor_val->un.accelerometer.x;
+    data.acceleration.z = sensor_val->un.accelerometer.x;
+    unlock_user_data();
 }
 
 /**
@@ -462,7 +561,7 @@ esp_err_t BNO08x::init_tasks()
 {
     BaseType_t task_created = pdFALSE;
 
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
 
     // launch data processing task
     task_created = xTaskCreate(
@@ -480,6 +579,7 @@ esp_err_t BNO08x::init_tasks()
     }
     else
     {
+        init_status.task_init_cnt++;
         init_status.data_proc_task = true;
     }
 
@@ -498,6 +598,7 @@ esp_err_t BNO08x::init_tasks()
     }
     else
     {
+        init_status.task_init_cnt++;
         init_status.sh2_HAL_service_task = true;
     }
 
@@ -791,11 +892,35 @@ esp_err_t BNO08x::deinit_spi()
  */
 esp_err_t BNO08x::deinit_tasks()
 {
+    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 100UL;
+    uint8_t kill_count = 0;
+    sh2_SensorEvent_t empty_event;
+
+    sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_init_cnt, 0);
+
+    // signal tasks to commit self-deletion
+    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
+
     if (init_status.data_proc_task)
-        vTaskDelete(data_proc_task_hdl);
+        xQueueSend(queue_rx_sensor_event, &empty_event, 0);
 
     if (init_status.sh2_HAL_service_task)
-        vTaskDelete(sh2_HAL_service_task_hdl);
+        xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
+
+    for (uint8_t i = 0; i < init_status.task_init_cnt; i++)
+        if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
+            kill_count++;
+
+    if (kill_count != init_status.task_init_cnt)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+        #endif
+        // clang-format on
+
+        return ESP_FAIL;
+    }
 
     return ESP_OK;
 }
@@ -878,48 +1003,125 @@ bool BNO08x::enable_linear_accelerometer(uint32_t time_between_reports, sh2_Sens
     }
 }
 
+/**
+ * @brief Sends command to enable accelerometer reports. (See Ref. Manual 6.5.9)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_ACCELEROMETER, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.accelerometer = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ACCELEROMETER_BIT_EN);
+        return true;
+    }
+}
+
 void BNO08x::get_gravity(float& x, float& y, float& z)
 {
+    lock_user_data();
     x = data.gravity.x;
     y = data.gravity.y;
     z = data.gravity.z;
+    unlock_user_data();
 }
 
 float BNO08x::get_gravity_X()
 {
-    return data.gravity.x;
+    lock_user_data();
+    float z = data.gravity.z;
+    unlock_user_data();
+    return z;
 }
 
 float BNO08x::get_gravity_Y()
 {
-    return data.gravity.y;
+    lock_user_data();
+    float y = data.gravity.y;
+    unlock_user_data();
+    return y;
 }
 
 float BNO08x::get_gravity_Z()
 {
-    return data.gravity.z;
+    lock_user_data();
+    float z = data.gravity.z;
+    unlock_user_data();
+    return z;
 }
 
 void BNO08x::get_linear_accel(float& x, float& y, float& z)
 {
+    lock_user_data();
     x = data.linear_acceleration.x;
     y = data.linear_acceleration.y;
     z = data.linear_acceleration.z;
+    unlock_user_data();
 }
 
 float BNO08x::get_linear_accel_X()
 {
-    return data.linear_acceleration.x;
+    lock_user_data();
+    float x = data.linear_acceleration.x;
+    unlock_user_data();
+    return x;
 }
 
 float BNO08x::get_linear_accel_Y()
 {
-    return data.linear_acceleration.y;
+    lock_user_data();
+    float y = data.linear_acceleration.y;
+    unlock_user_data();
+    return y;
 }
 
 float BNO08x::get_linear_accel_Z()
 {
-    return data.linear_acceleration.z;
+    lock_user_data();
+    float z = data.linear_acceleration.z;
+    unlock_user_data();
+    return z;
+}
+
+void BNO08x::get_accel(float& x, float& y, float& z)
+{
+    lock_user_data();
+    x = data.acceleration.x;
+    y = data.acceleration.y;
+    z = data.acceleration.z;
+    unlock_user_data();
+}
+
+float BNO08x::get_accel_X()
+{
+    lock_user_data();
+    float x = data.acceleration.x;
+    unlock_user_data();
+    return x;
+}
+
+float BNO08x::get_accel_Y()
+{
+    lock_user_data();
+    float y = data.acceleration.y;
+    unlock_user_data();
+    return y;
+}
+
+float BNO08x::get_accel_Z()
+{
+    lock_user_data();
+    float z = data.acceleration.z;
+    unlock_user_data();
+    return z;
 }
 
 /**
@@ -932,9 +1134,9 @@ esp_err_t BNO08x::wait_for_hint()
 {
     EventBits_t spi_evt_bits;
 
-    spi_evt_bits = xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
+    spi_evt_bits = xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
 
-    if (spi_evt_bits & EVT_GRP_SPI_HINT_ASSERTED_BIT)
+    if (spi_evt_bits & EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT)
         return ESP_OK;
     else
         return ESP_ERR_TIMEOUT;
@@ -953,10 +1155,10 @@ esp_err_t BNO08x::enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_
 {
     int sh2_res = SH2_ERR;
 
-    xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
+    lock_sh2_HAL();
     sensor_cfg.reportInterval_us = time_between_reports;
     sh2_res = sh2_setSensorConfig(sensor_ID, &sensor_cfg);
-    xSemaphoreGive(sh2_HAL_lock);
+    unlock_sh2_HAL();
 
     if (sh2_res != SH2_OK)
         return ESP_FAIL;
@@ -968,12 +1170,18 @@ esp_err_t BNO08x::re_enable_reports()
 {
     EventBits_t report_en_bits = xEventGroupGetBits(evt_grp_report_en);
 
+    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
+
     if (report_en_bits & EVT_GRP_RPT_GRAVITY_BIT_EN)
         if (!enable_gravity(user_report_periods.gravity))
             return ESP_FAIL;
 
     if (report_en_bits & EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT_EN)
         if (!enable_linear_accelerometer(user_report_periods.linear_accelerometer))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_ACCELEROMETER_BIT_EN)
+        if (!enable_accelerometer(user_report_periods.accelerometer))
             return ESP_FAIL;
 
     return ESP_OK;
@@ -1028,6 +1236,6 @@ void IRAM_ATTR BNO08x::hint_handler(void* arg)
                                  // created by constructor call)
 
     // notify any tasks/function calls waiting for HINT assertion
-    xEventGroupSetBitsFromISR(imu->evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, &xHighPriorityTaskWoken);
+    xEventGroupSetBitsFromISR(imu->evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, &xHighPriorityTaskWoken);
     portYIELD_FROM_ISR(xHighPriorityTaskWoken); // perform context switch if necessary
 }

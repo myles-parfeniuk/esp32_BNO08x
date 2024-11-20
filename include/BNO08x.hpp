@@ -49,6 +49,7 @@ class BNO08x
 
         bool enable_gravity(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool enable_linear_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        bool enable_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
 
         void get_gravity(float& x, float& y, float& z);
         float get_gravity_X();
@@ -59,6 +60,11 @@ class BNO08x
         float get_linear_accel_X();
         float get_linear_accel_Y();
         float get_linear_accel_Z();
+
+        void get_accel(float& x, float& y, float& z);
+        float get_accel_X();
+        float get_accel_Y();
+        float get_accel_Z();
 
         void register_cb(std::function<void()> cb_fxn);
         void print_product_ids();
@@ -71,20 +77,23 @@ class BNO08x
                 bool gpio_inputs;          ///< True if GPIO inputs have been initialized.
                 bool isr_service;          ///< True if global ISR service has been initialized.
                 bool isr_handler;          ///< True if HINT ISR handler has been initialized.
-                bool data_proc_task;       ///< True if xTaskCreate has been called successfully for data_proc_task.
-                bool sh2_HAL_service_task; ///< True if xTaskCreate has been called successfully for sh2_HAL_service_task.
                 bool spi_bus;              ///< True if spi_bus_initialize() has been called successfully.
                 bool spi_device;           ///< True if spi_bus_add_device() has been called successfully.
                 bool sh2_HAL;              ///< True if sh2_open() has been called successfully.
+                bool data_proc_task;       ///< True if xTaskCreate has been called successfully for data_proc_task.
+                bool sh2_HAL_service_task; ///< True if xTaskCreate has been called successfully for sh2_HAL_service_task.
+                uint8_t task_init_cnt;     ///< Amount of tasks that have been successfully initialized.
 
                 bno08x_init_status_t()
                     : gpio_outputs(false)
                     , gpio_inputs(false)
                     , isr_service(false)
                     , isr_handler(false)
-                    , data_proc_task(false)
                     , spi_bus(false)
                     , spi_device(false)
+                    , data_proc_task(false)
+                    , sh2_HAL_service_task(false)
+                    , task_init_cnt(0)
                 {
                 }
         } bno08x_init_status_t;
@@ -94,12 +103,30 @@ class BNO08x
         {
                 sh2_Accelerometer_t gravity;
                 sh2_Accelerometer_t linear_acceleration;
+                sh2_Accelerometer_t acceleration;
+
+                bno08x_data_t()
+                    : gravity({0.0f, 0.0f, 0.0f})
+                    , linear_acceleration({0.0f, 0.0f, 0.0f})
+                    , acceleration({0.0f, 0.0f, 0.0f})
+
+                {
+                }
+
         } bno08x_data_t;
 
         typedef struct bno08x_usr_report_periods_t
         {
                 uint32_t gravity;
                 uint32_t linear_accelerometer;
+                uint32_t accelerometer;
+
+                bno08x_usr_report_periods_t()
+                    : gravity(0U)
+                    , linear_accelerometer(0U)
+                    , accelerometer(0U)
+                {
+                }
         } bno08x_usr_report_periods_t;
 
         bno08x_data_t data;                              ///< Holds all data returned from enabled reports.
@@ -115,11 +142,19 @@ class BNO08x
         static void sh2_HAL_service_task_trampoline(void* arg);
         void sh2_HAL_service_task();
 
-        SemaphoreHandle_t sh2_HAL_lock; 
+        SemaphoreHandle_t sh2_HAL_lock;   ///<Mutex to prevent sh2 HAL lib functions from being accessed at same time.
+        SemaphoreHandle_t data_lock;      ///<Mutex to prevent user from reading data while data_proc_task() updates it, and vice versa.
+        SemaphoreHandle_t sem_kill_tasks; ///<Counting Semaphore to count amount of killed tasks.
+
+        void lock_sh2_HAL();
+        void unlock_sh2_HAL();
+        void lock_user_data();
+        void unlock_user_data();
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
         void update_gravity_data(sh2_SensorValue_t* sensor_val);
         void update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val);
+        void update_accelerometer_data(sh2_SensorValue_t* sensor_val);
 
         esp_err_t init_config_args();
         esp_err_t init_gpio();
@@ -145,8 +180,8 @@ class BNO08x
 
         sh2_Hal_t sh2_HAL; ///< SH2 hardware abstraction layer struct for use with SH2 lib.
 
-        EventGroupHandle_t evt_grp_spi;       ///<Event group for indicating when bno08x hint pin has triggered and when new data has been processed.
-        EventGroupHandle_t evt_grp_report_en; ///<Event group for indicating which reports are currently enabled.
+        EventGroupHandle_t evt_grp_bno08x_task; ///<Event group for indicating various BNO08x related events between tasks.
+        EventGroupHandle_t evt_grp_report_en;   ///<Event group for indicating which reports are currently enabled.
 
         QueueHandle_t queue_rx_sensor_event; ///< TODO
 
@@ -162,8 +197,6 @@ class BNO08x
 
         sh2_ProductIds_t product_IDs; ///< TODO
 
-        bool reset_occurred = false;
-
         static void IRAM_ATTR hint_handler(void* arg);
 
         static const constexpr uint16_t RX_DATA_LENGTH = 300U; ///<length buffer containing data received over spi
@@ -178,12 +211,13 @@ class BNO08x
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of
 
-        // evt_grp_spi bits
-        static const constexpr EventBits_t EVT_GRP_SPI_HINT_ASSERTED_BIT =
-                (1U << 0U); ///<When this bit is set it indicates the BNO08x has asserted its host interrupt pin, thus an SPI transaction should commence.
-        static const constexpr EventBits_t EVT_GRP_SPI_RX_DONE_BIT =
-                (1U << 1U); ///<When this bit is set it indicates a receive procedure has completed.
-        static const constexpr EventBits_t EVT_GRP_SPI_TX_DONE_BIT = (1U << 2U); ///<When this bit is set, it indicates a queued packet has been sent.
+        // evt_grp_bno08x_task bits
+        static const constexpr EventBits_t EVT_GRP_BNO08x_TASKS_RUNNING =
+                (1U << 0U); ///<When this bit is set it indicates the BNO08x tasks are running, it is always set to 1 for the duration BNO08x driver object. Cleared in deconstructor for safe task deletion.
+        static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT =
+                (1U << 1U); ///<When this bit is set it indicates the BNO08x has asserted its host interrupt pin, thus an SPI transaction should commence.
+        static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_RESET_OCCURRED =
+                (1U << 2U); ///<When this bit is set it indicates the SH2 HAL lib has reset the IMU, any reports enabled by the user must be re-enabled.
 
         // evt_grp_report_en bits
         static const constexpr EventBits_t EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN = (1 << 0);      ///< When set, rotation vector reports are active.
