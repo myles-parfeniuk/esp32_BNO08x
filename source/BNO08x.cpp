@@ -10,7 +10,12 @@
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : evt_grp_spi(xEventGroupCreate())
+    : data_proc_task_hdl(NULL)
+    , sh2_HAL_service_task_hdl(NULL)
+    , sh2_HAL_lock(xSemaphoreCreateMutex())
+    , evt_grp_spi(xEventGroupCreate())
+    , evt_grp_report_en(xEventGroupCreate())
+    , queue_rx_sensor_event(xQueueCreate(5, sizeof(sh2_SensorEvent_t)))
     , imu_config(imu_config)
 {
 }
@@ -39,8 +44,15 @@ BNO08x::~BNO08x()
     // deinitialize GPIO if they have been initialized
     ESP_ERROR_CHECK(deinit_gpio());
 
+    // deinitialize tasks if they have been initialized
+    ESP_ERROR_CHECK(deinit_tasks());
+
     // delete event groups
     vEventGroupDelete(evt_grp_spi);
+    vEventGroupDelete(evt_grp_report_en);
+
+    // delete all queues
+    vQueueDelete(queue_rx_sensor_event);
 
     // clear callback list
     cb_list.clear();
@@ -77,6 +89,10 @@ bool BNO08x::initialize()
     if (init_sh2_HAL() != ESP_OK)
         return false;
 
+    // initialize tasks
+    if (init_tasks() != ESP_OK)
+        return false;
+
         // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
@@ -84,6 +100,113 @@ bool BNO08x::initialize()
     // clang-format on
 
     return true;
+}
+
+/**
+ * @brief Static function used to launch data processing task.
+ *
+ * Used such that data_proc_task() can be non-static class member.
+ *
+ * @param arg void pointer to BNO08x imu object
+ * @return void, nothing to return
+ */
+void BNO08x::data_proc_task_trampoline(void* arg)
+{
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    imu->data_proc_task();       // launch data processing task task from object
+}
+
+/**
+ * @brief Task responsible for handling sensor events sent by SH2 HAL.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::data_proc_task()
+{
+    sh2_SensorEvent_t sensor_evt;
+    sh2_SensorValue_t sensor_val;
+
+    while (1)
+    {
+        if (xQueueReceive(queue_rx_sensor_event, &sensor_evt, portMAX_DELAY) == pdTRUE)
+        {
+            if (sh2_decodeSensorEvent(&sensor_val, &sensor_evt) != SH2_ERR)
+                handle_sensor_report(&sensor_val);
+        }
+    }
+}
+
+void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
+{
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    imu->sh2_HAL_service_task(); // launch data processing task task from object
+}
+
+void BNO08x::sh2_HAL_service_task()
+{
+    while (1)
+    {
+        xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
+
+        if (reset_occurred)
+        {
+            reset_occurred = false;
+            re_enable_reports();
+        }
+
+        xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
+        sh2_service();
+        xSemaphoreGive(sh2_HAL_lock);
+    }
+}
+
+void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
+{
+    switch (sensor_val->sensorId)
+    {
+        case SH2_GRAVITY:
+            update_gravity_data(sensor_val);
+            ESP_LOGW(TAG, "grav: %.3lf %.3lf %.3lf", sensor_val->un.gravity.x, sensor_val->un.gravity.y, sensor_val->un.gravity.z);
+            break;
+
+        case SH2_LINEAR_ACCELERATION:
+            update_linear_accelerometer_data(sensor_val);
+            ESP_LOGW(TAG, "accl: %.3lf %.3lf %.3lf", sensor_val->un.linearAcceleration.x, sensor_val->un.linearAcceleration.y,
+                    sensor_val->un.linearAcceleration.z);
+            break;
+
+        default:
+
+            break;
+    }
+}
+
+/**
+ * @brief Updates gravity data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
+{
+    data.gravity.x = sensor_val->un.gravity.x;
+    data.gravity.y = sensor_val->un.gravity.y;
+    data.gravity.z = sensor_val->un.gravity.z;
+}
+
+/**
+ * @brief Updates linear accelerometer data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val)
+{
+    data.linear_acceleration.x = sensor_val->un.linearAcceleration.x;
+    data.linear_acceleration.y = sensor_val->un.linearAcceleration.y;
+    data.linear_acceleration.z = sensor_val->un.linearAcceleration.z;
 }
 
 /**
@@ -331,6 +454,57 @@ esp_err_t BNO08x::init_hint_isr()
 }
 
 /**
+ * @brief Initializes data_proc_task.
+ *
+ * @return ESP_OK if initialization was success.
+ */
+esp_err_t BNO08x::init_tasks()
+{
+    BaseType_t task_created = pdFALSE;
+
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+
+    // launch data processing task
+    task_created = xTaskCreate(
+            &data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7, &data_proc_task_hdl);
+
+    if (task_created != pdTRUE)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, data_proc_task failed to launch.");
+        #endif
+        // clang-format on
+
+        return ESP_FAIL;
+    }
+    else
+    {
+        init_status.data_proc_task = true;
+    }
+
+    // launch data processing task
+    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", 4095U, this, 7, &sh2_HAL_service_task_hdl);
+
+    if (task_created != pdTRUE)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, sh2_HAL_service_task failed to launch.");
+        #endif
+        // clang-format on
+
+        return ESP_FAIL;
+    }
+    else
+    {
+        init_status.sh2_HAL_service_task = true;
+    }
+
+    return ESP_OK;
+}
+
+/**
  * @brief Initializes SPI.
  *
  * @return ESP_OK if initialization was success.
@@ -396,14 +570,30 @@ esp_err_t BNO08x::init_sh2_HAL()
     hard_reset();
 
     if (sh2_open(&sh2_HAL, BNO08xSH2HAL::hal_cb, NULL) != SH2_OK)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, sh2_open() call failed.");
+        #endif
+        // clang-format on
+
         return ESP_FAIL;
+    }
 
     init_status.sh2_HAL = true;
 
-    memset(&product_ID, 0, sizeof(product_ID));
+    memset(&product_IDs, 0, sizeof(product_IDs));
 
-    if (sh2_getProdIds(&product_ID) != SH2_OK)
+    if (sh2_getProdIds(&product_IDs) != SH2_OK)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, sh2_getProdIds() call failed.");
+        #endif
+        // clang-format on
+
         return ESP_FAIL;
+    }
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
@@ -411,7 +601,8 @@ esp_err_t BNO08x::init_sh2_HAL()
     #endif
     // clang-format on
 
-    sh2_setSensorCallback(BNO08xSH2HAL::sensor_report_cb, NULL);
+    if (sh2_setSensorCallback(BNO08xSH2HAL::sensor_event_cb, NULL) != SH2_OK)
+        return ESP_FAIL;
 
     return ESP_OK;
 }
@@ -594,6 +785,22 @@ esp_err_t BNO08x::deinit_spi()
 }
 
 /**
+ * @brief Deinitializes tasks used by BNO08x driver.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
+esp_err_t BNO08x::deinit_tasks()
+{
+    if (init_status.data_proc_task)
+        vTaskDelete(data_proc_task_hdl);
+
+    if (init_status.sh2_HAL_service_task)
+        vTaskDelete(sh2_HAL_service_task_hdl);
+
+    return ESP_OK;
+}
+
+/**
  * @brief Deinitializes sh2 HAL.
  *
  * @return ESP_OK if deinitialization was success.
@@ -628,6 +835,95 @@ void BNO08x::hard_reset()
 }
 
 /**
+ * @brief Sends command to enable gravity reports. (See Ref. Manual 6.5.11)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_gravity(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_GRAVITY, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        ESP_LOGE(TAG, "ENABLED");
+        user_report_periods.gravity = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_GRAVITY_BIT_EN);
+        return true;
+    }
+}
+
+/**
+ * @brief Sends command to enable linear accelerometer reports. (See Ref. Manual 6.5.10)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_linear_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_LINEAR_ACCELERATION, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.linear_accelerometer = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT_EN);
+        return true;
+    }
+}
+
+void BNO08x::get_gravity(float& x, float& y, float& z)
+{
+    x = data.gravity.x;
+    y = data.gravity.y;
+    z = data.gravity.z;
+}
+
+float BNO08x::get_gravity_X()
+{
+    return data.gravity.x;
+}
+
+float BNO08x::get_gravity_Y()
+{
+    return data.gravity.y;
+}
+
+float BNO08x::get_gravity_Z()
+{
+    return data.gravity.z;
+}
+
+void BNO08x::get_linear_accel(float& x, float& y, float& z)
+{
+    x = data.linear_acceleration.x;
+    y = data.linear_acceleration.y;
+    z = data.linear_acceleration.z;
+}
+
+float BNO08x::get_linear_accel_X()
+{
+    return data.linear_acceleration.x;
+}
+
+float BNO08x::get_linear_accel_Y()
+{
+    return data.linear_acceleration.y;
+}
+
+float BNO08x::get_linear_accel_Z()
+{
+    return data.linear_acceleration.z;
+}
+
+/**
  * @brief Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
  *
  *
@@ -643,6 +939,59 @@ esp_err_t BNO08x::wait_for_hint()
         return ESP_OK;
     else
         return ESP_ERR_TIMEOUT;
+}
+
+/**
+ * @brief Enables a sensor report such that the BNO08x begins sending it.
+ *
+ * @param sensor_ID The ID of the sensor for the respective report to be enabled.
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+esp_err_t BNO08x::enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+
+    static sh2_SensorConfig_t config;
+
+    xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
+    // These sensor options are disabled or not used in most cases
+    config.changeSensitivityEnabled = false;
+    config.wakeupEnabled = false;
+    config.changeSensitivityRelative = false;
+    config.alwaysOnEnabled = false;
+    config.changeSensitivity = 0;
+    config.batchInterval_us = 0;
+    config.sensorSpecific = 0;
+
+    config.reportInterval_us = time_between_reports;
+
+    if (sh2_setSensorConfig(sensor_ID, &config) != SH2_OK)
+    {
+        xSemaphoreGive(sh2_HAL_lock);
+        return ESP_FAIL;
+    }
+    else
+    {
+        xSemaphoreGive(sh2_HAL_lock);
+        return ESP_OK;
+    }
+}
+
+esp_err_t BNO08x::re_enable_reports()
+{
+    EventBits_t report_en_bits = xEventGroupGetBits(evt_grp_report_en);
+
+    if (report_en_bits & EVT_GRP_RPT_GRAVITY_BIT_EN)
+        if (!enable_gravity(user_report_periods.gravity))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT_EN)
+        if (!enable_linear_accelerometer(user_report_periods.linear_accelerometer))
+            return ESP_FAIL;
+
+    return ESP_OK;
 }
 
 /**
@@ -664,7 +1013,7 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
  */
 void BNO08x::print_product_ids()
 {
-    for (int i = 0; i < product_ID.numEntries; i++)
+    for (int i = 0; i < product_IDs.numEntries; i++)
     {
         ESP_LOGI(TAG,
                 "Product ID %d Info:                           \n\r"
@@ -675,8 +1024,8 @@ void BNO08x::print_product_ids()
                 "                SW Build Number:  0x%" PRIx32 "\n\r"
                 "                SW Version Patch: 0x%" PRIx16 "\n\r"
                 "                ---------------------------\n\r",
-                i, product_ID.entry->swPartNumber, product_ID.entry->swVersionMajor, product_ID.entry->swVersionMinor,
-                product_ID.entry->swBuildNumber, product_ID.entry->swVersionPatch);
+                i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor, product_IDs.entry->swVersionMinor,
+                product_IDs.entry->swBuildNumber, product_IDs.entry->swVersionPatch);
     }
 }
 

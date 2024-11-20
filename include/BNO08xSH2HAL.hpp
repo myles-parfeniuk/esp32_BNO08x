@@ -27,7 +27,7 @@ class BNO08xSH2HAL
         static int spi_write(sh2_Hal_t* self, uint8_t* pBuffer, unsigned len);
         static uint32_t get_time_us(sh2_Hal_t* self);
         static void hal_cb(void* cookie, sh2_AsyncEvent_t* pEvent);
-        static void sensor_report_cb(void* cookie, sh2_SensorEvent_t* event);
+        static void sensor_event_cb(void* cookie, sh2_SensorEvent_t* event);
 
     private:
         static BNO08x* imu;
@@ -35,4 +35,6 @@ class BNO08xSH2HAL
         static bool spi_wait_for_int();
         static uint16_t spi_read_sh2_packet_header(uint8_t* pBuffer);
         static int spi_read_sh2_packet_body(uint8_t* pBuffer, uint16_t packet_sz);
+
+        static const constexpr char *TAG = "BNO08xSH2HAL";
 };

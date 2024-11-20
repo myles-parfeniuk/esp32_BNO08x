@@ -84,9 +84,9 @@ void BNO08xSH2HAL::hal_cb(void* cookie, sh2_AsyncEvent_t* pEvent)
         imu->reset_occurred = true;
 }
 
-void BNO08xSH2HAL::sensor_report_cb(void* cookie, sh2_SensorEvent_t* event)
+void BNO08xSH2HAL::sensor_event_cb(void* cookie, sh2_SensorEvent_t* event)
 {
-    sh2_decodeSensorEvent(imu->sensor_report_val, event);
+    xQueueSend(imu->queue_rx_sensor_event, event, 0);
 }
 
 void BNO08xSH2HAL::hardware_reset()
