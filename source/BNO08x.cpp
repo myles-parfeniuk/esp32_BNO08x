@@ -850,7 +850,6 @@ bool BNO08x::enable_gravity(uint32_t time_between_reports, sh2_SensorConfig_t se
     }
     else
     {
-        ESP_LOGE(TAG, "ENABLED");
         user_report_periods.gravity = time_between_reports;
         xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_GRAVITY_BIT_EN);
         return true;
@@ -952,31 +951,17 @@ esp_err_t BNO08x::wait_for_hint()
  */
 esp_err_t BNO08x::enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-
-    static sh2_SensorConfig_t config;
+    int sh2_res = SH2_ERR;
 
     xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
-    // These sensor options are disabled or not used in most cases
-    config.changeSensitivityEnabled = false;
-    config.wakeupEnabled = false;
-    config.changeSensitivityRelative = false;
-    config.alwaysOnEnabled = false;
-    config.changeSensitivity = 0;
-    config.batchInterval_us = 0;
-    config.sensorSpecific = 0;
+    sensor_cfg.reportInterval_us = time_between_reports;
+    sh2_res = sh2_setSensorConfig(sensor_ID, &sensor_cfg);
+    xSemaphoreGive(sh2_HAL_lock);
 
-    config.reportInterval_us = time_between_reports;
-
-    if (sh2_setSensorConfig(sensor_ID, &config) != SH2_OK)
-    {
-        xSemaphoreGive(sh2_HAL_lock);
+    if (sh2_res != SH2_OK)
         return ESP_FAIL;
-    }
     else
-    {
-        xSemaphoreGive(sh2_HAL_lock);
         return ESP_OK;
-    }
 }
 
 esp_err_t BNO08x::re_enable_reports()
