@@ -10,13 +10,7 @@
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : spi_task_hdl(NULL)
-    , data_proc_task_hdl(NULL)
-    , evt_grp_spi(xEventGroupCreate())
-    , evt_grp_report_en(xEventGroupCreate())
-    , evt_grp_task_flow(xEventGroupCreate())
-    , queue_rx_data(xQueueCreate(1, sizeof(sh2_packet_t)))
-    , queue_tx_data(xQueueCreate(1, sizeof(sh2_packet_t)))
+    : evt_grp_spi(xEventGroupCreate())
     , imu_config(imu_config)
 {
 }
@@ -30,11 +24,11 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
  */
 BNO08x::~BNO08x()
 {
-    // disable interrupts before beginning so we can ensure SPI task doesn't attempt to run
+    // disable interrupts before beginning so we can ensure SPI transaction doesn't attempt to run
     gpio_intr_disable(imu_config.io_int);
 
-    // delete any tasks if they have been created
-    ESP_ERROR_CHECK(kill_all_tasks());
+    // deinitialize sh2 HAL if it has been initialized
+    ESP_ERROR_CHECK(deinit_sh2_HAL());
 
     // deinitialize spi if has been initialized
     ESP_ERROR_CHECK(deinit_spi());
@@ -45,14 +39,8 @@ BNO08x::~BNO08x()
     // deinitialize GPIO if they have been initialized
     ESP_ERROR_CHECK(deinit_gpio());
 
-    // delete queues
-    vQueueDelete(queue_rx_data);
-    vQueueDelete(queue_tx_data);
-
     // delete event groups
     vEventGroupDelete(evt_grp_spi);
-    vEventGroupDelete(evt_grp_report_en);
-    vEventGroupDelete(evt_grp_task_flow);
 
     // clear callback list
     cb_list.clear();
@@ -68,6 +56,7 @@ BNO08x::~BNO08x()
  */
 bool BNO08x::initialize()
 {
+
     // initialize configuration arguments
     if (init_config_args() != ESP_OK)
         return false;
@@ -84,15 +73,11 @@ bool BNO08x::initialize()
     if (init_spi() != ESP_OK)
         return false;
 
-    // launch tasks
-    if (launch_tasks() != ESP_OK)
+    // initialize SH2 HAL
+    if (init_sh2_HAL() != ESP_OK)
         return false;
 
-    // reset BNO08x
-    if (!hard_reset())
-        return false;
-
-    // clang-format off
+        // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
     #endif
@@ -342,8 +327,6 @@ esp_err_t BNO08x::init_hint_isr()
         init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
     }
 
-    gpio_intr_disable(imu_config.io_int); // disable interrupts initially before reset
-
     return ret;
 }
 
@@ -355,7 +338,6 @@ esp_err_t BNO08x::init_hint_isr()
 esp_err_t BNO08x::init_spi()
 {
     esp_err_t ret = ESP_OK;
-    uint8_t tx_buffer[50] = {0}; // for dummy transaction to stabilize SPI peripheral
 
     // initialize the spi peripheral
     ret = spi_bus_initialize(imu_config.spi_peripheral, &bus_config, SPI_DMA_CH_AUTO);
@@ -390,16 +372,48 @@ esp_err_t BNO08x::init_spi()
     {
         init_status.spi_device = true;
     }
-
-    // do first SPI operation into nowhere before BNO085 reset to let periphiral stabilize (Anton B.)
-    spi_transaction.length = 8;
-    spi_transaction.rxlength = 0;
-    spi_transaction.tx_buffer = tx_buffer;
-    spi_transaction.rx_buffer = NULL;
-    spi_transaction.flags = 0;
-    spi_device_polling_transmit(spi_hdl, &spi_transaction); // send data packet
-
     return ret;
+}
+
+/**
+ * @brief Initializes sh2 HAL.
+ *
+ * @return ESP_OK if initialization was success.
+ */
+esp_err_t BNO08x::init_sh2_HAL()
+{
+    // use this IMU in sh2 HAL callbacks
+    BNO08xSH2HAL::set_hal_imu(this);
+
+    // register sh2 HAL callbacks
+    sh2_HAL.open = BNO08xSH2HAL::spi_open;
+    sh2_HAL.close = BNO08xSH2HAL::spi_close;
+    sh2_HAL.read = BNO08xSH2HAL::spi_read;
+    sh2_HAL.write = BNO08xSH2HAL::spi_write;
+    sh2_HAL.getTimeUs = BNO08xSH2HAL::get_time_us;
+
+    // reset BNO08x
+    hard_reset();
+
+    if (sh2_open(&sh2_HAL, BNO08xSH2HAL::hal_cb, NULL) != SH2_OK)
+        return ESP_FAIL;
+
+    init_status.sh2_HAL = true;
+
+    memset(&product_ID, 0, sizeof(product_ID));
+
+    if (sh2_getProdIds(&product_ID) != SH2_OK)
+        return ESP_FAIL;
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    print_product_ids(); 
+    #endif
+    // clang-format on
+
+    sh2_setSensorCallback(BNO08xSH2HAL::sensor_report_cb, NULL);
+
+    return ESP_OK;
 }
 
 /**
@@ -580,16 +594,27 @@ esp_err_t BNO08x::deinit_spi()
 }
 
 /**
+ * @brief Deinitializes sh2 HAL.
+ *
+ * @return ESP_OK if deinitialization was success.
+ */
+esp_err_t BNO08x::deinit_sh2_HAL()
+{
+    if (init_status.sh2_HAL)
+        sh2_close();
+
+    return ESP_OK;
+}
+
+/**
  * @brief Hard resets BNO08x sensor.
  *
- * @return True if reset succeeded.
+ * @return void, nothing to return
  */
-bool BNO08x::hard_reset()
+void BNO08x::hard_reset()
 {
-    bool reset_success = false;
 
-    // resetting disables all reports
-    xEventGroupClearBits(evt_grp_report_en, EVT_GRP_RPT_ALL_BITS);
+    gpio_intr_disable(imu_config.io_int); // disable interrupts before reset
 
     gpio_set_level(imu_config.io_cs, 1);
 
@@ -597,129 +622,27 @@ bool BNO08x::hard_reset()
         gpio_set_level(imu_config.io_wake, 1);
 
     gpio_set_level(imu_config.io_rst, 0); // set reset pin low
+    gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
     vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
-
-    // Receive advertisement message on boot (see SH2 Ref. Manual 5.2 & 5.3)
-
-    return reset_success; 
-}
-
-
-/**
- * @brief Receives/sends a SHTP packet via SPI. Sends any received packets to data_proc_task().
- *
- * @return void, nothing to return
- */
-esp_err_t BNO08x::transmit_packet()
-{
-    static sh2_packet_t rx_packet, tx_packet;
-    esp_err_t ret = ESP_OK;
-
-    if (gpio_get_level(imu_config.io_int)) // ensure INT pin is low
-        return ESP_ERR_INVALID_STATE;
-
-    gpio_set_level(imu_config.io_cs, 0); // assert chip select
-
-    if (xQueueReceive(queue_tx_data, &tx_packet, 0) == pdFALSE) // check for queued packet to be sent, non blocking
-    {
-        memset(&tx_packet, 0U, sizeof(sh2_packet_t)); // no queued packet to send, set everything to 0
-    }
-
-    // receive/send packet header
-    ret = transmit_packet_header(&rx_packet, &tx_packet);
-    if (ret != ESP_OK)
-    {
-        gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-        return ret;
-    }
-
-    // clang-format off
-    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    ESP_LOGW(TAG, "packet rx length: %d", rx_packet.length);
-    #endif
-    // clang-format on
-
-    if (rx_packet.length == 0)
-    {
-        gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-        return ESP_ERR_INVALID_RESPONSE;
-    }
-
-    ret = transmit_packet_body(&rx_packet, &tx_packet);
-    if (ret == ESP_OK)
-    {
-        // tx_packet non-zero length implies one was rx'd through queue
-        if (tx_packet.length != 0)
-            xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_TX_DONE_BIT);
-
-        xQueueSend(queue_rx_data, &rx_packet, 0); // send received data to data_proc_task
-        xEventGroupSetBits(evt_grp_spi, EVT_GRP_SPI_RX_DONE_BIT);
-    }
-
-    gpio_set_level(imu_config.io_cs, 1); // de-assert chip select
-
-    return ret;
 }
 
 /**
- * @brief Receives/sends a SHTP packet header via SPI.
+ * @brief Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
  *
- * @param rx_packet Pointer to packet to receive header into.
- * @param tx_packet Pointer to packet with header to send.
  *
- * @return ESP_OK if receive was success.
+ * @return ESP_OK if HINT was asserted.
  */
-esp_err_t BNO08x::transmit_packet_header(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet)
+esp_err_t BNO08x::wait_for_hint()
 {
+    EventBits_t spi_evt_bits;
 
-    esp_err_t ret = ESP_OK;
+    spi_evt_bits = xEventGroupWaitBits(evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
 
-    // setup transaction to send/receive first 4 bytes (packet header)
-    spi_transaction.rx_buffer = rx_packet->header;
-    spi_transaction.tx_buffer = tx_packet->header;
-    spi_transaction.length = 4 * 8;
-    spi_transaction.rxlength = 4 * 8;
-    spi_transaction.flags = 0;
-
-    ret = spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive first 4 bytes (packet header)
-
-    if (ret == ESP_OK)
-    {
-        // calculate length of packet from received header
-        rx_packet->length = PARSE_PACKET_LENGTH(rx_packet);
-        rx_packet->length &= ~(1U << 15U); // clear the MSbit
-        rx_packet->length -= 4;            // remove 4 header bytes from rx packet length (we already read those)
-
-        if (tx_packet->length != 0)
-            tx_packet->length -= 4; // remove 4 header bytes from tx packet length (we already sent those)
-    }
-
-    return ret;
-}
-
-/**
- * @brief Receives/sends a SHTP packet body via SPI.
- *
- * @param rx_packet Pointer to packet to save body to.
- * @param packet_tx Pointer to packet with body to send.
- *
- * @return ESP_OK if receive was success.
- */
-esp_err_t BNO08x::transmit_packet_body(sh2_packet_t* rx_packet, sh2_packet_t* tx_packet)
-{
-    esp_err_t ret = ESP_OK;
-    const uint16_t transaction_length = (rx_packet->length > tx_packet->length) ? rx_packet->length : tx_packet->length;
-    // setup transacton to read the data packet
-    spi_transaction.rx_buffer = rx_packet->body;
-    spi_transaction.tx_buffer = tx_packet->body;
-    spi_transaction.length = transaction_length * 8;
-    spi_transaction.rxlength = rx_packet->length * 8;
-    spi_transaction.flags = 0;
-
-    ret = spi_device_polling_transmit(spi_hdl, &spi_transaction); // receive rest of packet
-
-    return ret;
+    if (spi_evt_bits & EVT_GRP_SPI_HINT_ASSERTED_BIT)
+        return ESP_OK;
+    else
+        return ESP_ERR_TIMEOUT;
 }
 
 /**
@@ -735,274 +658,26 @@ void BNO08x::register_cb(std::function<void()> cb_fxn)
 }
 
 /**
- * @brief Prints the header of the passed SHTP packet to serial console with ESP_LOG statement.
- *
- * @param packet The packet containing the header to be printed.
- * @return void, nothing to return
- */
-void BNO08x::print_header(sh2_packet_t* packet)
-{
-    // print most recent header
-    ESP_LOGI(TAG,
-            "SHTP Header:\n\r"
-            "                       Raw 32 bit word: 0x%02X%02X%02X%02X\n\r"
-            "                       Packet Length:   %d\n\r"
-            "                       Channel Number:  %d\n\r"
-            "                       Sequence Number: %d\n\r"
-            "                       Channel Type: %s\n\r",
-            (int) packet->header[0], (int) packet->header[1], (int) packet->header[2], (int) packet->header[3], (int) (packet->length + 4),
-            (int) packet->header[2], (int) packet->header[3],
-            (packet->header[2] == 0)   ? "Command"
-            : (packet->header[2] == 1) ? "Executable"
-            : (packet->header[2] == 2) ? "Control"
-            : (packet->header[2] == 3) ? "Sensor-report"
-            : (packet->header[2] == 4) ? "Wake-report"
-            : (packet->header[2] == 5) ? "Gyro-vector"
-                                       : "Unknown");
-}
-
-/**
- * @brief Prints the passed SHTP packet to serial console with ESP_LOG statement.
- *
- * @param packet The packet to be printed.
- * @return void, nothing to return
- */
-void BNO08x::print_packet(sh2_packet_t* packet)
-{
-    uint8_t i = 0;
-    uint16_t print_length = 0;
-    char packet_string[600];
-    char byte_string[8];
-
-    if (packet->length > 40)
-        print_length = 40;
-    else
-        print_length = packet->length;
-
-    sprintf(packet_string, "                 Body: \n\r                       ");
-    for (i = 0; i < print_length; i++)
-    {
-        sprintf(byte_string, " 0x%02X ", packet->body[i]);
-        strcat(packet_string, byte_string);
-
-        if ((i + 1) % 6 == 0) // add a newline every 6 bytes
-            strcat(packet_string, "\n\r                       ");
-    }
-
-    ESP_LOGI(TAG,
-            "SHTP Header:\n\r"
-            "                       Raw 32 bit word: 0x%02X%02X%02X%02X\n\r"
-            "                       Packet Length:   %d\n\r"
-            "                       Channel Number:  %d\n\r"
-            "                       Sequence Number: %d\n\r"
-            "                       Channel Type: %s\n\r"
-            "%s",
-            (int) packet->header[0], (int) packet->header[1], (int) packet->header[2], (int) packet->header[3], (int) (packet->length + 4),
-            (int) packet->header[2], (int) packet->header[3],
-            (packet->header[2] == 0)   ? "Command"
-            : (packet->header[2] == 1) ? "Executable"
-            : (packet->header[2] == 2) ? "Control"
-            : (packet->header[2] == 3) ? "Sensor-report"
-            : (packet->header[2] == 4) ? "Wake-report"
-            : (packet->header[2] == 5) ? "Gyro-vector"
-                                       : "Unknown",
-            packet_string);
-}
-
-/**
- * @brief Static function used to launch spi task.
- *
- * Used such that spi_task() can be non-static class member.
- *
- * @param arg void pointer to BNO08x imu object
- * @return void, nothing to return
- */
-void BNO08x::spi_task_trampoline(void* arg)
-{
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
-    imu->spi_task();             // launch spi task from object
-}
-
-/**
- * @brief Task responsible for SPI transactions. Executed when HINT in is asserted by BNO08x
+ * @brief Prints product IDs received at initialization.
  *
  * @return void, nothing to return
  */
-void BNO08x::spi_task()
+void BNO08x::print_product_ids()
 {
-    // clang-format off
-    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    static uint64_t prev_time = esp_timer_get_time();
-    static uint64_t current_time = 0;
-    #endif
-    // clang-format on
-
-    while (1)
+    for (int i = 0; i < product_ID.numEntries; i++)
     {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); // block until notified by ISR (hint_handler)
-
-        if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
-        {
-
-            // clang-format off
-            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-            current_time = esp_timer_get_time();
-            ESP_LOGI(TAG, "HINT asserted, time since last assertion: %llu", (current_time - prev_time));
-            prev_time = current_time;
-            #endif
-            // clang-format on
-
-            transmit_packet();
-        }
-        else
-        {
-            // exit loop, deconstructor has requested task be deleted
-            break;
-        }
+        ESP_LOGI(TAG,
+                "Product ID %d Info:                           \n\r"
+                "                ---------------------------\n\r"
+                "                Product ID: 0x%" PRIx32 "\n\r"
+                "                SW Version Major: 0x%" PRIx8 "\n\r"
+                "                SW Version Minor: 0x%" PRIx8 "\n\r"
+                "                SW Build Number:  0x%" PRIx32 "\n\r"
+                "                SW Version Patch: 0x%" PRIx16 "\n\r"
+                "                ---------------------------\n\r",
+                i, product_ID.entry->swPartNumber, product_ID.entry->swVersionMajor, product_ID.entry->swVersionMinor,
+                product_ID.entry->swBuildNumber, product_ID.entry->swVersionPatch);
     }
-
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
-    vTaskDelete(NULL);
-}
-
-/**
- * @brief Static function used to launch data processing task.
- *
- * Used such that data_proc_task() can be non-static class member.
- *
- * @param arg void pointer to BNO08x imu object
- * @return void, nothing to return
- */
-void BNO08x::data_proc_task_trampoline(void* arg)
-{
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
-    imu->data_proc_task();       // launch data processing task task from object
-}
-
-/**
- * @brief Task responsible parsing packets. Executed when SPI task sends a packet to be parsed, notifies wait_for_data() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::data_proc_task()
-{
-    sh2_packet_t packet;
-
-    while (1) // receive packet from spi_task()
-    {
-        if (xQueueReceive(queue_rx_data, &packet, portMAX_DELAY) == pdTRUE)
-        {
-            if (CHECK_TASKS_RUNNING(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT)) // ensure deconstructor has not requested that task be deleted
-            {
-                // PROCESS RX HERE
-            }
-            else
-            {
-                // exit loop, deconstructor has requested task be deleted
-                break;
-            }
-        }
-    }
-
-    // self delete task
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor task deletion is completed
-    vTaskDelete(NULL);
-}
-
-/**
- * @brief Launches spi_task and data_proc_task on constructor call.
- *
- * @return ESP_OK if tasks successfully created.
- */
-esp_err_t BNO08x::launch_tasks()
-{
-    BaseType_t task_created = pdFALSE;
-
-    xEventGroupSetBits(evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // set task flow to running
-
-    // launch data processing task
-    task_created = xTaskCreate(
-            &data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7, &data_proc_task_hdl);
-
-    if (task_created != pdTRUE)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, data_proc_task failed to launch.");
-        #endif
-        // clang-format on
-
-        return ESP_ERR_INVALID_STATE;
-    }
-    else
-    {
-        init_status.data_proc_task = true;
-        init_status.task_count++;
-    }
-
-    task_created = xTaskCreate(&spi_task_trampoline, "bno08x_spi_task", 4096, this, 8, &spi_task_hdl); // launch SPI task
-
-    if (task_created != pdTRUE)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, spi_task failed to launch.");
-        #endif
-        // clang-format on
-
-        return ESP_ERR_INVALID_STATE;
-    }
-    else
-    {
-        init_status.spi_task = true;
-        init_status.task_count++;
-    }
-
-    return ESP_OK;
-}
-
-/**
- * @brief Deletes spi_task and data_proc_task safely on deconstructor call.
- *
- * @return ESP_OK if tasks successfully deleted.
- */
-esp_err_t BNO08x::kill_all_tasks()
-{
-    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 10;
-    uint8_t kill_count = 0;
-    sh2_packet_t dummy_packet;
-    sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_count, 0);
-
-    memset(&dummy_packet, 0, sizeof(sh2_packet_t));
-
-    xEventGroupClearBits(
-            evt_grp_task_flow, EVT_GRP_TSK_FLW_RUNNING_BIT); // clear task running bit in task flow event group to request deletion of tasks
-
-    if (init_status.task_count != 0)
-    {
-        if (init_status.spi_task)
-            xTaskNotifyGive(spi_task_hdl); // notify spi task for self deletion
-
-        if (init_status.data_proc_task)
-            xQueueSend(queue_rx_data, &dummy_packet, 0); // send a dummy packet to wake up data_proc task for self-deletion
-
-        for (uint8_t i = 0; i < init_status.task_count; i++)
-            if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
-                kill_count++;
-
-        if (kill_count != init_status.task_count)
-        {
-            // clang-format off
-            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-            ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
-            #endif
-            // clang-format on
-
-            return ESP_ERR_TIMEOUT;
-        }
-    }
-
-    return ESP_OK;
 }
 
 /**
@@ -1018,8 +693,7 @@ void IRAM_ATTR BNO08x::hint_handler(void* arg)
     BNO08x* imu = (BNO08x*) arg; // cast argument received by gpio_isr_handler_add ("this" pointer to imu object
                                  // created by constructor call)
 
-    gpio_intr_disable(imu->imu_config.io_int);                          // disable interrupts
-    vTaskNotifyGiveFromISR(imu->spi_task_hdl, &xHighPriorityTaskWoken); // notify SPI task BNO08x is ready for
-                                                                        // servicing
-    portYIELD_FROM_ISR(xHighPriorityTaskWoken);                         // perform context switch if necessary
+    // notify any tasks/function calls waiting for HINT assertion
+    xEventGroupSetBitsFromISR(imu->evt_grp_spi, EVT_GRP_SPI_HINT_ASSERTED_BIT, &xHighPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHighPriorityTaskWoken); // perform context switch if necessary
 }

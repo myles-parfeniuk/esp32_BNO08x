@@ -11,16 +11,6 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
 
-/**
- * @brief Clears the most significant byte of a 16-bit value.
- *
- * @param evt_grp_task_flow Task flow event group handle.
- * @param running_bit EVT_GRP_TSK_FLW_RUNNING_BIT
- *
- * @return The value with the MSB cleared.
- */
-#define CHECK_TASKS_RUNNING(evt_grp_task_flow, running_bit) ((xEventGroupGetBits(evt_grp_task_flow) & (running_bit)) != 0)
-
 // packet parsing macros
 
 /**
@@ -65,6 +55,6 @@
  * @param packet Pointer to bno08x_rx_packet_t containing data.
  * @return Length of SHTP packet.
  */
-#define PARSE_PACKET_LENGTH(packet_ptr)                                                                                                              \
-    (UINT16_CLR_LSB(static_cast<uint16_t>(packet_ptr->header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(packet_ptr->header[0])))
+#define PARSE_PACKET_LENGTH(header)                                                                                                              \
+    (UINT16_CLR_LSB(static_cast<uint16_t>(header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(header[0])))
 
