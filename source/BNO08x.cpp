@@ -237,6 +237,8 @@ void BNO08x::unlock_user_data()
 
 void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
+    bno08x_euler_angle_t euler;
+
     switch (sensor_val->sensorId)
     {
         case SH2_GRAVITY:
@@ -246,7 +248,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 
         case SH2_LINEAR_ACCELERATION:
             update_linear_accelerometer_data(sensor_val);
-            ESP_LOGW(TAG, "lin_accl: %.3lf %.3lf %.3lf", data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z);
+            ESP_LOGW(TAG, "lin accl: %.3lf %.3lf %.3lf", data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z);
             break;
 
         case SH2_ACCELEROMETER:
@@ -254,10 +256,65 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
             ESP_LOGW(TAG, "accl: %.3lf %.3lf %.3lf", data.acceleration.x, data.acceleration.y, data.acceleration.z);
             break;
 
+        case SH2_MAGNETIC_FIELD_CALIBRATED:
+            update_calibrated_magnetometer_data(sensor_val);
+            ESP_LOGW(TAG, "cal magf: %.3lf %.3lf %.3lf", data.cal_magnetometer.x, data.cal_magnetometer.y, data.cal_magnetometer.z);
+            break;
+
+        case SH2_STEP_COUNTER:
+            update_step_counter_data(sensor_val);
+            ESP_LOGW(TAG, "step counter: %d %ld", data.step_counter.steps, data.step_counter.latency);
+            break;
+
+        case SH2_PERSONAL_ACTIVITY_CLASSIFIER:
+            update_activity_classifier_data(sensor_val);
+            ESP_LOGW(TAG, "activity classifier: %d", static_cast<uint8_t>(data.activity_classifier.mostLikelyState));
+            break;
+
+        case SH2_GYROSCOPE_CALIBRATED:
+            update_calibrated_gyro_data(sensor_val);
+            ESP_LOGW(TAG, "cal gyro: %.3lf %.3lf %.3lf", data.cal_gyro.x, data.cal_gyro.y, data.cal_gyro.z);
+            break;
+
+        case SH2_RAW_GYROSCOPE:
+            update_raw_mems_gyro_data(sensor_val);
+            ESP_LOGW(TAG, "raw gyro: %d %d %d", data.mems_raw_gyro.x, data.mems_raw_gyro.y, data.mems_raw_gyro.z);
+            break;
+
+        case SH2_RAW_ACCELEROMETER:
+            update_raw_mems_accel_data(sensor_val);
+            ESP_LOGW(TAG, "raw accel: %d %d %d", data.mems_raw_accel.x, data.mems_raw_accel.y, data.mems_raw_accel.z);
+            break;
+
+        case SH2_RAW_MAGNETOMETER:
+            update_raw_mems_magnetometer_data(sensor_val);
+            ESP_LOGW(TAG, "raw magf: %d %d %d", data.mems_raw_magnetometer.x, data.mems_raw_magnetometer.y, data.mems_raw_magnetometer.z);
+            break;
+
+        case SH2_ROTATION_VECTOR:
+            update_rotation_vector_data(sensor_val);
+            euler = get_rotation_vector_euler();
+            ESP_LOGW(TAG, "rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
+            break;
+
         default:
 
             break;
     }
+}
+
+/**
+ * @brief Updates rotation vector data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_rotation_vector_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.rotation_vector = sensor_val->un.rotationVector;
+    unlock_user_data();
 }
 
 /**
@@ -270,9 +327,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
-    data.gravity.x = sensor_val->un.gravity.x;
-    data.gravity.y = sensor_val->un.gravity.y;
-    data.gravity.z = sensor_val->un.gravity.z;
+    data.gravity = sensor_val->un.gravity;
     unlock_user_data();
 }
 
@@ -286,9 +341,7 @@ void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
 void BNO08x::update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
-    data.linear_acceleration.x = sensor_val->un.linearAcceleration.x;
-    data.linear_acceleration.y = sensor_val->un.linearAcceleration.y;
-    data.linear_acceleration.z = sensor_val->un.linearAcceleration.z;
+    data.linear_acceleration = sensor_val->un.linearAcceleration;
     unlock_user_data();
 }
 
@@ -302,9 +355,105 @@ void BNO08x::update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val)
 void BNO08x::update_accelerometer_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
-    data.acceleration.x = sensor_val->un.accelerometer.x;
-    data.acceleration.y = sensor_val->un.accelerometer.x;
-    data.acceleration.z = sensor_val->un.accelerometer.x;
+    data.acceleration = sensor_val->un.accelerometer;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates calibrated magnetometer data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_calibrated_magnetometer_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.cal_magnetometer = sensor_val->un.magneticField;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates step counter data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_step_counter_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.step_counter = sensor_val->un.stepCounter;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates activity classifier data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_activity_classifier_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.activity_classifier = sensor_val->un.personalActivityClassifier;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates calibrated gyro data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_calibrated_gyro_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.cal_gyro = sensor_val->un.gyroscope;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates raw mems gyro data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_mems_gyro_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.mems_raw_gyro = sensor_val->un.rawGyroscope;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates raw mems accel data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_mems_accel_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.mems_raw_accel = sensor_val->un.rawAccelerometer;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates raw mems magnetometer data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_raw_mems_magnetometer_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.mems_raw_magnetometer = sensor_val->un.rawMagnetometer;
     unlock_user_data();
 }
 
@@ -960,6 +1109,28 @@ void BNO08x::hard_reset()
 }
 
 /**
+ * @brief Sends command to rotation vector reports. (See Ref. Manual 6.5.18)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_ROTATION_VECTOR, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.rotation_vector = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN);
+        return true;
+    }
+}
+
+/**
  * @brief Sends command to enable gravity reports. (See Ref. Manual 6.5.11)
  *
  * @param report_period_us The period/interval of the report in microseconds.
@@ -1025,103 +1196,328 @@ bool BNO08x::enable_accelerometer(uint32_t time_between_reports, sh2_SensorConfi
     }
 }
 
-void BNO08x::get_gravity(float& x, float& y, float& z)
+/**
+ * @brief Sends command to enable calibrated magnetometer reports. (See Ref. Manual 6.5.16)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_calibrated_magnetometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    x = data.gravity.x;
-    y = data.gravity.y;
-    z = data.gravity.z;
-    unlock_user_data();
+    if (enable_report(SH2_MAGNETIC_FIELD_CALIBRATED, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.cal_magnetometer = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_gravity_X()
+/**
+ * @brief Sends command to enable step counter reports. (See Ref. Manual 6.5.29)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_step_counter(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    float z = data.gravity.z;
-    unlock_user_data();
-    return z;
+    if (enable_report(SH2_STEP_COUNTER, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.step_counter = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_STEP_COUNTER_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_gravity_Y()
+/**
+ * @brief Sends command to enable activity classifier reports. (See Ref. Manual 6.5.36)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_activity_classifier(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    float y = data.gravity.y;
-    unlock_user_data();
-    return y;
+    if (enable_report(SH2_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.activity_classifier = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_gravity_Z()
+/**
+ * @brief Sends command to enable calibrated gyro reports. (See Ref. Manual 6.5.13)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_calibrated_gyro(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    float z = data.gravity.z;
-    unlock_user_data();
-    return z;
+    if (enable_report(SH2_GYROSCOPE_CALIBRATED, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.cal_gyro = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_CAL_GYRO_BIT_EN);
+        return true;
+    }
 }
 
-void BNO08x::get_linear_accel(float& x, float& y, float& z)
+/**
+ * @brief Sends command to enable raw gyro reports from physical gyroscope MEMS sensor. (See Ref. Manual 6.5.12)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_raw_mems_gyro(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    x = data.linear_acceleration.x;
-    y = data.linear_acceleration.y;
-    z = data.linear_acceleration.z;
-    unlock_user_data();
+    if (enable_report(SH2_RAW_GYROSCOPE, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.raw_mems_gyro = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_GYRO_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_linear_accel_X()
+/**
+ * @brief Sends command to enable raw accelerometer reports from physical accelerometer MEMS sensor. (See Ref. Manual 6.5.8)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_raw_mems_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    float x = data.linear_acceleration.x;
-    unlock_user_data();
-    return x;
+    if (enable_report(SH2_RAW_ACCELEROMETER, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.raw_mems_accelerometer = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_linear_accel_Y()
+/**
+ * @brief Sends command to enable raw magnetometer reports from physical accelerometer magnetometer sensor. (See Ref. Manual 6.5.15)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_raw_mems_magnetometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    float y = data.linear_acceleration.y;
-    unlock_user_data();
-    return y;
+    if (enable_report(SH2_RAW_MAGNETOMETER, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.raw_mems_magnetometer = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT_EN);
+        return true;
+    }
 }
 
-float BNO08x::get_linear_accel_Z()
+/**
+ * @brief Grabs most recent rotation vector data in form of unit quaternion, accuracy units in radians.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_quat_w_acc_t BNO08x::get_rotation_vector_quat()
 {
     lock_user_data();
-    float z = data.linear_acceleration.z;
+    bno08x_quat_w_acc_t rqdata = data.rotation_vector;
     unlock_user_data();
-    return z;
+    return rqdata;
 }
 
-void BNO08x::get_accel(float& x, float& y, float& z)
+/**
+ * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads depending on sole input param.
+ *
+ * @param in_degrees If true returned euler angle is in degrees, if false in radians
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_euler_angle_t BNO08x::get_rotation_vector_euler(bool in_degrees)
 {
-    lock_user_data();
-    x = data.acceleration.x;
-    y = data.acceleration.y;
-    z = data.acceleration.z;
-    unlock_user_data();
+    bno08x_euler_angle_t rqdata;
+    bno08x_quat_w_acc_t quat = get_rotation_vector_quat();
+
+    quat_to_euler(&quat, &rqdata);
+    rqdata.accuracy = quat.accuracy;
+
+    if (in_degrees)
+        rqdata *= RAD_2_DEG;
+
+    return rqdata;
 }
 
-float BNO08x::get_accel_X()
+/**
+ * @brief Grabs most recent gravity data, units are in m/s^2.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_accel_data_t BNO08x::get_gravity()
 {
     lock_user_data();
-    float x = data.acceleration.x;
+    bno08x_accel_data_t rqdata = data.gravity;
     unlock_user_data();
-    return x;
+    return rqdata;
 }
 
-float BNO08x::get_accel_Y()
+/**
+ * @brief Grabs most recent linear acceleration data (acceleration - gravity), units are in m/s^2.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_accel_data_t BNO08x::get_linear_accel()
 {
     lock_user_data();
-    float y = data.acceleration.y;
+    bno08x_accel_data_t rqdata = data.linear_acceleration;
     unlock_user_data();
-    return y;
+    return rqdata;
 }
 
-float BNO08x::get_accel_Z()
+/**
+ * @brief Grabs most recent acceleration data (including gravity), units are in m/s^2.
+ *
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_accel_data_t BNO08x::get_accel()
 {
     lock_user_data();
-    float z = data.acceleration.z;
+    bno08x_accel_data_t rqdata = data.acceleration;
     unlock_user_data();
-    return z;
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent calibrated magnetometer data, units are in uTesla.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_magf_data_t BNO08x::get_calibrated_magnetometer()
+{
+    lock_user_data();
+    bno08x_magf_data_t rqdata = data.cal_magnetometer;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent calibrated gyro velocity data, units are in rad/s.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_gyro_data_t BNO08x::get_calibrated_gyro()
+{
+    lock_user_data();
+    bno08x_gyro_data_t rqdata = data.cal_gyro;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent raw mems gyro data, units are in ADCs.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_raw_gyro_data_t BNO08x::get_raw_mems_gyro()
+{
+    lock_user_data();
+    bno08x_raw_gyro_data_t rqdata = data.mems_raw_gyro;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent raw mems accelerometer data, units are in ADCs.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_raw_accel_data_t BNO08x::get_raw_mems_accelerometer()
+{
+    lock_user_data();
+    bno08x_raw_accel_data_t rqdata = data.mems_raw_accel;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent raw mems magnetometer data, units are in ADCs.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_raw_magf_data_t BNO08x::get_raw_mems_magnetometer()
+{
+    lock_user_data();
+    bno08x_raw_magf_data_t rqdata = data.mems_raw_magnetometer;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent step counter data.
+ *
+ * From Ref. Manual 6.5.29:
+ *
+ * "[the latency within the struct is] the delay in microseconds from the time from when the last step
+ * being counted occurred until the time the step count was reported."
+ *
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_step_counter_data_t BNO08x::get_step_counter()
+{
+    lock_user_data();
+    bno08x_step_counter_data_t rqdata = data.step_counter;
+    unlock_user_data();
+    return rqdata;
+}
+
+void BNO08x::quat_to_euler(bno08x_quat_w_acc_t* quat, bno08x_euler_angle_t* euler)
+{
+    // roll
+    euler->x = atan2(2.0f * (quat->real * quat->i + quat->j * quat->k), 1.0f - 2.0f * (quat->i * quat->i + quat->j * quat->j));
+
+    // pitch
+    euler->y = asin(2.0f * (quat->real * quat->j - quat->k * quat->i));
+
+    // yaw
+    euler->z = atan2(2.0f * (quat->real * quat->k + quat->i * quat->j), 1.0f - 2.0f * (quat->j * quat->j + quat->k * quat->k));
 }
 
 /**
@@ -1182,6 +1578,38 @@ esp_err_t BNO08x::re_enable_reports()
 
     if (report_en_bits & EVT_GRP_RPT_ACCELEROMETER_BIT_EN)
         if (!enable_accelerometer(user_report_periods.accelerometer))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_CAL_MAGNETOMETER_BIT_EN)
+        if (!enable_calibrated_magnetometer(user_report_periods.cal_magnetometer))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_STEP_COUNTER_BIT_EN)
+        if (!enable_step_counter(user_report_periods.step_counter))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.activity_classifier))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_CAL_GYRO_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.cal_gyro))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_RAW_GYRO_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.raw_mems_gyro))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_RAW_ACCELEROMETER_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.raw_mems_accelerometer))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_RAW_MAGNETOMETER_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.raw_mems_magnetometer))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN)
+        if (!enable_activity_classifier(user_report_periods.rotation_vector))
             return ESP_FAIL;
 
     return ESP_OK;

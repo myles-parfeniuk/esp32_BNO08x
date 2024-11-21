@@ -7,6 +7,7 @@
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
+#include "sh2_SensorValue.h"
 
 /// @brief Sensor accuracy returned during sensor calibration
 enum class BNO08xAccuracy
@@ -29,21 +30,6 @@ enum class BNO08xResetReason
     OTHER      ///< Previous reset was due to power other reason.
 };
 using IMUResetReason = BNO08xResetReason; // legacy version compatibility
-
-/// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
-enum class BNO08xActivityEnable
-{
-    UNKNOWN = (1U << 0U),
-    IN_VEHICLE = (1U << 1U),
-    ON_BICYCLE = (1U << 2U),
-    ON_FOOT = (1U << 3U),
-    STILL = (1U << 4U),
-    TILTING = (1U << 5U),
-    WALKING = (1U << 6U),
-    RUNNING = (1U << 7U),
-    ON_STAIRS = (1U << 8U),
-    ALL = 0x1FU
-};
 
 /// @brief BNO08xActivity states returned from get_activity_classifier()
 enum class BNO08xActivity
@@ -117,5 +103,56 @@ typedef struct bno08x_config_t
         {
         }
 } bno08x_config_t;
+
+typedef struct bno08x_activity_classifier_data_t
+{
+        uint8_t page;
+        bool lastPage;
+        BNO08xActivity mostLikelyState;
+        uint8_t confidence[10];
+
+        // conversion from sh2_PersonalActivityClassifier_t
+        bno08x_activity_classifier_data_t& operator=(const sh2_PersonalActivityClassifier_t& source)
+        {
+            this->page = source.page;
+            this->lastPage = source.lastPage;
+            this->mostLikelyState = static_cast<BNO08xActivity>(source.mostLikelyState);
+
+            for (int i = 0; i < 10; ++i)
+            {
+                this->confidence[i] = source.confidence[i];
+            }
+
+            return *this;
+        }
+} bno08x_activity_classifier_data_t;
+
+typedef struct bno08x_euler_angle_t
+{
+        float x;
+        float y;
+        float z;
+        float accuracy;
+
+        // overloaded *= operator for rad2deg conversions
+        template <typename T>
+        bno08x_euler_angle_t& operator*=(T value)
+        {
+            x *= static_cast<float>(value);
+            y *= static_cast<float>(value);
+            z *= static_cast<float>(value);
+            accuracy *= static_cast<float>(value);
+            return *this;
+        }
+} bno08x_euler_angle_t;
+
+typedef sh2_RotationVectorWAcc_t bno08x_quat_w_acc_t; ///< Quaternion data with accuracy.
+typedef sh2_Accelerometer_t bno08x_accel_data_t;      ///< Acceleration data.
+typedef sh2_MagneticField_t bno08x_magf_data_t;       ///< Magnetic field data.
+typedef sh2_StepCounter bno08x_step_counter_data_t;
+typedef sh2_Gyroscope_t bno08x_gyro_data_t;
+typedef sh2_RawGyroscope_t bno08x_raw_gyro_data_t;
+typedef sh2_RawAccelerometer bno08x_raw_accel_data_t;
+typedef sh2_RawMagnetometer_t bno08x_raw_magf_data_t;
 
 typedef bno08x_config_t imu_config_t; // legacy version compatibility
