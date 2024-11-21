@@ -294,7 +294,25 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
         case SH2_ROTATION_VECTOR:
             update_rotation_vector_data(sensor_val);
             euler = get_rotation_vector_euler();
-            ESP_LOGW(TAG, "rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
+            ESP_LOGW(TAG, "rot vec euler: %.3lf %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z, euler.accuracy);
+            break;
+
+        case SH2_GAME_ROTATION_VECTOR:
+            update_game_rotation_vector_data(sensor_val);
+            euler = get_game_rotation_vector_euler();
+            ESP_LOGW(TAG, "game rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
+            break;
+
+        case SH2_ARVR_STABILIZED_RV:
+            update_arvr_s_rotation_vector_data(sensor_val);
+            euler = get_ARVR_stabilized_rotation_vector_euler();
+            ESP_LOGW(TAG, "arvr s rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
+            break;
+
+        case SH2_ARVR_STABILIZED_GRV:
+            update_arvr_s_game_rotation_vector_data(sensor_val);
+            euler = get_ARVR_stabilized_game_rotation_vector_euler();
+            ESP_LOGW(TAG, "arvr s game rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
             break;
 
         default:
@@ -314,6 +332,48 @@ void BNO08x::update_rotation_vector_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
     data.rotation_vector = sensor_val->un.rotationVector;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates game rotation vector data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_game_rotation_vector_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.game_rotation_vector = sensor_val->un.gameRotationVector;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates ARVR stabilized rotation vector data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_arvr_s_rotation_vector_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.arvr_s_rotation_vector = sensor_val->un.arvrStabilizedRV;
+    unlock_user_data();
+}
+
+/**
+ * @brief Updates ARVR stabilized game rotation vector data from decoded sensor event.
+ *
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::update_arvr_s_game_rotation_vector_data(sh2_SensorValue_t* sensor_val)
+{
+    lock_user_data();
+    data.arvr_s_game_rotation_vector = sensor_val->un.arvrStabilizedGRV;
     unlock_user_data();
 }
 
@@ -1109,7 +1169,7 @@ void BNO08x::hard_reset()
 }
 
 /**
- * @brief Sends command to rotation vector reports. (See Ref. Manual 6.5.18)
+ * @brief Sends command to enable rotation vector reports. (See Ref. Manual 6.5.18)
  *
  * @param report_period_us The period/interval of the report in microseconds.
  * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
@@ -1126,6 +1186,72 @@ bool BNO08x::enable_rotation_vector(uint32_t time_between_reports, sh2_SensorCon
     {
         user_report_periods.rotation_vector = time_between_reports;
         xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN);
+        return true;
+    }
+}
+
+/**
+ * @brief Sends command to enable game rotation vector reports. (See Ref. Manual 6.5.19)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_GAME_ROTATION_VECTOR, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.game_rotation_vector = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT_EN);
+        return true;
+    }
+}
+
+/**
+ * @brief Sends command to enable ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.19)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_ARVR_STABILIZED_RV, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.arvr_s_rotation_vector = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT_EN);
+        return true;
+    }
+}
+
+/**
+ * @brief Sends command to enable ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.19)
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
+ *
+ * @return ESP_OK if report was successfully enabled.
+ */
+bool BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    if (enable_report(SH2_ARVR_STABILIZED_GRV, time_between_reports, sensor_cfg) != ESP_OK)
+    {
+        return false;
+    }
+    else
+    {
+        user_report_periods.arvr_s_game_rotation_vector = time_between_reports;
+        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT_EN);
         return true;
     }
 }
@@ -1355,16 +1481,16 @@ bool BNO08x::enable_raw_mems_magnetometer(uint32_t time_between_reports, sh2_Sen
  *
  * @return Struct containing requested data.
  */
-bno08x_quat_w_acc_t BNO08x::get_rotation_vector_quat()
+bno08x_quat_t BNO08x::get_rotation_vector_quat()
 {
     lock_user_data();
-    bno08x_quat_w_acc_t rqdata = data.rotation_vector;
+    bno08x_quat_t rqdata = data.rotation_vector;
     unlock_user_data();
     return rqdata;
 }
 
 /**
- * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads depending on sole input param.
+ * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads.
  *
  * @param in_degrees If true returned euler angle is in degrees, if false in radians
  *
@@ -1373,11 +1499,118 @@ bno08x_quat_w_acc_t BNO08x::get_rotation_vector_quat()
 bno08x_euler_angle_t BNO08x::get_rotation_vector_euler(bool in_degrees)
 {
     bno08x_euler_angle_t rqdata;
-    bno08x_quat_w_acc_t quat = get_rotation_vector_quat();
+    bno08x_quat_t quat = get_rotation_vector_quat();
 
-    quat_to_euler(&quat, &rqdata);
-    rqdata.accuracy = quat.accuracy;
+    rqdata = quat; // conversion handled by overloaded operator
 
+    // convert to degrees if requested
+    if (in_degrees)
+        rqdata *= RAD_2_DEG;
+
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent game rotation vector data in form of unit quaternion. No accuracy data available with this report.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_quat_t BNO08x::get_game_rotation_vector_quat()
+{
+    lock_user_data();
+    bno08x_quat_t rqdata = data.game_rotation_vector;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data available with this report.
+ *
+ *
+ * @param in_degrees If true returned euler angle is in degrees, if false in radians.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_euler_angle_t BNO08x::get_game_rotation_vector_euler(bool in_degrees)
+{
+    bno08x_euler_angle_t rqdata;
+    bno08x_quat_t quat = get_game_rotation_vector_quat();
+
+    rqdata = quat; // conversion handled by overloaded operator
+
+    // convert to degrees if requested
+    if (in_degrees)
+        rqdata *= RAD_2_DEG;
+
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent ARVR stabilized rotation vector data in form of unit quaternion. No accuracy data available with this report.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_quat_t BNO08x::get_ARVR_stabilized_rotation_vector_quat()
+{
+    lock_user_data();
+    bno08x_quat_t rqdata = data.arvr_s_rotation_vector;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent ARVR stabilized rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data available
+ * with this report.
+ *
+ *
+ * @param in_degrees If true returned euler angle is in degrees, if false in radians.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_euler_angle_t BNO08x::get_ARVR_stabilized_rotation_vector_euler(bool in_degrees)
+{
+    bno08x_euler_angle_t rqdata;
+    bno08x_quat_t quat = get_ARVR_stabilized_rotation_vector_quat();
+
+    rqdata = quat; // conversion handled by overloaded operator
+
+    // convert to degrees if requested
+    if (in_degrees)
+        rqdata *= RAD_2_DEG;
+
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent ARVR stabilized  game rotation vector data in form of unit quaternion. No accuracy data available with this report.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_quat_t BNO08x::get_ARVR_stabilized_game_rotation_vector_quat()
+{
+    lock_user_data();
+    bno08x_quat_t rqdata = data.arvr_s_game_rotation_vector;
+    unlock_user_data();
+    return rqdata;
+}
+
+/**
+ * @brief Grabs most recent ARVR stabilized game rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data
+ * available with this report.
+ *
+ *
+ * @param in_degrees If true returned euler angle is in degrees, if false in radians.
+ *
+ * @return Struct containing requested data.
+ */
+bno08x_euler_angle_t BNO08x::get_ARVR_stabilized_game_rotation_vector_euler(bool in_degrees)
+{
+    bno08x_euler_angle_t rqdata;
+    bno08x_quat_t quat = get_ARVR_stabilized_game_rotation_vector_quat();
+
+    rqdata = quat; // conversion handled by overloaded operator
+
+    // convert to degrees if requested
     if (in_degrees)
         rqdata *= RAD_2_DEG;
 
@@ -1508,18 +1741,6 @@ bno08x_step_counter_data_t BNO08x::get_step_counter()
     return rqdata;
 }
 
-void BNO08x::quat_to_euler(bno08x_quat_w_acc_t* quat, bno08x_euler_angle_t* euler)
-{
-    // roll
-    euler->x = atan2(2.0f * (quat->real * quat->i + quat->j * quat->k), 1.0f - 2.0f * (quat->i * quat->i + quat->j * quat->j));
-
-    // pitch
-    euler->y = asin(2.0f * (quat->real * quat->j - quat->k * quat->i));
-
-    // yaw
-    euler->z = atan2(2.0f * (quat->real * quat->k + quat->i * quat->j), 1.0f - 2.0f * (quat->j * quat->j + quat->k * quat->k));
-}
-
 /**
  * @brief Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
  *
@@ -1609,7 +1830,19 @@ esp_err_t BNO08x::re_enable_reports()
             return ESP_FAIL;
 
     if (report_en_bits & EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.rotation_vector))
+        if (!enable_rotation_vector(user_report_periods.rotation_vector))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT_EN)
+        if (!enable_game_rotation_vector(user_report_periods.game_rotation_vector))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT_EN)
+        if (!enable_ARVR_stabilized_rotation_vector(user_report_periods.arvr_s_rotation_vector))
+            return ESP_FAIL;
+
+    if (report_en_bits & EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT_EN)
+        if (!enable_ARVR_stabilized_game_rotation_vector(user_report_periods.arvr_s_game_rotation_vector))
             return ESP_FAIL;
 
     return ESP_OK;

@@ -4,6 +4,7 @@
  */
 #pragma once
 
+#include <math.h>
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
@@ -111,6 +112,14 @@ typedef struct bno08x_activity_classifier_data_t
         BNO08xActivity mostLikelyState;
         uint8_t confidence[10];
 
+        bno08x_activity_classifier_data_t()
+            : page(0U)
+            , lastPage(false)
+            , mostLikelyState(BNO08xActivity::UNDEFINED)
+            , confidence({})
+        {
+        }
+
         // conversion from sh2_PersonalActivityClassifier_t
         bno08x_activity_classifier_data_t& operator=(const sh2_PersonalActivityClassifier_t& source)
         {
@@ -119,13 +128,52 @@ typedef struct bno08x_activity_classifier_data_t
             this->mostLikelyState = static_cast<BNO08xActivity>(source.mostLikelyState);
 
             for (int i = 0; i < 10; ++i)
-            {
                 this->confidence[i] = source.confidence[i];
-            }
 
             return *this;
         }
 } bno08x_activity_classifier_data_t;
+
+typedef struct bno08x_quat_t
+{
+        float real;
+        float i;
+        float j;
+        float k;
+        float accuracy;
+
+        bno08x_quat_t()
+            : real(0.0f)
+            , i(0.0f)
+            , j(0.0f)
+            , k(0.0f)
+            , accuracy(0.0f)
+        {
+        }
+
+        // overloaded assignment operators to handle both sh2 structs:
+
+        bno08x_quat_t& operator=(const sh2_RotationVectorWAcc_t& source)
+        {
+            this->real = source.real;
+            this->i = source.i;
+            this->j = source.j;
+            this->k = source.k;
+            this->accuracy = source.accuracy;
+            return *this;
+        }
+
+        bno08x_quat_t& operator=(const sh2_RotationVector_t& source)
+        {
+            this->real = source.real;
+            this->i = source.i;
+            this->j = source.j;
+            this->k = source.k;
+            this->accuracy = 0.0f;
+            return *this;
+        }
+
+} bno08x_quat_t;
 
 typedef struct bno08x_euler_angle_t
 {
@@ -133,6 +181,23 @@ typedef struct bno08x_euler_angle_t
         float y;
         float z;
         float accuracy;
+
+        bno08x_euler_angle_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+            , accuracy(0.0f)
+        {
+        }
+
+        bno08x_euler_angle_t& operator=(const bno08x_quat_t& source)
+        {
+            this->x = atan2(2.0f * (source.real * source.i + source.j * source.k), 1.0f - 2.0f * (source.i * source.i + source.j * source.j));
+            this->y = asin(2.0f * (source.real * source.j - source.k * source.i));
+            this->z = atan2(2.0f * (source.real * source.k + source.i * source.j), 1.0f - 2.0f * (source.j * source.j + source.k * source.k));
+            this->accuracy = source.accuracy;
+            return *this;
+        }
 
         // overloaded *= operator for rad2deg conversions
         template <typename T>
@@ -144,11 +209,11 @@ typedef struct bno08x_euler_angle_t
             accuracy *= static_cast<float>(value);
             return *this;
         }
+
 } bno08x_euler_angle_t;
 
-typedef sh2_RotationVectorWAcc_t bno08x_quat_w_acc_t; ///< Quaternion data with accuracy.
-typedef sh2_Accelerometer_t bno08x_accel_data_t;      ///< Acceleration data.
-typedef sh2_MagneticField_t bno08x_magf_data_t;       ///< Magnetic field data.
+typedef sh2_Accelerometer_t bno08x_accel_data_t; ///< Acceleration data.
+typedef sh2_MagneticField_t bno08x_magf_data_t;  ///< Magnetic field data.
 typedef sh2_StepCounter bno08x_step_counter_data_t;
 typedef sh2_Gyroscope_t bno08x_gyro_data_t;
 typedef sh2_RawGyroscope_t bno08x_raw_gyro_data_t;

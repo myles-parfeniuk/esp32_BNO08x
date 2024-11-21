@@ -5,7 +5,6 @@
 #pragma once
 // standard library includes
 #include <inttypes.h>
-#include <math.h>
 #include <stdio.h>
 #include <cstring>
 #include <functional>
@@ -48,6 +47,9 @@ class BNO08x
         void hard_reset();
 
         bool enable_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        bool enable_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        bool enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        bool enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool enable_gravity(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool enable_linear_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool enable_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
@@ -59,8 +61,15 @@ class BNO08x
         bool enable_raw_mems_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool enable_raw_mems_magnetometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
 
-        bno08x_quat_w_acc_t get_rotation_vector_quat();
+        bno08x_quat_t get_rotation_vector_quat();
         bno08x_euler_angle_t get_rotation_vector_euler(bool in_degrees = true);
+        bno08x_quat_t get_game_rotation_vector_quat();
+        bno08x_euler_angle_t get_game_rotation_vector_euler(bool in_degrees = true);
+        bno08x_quat_t get_ARVR_stabilized_rotation_vector_quat();
+        bno08x_euler_angle_t get_ARVR_stabilized_rotation_vector_euler(bool in_degrees = true);
+        bno08x_quat_t get_ARVR_stabilized_game_rotation_vector_quat();
+        bno08x_euler_angle_t get_ARVR_stabilized_game_rotation_vector_euler(bool in_degrees = true);
+
         bno08x_accel_data_t get_gravity();
         bno08x_accel_data_t get_linear_accel();
         bno08x_accel_data_t get_accel();
@@ -70,8 +79,6 @@ class BNO08x
         bno08x_raw_accel_data_t get_raw_mems_accelerometer();
         bno08x_raw_magf_data_t get_raw_mems_magnetometer();
         bno08x_step_counter_data_t get_step_counter();
-
-        void quat_to_euler(bno08x_quat_w_acc_t* quat, bno08x_euler_angle_t* euler);
 
         void register_cb(std::function<void()> cb_fxn);
         void print_product_ids();
@@ -118,7 +125,10 @@ class BNO08x
                 bno08x_raw_gyro_data_t mems_raw_gyro;
                 bno08x_raw_accel_data_t mems_raw_accel;
                 bno08x_raw_magf_data_t mems_raw_magnetometer;
-                bno08x_quat_w_acc_t rotation_vector;
+                bno08x_quat_t rotation_vector;
+                bno08x_quat_t game_rotation_vector;
+                bno08x_quat_t arvr_s_rotation_vector;
+                bno08x_quat_t arvr_s_game_rotation_vector;
 
                 bno08x_data_t()
                     : gravity({0.0f, 0.0f, 0.0f})
@@ -126,12 +136,13 @@ class BNO08x
                     , acceleration({0.0f, 0.0f, 0.0f})
                     , cal_magnetometer({0.0f, 0.0f, 0.0f})
                     , step_counter({0UL, 0U})
-                    , activity_classifier({0U, false, BNO08xActivity::UNKNOWN, {0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U}})
+                    , activity_classifier(bno08x_activity_classifier_data_t())
                     , cal_gyro({0.0f, 0.0f, 0.0f})
                     , mems_raw_gyro({0, 0, 0, 0, 0UL})
                     , mems_raw_accel({0, 0, 0, 0UL})
                     , mems_raw_magnetometer({0, 0, 0, 0UL})
-                    , rotation_vector({0.0f, 0.0f, 0.0f, 0.0f, 0.0f})
+                    , rotation_vector(bno08x_quat_t())
+                    , game_rotation_vector(bno08x_quat_t())
 
                 {
                 }
@@ -151,6 +162,9 @@ class BNO08x
                 uint32_t raw_mems_accelerometer;
                 uint32_t raw_mems_magnetometer;
                 uint32_t rotation_vector;
+                uint32_t game_rotation_vector;
+                uint32_t arvr_s_rotation_vector;
+                uint32_t arvr_s_game_rotation_vector;
 
                 bno08x_usr_report_periods_t()
                     : gravity(0UL)
@@ -164,6 +178,9 @@ class BNO08x
                     , raw_mems_accelerometer(0UL)
                     , raw_mems_magnetometer(0UL)
                     , rotation_vector(0UL)
+                    , game_rotation_vector(0UL)
+                    , arvr_s_rotation_vector(0UL)
+                    , arvr_s_game_rotation_vector(0UL)
                 {
                 }
         } bno08x_usr_report_periods_t;
@@ -192,6 +209,9 @@ class BNO08x
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
         void update_rotation_vector_data(sh2_SensorValue_t* sensor_val);
+        void update_game_rotation_vector_data(sh2_SensorValue_t* sensor_val);
+        void update_arvr_s_rotation_vector_data(sh2_SensorValue_t* sensor_val);
+        void update_arvr_s_game_rotation_vector_data(sh2_SensorValue_t* sensor_val);
         void update_gravity_data(sh2_SensorValue_t* sensor_val);
         void update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val);
         void update_accelerometer_data(sh2_SensorValue_t* sensor_val);
