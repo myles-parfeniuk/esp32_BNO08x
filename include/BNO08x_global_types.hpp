@@ -10,28 +10,6 @@
 #include <driver/spi_master.h>
 #include "sh2_SensorValue.h"
 
-/// @brief Sensor accuracy returned during sensor calibration
-enum class BNO08xAccuracy
-{
-    LOW = 1,
-    MED,
-    HIGH,
-    UNDEFINED
-};
-using IMUAccuracy = BNO08xAccuracy; // legacy version compatibility
-
-/// @brief Reason for previous IMU reset (returned by get_reset_reason())
-enum class BNO08xResetReason
-{
-    UNDEFINED, ///< Undefined reset reason, this should never occur and is an error.
-    POR,       ///< Previous reset was due to power on reset.
-    INT_RST,   ///< Previous reset was due to internal reset.
-    WTD,       ///< Previous reset was due to watchdog timer.
-    EXT_RST,   ///< Previous reset was due to external reset.
-    OTHER      ///< Previous reset was due to power other reason.
-};
-using IMUResetReason = BNO08xResetReason; // legacy version compatibility
-
 /// @brief BNO08xActivity states returned from get_activity_classifier()
 enum class BNO08xActivity
 {
@@ -190,6 +168,7 @@ typedef struct bno08x_euler_angle_t
         {
         }
 
+        // overloaded = operator for quat to euler conversion
         bno08x_euler_angle_t& operator=(const bno08x_quat_t& source)
         {
             this->x = atan2(2.0f * (source.real * source.i + source.j * source.k), 1.0f - 2.0f * (source.i * source.i + source.j * source.j));

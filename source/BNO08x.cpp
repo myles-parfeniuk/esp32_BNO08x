@@ -10,14 +10,24 @@
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : data_proc_task_hdl(NULL)
+    : accelerometer(this, SH2_ACCELEROMETER, 0UL, EVT_GRP_RPT_ACCELEROMETER_BIT)
+    , linear_accelerometer(this, SH2_LINEAR_ACCELERATION, 0UL, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT)
+    , gravity(this, SH2_GRAVITY, 0UL, EVT_GRP_RPT_GRAVITY_BIT)
+    , calibrated_magnetometer(this, SH2_MAGNETIC_FIELD_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT)
+    , rotation_vector(this, SH2_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_BIT)
+    , game_rotation_vector(this, SH2_GAME_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_GAME_RV_BIT)
+    , ARVR_stabilized_rotation_vector(this, SH2_ARVR_STABILIZED_RV, 0UL, EVT_GRP_RPT_ARVR_S_RV_BIT)
+    , ARVR_stabilized_game_rotation_vector(this, SH2_ARVR_STABILIZED_GRV, 0UL, EVT_GRP_RPT_ARVR_S_GAME_RV_BIT)
+    , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
+    , cb_task_hdl(NULL)
     , sh2_HAL_lock(xSemaphoreCreateMutex())
     , data_lock(xSemaphoreCreateMutex())
     , sem_kill_tasks(NULL)
     , evt_grp_bno08x_task(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
     , queue_rx_sensor_event(xQueueCreate(5, sizeof(sh2_SensorEvent_t)))
+    , queue_cb_report_id(xQueueCreate(5, sizeof(uint8_t)))
     , imu_config(imu_config)
 {
 }
@@ -61,8 +71,9 @@ BNO08x::~BNO08x()
 
     // delete all queues
     vQueueDelete(queue_rx_sensor_event);
+    vQueueDelete(queue_cb_report_id);
 
-    // clear callback list
+    // clear callback lists
     cb_list.clear();
 }
 
@@ -125,7 +136,7 @@ void BNO08x::data_proc_task_trampoline(void* arg)
 }
 
 /**
- * @brief Task responsible for handling sensor events sent by SH2 HAL.
+ * @brief Task responsible for parsing/handling sensor events sent by SH2 HAL and updating data that is returned to user.
  *
  * @return void, nothing to return
  */
@@ -158,12 +169,25 @@ void BNO08x::data_proc_task()
     vTaskDelete(NULL);
 }
 
+/**
+ * @brief Static function used to launch sh2 HAL service task.
+ *
+ * Used such that sh2_HAL_service_task() can be non-static class member.
+ *
+ * @param arg void pointer to BNO08x imu object
+ * @return void, nothing to return
+ */
 void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
 {
     BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
     imu->sh2_HAL_service_task(); // launch data processing task task from object
 }
 
+/**
+ * @brief Task responsible for calling shtp_service() when HINT is asserted to dispatch any sh2 HAL lib callbacks.
+ *
+ * @return void, nothing to return
+ */
 void BNO08x::sh2_HAL_service_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
@@ -177,13 +201,84 @@ void BNO08x::sh2_HAL_service_task()
         if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
         {
             if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
-            {
-                re_enable_reports();
-            }
+                if (!re_enable_reports())
+                {
+                    // clang-format off
+                    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                    ESP_LOGE(TAG, "Failed to re-enable enabled reports after IMU reset.");
+                    #endif
+                    // clang-format on
+                }
 
             lock_sh2_HAL();
             sh2_service();
             unlock_sh2_HAL();
+        }
+        else
+        {
+            break; // exit loop, deconstructor requested task to commit self-deletion
+        }
+    }
+
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    vTaskDelete(NULL);
+}
+
+/**
+ * @brief Static function used to launch cb_task task.
+ *
+ * Used such that cb_task() can be non-static class member.
+ *
+ * @param arg void pointer to BNO08x imu object
+ * @return void, nothing to return
+ */
+void BNO08x::cb_task_trampoline(void* arg)
+{
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    imu->cb_task();              // launch data processing task task from object
+}
+
+/**
+ * @brief Task responsible for executing callbacks registered with register_cb().
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::cb_task()
+{
+    EventBits_t evt_grp_bno08x_task_bits = 0U;
+    uint8_t rpt_ID;
+
+    while (1)
+    {
+        xQueueReceive(queue_cb_report_id, &rpt_ID, portMAX_DELAY);
+
+        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+
+        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
+        {
+            // execute callbacks
+            for (auto& cb_entry : cb_list)
+            {
+                // only execute callback if it is registered to this report or all reports
+                if ((cb_entry.report_ID == 0) || (cb_entry.report_ID == rpt_ID))
+                {
+                    std::visit(
+                            [rpt_ID](auto&& cb_fxn)
+                            {
+                                if constexpr (std::is_invocable_v<decltype(cb_fxn)>)
+                                {
+                                    // Handles std::function<void()> (i.e., no parameters)
+                                    cb_fxn();
+                                }
+                                else
+                                {
+                                    // Handles std::function<void(uint8_t)> (i.e., with a report ID)
+                                    cb_fxn(rpt_ID);
+                                }
+                            },
+                            cb_entry.cb);
+                }
+            }
         }
         else
         {
@@ -216,7 +311,7 @@ void BNO08x::unlock_sh2_HAL()
 }
 
 /**
- * @brief Locks bno08x_data_t data member struct to only allow the calling task to read/modify it.
+ * @brief Locks locks user data to only allow the calling task to read/modify it.
  *
  * @return void, nothing to return
  */
@@ -226,7 +321,7 @@ void BNO08x::lock_user_data()
 }
 
 /**
- * @brief Unlocks bno08x_data_t data member struct to allow other tasks to read/modify it.
+ * @brief Unlocks user data to allow other tasks to read/modify it.
  *
  * @return void, nothing to return
  */
@@ -235,286 +330,33 @@ void BNO08x::unlock_user_data()
     xSemaphoreGive(data_lock);
 }
 
+/**
+ * @brief Parses receieved report and updates uer data with it.
+ *
+ * @return void, nothing to return
+ */
 void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
-    bno08x_euler_angle_t euler;
+    uint8_t rpt_ID = sensor_val->sensorId;
 
-    switch (sensor_val->sensorId)
-    {
-        case SH2_GRAVITY:
-            update_gravity_data(sensor_val);
-            ESP_LOGW(TAG, "grav: %.3lf %.3lf %.3lf", data.gravity.x, data.gravity.y, data.gravity.z);
-            break;
+    // update respective report with new data
+    usr_reports.at(rpt_ID)->update_data(sensor_val);
 
-        case SH2_LINEAR_ACCELERATION:
-            update_linear_accelerometer_data(sensor_val);
-            ESP_LOGW(TAG, "lin accl: %.3lf %.3lf %.3lf", data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z);
-            break;
+    // send report ids to cb_task for callback execution
+    if (cb_list.size() != 0)
+        if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
+        {
+            // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
+        #endif
+            // clang-format on
+        }
 
-        case SH2_ACCELEROMETER:
-            update_accelerometer_data(sensor_val);
-            ESP_LOGW(TAG, "accl: %.3lf %.3lf %.3lf", data.acceleration.x, data.acceleration.y, data.acceleration.z);
-            break;
-
-        case SH2_MAGNETIC_FIELD_CALIBRATED:
-            update_calibrated_magnetometer_data(sensor_val);
-            ESP_LOGW(TAG, "cal magf: %.3lf %.3lf %.3lf", data.cal_magnetometer.x, data.cal_magnetometer.y, data.cal_magnetometer.z);
-            break;
-
-        case SH2_STEP_COUNTER:
-            update_step_counter_data(sensor_val);
-            ESP_LOGW(TAG, "step counter: %d %ld", data.step_counter.steps, data.step_counter.latency);
-            break;
-
-        case SH2_PERSONAL_ACTIVITY_CLASSIFIER:
-            update_activity_classifier_data(sensor_val);
-            ESP_LOGW(TAG, "activity classifier: %d", static_cast<uint8_t>(data.activity_classifier.mostLikelyState));
-            break;
-
-        case SH2_GYROSCOPE_CALIBRATED:
-            update_calibrated_gyro_data(sensor_val);
-            ESP_LOGW(TAG, "cal gyro: %.3lf %.3lf %.3lf", data.cal_gyro.x, data.cal_gyro.y, data.cal_gyro.z);
-            break;
-
-        case SH2_RAW_GYROSCOPE:
-            update_raw_mems_gyro_data(sensor_val);
-            ESP_LOGW(TAG, "raw gyro: %d %d %d", data.mems_raw_gyro.x, data.mems_raw_gyro.y, data.mems_raw_gyro.z);
-            break;
-
-        case SH2_RAW_ACCELEROMETER:
-            update_raw_mems_accel_data(sensor_val);
-            ESP_LOGW(TAG, "raw accel: %d %d %d", data.mems_raw_accel.x, data.mems_raw_accel.y, data.mems_raw_accel.z);
-            break;
-
-        case SH2_RAW_MAGNETOMETER:
-            update_raw_mems_magnetometer_data(sensor_val);
-            ESP_LOGW(TAG, "raw magf: %d %d %d", data.mems_raw_magnetometer.x, data.mems_raw_magnetometer.y, data.mems_raw_magnetometer.z);
-            break;
-
-        case SH2_ROTATION_VECTOR:
-            update_rotation_vector_data(sensor_val);
-            euler = get_rotation_vector_euler();
-            ESP_LOGW(TAG, "rot vec euler: %.3lf %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z, euler.accuracy);
-            break;
-
-        case SH2_GAME_ROTATION_VECTOR:
-            update_game_rotation_vector_data(sensor_val);
-            euler = get_game_rotation_vector_euler();
-            ESP_LOGW(TAG, "game rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
-            break;
-
-        case SH2_ARVR_STABILIZED_RV:
-            update_arvr_s_rotation_vector_data(sensor_val);
-            euler = get_ARVR_stabilized_rotation_vector_euler();
-            ESP_LOGW(TAG, "arvr s rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
-            break;
-
-        case SH2_ARVR_STABILIZED_GRV:
-            update_arvr_s_game_rotation_vector_data(sensor_val);
-            euler = get_ARVR_stabilized_game_rotation_vector_euler();
-            ESP_LOGW(TAG, "arvr s game rot vec euler: %.3lf %.3lf %.3lf", euler.x, euler.y, euler.z);
-            break;
-
-        default:
-
-            break;
-    }
-}
-
-/**
- * @brief Updates rotation vector data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_rotation_vector_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.rotation_vector = sensor_val->un.rotationVector;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates game rotation vector data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_game_rotation_vector_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.game_rotation_vector = sensor_val->un.gameRotationVector;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates ARVR stabilized rotation vector data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_arvr_s_rotation_vector_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.arvr_s_rotation_vector = sensor_val->un.arvrStabilizedRV;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates ARVR stabilized game rotation vector data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_arvr_s_game_rotation_vector_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.arvr_s_game_rotation_vector = sensor_val->un.arvrStabilizedGRV;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates gravity data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_gravity_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.gravity = sensor_val->un.gravity;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates linear accelerometer data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_linear_accelerometer_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.linear_acceleration = sensor_val->un.linearAcceleration;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates accelerometer data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_accelerometer_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.acceleration = sensor_val->un.accelerometer;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates calibrated magnetometer data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_calibrated_magnetometer_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.cal_magnetometer = sensor_val->un.magneticField;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates step counter data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_step_counter_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.step_counter = sensor_val->un.stepCounter;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates activity classifier data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_activity_classifier_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.activity_classifier = sensor_val->un.personalActivityClassifier;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates calibrated gyro data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_calibrated_gyro_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.cal_gyro = sensor_val->un.gyroscope;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates raw mems gyro data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_raw_mems_gyro_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.mems_raw_gyro = sensor_val->un.rawGyroscope;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates raw mems accel data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_raw_mems_accel_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.mems_raw_accel = sensor_val->un.rawAccelerometer;
-    unlock_user_data();
-}
-
-/**
- * @brief Updates raw mems magnetometer data from decoded sensor event.
- *
- * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
- *
- * @return void, nothing to return
- */
-void BNO08x::update_raw_mems_magnetometer_data(sh2_SensorValue_t* sensor_val)
-{
-    lock_user_data();
-    data.mems_raw_magnetometer = sensor_val->un.rawMagnetometer;
-    unlock_user_data();
+    // signal data_available()
+    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    most_recent_rpt = sensor_val->sensorId;
+    xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }
 
 /**
@@ -773,8 +615,7 @@ esp_err_t BNO08x::init_tasks()
     xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
 
     // launch data processing task
-    task_created = xTaskCreate(
-            &data_proc_task_trampoline, "bno08x_data_processing_task", CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ, this, 7, &data_proc_task_hdl);
+    task_created = xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -793,7 +634,8 @@ esp_err_t BNO08x::init_tasks()
     }
 
     // launch data processing task
-    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", 4095U, this, 7, &sh2_HAL_service_task_hdl);
+    task_created =
+            xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -809,6 +651,25 @@ esp_err_t BNO08x::init_tasks()
     {
         init_status.task_init_cnt++;
         init_status.sh2_HAL_service_task = true;
+    }
+
+    // launch cb task
+    task_created = xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
+
+    if (task_created != pdTRUE)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, cb_task failed to launch.");
+        #endif
+        // clang-format on
+
+        return ESP_FAIL;
+    }
+    else
+    {
+        init_status.task_init_cnt++;
+        init_status.cb_task = true;
     }
 
     return ESP_OK;
@@ -1104,6 +965,7 @@ esp_err_t BNO08x::deinit_tasks()
     static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 100UL;
     uint8_t kill_count = 0;
     sh2_SensorEvent_t empty_event;
+    uint8_t empty_ID = 0;
 
     sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_init_cnt, 0);
 
@@ -1115,6 +977,9 @@ esp_err_t BNO08x::deinit_tasks()
 
     if (init_status.sh2_HAL_service_task)
         xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
+
+    if (init_status.cb_task)
+        xQueueSend(queue_cb_report_id, &empty_ID, 0);
 
     for (uint8_t i = 0; i < init_status.task_init_cnt; i++)
         if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
@@ -1169,579 +1034,6 @@ void BNO08x::hard_reset()
 }
 
 /**
- * @brief Sends command to enable rotation vector reports. (See Ref. Manual 6.5.18)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_ROTATION_VECTOR, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.rotation_vector = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable game rotation vector reports. (See Ref. Manual 6.5.19)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_GAME_ROTATION_VECTOR, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.game_rotation_vector = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.19)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_ARVR_stabilized_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_ARVR_STABILIZED_RV, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.arvr_s_rotation_vector = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.19)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_ARVR_stabilized_game_rotation_vector(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_ARVR_STABILIZED_GRV, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.arvr_s_game_rotation_vector = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable gravity reports. (See Ref. Manual 6.5.11)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_gravity(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_GRAVITY, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.gravity = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_GRAVITY_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable linear accelerometer reports. (See Ref. Manual 6.5.10)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_linear_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_LINEAR_ACCELERATION, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.linear_accelerometer = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable accelerometer reports. (See Ref. Manual 6.5.9)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_ACCELEROMETER, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.accelerometer = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ACCELEROMETER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable calibrated magnetometer reports. (See Ref. Manual 6.5.16)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_calibrated_magnetometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_MAGNETIC_FIELD_CALIBRATED, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.cal_magnetometer = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable step counter reports. (See Ref. Manual 6.5.29)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_step_counter(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_STEP_COUNTER, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.step_counter = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_STEP_COUNTER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable activity classifier reports. (See Ref. Manual 6.5.36)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_activity_classifier(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_PERSONAL_ACTIVITY_CLASSIFIER, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.activity_classifier = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable calibrated gyro reports. (See Ref. Manual 6.5.13)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_calibrated_gyro(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_GYROSCOPE_CALIBRATED, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.cal_gyro = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_CAL_GYRO_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable raw gyro reports from physical gyroscope MEMS sensor. (See Ref. Manual 6.5.12)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_raw_mems_gyro(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_RAW_GYROSCOPE, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.raw_mems_gyro = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_GYRO_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable raw accelerometer reports from physical accelerometer MEMS sensor. (See Ref. Manual 6.5.8)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_raw_mems_accelerometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_RAW_ACCELEROMETER, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.raw_mems_accelerometer = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Sends command to enable raw magnetometer reports from physical accelerometer magnetometer sensor. (See Ref. Manual 6.5.15)
- *
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional), see default_sensor_cfg for defaults.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-bool BNO08x::enable_raw_mems_magnetometer(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    if (enable_report(SH2_RAW_MAGNETOMETER, time_between_reports, sensor_cfg) != ESP_OK)
-    {
-        return false;
-    }
-    else
-    {
-        user_report_periods.raw_mems_magnetometer = time_between_reports;
-        xEventGroupSetBits(evt_grp_report_en, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT_EN);
-        return true;
-    }
-}
-
-/**
- * @brief Grabs most recent rotation vector data in form of unit quaternion, accuracy units in radians.
- *
- * @return Struct containing requested data.
- */
-bno08x_quat_t BNO08x::get_rotation_vector_quat()
-{
-    lock_user_data();
-    bno08x_quat_t rqdata = data.rotation_vector;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads.
- *
- * @param in_degrees If true returned euler angle is in degrees, if false in radians
- *
- * @return Struct containing requested data.
- */
-bno08x_euler_angle_t BNO08x::get_rotation_vector_euler(bool in_degrees)
-{
-    bno08x_euler_angle_t rqdata;
-    bno08x_quat_t quat = get_rotation_vector_quat();
-
-    rqdata = quat; // conversion handled by overloaded operator
-
-    // convert to degrees if requested
-    if (in_degrees)
-        rqdata *= RAD_2_DEG;
-
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent game rotation vector data in form of unit quaternion. No accuracy data available with this report.
- *
- * @return Struct containing requested data.
- */
-bno08x_quat_t BNO08x::get_game_rotation_vector_quat()
-{
-    lock_user_data();
-    bno08x_quat_t rqdata = data.game_rotation_vector;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data available with this report.
- *
- *
- * @param in_degrees If true returned euler angle is in degrees, if false in radians.
- *
- * @return Struct containing requested data.
- */
-bno08x_euler_angle_t BNO08x::get_game_rotation_vector_euler(bool in_degrees)
-{
-    bno08x_euler_angle_t rqdata;
-    bno08x_quat_t quat = get_game_rotation_vector_quat();
-
-    rqdata = quat; // conversion handled by overloaded operator
-
-    // convert to degrees if requested
-    if (in_degrees)
-        rqdata *= RAD_2_DEG;
-
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent ARVR stabilized rotation vector data in form of unit quaternion. No accuracy data available with this report.
- *
- * @return Struct containing requested data.
- */
-bno08x_quat_t BNO08x::get_ARVR_stabilized_rotation_vector_quat()
-{
-    lock_user_data();
-    bno08x_quat_t rqdata = data.arvr_s_rotation_vector;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent ARVR stabilized rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data available
- * with this report.
- *
- *
- * @param in_degrees If true returned euler angle is in degrees, if false in radians.
- *
- * @return Struct containing requested data.
- */
-bno08x_euler_angle_t BNO08x::get_ARVR_stabilized_rotation_vector_euler(bool in_degrees)
-{
-    bno08x_euler_angle_t rqdata;
-    bno08x_quat_t quat = get_ARVR_stabilized_rotation_vector_quat();
-
-    rqdata = quat; // conversion handled by overloaded operator
-
-    // convert to degrees if requested
-    if (in_degrees)
-        rqdata *= RAD_2_DEG;
-
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent ARVR stabilized  game rotation vector data in form of unit quaternion. No accuracy data available with this report.
- *
- * @return Struct containing requested data.
- */
-bno08x_quat_t BNO08x::get_ARVR_stabilized_game_rotation_vector_quat()
-{
-    lock_user_data();
-    bno08x_quat_t rqdata = data.arvr_s_game_rotation_vector;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent ARVR stabilized game rotation vector data in form of an euler angle, units are in degrees or rads. No accuracy data
- * available with this report.
- *
- *
- * @param in_degrees If true returned euler angle is in degrees, if false in radians.
- *
- * @return Struct containing requested data.
- */
-bno08x_euler_angle_t BNO08x::get_ARVR_stabilized_game_rotation_vector_euler(bool in_degrees)
-{
-    bno08x_euler_angle_t rqdata;
-    bno08x_quat_t quat = get_ARVR_stabilized_game_rotation_vector_quat();
-
-    rqdata = quat; // conversion handled by overloaded operator
-
-    // convert to degrees if requested
-    if (in_degrees)
-        rqdata *= RAD_2_DEG;
-
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent gravity data, units are in m/s^2.
- *
- * @return Struct containing requested data.
- */
-bno08x_accel_data_t BNO08x::get_gravity()
-{
-    lock_user_data();
-    bno08x_accel_data_t rqdata = data.gravity;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent linear acceleration data (acceleration - gravity), units are in m/s^2.
- *
- * @return Struct containing requested data.
- */
-bno08x_accel_data_t BNO08x::get_linear_accel()
-{
-    lock_user_data();
-    bno08x_accel_data_t rqdata = data.linear_acceleration;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent acceleration data (including gravity), units are in m/s^2.
- *
- *
- * @return Struct containing requested data.
- */
-bno08x_accel_data_t BNO08x::get_accel()
-{
-    lock_user_data();
-    bno08x_accel_data_t rqdata = data.acceleration;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent calibrated magnetometer data, units are in uTesla.
- *
- * @return Struct containing requested data.
- */
-bno08x_magf_data_t BNO08x::get_calibrated_magnetometer()
-{
-    lock_user_data();
-    bno08x_magf_data_t rqdata = data.cal_magnetometer;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent calibrated gyro velocity data, units are in rad/s.
- *
- * @return Struct containing requested data.
- */
-bno08x_gyro_data_t BNO08x::get_calibrated_gyro()
-{
-    lock_user_data();
-    bno08x_gyro_data_t rqdata = data.cal_gyro;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent raw mems gyro data, units are in ADCs.
- *
- * @return Struct containing requested data.
- */
-bno08x_raw_gyro_data_t BNO08x::get_raw_mems_gyro()
-{
-    lock_user_data();
-    bno08x_raw_gyro_data_t rqdata = data.mems_raw_gyro;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent raw mems accelerometer data, units are in ADCs.
- *
- * @return Struct containing requested data.
- */
-bno08x_raw_accel_data_t BNO08x::get_raw_mems_accelerometer()
-{
-    lock_user_data();
-    bno08x_raw_accel_data_t rqdata = data.mems_raw_accel;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent raw mems magnetometer data, units are in ADCs.
- *
- * @return Struct containing requested data.
- */
-bno08x_raw_magf_data_t BNO08x::get_raw_mems_magnetometer()
-{
-    lock_user_data();
-    bno08x_raw_magf_data_t rqdata = data.mems_raw_magnetometer;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
- * @brief Grabs most recent step counter data.
- *
- * From Ref. Manual 6.5.29:
- *
- * "[the latency within the struct is] the delay in microseconds from the time from when the last step
- * being counted occurred until the time the step count was reported."
- *
- *
- * @return Struct containing requested data.
- */
-bno08x_step_counter_data_t BNO08x::get_step_counter()
-{
-    lock_user_data();
-    bno08x_step_counter_data_t rqdata = data.step_counter;
-    unlock_user_data();
-    return rqdata;
-}
-
-/**
  * @brief Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
  *
  *
@@ -1783,81 +1075,99 @@ esp_err_t BNO08x::enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_
         return ESP_OK;
 }
 
+/**
+ * @brief Re-enables all reports enabled by user (called when BNO08x reset is detected by sh2 HAL lib).
+ *
+ * @return ESP_OK if enabled reports were successfuly re-enabled.
+ */
 esp_err_t BNO08x::re_enable_reports()
 {
     EventBits_t report_en_bits = xEventGroupGetBits(evt_grp_report_en);
 
+    // loop through all entries of map and check if they are enabled
+    for (auto entry = usr_reports.begin(); entry != usr_reports.end(); ++entry)
+    {
+        BNO08xRpt* rpt = entry->second;
+        if (rpt->rpt_bit & report_en_bits)
+        {
+            if (!rpt->enable(rpt->period_us))
+                return ESP_FAIL;
+        }
+    }
+
     xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
-
-    if (report_en_bits & EVT_GRP_RPT_GRAVITY_BIT_EN)
-        if (!enable_gravity(user_report_periods.gravity))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT_EN)
-        if (!enable_linear_accelerometer(user_report_periods.linear_accelerometer))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_ACCELEROMETER_BIT_EN)
-        if (!enable_accelerometer(user_report_periods.accelerometer))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_CAL_MAGNETOMETER_BIT_EN)
-        if (!enable_calibrated_magnetometer(user_report_periods.cal_magnetometer))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_STEP_COUNTER_BIT_EN)
-        if (!enable_step_counter(user_report_periods.step_counter))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.activity_classifier))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_CAL_GYRO_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.cal_gyro))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_RAW_GYRO_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.raw_mems_gyro))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_RAW_ACCELEROMETER_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.raw_mems_accelerometer))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_RAW_MAGNETOMETER_BIT_EN)
-        if (!enable_activity_classifier(user_report_periods.raw_mems_magnetometer))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_ROTATION_VECTOR_BIT_EN)
-        if (!enable_rotation_vector(user_report_periods.rotation_vector))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_GAME_ROTATION_VECTOR_BIT_EN)
-        if (!enable_game_rotation_vector(user_report_periods.game_rotation_vector))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_ARVR_S_ROTATION_VECTOR_BIT_EN)
-        if (!enable_ARVR_stabilized_rotation_vector(user_report_periods.arvr_s_rotation_vector))
-            return ESP_FAIL;
-
-    if (report_en_bits & EVT_GRP_RPT_ARVR_S_GAME_ROTATION_VECTOR_BIT_EN)
-        if (!enable_ARVR_stabilized_game_rotation_vector(user_report_periods.arvr_s_game_rotation_vector))
-            return ESP_FAIL;
 
     return ESP_OK;
 }
 
 /**
+ * @brief Polls for new data/report to become available.
+ *
+ * @return True if new data/report became available before DATA_AVAILABLE_TIMEOUT_MS.
+ */
+bool BNO08x::data_available()
+{
+
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) != pdFALSE)
+        return true;
+
+    return false;
+}
+
+/**
+ * @brief Polls for new data/report to become available, overloaded with param for report identification.
+ *
+ * @param report_ID Reference to save most recent report ID.
+ *
+ * @return True if new data/report became available before DATA_AVAILABLE_TIMEOUT_MS.
+ */
+bool BNO08x::data_available(uint8_t& report_ID)
+{
+
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) != pdFALSE)
+    {
+        report_ID = most_recent_rpt;
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * @brief Registers a callback to execute when new data from a report is received.
  *
- * @param cb_fxn Pointer to the call-back function should be of void return type and void input parameters.
+ * @param cb_fxn Pointer to the call-back function should be of void return type void input param.
  *
  * @return void, nothing to return
  */
-void BNO08x::register_cb(std::function<void()> cb_fxn)
+void BNO08x::register_cb(std::function<void(void)> cb_fxn)
 {
-    cb_list.push_back(cb_fxn);
+    cb_list.push_back({0U, cb_fxn});
+}
+
+/**
+ * @brief Registers a callback to execute when new data from a report is received, overloaded with callback param for most recent report ID.
+ *
+ * @param cb_fxn Pointer to the call-back function should be of void return type with single input param of uint8_t for most recent report ID.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
+{
+    cb_list.push_back({0U, cb_fxn});
+}
+
+/**
+ * @brief Registers a callback to execute when new data from a specific report is received.
+ *
+ * @param report_ID The ID of the report the callback is to be registered to.
+ * @param cb_fxn Pointer to the call-back function should be of void return type void input param.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::register_report_cb(uint8_t report_ID, std::function<void(void)> cb_fxn)
+{
+    cb_list.push_back({report_ID, cb_fxn});
 }
 
 /**

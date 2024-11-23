@@ -99,12 +99,12 @@ menu "esp32_BNO08x"
 
     menu "Callbacks"
 
-        config ESP32_BNO08X_DATA_PROC_TASK_SZ
-            int "Callback task size, (data_proc_task())"
+        config ESP32_BNO08X_CB_TASK_SZ
+            int "Callback task size, (cb_task())"
             range 1024 20480
             default 4096
             help
-                Stack size of task responsible for parsing packets and executing callbacks.
+                Stack size of task responsible for executing callbacks.
                 Note that callbacks should remain as short as possible, pass the data out of
                 the callback with a queue or save it to different variables for longer operations.
 
