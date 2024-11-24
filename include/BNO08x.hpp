@@ -70,7 +70,6 @@ class BNO08x
         void hard_reset();
 
         bool data_available();
-        bool data_available(uint8_t& report_ID);
         void register_cb(std::function<void(void)> cb_fxn);
         void register_cb(std::function<void(uint8_t report_ID)> cb_fxn);
 
@@ -188,13 +187,15 @@ class BNO08x
         esp_err_t deinit_sh2_HAL();
 
         esp_err_t wait_for_hint();
-        
+
         esp_err_t re_enable_reports();
 
         sh2_Hal_t sh2_HAL; ///< sh2 hardware abstraction layer struct for use with sh2 HAL lib.
 
         EventGroupHandle_t evt_grp_bno08x_task; ///<Event group for indicating various BNO08x related events between tasks.
         EventGroupHandle_t evt_grp_report_en;   ///<Event group for indicating which reports are currently enabled.
+        EventGroupHandle_t
+                evt_grp_report_data_available; ///< Event group for indicating to BNO08xRpt::has_new_data() that a module received a new report since the last time it was called (note this group is unaffected by data read through callbacks).
 
         QueueHandle_t
                 queue_rx_sensor_event; ///< Queue to send sensor events from sh2 HAL sensor event callback (BNO08xSH2HAL::sensor_event_cb()) to data_proc_task()
@@ -212,8 +213,6 @@ class BNO08x
                 init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization.
 
         sh2_ProductIds_t product_IDs; ///< Product ID info returned IMU at initialization, can be viewed with print_product_ids()
-
-        uint8_t most_recent_rpt = 0U;
 
         std::map<uint8_t, BNO08xRpt*> usr_reports = {{SH2_ACCELEROMETER, &accelerometer}, {SH2_LINEAR_ACCELERATION, &linear_accelerometer},
                 {SH2_GRAVITY, &gravity}, {SH2_MAGNETIC_FIELD_CALIBRATED, &cal_magnetometer}, {SH2_MAGNETIC_FIELD_UNCALIBRATED, &uncal_magnetometer},

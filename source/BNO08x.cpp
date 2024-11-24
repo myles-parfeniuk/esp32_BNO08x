@@ -38,6 +38,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , sem_kill_tasks(NULL)
     , evt_grp_bno08x_task(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
+    , evt_grp_report_data_available(xEventGroupCreate())
     , queue_rx_sensor_event(xQueueCreate(5, sizeof(sh2_SensorEvent_t)))
     , queue_cb_report_id(xQueueCreate(5, sizeof(uint8_t)))
     , imu_config(imu_config)
@@ -80,6 +81,7 @@ BNO08x::~BNO08x()
     // delete event groups
     vEventGroupDelete(evt_grp_bno08x_task);
     vEventGroupDelete(evt_grp_report_en);
+    vEventGroupDelete(evt_grp_report_data_available);
 
     // delete all queues
     vQueueDelete(queue_rx_sensor_event);
@@ -1098,27 +1100,6 @@ bool BNO08x::data_available()
             EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
         return true;
 
-    return false;
-}
-
-/**
- * @brief Polls for new data/report to become available, overloaded with param for report identification.
- *
- * @param report_ID Reference to save most recent report ID.
- *
- * @return True if new data/report became available before DATA_AVAILABLE_TIMEOUT_MS.
- */
-bool BNO08x::data_available(uint8_t& report_ID)
-{
-
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
-            EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
-    {
-        report_ID = most_recent_rpt;
-        return true;
-    }
-
-    report_ID = 0U;
     return false;
 }
 

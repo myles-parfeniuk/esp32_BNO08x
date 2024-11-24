@@ -15,8 +15,9 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
 
     xEventGroupClearBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
 
-    imu->lock_sh2_HAL();
     sensor_cfg.reportInterval_us = time_between_reports;
+
+    imu->lock_sh2_HAL();
     sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
     imu->unlock_sh2_HAL();
 
@@ -69,6 +70,25 @@ void BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 }
 
 /**
+ * @brief Checks if a new report has been received since the last time this function was called.
+ *
+ *
+ * @return True if a new report was received since the last time this function was called.
+ */
+bool BNO08xRpt::has_new_data()
+{
+    bool new_data = false;
+
+    if (xEventGroupGetBits(imu->evt_grp_report_data_available) & rpt_bit)
+    {
+        new_data = true;
+        xEventGroupClearBits(imu->evt_grp_report_data_available, rpt_bit);
+    }
+
+    return new_data;
+}
+
+/**
  * @brief Flush all buffered reports for this sensor/report module.
  *
  * @return True if flush operation succeeded.
@@ -85,13 +105,55 @@ bool BNO08xRpt::flush()
 }
 
 /**
+ * @brief Gets sample counts for this sensor (see SH-2 ref manual 6.4.3.1)
+ *
+ * @param Struct to store requested data.
+ *
+ * @return True get counts operation succeeded.
+ */
+bool BNO08xRpt::get_sample_counts(bno08x_sample_counts_t& sample_counts)
+{
+    int success = SH2_OK;
+    sh2_Counts_t pCounts;
+
+    imu->lock_sh2_HAL();
+    success = sh2_getCounts(ID, &pCounts);
+    imu->unlock_sh2_HAL();
+
+    if (success != SH2_OK)
+    {
+        return false;
+    }
+    else
+    {
+        sample_counts = pCounts;
+        return true;
+    }
+}
+
+/**
+ * @brief Clears BNO08x internal sample counts for this sensor. (see SH-2 ref manual 6.4.3.1)
+ *
+ * @return True clear counts operation succeeded.
+ */
+bool BNO08xRpt::clear_sample_counts()
+{
+    int success = SH2_OK;
+
+    imu->lock_sh2_HAL();
+    success = sh2_clearCounts(ID);
+    imu->unlock_sh2_HAL();
+
+    return (success != SH2_OK) ? false : true;
+}
+
+/**
  * @brief Signals to BNO08x::data_available() that a new report has arrived.
  *
  * @return void, nothing to return
  */
 void BNO08xRpt::signal_data_available()
 {
-    xEventGroupClearBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
-    imu->most_recent_rpt = ID;
+    xEventGroupSetBits(imu->evt_grp_report_data_available, rpt_bit);
     xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

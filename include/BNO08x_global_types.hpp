@@ -482,6 +482,26 @@ typedef struct bno08x_shake_detector_t
 
 } bno08x_shake_detector_t;
 
+/// @brief Struct to represent sample counts, returned from BNO08xRpt::get_sample_counts()
+typedef struct bno08x_sample_counts_t
+{
+        uint32_t offered;   ///< Number of samples produced by underlying data source.
+        uint32_t on;        ///< Number of "offered" samples while this sensor was requested by host.
+        uint32_t accepted;  ///< Number of "on" samples that passed decimation filter.
+        uint32_t attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
+
+        // conversion from sh2_PersonalActivityClassifier_t
+        bno08x_sample_counts_t& operator=(const sh2_Counts_t& source)
+        {
+            this->offered = source.offered;
+            this->on = source.on;
+            this->accepted = source.accepted;
+            this->attempted = source.attempted;
+
+            return *this;
+        }
+} bno08x_sample_counts_t;
+
 typedef sh2_Accelerometer_t bno08x_accel_t; ///< Acceleration data.
 typedef sh2_StepCounter bno08x_step_counter_t;
 typedef sh2_RawGyroscope_t bno08x_raw_gyro_t;

@@ -13,6 +13,10 @@ class BNO08xRptGameRV : public BNO08xRptRVGeneric
         {
         }
 
+        bool tare(bool x = true, bool y = true, bool z = true);
+        bool tare_persist();
+        void tare_clear();
+
     private:
         void update_data(sh2_SensorValue_t* sensor_val) override;
         static const constexpr char* TAG = "BNO08xRptGameRV";

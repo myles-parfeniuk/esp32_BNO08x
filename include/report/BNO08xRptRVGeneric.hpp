@@ -16,6 +16,7 @@ class BNO08xRptRVGeneric : public BNO08xRpt
             : BNO08xRpt(imu, report_ID, period_us, rpt_bit)
         {
         }
+        bool tare(bool x, bool y, bool z, sh2_TareBasis_t basis);
         bno08x_quat_t data;
         static const constexpr char* TAG = "BNO08xRptRVGeneric";
 };

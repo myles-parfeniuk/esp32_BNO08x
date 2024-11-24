@@ -27,7 +27,10 @@ class BNO08xRpt
         bool enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool disable(sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         void register_cb(std::function<void(void)> cb_fxn);
+        bool has_new_data();
         bool flush();
+        bool get_sample_counts(bno08x_sample_counts_t& sample_counts);
+        bool clear_sample_counts(); 
 
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
 
