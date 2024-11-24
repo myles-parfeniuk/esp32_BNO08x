@@ -11,23 +11,26 @@
  */
 bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    EventBits_t evt_grp_report_en_bits = xEventGroupGetBits(imu->evt_grp_report_en);
+    int sh2_res = SH2_OK;
 
-    // already enabled
-    if (!(evt_grp_report_en_bits & rpt_bit))
+    xEventGroupClearBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
+
+    imu->lock_sh2_HAL();
+    sensor_cfg.reportInterval_us = time_between_reports;
+    sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
+    imu->unlock_sh2_HAL();
+
+    if (sh2_res != SH2_OK)
     {
-        if (imu->enable_report(ID, time_between_reports, sensor_cfg) != ESP_OK)
-        {
-            return false; // Return false if enable_report fails
-        }
-        else
-        {
-            period_us = time_between_reports;                    // Update the period
-            xEventGroupSetBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
-        }
+        return false;
     }
-
-    return true;
+    else
+    {
+        flush();
+        period_us = time_between_reports;                    // Update the period
+        xEventGroupSetBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
+        return true;
+    }
 }
 
 /**
@@ -44,7 +47,7 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
 
     if (evt_grp_report_en_bits & rpt_bit)
     {
-        if (imu->enable_report(ID, 0UL, sensor_cfg) != ESP_OK)
+        if (!enable(0UL, sensor_cfg))
             return false;
         else
             xEventGroupClearBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
@@ -63,4 +66,32 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
 void BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 {
     imu->cb_list.push_back({ID, cb_fxn});
+}
+
+/**
+ * @brief Flush all buffered reports for this sensor/report module.
+ *
+ * @return True if flush operation succeeded.
+ */
+bool BNO08xRpt::flush()
+{
+    int success = SH2_OK;
+
+    imu->lock_sh2_HAL();
+    success = sh2_flush(ID);
+    imu->unlock_sh2_HAL();
+
+    return (success != SH2_OK) ? false : true;
+}
+
+/**
+ * @brief Signals to BNO08x::data_available() that a new report has arrived.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::signal_data_available()
+{
+    xEventGroupClearBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    imu->most_recent_rpt = ID;
+    xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

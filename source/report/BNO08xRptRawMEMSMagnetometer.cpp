@@ -1,4 +1,4 @@
-#include "BNO08xRptRawMEMSMagnetometer.hpp" 
+#include "BNO08xRptRawMEMSMagnetometer.hpp"
 #include "BNO08x.hpp"
 
 /**
@@ -13,6 +13,9 @@ void BNO08xRptRawMEMSMagnetometer::update_data(sh2_SensorValue_t* sensor_val)
     imu->lock_user_data();
     data = sensor_val->un.rawMagnetometer;
     imu->unlock_user_data();
+
+    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+        signal_data_available();
 }
 
 /**

@@ -354,21 +354,19 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     // update respective report with new data
     usr_reports.at(rpt_ID)->update_data(sensor_val);
 
-    // send report ids to cb_task for callback execution
-    if (cb_list.size() != 0)
-        if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
-        {
-            // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
-        #endif
-            // clang-format on
-        }
-
-    // signal data_available()
-    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
-    most_recent_rpt = sensor_val->sensorId;
-    xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    // send report ids to cb_task for callback execution (only if this report is enabled)
+    if (usr_reports.at(rpt_ID)->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
+    {
+        if (cb_list.size() != 0)
+            if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
+                #endif
+                // clang-format on
+            }
+    }
 }
 
 /**
@@ -1061,30 +1059,6 @@ esp_err_t BNO08x::wait_for_hint()
         return ESP_OK;
     else
         return ESP_ERR_TIMEOUT;
-}
-
-/**
- * @brief Enables a sensor report such that the BNO08x begins sending it.
- *
- * @param sensor_ID The ID of the sensor for the respective report to be enabled.
- * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration.
- *
- * @return ESP_OK if report was successfully enabled.
- */
-esp_err_t BNO08x::enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
-{
-    int sh2_res = SH2_ERR;
-
-    lock_sh2_HAL();
-    sensor_cfg.reportInterval_us = time_between_reports;
-    sh2_res = sh2_setSensorConfig(sensor_ID, &sensor_cfg);
-    unlock_sh2_HAL();
-
-    if (sh2_res != SH2_OK)
-        return ESP_FAIL;
-    else
-        return ESP_OK;
 }
 
 /**

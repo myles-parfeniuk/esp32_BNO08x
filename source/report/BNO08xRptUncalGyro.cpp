@@ -1,4 +1,4 @@
-#include "BNO08xRptUncalGyro.hpp" 
+#include "BNO08xRptUncalGyro.hpp"
 #include "BNO08x.hpp"
 
 /**
@@ -14,6 +14,9 @@ void BNO08xRptUncalGyro::update_data(sh2_SensorValue_t* sensor_val)
     data = sensor_val->un.gyroscopeUncal;
     bias_data = sensor_val->un.gyroscopeUncal;
     imu->unlock_user_data();
+
+    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+        signal_data_available();
 }
 
 /**

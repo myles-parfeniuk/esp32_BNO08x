@@ -27,6 +27,7 @@ class BNO08xRpt
         bool enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool disable(sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         void register_cb(std::function<void(void)> cb_fxn);
+        bool flush();
 
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
 
@@ -56,6 +57,8 @@ class BNO08xRpt
 
         {
         }
+
+        void signal_data_available();
 
         static const constexpr float RAD_2_DEG =
                 (180.0f / M_PI); ///< Constant for radian to degree conversions, sed in quaternion to euler function conversions.

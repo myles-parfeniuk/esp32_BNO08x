@@ -188,8 +188,7 @@ class BNO08x
         esp_err_t deinit_sh2_HAL();
 
         esp_err_t wait_for_hint();
-
-        esp_err_t enable_report(sh2_SensorId_t sensor_ID, uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg);
+        
         esp_err_t re_enable_reports();
 
         sh2_Hal_t sh2_HAL; ///< sh2 hardware abstraction layer struct for use with sh2 HAL lib.

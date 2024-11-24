@@ -14,6 +14,9 @@ void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
     data = sensor_val->un.gyroIntegratedRV;
     data_vel = sensor_val->un.gyroIntegratedRV;
     imu->unlock_user_data();
+
+    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+        signal_data_available();
 }
 
 /**
