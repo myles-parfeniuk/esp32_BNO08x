@@ -2,11 +2,12 @@
 #include "BNO08x.hpp"
 
 /**
- * @brief Grabs most recent rotation vector data in form of unit quaternion, accuracy units in radians (if available).
+ * @brief Grabs most recent rotation vector data in form of unit quaternion, accuracy units in radians (if available, else constant 0.0f).
  *
  * The following RV reports have accuracy data:
  *
  * - rotation vector
+ * - geomagnetic rotation vector
  *
  *
  * @return Struct containing requested data.

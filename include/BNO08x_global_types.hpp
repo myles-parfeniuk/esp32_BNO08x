@@ -10,7 +10,36 @@
 #include <driver/spi_master.h>
 #include "sh2_SensorValue.h"
 
-/// @brief BNO08xActivity states returned from get_activity_classifier()
+// macros for bno08x_tap_detector_t
+#define TAP_DETECTED_X_AXIS(tap) ((tap) & (1U << 0U) ? 1 : 0)
+#define TAP_DETECTED_X_AXIS_POSITIVE(tap) ((tap) & (1U << 1U) ? 1 : 0)
+#define TAP_DETECTED_Y_AXIS(tap) ((tap) & (1U << 2U) ? 1 : 0)
+#define TAP_DETECTED_Y_AXIS_POSITIVE(tap) ((tap) & (1U << 3U) ? 1 : 0)
+#define TAP_DETECTED_Z_AXIS(tap) ((tap) & (1U << 4U) ? 1 : 0)
+#define TAP_DETECTED_Z_AXIS_POSITIVE(tap) ((tap) & (1U << 5U) ? 1 : 0)
+#define TAP_DETECTED_DOUBLE(tap) ((tap) & (1U << 6U) ? 1 : 0)
+
+// macros for bno08x_shake_detector_t
+#define SHAKE_DETECTED_X(tap) ((tap) & (1U << 0U) ? 1 : 0)
+#define SHAKE_DETECTED_Y(tap) ((tap) & (1U << 1U) ? 1 : 0)
+#define SHAKE_DETECTED_Z(tap) ((tap) & (1U << 2U) ? 1 : 0)
+
+/// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
+enum class BNO08xActivityEnable
+{
+    UNKNOWN = (1U << 0U),
+    IN_VEHICLE = (1U << 1U),
+    ON_BICYCLE = (1U << 2U),
+    ON_FOOT = (1U << 3U),
+    STILL = (1U << 4U),
+    TILTING = (1U << 5U),
+    WALKING = (1U << 6U),
+    RUNNING = (1U << 7U),
+    ON_STAIRS = (1U << 8U),
+    ALL = 0x1FU
+};
+
+/// @brief BNO08xActivity states returned from BNO08x::activity_classifier.get()
 enum class BNO08xActivity
 {
     UNKNOWN = 0,    // 0 = unknown
@@ -25,13 +54,17 @@ enum class BNO08xActivity
     UNDEFINED = 9   // used for unit tests
 };
 
-/// @brief BNO08xStability states returned from get_stability_classifier()
+/// @brief BNO08xStability states returned from BNO08x::stability_classifier.get()
 enum class BNO08xStability
 {
     UNKNOWN = 0,    // 0 = unknown
     ON_TABLE = 1,   // 1 = on table
     STATIONARY = 2, // 2 = stationary
-    UNDEFINED = 3   // used for unit tests
+    STABLE = 3,     // 3 = stable
+    MOTION = 4,     // 4 = in motion
+    RESERVED = 5,   // 5 = reserved (not used)
+    UNDEFINED = 6   // used for unit tests
+
 };
 
 /// @brief IMU configuration settings passed into constructor
@@ -83,35 +116,7 @@ typedef struct bno08x_config_t
         }
 } bno08x_config_t;
 
-typedef struct bno08x_activity_classifier_data_t
-{
-        uint8_t page;
-        bool lastPage;
-        BNO08xActivity mostLikelyState;
-        uint8_t confidence[10];
-
-        bno08x_activity_classifier_data_t()
-            : page(0U)
-            , lastPage(false)
-            , mostLikelyState(BNO08xActivity::UNDEFINED)
-            , confidence({})
-        {
-        }
-
-        // conversion from sh2_PersonalActivityClassifier_t
-        bno08x_activity_classifier_data_t& operator=(const sh2_PersonalActivityClassifier_t& source)
-        {
-            this->page = source.page;
-            this->lastPage = source.lastPage;
-            this->mostLikelyState = static_cast<BNO08xActivity>(source.mostLikelyState);
-
-            for (int i = 0; i < 10; ++i)
-                this->confidence[i] = source.confidence[i];
-
-            return *this;
-        }
-} bno08x_activity_classifier_data_t;
-
+/// @brief Struct to represent unit quaternion.
 typedef struct bno08x_quat_t
 {
         float real;
@@ -129,8 +134,7 @@ typedef struct bno08x_quat_t
         {
         }
 
-        // overloaded assignment operators to handle both sh2 structs:
-
+        // overloaded assignment operator to handle RV with accuracy
         bno08x_quat_t& operator=(const sh2_RotationVectorWAcc_t& source)
         {
             this->real = source.real;
@@ -141,7 +145,21 @@ typedef struct bno08x_quat_t
             return *this;
         }
 
+        // overloaded assignment operator to handle RV with w/o accuracy
         bno08x_quat_t& operator=(const sh2_RotationVector_t& source)
+        {
+            this->real = source.real;
+            this->i = source.i;
+            this->j = source.j;
+            this->k = source.k;
+            this->accuracy = 0.0f;
+            return *this;
+        }
+
+        // overloaded assignment operator to handle IRV report
+
+        // overloaded assignment operator to handle RV with w/o accuracy
+        bno08x_quat_t& operator=(const sh2_GyroIntegratedRV_t& source)
         {
             this->real = source.real;
             this->i = source.i;
@@ -153,6 +171,7 @@ typedef struct bno08x_quat_t
 
 } bno08x_quat_t;
 
+/// @brief Struct to represent euler angle (units in degrees or rads)
 typedef struct bno08x_euler_angle_t
 {
         float x;
@@ -191,12 +210,282 @@ typedef struct bno08x_euler_angle_t
 
 } bno08x_euler_angle_t;
 
-typedef sh2_Accelerometer_t bno08x_accel_data_t; ///< Acceleration data.
-typedef sh2_MagneticField_t bno08x_magf_data_t;  ///< Magnetic field data.
-typedef sh2_StepCounter bno08x_step_counter_data_t;
-typedef sh2_Gyroscope_t bno08x_gyro_data_t;
-typedef sh2_RawGyroscope_t bno08x_raw_gyro_data_t;
-typedef sh2_RawAccelerometer bno08x_raw_accel_data_t;
-typedef sh2_RawMagnetometer_t bno08x_raw_magf_data_t;
+/// @brief Struct to represent angular velocity (units in rad/s)
+typedef struct bno08x_ang_vel_t
+{
+        float x;
+        float y;
+        float z;
+
+        bno08x_ang_vel_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+        {
+        }
+
+        // overloaded *= operator for rad2deg conversions
+        template <typename T>
+        bno08x_ang_vel_t& operator*=(T value)
+        {
+            x *= static_cast<float>(value);
+            y *= static_cast<float>(value);
+            z *= static_cast<float>(value);
+            return *this;
+        }
+
+        // strip sh2_GyroIntegratedRV_t of velocity data for IRV reports
+        bno08x_ang_vel_t& operator=(const sh2_GyroIntegratedRV_t& source)
+        {
+            this->x = source.angVelX;
+            this->y = source.angVelY;
+            this->z = source.angVelZ;
+            return *this;
+        }
+} bno08x_ang_vel_t;
+
+/// @brief Struct to represent magnetic field data (units in uTesla)
+typedef struct bno08x_magf_t
+{
+        float x;
+        float y;
+        float z;
+
+        bno08x_magf_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+        {
+        }
+
+        // overloaded = operator for sh2_MagneticField_t conversion
+        bno08x_magf_t& operator=(const sh2_MagneticField_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            return *this;
+        }
+
+        // overloaded = operator for sh2_MagneticFieldUncalibrated_t conversion
+        bno08x_magf_t& operator=(const sh2_MagneticFieldUncalibrated_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            return *this;
+        }
+
+} bno08x_magf_t;
+
+/// @brief Struct to represent magnetic field bias data (units in uTesla)
+typedef struct bno08x_magf_bias_t
+{
+        float x;
+        float y;
+        float z;
+
+        bno08x_magf_bias_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+        {
+        }
+
+        // overloaded = operator for sh2_MagneticFieldUncalibrated_t conversion
+        bno08x_magf_bias_t& operator=(const sh2_MagneticFieldUncalibrated_t& source)
+        {
+            this->x = source.biasX;
+            this->y = source.biasY;
+            this->z = source.biasZ;
+            return *this;
+        }
+
+} bno08x_magf_bias_t;
+
+/// @brief Struct to represent gyro data (units in rad/s)
+typedef struct bno08x_gyro_t
+{
+        float x;
+        float y;
+        float z;
+
+        bno08x_gyro_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+        {
+        }
+
+        // overloaded = operator for sh2_Gyroscope_t conversion
+        bno08x_gyro_t& operator=(const sh2_Gyroscope_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            return *this;
+        }
+
+        // overloaded = operator for sh2_GyroscopeUncalibrated conversion
+        bno08x_gyro_t& operator=(const sh2_GyroscopeUncalibrated& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            return *this;
+        }
+
+} bno08x_gyro_t;
+
+/// @brief Struct to represent gyro bias data (units in rad/s)
+typedef struct bno08x_gyro_bias_t
+{
+        float x;
+        float y;
+        float z;
+
+        bno08x_gyro_bias_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+        {
+        }
+
+        // overloaded = operator for sh2_GyroscopeUncalibrated conversion
+        bno08x_gyro_bias_t& operator=(const sh2_GyroscopeUncalibrated& source)
+        {
+            this->x = source.biasX;
+            this->y = source.biasY;
+            this->z = source.biasZ;
+            return *this;
+        }
+
+} bno08x_gyro_bias_t;
+
+/// @brief Struct to represent activity classifier data.
+typedef struct bno08x_activity_classifier_t
+{
+        uint8_t page;
+        bool lastPage;
+        BNO08xActivity mostLikelyState;
+        uint8_t confidence[10];
+
+        bno08x_activity_classifier_t()
+            : page(0U)
+            , lastPage(false)
+            , mostLikelyState(BNO08xActivity::UNDEFINED)
+            , confidence({})
+        {
+        }
+
+        // conversion from sh2_PersonalActivityClassifier_t
+        bno08x_activity_classifier_t& operator=(const sh2_PersonalActivityClassifier_t& source)
+        {
+            this->page = source.page;
+            this->lastPage = source.lastPage;
+            this->mostLikelyState = static_cast<BNO08xActivity>(source.mostLikelyState);
+
+            for (int i = 0; i < 10; ++i)
+                this->confidence[i] = source.confidence[i];
+
+            return *this;
+        }
+} bno08x_activity_classifier_t;
+
+/// @brief Struct to represent tap detector data (flag meaning: 0 = no tap, 1 = positive tap on axis, -1 = negative tap on axis)
+typedef struct bno08x_tap_detector_t
+{
+        int8_t x_flag;
+        int8_t y_flag;
+        int8_t z_flag;
+        bool double_tap;
+
+        bno08x_tap_detector_t()
+            : x_flag(0)
+            , y_flag(0)
+            , z_flag(0)
+            , double_tap(false)
+        {
+        }
+
+        // overloaded = operator for sh2_GyroscopeUncalibrated conversion
+        bno08x_tap_detector_t& operator=(const sh2_TapDetector_t& source)
+        {
+            if (TAP_DETECTED_X_AXIS(source.flags))
+                this->x_flag = -1;
+            else
+                this->x_flag = 0;
+
+            if (TAP_DETECTED_X_AXIS_POSITIVE(source.flags))
+                this->x_flag = 1;
+
+            if (TAP_DETECTED_Y_AXIS(source.flags))
+                this->y_flag = -1;
+            else
+                this->y_flag = 0;
+
+            if (TAP_DETECTED_Y_AXIS_POSITIVE(source.flags))
+                this->y_flag = 1;
+
+            if (TAP_DETECTED_Z_AXIS(source.flags))
+                this->z_flag = -1;
+            else
+                this->z_flag = 0;
+
+            if (TAP_DETECTED_Z_AXIS_POSITIVE(source.flags))
+                this->z_flag = 1;
+
+            if (TAP_DETECTED_DOUBLE(source.flags))
+                this->double_tap = true;
+            else
+                this->double_tap = false;
+
+            return *this;
+        }
+
+} bno08x_tap_detector_t;
+
+/// @brief Struct to represent shake detector data (flag meaning: 0 = no shake 1 = shake detected)
+typedef struct bno08x_shake_detector_t
+{
+        uint8_t x_flag;
+        uint8_t y_flag;
+        uint8_t z_flag;
+
+        bno08x_shake_detector_t()
+            : x_flag(0U)
+            , y_flag(0U)
+            , z_flag(0U)
+        {
+        }
+
+        // overloaded = operator for sh2_GyroscopeUncalibrated conversion
+        bno08x_shake_detector_t& operator=(const sh2_ShakeDetector_t& source)
+        {
+            if (SHAKE_DETECTED_X(source.shake))
+                this->x_flag = 1U;
+            else
+                this->x_flag = 0U;
+
+            if (SHAKE_DETECTED_Y(source.shake))
+                this->y_flag = 1U;
+            else
+                this->y_flag = 0U;
+
+            if (SHAKE_DETECTED_Z(source.shake))
+                this->z_flag = 1U;
+            else
+                this->z_flag = 0U;
+
+            return *this;
+        }
+
+} bno08x_shake_detector_t;
+
+typedef sh2_Accelerometer_t bno08x_accel_t; ///< Acceleration data.
+typedef sh2_StepCounter bno08x_step_counter_t;
+typedef sh2_RawGyroscope_t bno08x_raw_gyro_t;
+typedef sh2_RawAccelerometer bno08x_raw_accel_t;
+typedef sh2_RawMagnetometer_t bno08x_raw_magf_t;
 
 typedef bno08x_config_t imu_config_t; // legacy version compatibility

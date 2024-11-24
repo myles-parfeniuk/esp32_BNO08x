@@ -1,4 +1,4 @@
-#include "BNO08xRptAcceleration.hpp" // Include the header file for the class
+#include "BNO08xRptAcceleration.hpp" 
 #include "BNO08x.hpp"
 
 /**
@@ -20,10 +20,10 @@ void BNO08xRptAcceleration::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return Struct containing requested data.
  */
-bno08x_accel_data_t BNO08xRptAcceleration::get()
+bno08x_accel_t BNO08xRptAcceleration::get()
 {
     imu->lock_user_data();
-    bno08x_accel_data_t rqdata = data;
+    bno08x_accel_t rqdata = data;
     imu->unlock_user_data();
     return rqdata;
 }

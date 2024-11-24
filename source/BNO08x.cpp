@@ -1,5 +1,4 @@
 #include "BNO08x.hpp"
-#include "BNO08x_macros.hpp"
 
 /**
  * @brief BNO08x imu constructor.
@@ -13,11 +12,24 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     : accelerometer(this, SH2_ACCELEROMETER, 0UL, EVT_GRP_RPT_ACCELEROMETER_BIT)
     , linear_accelerometer(this, SH2_LINEAR_ACCELERATION, 0UL, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT)
     , gravity(this, SH2_GRAVITY, 0UL, EVT_GRP_RPT_GRAVITY_BIT)
-    , calibrated_magnetometer(this, SH2_MAGNETIC_FIELD_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT)
-    , rotation_vector(this, SH2_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_BIT)
-    , game_rotation_vector(this, SH2_GAME_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_GAME_RV_BIT)
-    , ARVR_stabilized_rotation_vector(this, SH2_ARVR_STABILIZED_RV, 0UL, EVT_GRP_RPT_ARVR_S_RV_BIT)
-    , ARVR_stabilized_game_rotation_vector(this, SH2_ARVR_STABILIZED_GRV, 0UL, EVT_GRP_RPT_ARVR_S_GAME_RV_BIT)
+    , cal_magnetometer(this, SH2_MAGNETIC_FIELD_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT)
+    , uncal_magnetometer(this, SH2_MAGNETIC_FIELD_UNCALIBRATED, 0UL, EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT)
+    , cal_gyro(this, SH2_GYROSCOPE_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_GYRO_BIT)
+    , uncal_gyro(this, SH2_GYROSCOPE_UNCALIBRATED, 0UL, EVT_GRP_RPT_UNCAL_GYRO_BIT)
+    , rv(this, SH2_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_BIT)
+    , rv_game(this, SH2_GAME_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_GAME_BIT)
+    , rv_ARVR_stabilized(this, SH2_ARVR_STABILIZED_RV, 0UL, EVT_GRP_RPT_RV_ARVR_S_BIT)
+    , rv_ARVR_stabilized_game(this, SH2_ARVR_STABILIZED_GRV, 0UL, EVT_GRP_RPT_RV_ARVR_S_GAME_BIT)
+    , rv_gyro_integrated(this, SH2_GYRO_INTEGRATED_RV, 0UL, EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT)
+    , rv_geomagnetic(this, SH2_GEOMAGNETIC_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_GEOMAG_RV_BIT)
+    , raw_gyro(this, SH2_RAW_GYROSCOPE, 0UL, EVT_GRP_RPT_RAW_GYRO_BIT)
+    , raw_accelerometer(this, SH2_RAW_ACCELEROMETER, 0UL, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT)
+    , raw_magnetometer(this, SH2_RAW_MAGNETOMETER, 0UL, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT)
+    , step_counter(this, SH2_STEP_COUNTER, 0UL, EVT_GRP_RPT_STEP_COUNTER_BIT)
+    , activity_classifier(this, SH2_PERSONAL_ACTIVITY_CLASSIFIER, 0UL, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT)
+    , stability_classifier(this, SH2_STABILITY_CLASSIFIER, 0UL, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT)
+    , shake_detector(this, SH2_SHAKE_DETECTOR, 0UL, EVT_GRP_RPT_SHAKE_DETECTOR_BIT)
+    , tap_detector(this, SH2_TAP_DETECTOR, 0UL, EVT_GRP_RPT_TAP_DETECTOR_BIT)
     , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , cb_task_hdl(NULL)
@@ -1108,7 +1120,8 @@ esp_err_t BNO08x::re_enable_reports()
 bool BNO08x::data_available()
 {
 
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) != pdFALSE)
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
+            EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
         return true;
 
     return false;
@@ -1124,12 +1137,14 @@ bool BNO08x::data_available()
 bool BNO08x::data_available(uint8_t& report_ID)
 {
 
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) != pdFALSE)
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
+            EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
     {
         report_ID = most_recent_rpt;
         return true;
     }
 
+    report_ID = 0U;
     return false;
 }
 
@@ -1158,19 +1173,6 @@ void BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
 }
 
 /**
- * @brief Registers a callback to execute when new data from a specific report is received.
- *
- * @param report_ID The ID of the report the callback is to be registered to.
- * @param cb_fxn Pointer to the call-back function should be of void return type void input param.
- *
- * @return void, nothing to return
- */
-void BNO08x::register_report_cb(uint8_t report_ID, std::function<void(void)> cb_fxn)
-{
-    cb_list.push_back({report_ID, cb_fxn});
-}
-
-/**
  * @brief Prints product IDs received at initialization.
  *
  * @return void, nothing to return
@@ -1190,6 +1192,68 @@ void BNO08x::print_product_ids()
                 "                ---------------------------\n\r",
                 i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor, product_IDs.entry->swVersionMinor,
                 product_IDs.entry->swBuildNumber, product_IDs.entry->swVersionPatch);
+    }
+}
+
+/**
+ * @brief Converts a BNO08xActivity enum to string.
+ *
+ * @return The resulting string conversion of the enum.
+ */
+const char* BNO08x::activity_to_str(BNO08xActivity activity)
+{
+    switch (activity)
+    {
+        case BNO08xActivity::UNKNOWN:
+            return "UNKNOWN";
+        case BNO08xActivity::IN_VEHICLE:
+            return "IN_VEHICLE";
+        case BNO08xActivity::ON_BICYCLE:
+            return "ON_BICYCLE";
+        case BNO08xActivity::ON_FOOT:
+            return "ON_FOOT";
+        case BNO08xActivity::STILL:
+            return "STILL";
+        case BNO08xActivity::TILTING:
+            return "TILTING";
+        case BNO08xActivity::WALKING:
+            return "WALKING";
+        case BNO08xActivity::RUNNING:
+            return "RUNNING";
+        case BNO08xActivity::ON_STAIRS:
+            return "ON_STAIRS";
+        case BNO08xActivity::UNDEFINED:
+            return "UNDEFINED";
+        default:
+            return "UNDEFINED";
+    }
+}
+
+/**
+ * @brief Converts a BNO08xStability enum to string.
+ *
+ * @return The resulting string conversion of the enum.
+ */
+const char* BNO08x::stability_to_str(BNO08xStability stability)
+{
+    switch (stability)
+    {
+        case BNO08xStability::UNKNOWN:
+            return "UNKNOWN";
+        case BNO08xStability::ON_TABLE:
+            return "ON_TABLE";
+        case BNO08xStability::STATIONARY:
+            return "STATIONARY";
+        case BNO08xStability::STABLE:
+            return "STABLE";
+        case BNO08xStability::MOTION:
+            return "MOTION";
+        case BNO08xStability::RESERVED:
+            return "RESERVED";
+        case BNO08xStability::UNDEFINED:
+            return "UNDEFINED";
+        default:
+            return "UNDEFINED";
     }
 }
 

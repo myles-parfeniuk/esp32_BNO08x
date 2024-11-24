@@ -4,11 +4,10 @@
 /**
  * @brief Enables a sensor report such that the BNO08x begins sending it.
  *
- * @param sensor_ID The ID of the sensor for the respective report to be enabled.
  * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration.
+ * @param sensor_cfg Sensor special configuration (optional, see BNO08xRpt::default_sensor_cfg for defaults).
  *
- * @return ESP_OK if report was successfully enabled.
+ * @return True if report was successfully enabled.
  */
 bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
@@ -52,4 +51,16 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
     }
 
     return true;
+}
+
+/**
+ * @brief Registers a callback to execute when new data from a specific report is received.
+ *
+ * @param cb_fxn Pointer to the call-back function should be of void return type void input param.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
+{
+    imu->cb_list.push_back({ID, cb_fxn});
 }

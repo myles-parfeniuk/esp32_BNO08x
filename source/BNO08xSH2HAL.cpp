@@ -1,5 +1,4 @@
 #include "BNO08xSH2HAL.hpp"
-#include "BNO08x_macros.hpp"
 #include "BNO08x.hpp"
 
 BNO08x* BNO08xSH2HAL::imu;

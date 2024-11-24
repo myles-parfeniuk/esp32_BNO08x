@@ -28,10 +28,23 @@
 #include "BNO08xRptLinearAcceleration.hpp"
 #include "BNO08xRptGravity.hpp"
 #include "BNO08xRptCalMagnetometer.hpp"
+#include "BNO08xRptUncalMagnetometer.hpp"
+#include "BNO08xRptCalGyro.hpp"
+#include "BNO08xRptUncalGyro.hpp"
 #include "BNO08xRptRV.hpp"
 #include "BNO08xRptGameRV.hpp"
 #include "BNO08xRptARVRStabilizedRV.hpp"
 #include "BNO08xRptARVRStabilizedGameRV.hpp"
+#include "BNO08xRptIGyroRV.hpp"
+#include "BNO08xRptRVGeomag.hpp"
+#include "BNO08xRptRawMEMSGyro.hpp"
+#include "BNO08xRptRawMEMSAccelerometer.hpp"
+#include "BNO08xRptRawMEMSMagnetometer.hpp"
+#include "BNO08xRptStepCounter.hpp"
+#include "BNO08xRptActivityClassifier.hpp"
+#include "BNO08xStabilityClassifier.hpp"
+#include "BNO08xShakeDetector.hpp"
+#include "BNO08xTapDetector.hpp"
 
 /**
  * @class BNO08x
@@ -60,18 +73,34 @@ class BNO08x
         bool data_available(uint8_t& report_ID);
         void register_cb(std::function<void(void)> cb_fxn);
         void register_cb(std::function<void(uint8_t report_ID)> cb_fxn);
-        void register_report_cb(uint8_t report_ID, std::function<void(void)> cb_fxn);
 
         void print_product_ids();
+
+        // enum helper fxns
+        static const char* activity_to_str(BNO08xActivity activity);
+        static const char* stability_to_str(BNO08xStability stability);
 
         BNO08xRptAcceleration accelerometer;
         BNO08xRptLinearAcceleration linear_accelerometer;
         BNO08xRptGravity gravity;
-        BNO08xRptCalMagnetometer calibrated_magnetometer;
-        BNO08xRptRV rotation_vector;
-        BNO08xRptGameRV game_rotation_vector;
-        BNO08xRptARVRStabilizedRV ARVR_stabilized_rotation_vector;
-        BNO08xRptARVRStabilizedGameRV ARVR_stabilized_game_rotation_vector;
+        BNO08xRptCalMagnetometer cal_magnetometer;
+        BNO08xRptUncalMagnetometer uncal_magnetometer;
+        BNO08xRptCalGyro cal_gyro;
+        BNO08xRptUncalGyro uncal_gyro;
+        BNO08xRptRV rv;
+        BNO08xRptGameRV rv_game;
+        BNO08xRptARVRStabilizedRV rv_ARVR_stabilized;
+        BNO08xRptARVRStabilizedGameRV rv_ARVR_stabilized_game;
+        BNO08xRptIGyroRV rv_gyro_integrated;
+        BNO08xRptRVGeomag rv_geomagnetic;
+        BNO08xRptRawMEMSGyro raw_gyro;
+        BNO08xRptRawMEMSAccelerometer raw_accelerometer;
+        BNO08xRptRawMEMSMagnetometer raw_magnetometer;
+        BNO08xRptStepCounter step_counter;
+        BNO08xRptActivityClassifier activity_classifier;
+        BNO08xStabilityClassifier stability_classifier;
+        BNO08xShakeDetector shake_detector;
+        BNO08xTapDetector tap_detector;
 
     private:
         /// @brief Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).
@@ -104,37 +133,6 @@ class BNO08x
                 }
         } bno08x_init_status_t;
 
-        /// @brief Holds data returned from sensor reports.
-        typedef struct bno08x_data_t
-        {
-                bno08x_step_counter_data_t step_counter;
-                bno08x_activity_classifier_data_t activity_classifier;
-                bno08x_gyro_data_t cal_gyro;
-                bno08x_raw_gyro_data_t mems_raw_gyro;
-                bno08x_raw_accel_data_t mems_raw_accel;
-                bno08x_raw_magf_data_t mems_raw_magnetometer;
-                bno08x_quat_t rv;
-                bno08x_quat_t game_rv;
-                bno08x_quat_t arvr_s_rv;
-                bno08x_quat_t arvr_s_game_rv;
-
-                bno08x_data_t()
-                    : step_counter({0UL, 0U})
-                    , activity_classifier(bno08x_activity_classifier_data_t())
-                    , cal_gyro({0.0f, 0.0f, 0.0f})
-                    , mems_raw_gyro({0, 0, 0, 0, 0UL})
-                    , mems_raw_accel({0, 0, 0, 0UL})
-                    , mems_raw_magnetometer({0, 0, 0, 0UL})
-                    , rv(bno08x_quat_t())
-                    , game_rv(bno08x_quat_t())
-                    , arvr_s_rv(bno08x_quat_t())
-                    , arvr_s_game_rv(bno08x_quat_t())
-
-                {
-                }
-
-        } bno08x_data_t;
-
         using bno08x_cb_t = std::variant<std::function<void()>, std::function<void(uint8_t)>>;
         /// @brief Holds registered callback info.
         typedef struct bno08x_cb_data_t
@@ -144,14 +142,14 @@ class BNO08x
         } bno08x_cb_data_t;
 
         // data processing task
-        static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ = 2048; ///< Size of data_proc_task() stack in bytes
-        TaskHandle_t data_proc_task_hdl;                                        ///<data_proc_task() task handle
+        static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ = 2048UL; ///< Size of data_proc_task() stack in bytes
+        TaskHandle_t data_proc_task_hdl;                                          ///<data_proc_task() task handle
         static void data_proc_task_trampoline(void* arg);
         void data_proc_task();
 
         // sh2 service task
-        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ = 2048; ///< Size of sh2_HAL_service_task() stack in bytes
-        TaskHandle_t sh2_HAL_service_task_hdl;                                        ///<sh2_HAL_service_task() task handle
+        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ = 2048UL; ///< Size of sh2_HAL_service_task() stack in bytes
+        TaskHandle_t sh2_HAL_service_task_hdl;                                          ///<sh2_HAL_service_task() task handle
         static void sh2_HAL_service_task_trampoline(void* arg);
         void sh2_HAL_service_task();
 
@@ -219,9 +217,14 @@ class BNO08x
         uint8_t most_recent_rpt = 0U;
 
         std::map<uint8_t, BNO08xRpt*> usr_reports = {{SH2_ACCELEROMETER, &accelerometer}, {SH2_LINEAR_ACCELERATION, &linear_accelerometer},
-                {SH2_GRAVITY, &gravity}, {SH2_MAGNETIC_FIELD_CALIBRATED, &calibrated_magnetometer}, {SH2_ROTATION_VECTOR, &rotation_vector},
-                {SH2_GAME_ROTATION_VECTOR, &game_rotation_vector}, {SH2_ARVR_STABILIZED_RV, &ARVR_stabilized_rotation_vector},
-                {SH2_ARVR_STABILIZED_GRV, &ARVR_stabilized_game_rotation_vector}};
+                {SH2_GRAVITY, &gravity}, {SH2_MAGNETIC_FIELD_CALIBRATED, &cal_magnetometer}, {SH2_MAGNETIC_FIELD_UNCALIBRATED, &uncal_magnetometer},
+                {SH2_GYROSCOPE_CALIBRATED, &cal_gyro}, {SH2_GYROSCOPE_UNCALIBRATED, &uncal_gyro}, {SH2_ROTATION_VECTOR, &rv},
+                {SH2_GAME_ROTATION_VECTOR, &rv_game}, {SH2_ARVR_STABILIZED_RV, &rv_ARVR_stabilized},
+                {SH2_ARVR_STABILIZED_GRV, &rv_ARVR_stabilized_game}, {SH2_GYRO_INTEGRATED_RV, &rv_gyro_integrated},
+                {SH2_GEOMAGNETIC_ROTATION_VECTOR, &rv_geomagnetic}, {SH2_RAW_GYROSCOPE, &raw_gyro}, {SH2_RAW_ACCELEROMETER, &raw_accelerometer},
+                {SH2_RAW_MAGNETOMETER, &raw_magnetometer}, {SH2_STEP_COUNTER, &step_counter},
+                {SH2_PERSONAL_ACTIVITY_CLASSIFIER, &activity_classifier}, {SH2_STABILITY_CLASSIFIER, &stability_classifier},
+                {SH2_SHAKE_DETECTOR, &shake_detector}, {SH2_TAP_DETECTOR, &tap_detector}};
 
         static void IRAM_ATTR hint_handler(void* arg);
 
@@ -242,41 +245,52 @@ class BNO08x
 
         // evt_grp_bno08x_task bits
         static const constexpr EventBits_t EVT_GRP_BNO08x_TASKS_RUNNING =
-                (1U << 0U); ///<When this bit is set it indicates the BNO08x tasks are running, it is always set to 1 for the duration BNO08x driver object. Cleared in deconstructor for safe task deletion.
+                (1UL << 0U); ///<When this bit is set it indicates the BNO08x tasks are running, it is always set to 1 for the duration BNO08x driver object. Cleared in deconstructor for safe task deletion.
         static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT =
-                (1U << 1U); ///<When this bit is set it indicates the BNO08x has asserted its host interrupt pin, thus an SPI transaction should commence.
+                (1UL << 1U); ///<When this bit is set it indicates the BNO08x has asserted its host interrupt pin, thus an SPI transaction should commence.
         static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_RESET_OCCURRED =
-                (1U << 2U); ///<When this bit is set it indicates the SH2 HAL lib has reset the IMU, any reports enabled by the user must be re-enabled.
+                (1UL << 2U); ///<When this bit is set it indicates the SH2 HAL lib has reset the IMU, any reports enabled by the user must be re-enabled.
         static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_DATA_AVAILABLE =
-                (1U << 3U); ///<When this bit is set it indicates a report has been received for the user to read, cleared in data_available() set/cleared in handle_sensor_report()
+                (1UL << 3U); ///<When this bit is set it indicates a report has been received for the user to read, cleared in data_available() set/cleared in handle_sensor_report()
 
         // evt_grp_report_en bits
-        static const constexpr EventBits_t EVT_GRP_RPT_RV_BIT = (1 << 0);          ///< When set, rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GAME_RV_BIT = (1 << 1);     ///< When set, game rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_RV_BIT = (1U << 2U); ///< When set, ARVR stabilized rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ARVR_S_GAME_RV_BIT =
-                (1U << 3U); ///< When set, ARVR stabilized game rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_RV_BIT = (1U << 4U); ///< When set, gyro integrator rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1U << 5U);         ///< When set, accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1U << 6U);  ///< When set, linear accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1U << 7U);               ///< When set, gravity reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_CAL_GYRO_BIT = (1U << 8U);              ///< When set, gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT = (1U << 9U);     ///< When set, uncalibrated gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_CAL_MAGNETOMETER_BIT = (1U << 10U);     ///< When set, magnetometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1U << 11U);         ///< When set, tap detector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1U << 12U);         ///< When set, step counter reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT = (1U << 13U); ///< When set, stability classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1U << 14U);  ///< When set, activity classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1U << 15U);    ///< When set, raw accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1U << 16U);             ///< When set, raw gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1U << 17U);     ///< When set, raw magnetometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RV_BIT = (1UL << 0U);        ///< When set, rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RV_GAME_BIT = (1UL << 1U);   ///< When set, game rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RV_ARVR_S_BIT = (1UL << 2U); ///< When set, ARVR stabilized rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RV_ARVR_S_GAME_BIT =
+                (1UL << 3U); ///< When set, ARVR stabilized game rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT =
+                (1UL << 4U);                                                        ///< When set, gyro integrator rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GEOMAG_RV_BIT = (1UL << 5U); ///< When set, gyro integrator rotation vector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1UL << 6U);        ///< When set, accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1UL << 7U); ///< When set, linear accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1UL << 8U);              ///< When set, gravity reports are active.
+
+        static const constexpr EventBits_t EVT_GRP_RPT_CAL_GYRO_BIT = (1UL << 9U);    ///< When set, gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_UNCAL_GYRO_BIT = (1UL << 10U); ///< When set, uncalibrated gyro reports are active.
+
+        static const constexpr EventBits_t EVT_GRP_RPT_CAL_MAGNETOMETER_BIT = (1UL << 11U); ///< When set, calibrated magnetometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT =
+                (1UL << 12U); ///< When set, uncalibrated magnetometer reports are active.
+
+        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1UL << 13U); ///< When set, tap detector reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1UL << 14U); ///< When set, step counter reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT =
+                (1UL << 15U);                                                                  ///< When set, stability classifier reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1UL << 16U); ///< When set, activity classifier reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_SHAKE_DETECTOR_BIT = (1UL << 17U);      ///< When set, shake detector reports are active.
+
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1UL << 18U); ///< When set, raw accelerometer reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1UL << 19U);          ///< When set, raw gyro reports are active.
+        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1UL << 20U);  ///< When set, raw magnetometer reports are active.
 
         static const constexpr EventBits_t EVT_GRP_RPT_ALL =
-                EVT_GRP_RPT_RV_BIT | EVT_GRP_RPT_GAME_RV_BIT | EVT_GRP_RPT_ARVR_S_RV_BIT | EVT_GRP_RPT_ARVR_S_GAME_RV_BIT | EVT_GRP_RPT_GYRO_RV_BIT |
-                EVT_GRP_RPT_ACCELEROMETER_BIT | EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT | EVT_GRP_RPT_GRAVITY_BIT | EVT_GRP_RPT_CAL_GYRO_BIT |
-                EVT_GRP_RPT_GYRO_UNCALIBRATED_BIT | EVT_GRP_RPT_CAL_MAGNETOMETER_BIT | EVT_GRP_RPT_TAP_DETECTOR_BIT | EVT_GRP_RPT_STEP_COUNTER_BIT |
+                EVT_GRP_RPT_RV_BIT | EVT_GRP_RPT_RV_GAME_BIT | EVT_GRP_RPT_RV_ARVR_S_BIT | EVT_GRP_RPT_RV_ARVR_S_GAME_BIT |
+                EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT | EVT_GRP_RPT_GRAVITY_BIT | EVT_GRP_RPT_CAL_GYRO_BIT | EVT_GRP_RPT_UNCAL_GYRO_BIT |
+                EVT_GRP_RPT_CAL_MAGNETOMETER_BIT | EVT_GRP_RPT_TAP_DETECTOR_BIT | EVT_GRP_RPT_STEP_COUNTER_BIT |
                 EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT | EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT | EVT_GRP_RPT_RAW_ACCELEROMETER_BIT |
-                EVT_GRP_RPT_RAW_GYRO_BIT | EVT_GRP_RPT_RAW_MAGNETOMETER_BIT;
+                EVT_GRP_RPT_RAW_GYRO_BIT | EVT_GRP_RPT_RAW_MAGNETOMETER_BIT | EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT | EVT_GRP_RPT_SHAKE_DETECTOR_BIT |
+                EVT_GRP_RPT_ACCELEROMETER_BIT | EVT_GRP_RPT_GEOMAG_RV_BIT | EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT;
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 
@@ -292,4 +306,17 @@ class BNO08x
         friend class BNO08xRptLinearAcceleration;
         friend class BNO08xRptGravity;
         friend class BNO08xRptCalMagnetometer;
+        friend class BNO08xRptUncalMagnetometer;
+        friend class BNO08xRptCalGyro;
+        friend class BNO08xRptUncalGyro;
+        friend class BNO08xRptIGyroRV;
+        friend class BNO08xRptRVGeomag;
+        friend class BNO08xRptRawMEMSGyro;
+        friend class BNO08xRptRawMEMSAccelerometer;
+        friend class BNO08xRptRawMEMSMagnetometer;
+        friend class BNO08xRptStepCounter;
+        friend class BNO08xRptActivityClassifier;
+        friend class BNO08xStabilityClassifier;
+        friend class BNO08xShakeDetector;
+        friend class BNO08xTapDetector;
 };

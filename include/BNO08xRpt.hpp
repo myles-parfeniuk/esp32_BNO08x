@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <functional>
 #include "BNO08x_global_types.hpp"
 
 // forward dec to prevent compile errors
@@ -25,6 +26,7 @@ class BNO08xRpt
 
         bool enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
         bool disable(sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        void register_cb(std::function<void(void)> cb_fxn);
 
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
 

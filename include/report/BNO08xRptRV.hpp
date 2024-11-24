@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BNO08xRptRVGeneric.hpp" // Include the base class header
+#include "BNO08xRptRVGeneric.hpp"
 
 /**
  * @brief Class to represent rotation vector reports. (See Ref. Manual 6.5.18)
@@ -8,7 +8,6 @@
 class BNO08xRptRV : public BNO08xRptRVGeneric
 {
     public:
-        // Constructor declaration
         BNO08xRptRV(BNO08x* imu, uint8_t report_ID, uint32_t period_us, uint32_t rpt_bit)
             : BNO08xRptRVGeneric(imu, report_ID, period_us, rpt_bit)
         {

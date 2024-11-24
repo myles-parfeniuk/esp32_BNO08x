@@ -1,8 +1,8 @@
-#include "BNO08xRptCalMagnetometer.hpp" // Include the header file for the class
+#include "BNO08xRptCalMagnetometer.hpp" 
 #include "BNO08x.hpp"
 
 /**
- * @brief Updates accelerometer data from decoded sensor event.
+ * @brief Updates calibrated magnetometer data from decoded sensor event.
  *
  * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
  *
@@ -20,10 +20,10 @@ void BNO08xRptCalMagnetometer::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return Struct containing requested data.
  */
-bno08x_magf_data_t BNO08xRptCalMagnetometer::get()
+bno08x_magf_t BNO08xRptCalMagnetometer::get()
 {
     imu->lock_user_data();
-    bno08x_magf_data_t rqdata = data;
+    bno08x_magf_t rqdata = data;
     imu->unlock_user_data();
     return rqdata;
 }
