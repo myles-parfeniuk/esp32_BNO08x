@@ -12,6 +12,7 @@ void BNO08xRptUncalGyro::update_data(sh2_SensorValue_t* sensor_val)
 {
     imu->lock_user_data();
     data = sensor_val->un.gyroscopeUncal;
+    data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     bias_data = sensor_val->un.gyroscopeUncal;
     imu->unlock_user_data();
 

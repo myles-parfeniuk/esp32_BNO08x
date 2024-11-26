@@ -13,10 +13,11 @@ class BNO08xStabilityClassifier : public BNO08xRpt
         {
         }
 
-        BNO08xStability get();
+        bno08x_stability_classifier_t get();
+        BNO08xStability get_stability();
 
     private:
         void update_data(sh2_SensorValue_t* sensor_val) override;
-        sh2_StabilityClassifier_t data = {0U};
+        bno08x_stability_classifier_t data;
         static const constexpr char* TAG = "BNO08xStabilityClassifier";
 };

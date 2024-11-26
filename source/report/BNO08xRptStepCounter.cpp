@@ -23,6 +23,7 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
     }
 
     prev_steps = data.steps;
+    data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     imu->unlock_user_data();
 
     if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))

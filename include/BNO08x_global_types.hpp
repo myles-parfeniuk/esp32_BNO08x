@@ -35,6 +35,42 @@ enum class BNO08xResetReason
     OTHER      ///< Previous reset was due to power other reason.
 };
 
+/// @brief Sensor accuracy returned from input reports, corresponds to status bits (see ref. manual 6.5.1)
+enum class BNO08xAccuracy
+{
+    UNRELIABLE,
+    LOW,
+    MED,
+    HIGH,
+    UNDEFINED
+};
+using IMUAccuracy = BNO08xAccuracy; // legacy version compatibility
+
+enum class BNO08xFRSID
+{
+    RawAccelerometer = 0xE301,
+    Accelerometer = 0xE302,
+    LinearAcceleration = 0xE303,
+    Gravity = 0xE304,
+    RawGyroscope = 0xE305,
+    CalGyro = 0xE306,
+    UncalGyro = 0xE307,
+    RawMagnetometer = 0xE308,
+    CalMagnetometer = 0xE309,
+    UncalMagnetometer = 0xE30A,
+    RV = 0xE30B,
+    RVGame = 0xE30C,
+    RVGeomagnetic = 0xE30D,
+    TapDetector = 0xE313,
+    StepCounter = 0xE315,
+    StabilityClassifier = 0xE317,
+    ShakeDetector = 0xE318,
+    ActivityClassifier = 0xE31C,
+    RVARVRStabilizedRotation = 0xE322,
+    RVARVRStabilizedGame = 0xE323,
+    RVGyroIntegrated = 0xE324,
+};
+
 /// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
 enum class BNO08xActivityEnable
 {
@@ -134,49 +170,49 @@ typedef struct bno08x_quat_t
         float i;
         float j;
         float k;
-        float accuracy;
+        BNO08xAccuracy accuracy;
+        float rad_accuracy;
 
         bno08x_quat_t()
             : real(0.0f)
             , i(0.0f)
             , j(0.0f)
             , k(0.0f)
-            , accuracy(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+            , rad_accuracy(0.0f)
         {
         }
 
-        // overloaded assignment operator to handle RV with accuracy
+        // overloaded assignment operator to handle RV with rad accuracy
         bno08x_quat_t& operator=(const sh2_RotationVectorWAcc_t& source)
         {
             this->real = source.real;
             this->i = source.i;
             this->j = source.j;
             this->k = source.k;
-            this->accuracy = source.accuracy;
+            this->rad_accuracy = source.accuracy;
             return *this;
         }
 
-        // overloaded assignment operator to handle RV with w/o accuracy
+        // overloaded assignment operator to handle RV with w/o rad accuracy
         bno08x_quat_t& operator=(const sh2_RotationVector_t& source)
         {
             this->real = source.real;
             this->i = source.i;
             this->j = source.j;
             this->k = source.k;
-            this->accuracy = 0.0f;
+            this->rad_accuracy = 0.0f;
             return *this;
         }
 
         // overloaded assignment operator to handle IRV report
-
-        // overloaded assignment operator to handle RV with w/o accuracy
         bno08x_quat_t& operator=(const sh2_GyroIntegratedRV_t& source)
         {
             this->real = source.real;
             this->i = source.i;
             this->j = source.j;
             this->k = source.k;
-            this->accuracy = 0.0f;
+            this->rad_accuracy = 0.0f;
             return *this;
         }
 
@@ -188,13 +224,15 @@ typedef struct bno08x_euler_angle_t
         float x;
         float y;
         float z;
-        float accuracy;
+        BNO08xAccuracy accuracy;
+        float rad_accuracy;
 
         bno08x_euler_angle_t()
             : x(0.0f)
             , y(0.0f)
             , z(0.0f)
-            , accuracy(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+            , rad_accuracy(0.0f)
         {
         }
 
@@ -204,6 +242,7 @@ typedef struct bno08x_euler_angle_t
             this->x = atan2(2.0f * (source.real * source.i + source.j * source.k), 1.0f - 2.0f * (source.i * source.i + source.j * source.j));
             this->y = asin(2.0f * (source.real * source.j - source.k * source.i));
             this->z = atan2(2.0f * (source.real * source.k + source.i * source.j), 1.0f - 2.0f * (source.j * source.j + source.k * source.k));
+            this->rad_accuracy = source.rad_accuracy;
             this->accuracy = source.accuracy;
             return *this;
         }
@@ -215,7 +254,7 @@ typedef struct bno08x_euler_angle_t
             x *= static_cast<float>(value);
             y *= static_cast<float>(value);
             z *= static_cast<float>(value);
-            accuracy *= static_cast<float>(value);
+            rad_accuracy *= static_cast<float>(value);
             return *this;
         }
 
@@ -261,11 +300,13 @@ typedef struct bno08x_magf_t
         float x;
         float y;
         float z;
+        BNO08xAccuracy accuracy;
 
         bno08x_magf_t()
             : x(0.0f)
             , y(0.0f)
             , z(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -320,11 +361,13 @@ typedef struct bno08x_gyro_t
         float x;
         float y;
         float z;
+        BNO08xAccuracy accuracy;
 
         bno08x_gyro_t()
             : x(0.0f)
             , y(0.0f)
             , z(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -380,12 +423,14 @@ typedef struct bno08x_activity_classifier_t
         bool lastPage;
         BNO08xActivity mostLikelyState;
         uint8_t confidence[10];
+        BNO08xAccuracy accuracy;
 
         bno08x_activity_classifier_t()
             : page(0U)
             , lastPage(false)
             , mostLikelyState(BNO08xActivity::UNDEFINED)
             , confidence({})
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -410,12 +455,14 @@ typedef struct bno08x_tap_detector_t
         int8_t y_flag;
         int8_t z_flag;
         bool double_tap;
+        BNO08xAccuracy accuracy;
 
         bno08x_tap_detector_t()
             : x_flag(0)
             , y_flag(0)
             , z_flag(0)
             , double_tap(false)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -462,11 +509,13 @@ typedef struct bno08x_shake_detector_t
         uint8_t x_flag;
         uint8_t y_flag;
         uint8_t z_flag;
+        BNO08xAccuracy accuracy;
 
         bno08x_shake_detector_t()
             : x_flag(0U)
             , y_flag(0U)
             , z_flag(0U)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -501,6 +550,14 @@ typedef struct bno08x_sample_counts_t
         uint32_t accepted;  ///< Number of "on" samples that passed decimation filter.
         uint32_t attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
 
+        bno08x_sample_counts_t()
+            : offered(0UL)
+            , on(0UL)
+            , accepted(0UL)
+            , attempted(0UL)
+        {
+        }
+
         // conversion from sh2_PersonalActivityClassifier_t
         bno08x_sample_counts_t& operator=(const sh2_Counts_t& source)
         {
@@ -513,10 +570,164 @@ typedef struct bno08x_sample_counts_t
         }
 } bno08x_sample_counts_t;
 
-typedef sh2_Accelerometer_t bno08x_accel_t; ///< Acceleration data.
-typedef sh2_StepCounter bno08x_step_counter_t;
-typedef sh2_RawGyroscope_t bno08x_raw_gyro_t;
-typedef sh2_RawAccelerometer bno08x_raw_accel_t;
-typedef sh2_RawMagnetometer_t bno08x_raw_magf_t;
+/// @brief Struct to represent acceleration data from acceleration, linear acceleration, and gravity reports.
+typedef struct bno08x_accel_t
+{
+        float x;
+        float y;
+        float z;
+        BNO08xAccuracy accuracy;
+
+        bno08x_accel_t()
+            : x(0.0f)
+            , y(0.0f)
+            , z(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_Accelerometer_t
+        bno08x_accel_t& operator=(const sh2_Accelerometer_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            return *this;
+        }
+} bno08x_accel_t;
+
+/// @brief Struct to represent step counter data from step counter reports.
+typedef struct bno08x_step_counter_t
+{
+        uint32_t latency;
+        uint16_t steps;
+        BNO08xAccuracy accuracy;
+
+        bno08x_step_counter_t()
+            : latency(0UL)
+            , steps(0U)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_StepCounter_t
+        bno08x_step_counter_t& operator=(const sh2_StepCounter_t& source)
+        {
+            this->latency = source.latency;
+            this->steps = source.steps;
+            return *this;
+        }
+} bno08x_step_counter_t;
+
+/// @brief Struct to represent raw mems gyro data from raw gyro reports (units in ADC counts).
+typedef struct bno08x_raw_gyro_t
+{
+        int16_t x;
+        int16_t y;
+        int16_t z;
+        int16_t temperature;
+        uint32_t timestamp_us;
+        BNO08xAccuracy accuracy;
+
+        bno08x_raw_gyro_t()
+            : x(0U)
+            , y(0U)
+            , z(0U)
+            , temperature(0U)
+            , timestamp_us(0UL)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_RawGyroscope_t
+        bno08x_raw_gyro_t& operator=(const sh2_RawGyroscope_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            this->temperature = source.temperature;
+            this->timestamp_us = source.timestamp;
+            return *this;
+        }
+} bno08x_raw_gyro_t;
+
+/// @brief Struct to represent raw mems accelerometer data from raw accelerometer reports (units in ADC counts).
+typedef struct bno08x_raw_accel_t
+{
+        int16_t x;
+        int16_t y;
+        int16_t z;
+        uint32_t timestamp_us;
+        BNO08xAccuracy accuracy;
+
+        bno08x_raw_accel_t()
+            : x(0U)
+            , y(0U)
+            , z(0U)
+            , timestamp_us(0UL)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_RawAccelerometer_t
+        bno08x_raw_accel_t& operator=(const sh2_RawAccelerometer_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            this->timestamp_us = source.timestamp;
+            return *this;
+        }
+} bno08x_raw_accel_t;
+
+/// @brief Struct to represent raw mems magnetometer data from raw magnetometer reports (units in ADC counts).
+typedef struct bno08x_raw_magf_t
+{
+        int16_t x;
+        int16_t y;
+        int16_t z;
+        uint32_t timestamp_us;
+        BNO08xAccuracy accuracy;
+
+        bno08x_raw_magf_t()
+            : x(0U)
+            , y(0U)
+            , z(0U)
+            , timestamp_us(0UL)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_RawMagnetometer_t
+        bno08x_raw_magf_t& operator=(const sh2_RawMagnetometer_t& source)
+        {
+            this->x = source.x;
+            this->y = source.y;
+            this->z = source.z;
+            this->timestamp_us = source.timestamp;
+            return *this;
+        }
+} bno08x_raw_magf_t;
+
+/// @brief Struct to represent stability classifier data from stability classifier reports.
+typedef struct bno08x_stability_classifier_t
+{
+        BNO08xStability stability;
+        BNO08xAccuracy accuracy;
+
+        bno08x_stability_classifier_t()
+            : stability(BNO08xStability::UNDEFINED)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
+        {
+        }
+
+        // conversion from sh2_StabilityClassifier_t
+        bno08x_stability_classifier_t& operator=(const sh2_StabilityClassifier_t& source)
+        {
+            this->stability = static_cast<BNO08xStability>(source.classification);
+            return *this;
+        }
+
+} bno08x_stability_classifier_t;
 
 typedef bno08x_config_t imu_config_t; // legacy version compatibility

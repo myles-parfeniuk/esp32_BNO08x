@@ -69,6 +69,12 @@ class BNO08x
         bool initialize();
         bool hard_reset();
         bool soft_reset();
+        BNO08xResetReason get_reset_reason();
+
+        bool on();
+        bool sleep();
+
+        bool get_frs(BNO08xFRSID frs_ID, uint32_t* data, uint16_t* rx_data_sz);
 
         bool data_available();
         void register_cb(std::function<void(void)> cb_fxn);
@@ -79,6 +85,7 @@ class BNO08x
         // enum helper fxns
         static const char* activity_to_str(BNO08xActivity activity);
         static const char* stability_to_str(BNO08xStability stability);
+        static const char* accuracy_to_str(BNO08xAccuracy accuracy);
 
         BNO08xRptAcceleration accelerometer;
         BNO08xRptLinearAcceleration linear_accelerometer;

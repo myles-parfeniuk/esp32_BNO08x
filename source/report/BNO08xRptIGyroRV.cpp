@@ -12,6 +12,7 @@ void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
 {
     imu->lock_user_data();
     data = sensor_val->un.gyroIntegratedRV;
+    data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     data_vel = sensor_val->un.gyroIntegratedRV;
     imu->unlock_user_data();
 

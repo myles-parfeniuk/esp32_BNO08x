@@ -126,7 +126,7 @@ bool BNO08x::initialize()
     if (init_tasks() != ESP_OK)
         return false;
 
-        // clang-format off
+    // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
     #endif
@@ -354,21 +354,26 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
     uint8_t rpt_ID = sensor_val->sensorId;
 
-    // update respective report with new data
-    usr_reports.at(rpt_ID)->update_data(sensor_val);
-
-    // send report ids to cb_task for callback execution (only if this report is enabled)
-    if (usr_reports.at(rpt_ID)->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
+    // check if report exists within map
+    auto it = usr_reports.find(rpt_ID);
+    if (it != usr_reports.end())
     {
-        if (cb_list.size() != 0)
-            if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
-            {
-                // clang-format off
+        // update respective report with new data
+        it->second->update_data(sensor_val);
+
+        // send report ids to cb_task for callback execution (only if this report is enabled)
+        if (usr_reports.at(rpt_ID)->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
+        {
+            if (cb_list.size() != 0)
+                if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
+                {
+                    // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                 ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
                 #endif
-                // clang-format on
-            }
+                    // clang-format on
+                }
+        }
     }
 }
 
@@ -1032,44 +1037,28 @@ esp_err_t BNO08x::deinit_sh2_HAL()
  */
 bool BNO08x::hard_reset()
 {
-    int op_success = SH2_ERR;
-
+    // toggle reset gpio
     toggle_reset();
 
-    // wait for reset and run service to dispatch callbacks
+    // wait for reset to be detected by SH2 HAL lib
     if (wait_for_reset() == ESP_OK)
     {
+        // run service to dispatch callbacks
         lock_sh2_HAL();
         sh2_service();
         unlock_sh2_HAL();
 
         // get product ids and check reset reason
-        memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
-        lock_sh2_HAL();
-        op_success = sh2_getProdIds(&product_IDs);
-        unlock_sh2_HAL();
-
-        if (op_success == SH2_OK)
+        if (get_reset_reason() == BNO08xResetReason::EXT_RST)
         {
-            if (static_cast<BNO08xResetReason>(product_IDs.entry[0].resetCause) == BNO08xResetReason::EXT_RST)
-            {
-                return true;
-            }
-            else
-            {
-                // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Hard reset failure, incorrect reset reason returned: %d.", product_IDs.entry[0].resetCause);
-                #endif
-                // clang-format on
-            }
+            return true;
         }
         else
         {
             // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Hard reset failure, failed to get prodIDs.");
-                #endif
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "Hard reset failure, incorrect reset reason returned: %d.", product_IDs.entry[0].resetCause);
+            #endif
             // clang-format on
         }
     }
@@ -1094,45 +1083,30 @@ bool BNO08x::soft_reset()
 {
     int op_success = SH2_ERR;
 
+    // send reset command
     lock_sh2_HAL();
     op_success = sh2_devReset();
     unlock_sh2_HAL();
 
     if (op_success == SH2_OK)
     {
-        // wait for reset and run service to dispatch callbacks
+        // wait for reset to be detected by SH2 HAL lib
         if (wait_for_reset() == ESP_OK)
         {
+            // run service to dispatch callbacks
             lock_sh2_HAL();
             sh2_service();
             unlock_sh2_HAL();
 
-            // get product ids and check reset reason
-            memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
-            lock_sh2_HAL();
-            op_success = sh2_getProdIds(&product_IDs);
-            unlock_sh2_HAL();
-
-            if (op_success == SH2_OK)
+            if (get_reset_reason() == BNO08xResetReason::EXT_RST)
             {
-                if (static_cast<BNO08xResetReason>(product_IDs.entry[0].resetCause) == BNO08xResetReason::EXT_RST)
-                {
-                    return true;
-                }
-                else
-                {
-                    // clang-format off
-                    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                    ESP_LOGE(TAG, "Soft reset failure, incorrect reset reason returned.");
-                    #endif
-                    // clang-format on
-                }
+                return true;
             }
             else
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Soft reset failure, failed to get prodIDs.");
+                ESP_LOGE(TAG, "Soft reset failure, incorrect reset reason returned.");
                 #endif
                 // clang-format on
             }
@@ -1156,6 +1130,81 @@ bool BNO08x::soft_reset()
     }
 
     return false;
+}
+
+/**
+ * @brief Returns reason for previous reset via product ID report.
+ *
+ * @return Enum object containing reset reason, BNO08xResetReason::UNDEFINED if failure.
+ */
+BNO08xResetReason BNO08x::get_reset_reason()
+{
+    int op_success = SH2_ERR;
+    BNO08xResetReason rr = BNO08xResetReason::UNDEFINED;
+
+    memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
+    lock_sh2_HAL();
+    op_success = sh2_getProdIds(&product_IDs);
+    unlock_sh2_HAL();
+
+    if (op_success == SH2_OK)
+    {
+        rr = static_cast<BNO08xResetReason>(product_IDs.entry[0].resetCause);
+    }
+    else
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Get reset reason failure, failed to get prodIDs.");
+        #endif
+        // clang-format on
+    }
+
+    return rr;
+}
+
+/**
+ * @brief Places BNO08x device in on state by sending ON (2) command on "device" channel.
+ *
+ * @return True if on operation succeeded.
+ */
+bool BNO08x::on()
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_devOn();
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Places BNO08x device in sleep state by sending SLEEP (3) command on "device" channel.
+ *
+ * @return True if sleep operation succeeded.
+ */
+bool BNO08x::sleep()
+{
+
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_devSleep();
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+bool BNO08x::get_frs(BNO08xFRSID frs_ID, uint32_t* data, uint16_t* rx_data_sz)
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_getFrs(static_cast<uint16_t>(frs_ID), data, rx_data_sz);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
 }
 
 /**
@@ -1362,6 +1411,25 @@ const char* BNO08x::stability_to_str(BNO08xStability stability)
         case BNO08xStability::RESERVED:
             return "RESERVED";
         case BNO08xStability::UNDEFINED:
+            return "UNDEFINED";
+        default:
+            return "UNDEFINED";
+    }
+}
+
+const char* BNO08x::accuracy_to_str(BNO08xAccuracy accuracy)
+{
+    switch (accuracy)
+    {
+        case BNO08xAccuracy::UNRELIABLE:
+            return "UNRELIABLE";
+        case BNO08xAccuracy::LOW:
+            return "LOW";
+        case BNO08xAccuracy::MED:
+            return "MED";
+        case BNO08xAccuracy::HIGH:
+            return "HIGH";
+        case BNO08xAccuracy::UNDEFINED:
             return "UNDEFINED";
         default:
             return "UNDEFINED";
