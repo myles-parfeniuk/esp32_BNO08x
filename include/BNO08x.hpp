@@ -67,7 +67,8 @@ class BNO08x
         ~BNO08x();
 
         bool initialize();
-        void hard_reset();
+        bool hard_reset();
+        bool soft_reset();
 
         bool data_available();
         void register_cb(std::function<void(void)> cb_fxn);
@@ -147,7 +148,7 @@ class BNO08x
         void data_proc_task();
 
         // sh2 service task
-        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ = 2048UL; ///< Size of sh2_HAL_service_task() stack in bytes
+        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ = 4095UL; ///< Size of sh2_HAL_service_task() stack in bytes
         TaskHandle_t sh2_HAL_service_task_hdl;                                          ///<sh2_HAL_service_task() task handle
         static void sh2_HAL_service_task_trampoline(void* arg);
         void sh2_HAL_service_task();
@@ -187,6 +188,9 @@ class BNO08x
         esp_err_t deinit_sh2_HAL();
 
         esp_err_t wait_for_hint();
+        esp_err_t wait_for_reset();
+
+        void toggle_reset();
 
         esp_err_t re_enable_reports();
 

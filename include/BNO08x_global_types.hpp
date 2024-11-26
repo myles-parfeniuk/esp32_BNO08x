@@ -24,6 +24,17 @@
 #define SHAKE_DETECTED_Y(tap) ((tap) & (1U << 1U) ? 1 : 0)
 #define SHAKE_DETECTED_Z(tap) ((tap) & (1U << 2U) ? 1 : 0)
 
+/// @brief Reason for previous IMU reset (returned by get_reset_reason())
+enum class BNO08xResetReason
+{
+    UNDEFINED, ///< Undefined reset reason, this should never occur and is an error.
+    POR,       ///< Previous reset was due to power on reset.
+    INT_RST,   ///< Previous reset was due to internal reset.
+    WTD,       ///< Previous reset was due to watchdog timer.
+    EXT_RST,   ///< Previous reset was due to external reset.
+    OTHER      ///< Previous reset was due to power other reason.
+};
+
 /// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
 enum class BNO08xActivityEnable
 {

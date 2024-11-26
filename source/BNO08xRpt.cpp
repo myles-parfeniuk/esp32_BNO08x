@@ -27,7 +27,6 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
     }
     else
     {
-        flush();
         period_us = time_between_reports;                    // Update the period
         xEventGroupSetBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
         return true;

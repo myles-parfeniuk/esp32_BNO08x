@@ -90,7 +90,7 @@ void BNO08xSH2HAL::sensor_event_cb(void* cookie, sh2_SensorEvent_t* event)
 
 void BNO08xSH2HAL::hardware_reset()
 {
-    imu->hard_reset();
+    imu->toggle_reset();
 }
 
 bool BNO08xSH2HAL::spi_wait_for_int()

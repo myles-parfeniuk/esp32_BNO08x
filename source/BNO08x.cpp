@@ -208,7 +208,8 @@ void BNO08x::sh2_HAL_service_task()
 
     while (1)
     {
-        xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
+        xEventGroupWaitBits(
+                evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
 
         evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
 
@@ -750,7 +751,7 @@ esp_err_t BNO08x::init_sh2_HAL()
     sh2_HAL.getTimeUs = BNO08xSH2HAL::get_time_us;
 
     // reset BNO08x
-    hard_reset();
+    toggle_reset();
 
     if (sh2_open(&sh2_HAL, BNO08xSH2HAL::hal_cb, NULL) != SH2_OK)
     {
@@ -765,7 +766,7 @@ esp_err_t BNO08x::init_sh2_HAL()
 
     init_status.sh2_HAL = true;
 
-    memset(&product_IDs, 0, sizeof(product_IDs));
+    memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
 
     if (sh2_getProdIds(&product_IDs) != SH2_OK)
     {
@@ -1025,24 +1026,136 @@ esp_err_t BNO08x::deinit_sh2_HAL()
 }
 
 /**
- * @brief Hard resets BNO08x sensor.
+ * @brief Hard resets BNO08x device.
  *
- * @return void, nothing to return
+ * @return True if reset was success.
  */
-void BNO08x::hard_reset()
+bool BNO08x::hard_reset()
 {
+    int op_success = SH2_ERR;
 
-    gpio_intr_disable(imu_config.io_int); // disable interrupts before reset
+    toggle_reset();
 
-    gpio_set_level(imu_config.io_cs, 1);
+    // wait for reset and run service to dispatch callbacks
+    if (wait_for_reset() == ESP_OK)
+    {
+        lock_sh2_HAL();
+        sh2_service();
+        unlock_sh2_HAL();
 
-    if (imu_config.io_wake != GPIO_NUM_NC)
-        gpio_set_level(imu_config.io_wake, 1);
+        // get product ids and check reset reason
+        memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
+        lock_sh2_HAL();
+        op_success = sh2_getProdIds(&product_IDs);
+        unlock_sh2_HAL();
 
-    gpio_set_level(imu_config.io_rst, 0); // set reset pin low
-    gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
-    vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
-    gpio_set_level(imu_config.io_rst, 1); // bring out of reset
+        if (op_success == SH2_OK)
+        {
+            if (static_cast<BNO08xResetReason>(product_IDs.entry[0].resetCause) == BNO08xResetReason::EXT_RST)
+            {
+                return true;
+            }
+            else
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Hard reset failure, incorrect reset reason returned: %d.", product_IDs.entry[0].resetCause);
+                #endif
+                // clang-format on
+            }
+        }
+        else
+        {
+            // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Hard reset failure, failed to get prodIDs.");
+                #endif
+            // clang-format on
+        }
+    }
+    else
+    {
+        // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "Hard reset failure, reset never detected after toggling reset pin");
+            #endif
+        // clang-format on
+    }
+
+    return false;
+}
+
+/**
+ * @brief Soft resets BNO08x device by sending RESET (1) command on "device" channel.
+ *
+ * @return True if soft reset operation succeeded.
+ */
+bool BNO08x::soft_reset()
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_devReset();
+    unlock_sh2_HAL();
+
+    if (op_success == SH2_OK)
+    {
+        // wait for reset and run service to dispatch callbacks
+        if (wait_for_reset() == ESP_OK)
+        {
+            lock_sh2_HAL();
+            sh2_service();
+            unlock_sh2_HAL();
+
+            // get product ids and check reset reason
+            memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
+            lock_sh2_HAL();
+            op_success = sh2_getProdIds(&product_IDs);
+            unlock_sh2_HAL();
+
+            if (op_success == SH2_OK)
+            {
+                if (static_cast<BNO08xResetReason>(product_IDs.entry[0].resetCause) == BNO08xResetReason::EXT_RST)
+                {
+                    return true;
+                }
+                else
+                {
+                    // clang-format off
+                    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                    ESP_LOGE(TAG, "Soft reset failure, incorrect reset reason returned.");
+                    #endif
+                    // clang-format on
+                }
+            }
+            else
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Soft reset failure, failed to get prodIDs.");
+                #endif
+                // clang-format on
+            }
+        }
+        else
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "Soft reset failure, reset never detected after sending command.");
+            #endif
+            // clang-format on
+        }
+    }
+    else
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Soft reset failure, failed to send reset command");
+        #endif
+        // clang-format on
+    }
+
+    return false;
 }
 
 /**
@@ -1064,6 +1177,42 @@ esp_err_t BNO08x::wait_for_hint()
 }
 
 /**
+ * @brief Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
+ *
+ *
+ * @return ESP_OK if reset was detected by SH2 HAL lib.
+ */
+esp_err_t BNO08x::wait_for_reset()
+{
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS) &
+            EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
+        return ESP_OK;
+    else
+        return ESP_ERR_TIMEOUT;
+}
+
+/**
+ * @brief Toggles reset gpio pin for hard reset of BNO08x device.
+ *
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::toggle_reset()
+{
+    gpio_intr_disable(imu_config.io_int); // disable interrupts before reset
+
+    gpio_set_level(imu_config.io_cs, 1);
+
+    if (imu_config.io_wake != GPIO_NUM_NC)
+        gpio_set_level(imu_config.io_wake, 1);
+
+    gpio_set_level(imu_config.io_rst, 0); // set reset pin low
+    vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
+    gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
+    gpio_set_level(imu_config.io_rst, 1); // bring out of reset
+}
+
+/**
  * @brief Re-enables all reports enabled by user (called when BNO08x reset is detected by sh2 HAL lib).
  *
  * @return ESP_OK if enabled reports were successfuly re-enabled.
@@ -1079,7 +1228,14 @@ esp_err_t BNO08x::re_enable_reports()
         if (rpt->rpt_bit & report_en_bits)
         {
             if (!rpt->enable(rpt->period_us))
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Failed to re-enable: %d", rpt->ID);
+                #endif
+                // clang-format on
                 return ESP_FAIL;
+            }
         }
     }
 
