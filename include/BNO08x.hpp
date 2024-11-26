@@ -3,23 +3,19 @@
  * @author Myles Parfeniuk
  */
 #pragma once
+
 // standard library includes
-#include <inttypes.h>
-#include <stdio.h>
-#include <cstring>
 #include <functional>
 #include <variant>
 #include <vector>
 #include <map>
 
 // esp-idf includes
-#include <esp_rom_gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/event_groups.h>
 #include <freertos/queue.h>
 #include <freertos/semphr.h>
-#include <rom/ets_sys.h>
 
 // in-house includes
 #include "BNO08x_global_types.hpp"
@@ -74,7 +70,7 @@ class BNO08x
         bool on();
         bool sleep();
 
-        bool get_frs(BNO08xFRSID frs_ID, uint32_t* data, uint16_t* rx_data_sz);
+        bool get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
 
         bool data_available();
         void register_cb(std::function<void(void)> cb_fxn);

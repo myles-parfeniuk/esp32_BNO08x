@@ -4,10 +4,18 @@
  */
 #pragma once
 
+// standard library includes
 #include <math.h>
+#include <inttypes.h>
+#include <stdio.h>
+#include <cstring>
+
+// esp-idf includes
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <driver/spi_master.h>
+
+// third-party includes
 #include "sh2_SensorValue.h"
 
 // macros for bno08x_tap_detector_t
@@ -45,31 +53,6 @@ enum class BNO08xAccuracy
     UNDEFINED
 };
 using IMUAccuracy = BNO08xAccuracy; // legacy version compatibility
-
-enum class BNO08xFRSID
-{
-    RawAccelerometer = 0xE301,
-    Accelerometer = 0xE302,
-    LinearAcceleration = 0xE303,
-    Gravity = 0xE304,
-    RawGyroscope = 0xE305,
-    CalGyro = 0xE306,
-    UncalGyro = 0xE307,
-    RawMagnetometer = 0xE308,
-    CalMagnetometer = 0xE309,
-    UncalMagnetometer = 0xE30A,
-    RV = 0xE30B,
-    RVGame = 0xE30C,
-    RVGeomagnetic = 0xE30D,
-    TapDetector = 0xE313,
-    StepCounter = 0xE315,
-    StabilityClassifier = 0xE317,
-    ShakeDetector = 0xE318,
-    ActivityClassifier = 0xE31C,
-    RVARVRStabilizedRotation = 0xE322,
-    RVARVRStabilizedGame = 0xE323,
-    RVGyroIntegrated = 0xE324,
-};
 
 /// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
 enum class BNO08xActivityEnable
@@ -542,34 +525,6 @@ typedef struct bno08x_shake_detector_t
 
 } bno08x_shake_detector_t;
 
-/// @brief Struct to represent sample counts, returned from BNO08xRpt::get_sample_counts()
-typedef struct bno08x_sample_counts_t
-{
-        uint32_t offered;   ///< Number of samples produced by underlying data source.
-        uint32_t on;        ///< Number of "offered" samples while this sensor was requested by host.
-        uint32_t accepted;  ///< Number of "on" samples that passed decimation filter.
-        uint32_t attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
-
-        bno08x_sample_counts_t()
-            : offered(0UL)
-            , on(0UL)
-            , accepted(0UL)
-            , attempted(0UL)
-        {
-        }
-
-        // conversion from sh2_PersonalActivityClassifier_t
-        bno08x_sample_counts_t& operator=(const sh2_Counts_t& source)
-        {
-            this->offered = source.offered;
-            this->on = source.on;
-            this->accepted = source.accepted;
-            this->attempted = source.attempted;
-
-            return *this;
-        }
-} bno08x_sample_counts_t;
-
 /// @brief Struct to represent acceleration data from acceleration, linear acceleration, and gravity reports.
 typedef struct bno08x_accel_t
 {
@@ -729,5 +684,105 @@ typedef struct bno08x_stability_classifier_t
         }
 
 } bno08x_stability_classifier_t;
+
+/// @brief Struct to represent sample counts, returned from BNO08xRpt::get_sample_counts()
+typedef struct bno08x_sample_counts_t
+{
+        uint32_t offered;   ///< Number of samples produced by underlying data source.
+        uint32_t on;        ///< Number of "offered" samples while this sensor was requested by host.
+        uint32_t accepted;  ///< Number of "on" samples that passed decimation filter.
+        uint32_t attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
+
+        bno08x_sample_counts_t()
+            : offered(0UL)
+            , on(0UL)
+            , accepted(0UL)
+            , attempted(0UL)
+        {
+        }
+
+        // conversion from sh2_PersonalActivityClassifier_t
+        bno08x_sample_counts_t& operator=(const sh2_Counts_t& source)
+        {
+            this->offered = source.offered;
+            this->on = source.on;
+            this->accepted = source.accepted;
+            this->attempted = source.attempted;
+
+            return *this;
+        }
+} bno08x_sample_counts_t;
+
+/// @brief Struct to represent sensor/report meta data, returned from BNO08xRpt::get_meta_data()
+typedef struct bno08x_meta_data_t
+{
+        uint8_t me_version;           ///< Motion Engine Version
+        uint8_t mh_version;           ///< Motion Hub Version
+        uint8_t sh_version;           ///< SensorHub Version
+        uint32_t range;               ///< Same units as sensor reports
+        uint32_t resolution;          ///< Same units as sensor reports
+        uint16_t revision;            ///< Metadata record format revision
+        uint16_t power_mA;            ///< [mA] Fixed point 16Q10 format
+        uint32_t min_period_us;       ///< [uS] min period to use with enable_report
+        uint32_t max_period_us;       ///< [uS] max period to use with enable_report
+        uint32_t fifo_reserved;       ///< (Unused)
+        uint32_t fifo_max;            ///< (Unused)
+        uint32_t batch_buffer_bytes;  ///< (Unused)
+        uint16_t q_point_1;           ///< q point for sensor values
+        uint16_t q_point_2;           ///< q point for accuracy or bias fields
+        uint16_t q_point_3;           ///< q point for sensor data change sensitivity
+        uint32_t vendor_id_len;       ///< [bytes]
+        char vendor_ID[48];           ///< Vendor name and part number
+        uint32_t sensor_specific_len; ///< [bytes]
+        uint8_t sensor_specific[48];  ///< See SH-2 Reference Manual
+
+        // Default constructor
+        bno08x_meta_data_t()
+            : me_version(0)
+            , mh_version(0)
+            , sh_version(0)
+            , range(0)
+            , resolution(0)
+            , revision(0)
+            , power_mA(0)
+            , min_period_us(0)
+            , max_period_us(0)
+            , fifo_reserved(0)
+            , fifo_max(0)
+            , batch_buffer_bytes(0)
+            , q_point_1(0)
+            , q_point_2(0)
+            , q_point_3(0)
+            , vendor_id_len(0)
+            , sensor_specific_len(0)
+        {
+            memset(vendor_ID, 0, sizeof(vendor_ID));
+            memset(sensor_specific, 0, sizeof(sensor_specific));
+        }
+
+        // Conversion constructor from sh2_SensorMetadata_t
+        bno08x_meta_data_t(const sh2_SensorMetadata_t& src)
+        {
+            me_version = src.meVersion;
+            mh_version = src.mhVersion;
+            sh_version = src.shVersion;
+            range = src.range;
+            resolution = src.resolution;
+            revision = src.revision;
+            power_mA = src.power_mA;
+            min_period_us = src.minPeriod_uS;
+            max_period_us = src.maxPeriod_uS;
+            fifo_reserved = src.fifoReserved;
+            fifo_max = src.fifoMax;
+            batch_buffer_bytes = src.batchBufferBytes;
+            q_point_1 = src.qPoint1;
+            q_point_2 = src.qPoint2;
+            q_point_3 = src.qPoint3;
+            vendor_id_len = src.vendorIdLen;
+            sensor_specific_len = src.sensorSpecificLen;
+            memcpy(vendor_ID, src.vendorId, vendor_id_len);
+            memcpy(sensor_specific, src.sensorSpecific, sensor_specific_len);
+        }
+} bno08x_meta_data_t;
 
 typedef bno08x_config_t imu_config_t; // legacy version compatibility

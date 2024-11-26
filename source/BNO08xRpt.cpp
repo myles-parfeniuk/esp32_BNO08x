@@ -144,7 +144,30 @@ bool BNO08xRpt::clear_sample_counts()
     success = sh2_clearCounts(ID);
     imu->unlock_sh2_HAL();
 
-    return (success != SH2_OK) ? false : true;
+    return (success == SH2_OK);
+}
+
+/**
+ * @brief Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system).
+ *
+ * Can be used to retrieve the minimum period, maximum period, actual Q points, resolution, and other info for a given sensor.
+ *
+ * @return True clear get meta data operation succeeded.
+ */
+bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
+{
+    int success = SH2_OK;
+
+    sh2_SensorMetadata_t sensor_meta_data;
+
+    imu->lock_sh2_HAL();
+    success = sh2_getMetadata(ID, &sensor_meta_data);
+    imu->unlock_sh2_HAL();
+
+    if (success == SH2_OK)
+        meta_data = sensor_meta_data;
+
+    return (success == SH2_OK);
 }
 
 /**

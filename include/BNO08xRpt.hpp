@@ -30,15 +30,16 @@ class BNO08xRpt
         bool has_new_data();
         bool flush();
         bool get_sample_counts(bno08x_sample_counts_t& sample_counts);
-        bool clear_sample_counts(); 
-
-        virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
+        bool clear_sample_counts();
+        bool get_meta_data(bno08x_meta_data_t& meta_data);
 
     protected:
         BNO08x* imu;        ///< Pointer to BNO08x object for enable ,disable, and update operations.
         uint8_t ID;         ///< Report ID, ex. SH2_ACCELERATION.
         uint32_t rpt_bit;   ///< Respective enable and data bit for report in BNO08x::evt_grp_report_en and BNO08x::evt_grp_report_data
         uint32_t period_us; ///< The period/interval of the report in microseconds.
+
+        virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
 
         /**
          * @brief BNO08xRpt report constructor.

@@ -126,7 +126,7 @@ bool BNO08x::initialize()
     if (init_tasks() != ESP_OK)
         return false;
 
-    // clang-format off
+        // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
     #endif
@@ -1196,12 +1196,23 @@ bool BNO08x::sleep()
     return (op_success == SH2_OK);
 }
 
-bool BNO08x::get_frs(BNO08xFRSID frs_ID, uint32_t* data, uint16_t* rx_data_sz)
+/**
+ * @brief Retrieves a record from flash record system (if your goal is to retrieve meta data use the BNO08xRpt:get_meta_data() method instead)
+ *
+ * For more details on returned and data and frs_ID see ref. manual 6.3.7 & 4.3
+ *
+ * @param frs_ID The ID of the desired record to retrieve from flash.
+ * @param data Buffer of 16 uint32_t to store retrieved data.
+ * @param rx_data_sz Reference to store number of 32 bit words retrieved from flash.
+ *
+ * @return True if get flash record system operation succeeded.
+ */
+bool BNO08x::get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz)
 {
     int op_success = SH2_ERR;
 
     lock_sh2_HAL();
-    op_success = sh2_getFrs(static_cast<uint16_t>(frs_ID), data, rx_data_sz);
+    op_success = sh2_getFrs(frs_ID, data, &rx_data_sz);
     unlock_sh2_HAL();
 
     return (op_success == SH2_OK);
