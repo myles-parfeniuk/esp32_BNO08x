@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xStabilityClassifier.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xStabilityClassifier.hpp"
 #include "BNO08x.hpp"
 

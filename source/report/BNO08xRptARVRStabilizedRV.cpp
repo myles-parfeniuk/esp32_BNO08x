@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptARVRStabilizedRV.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptARVRStabilizedRV.hpp"
 #include "BNO08x.hpp"
 

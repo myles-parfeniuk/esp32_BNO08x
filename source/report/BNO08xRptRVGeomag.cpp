@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptRVGeomag.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptRVGeomag.hpp"
 #include "BNO08x.hpp"
 

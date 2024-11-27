@@ -1,7 +1,13 @@
+/**
+ * @file BNO08xRpt.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
-#include <stdint.h>
+// standard library includes
 #include <functional>
+// in-house includes
 #include "BNO08x_global_types.hpp"
 
 // forward dec to prevent compile errors

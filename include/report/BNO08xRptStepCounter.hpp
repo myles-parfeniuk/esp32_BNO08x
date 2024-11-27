@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptStepCounter.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
 #include "BNO08xRpt.hpp"

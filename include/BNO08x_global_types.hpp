@@ -2,6 +2,7 @@
  * @file BNO08x_global_types.hpp
  * @author Myles Parfeniuk
  */
+
 #pragma once
 
 // standard library includes

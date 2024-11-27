@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xStabilityClassifier.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
 #include "BNO08xRpt.hpp"

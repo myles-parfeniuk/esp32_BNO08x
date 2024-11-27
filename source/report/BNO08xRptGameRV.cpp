@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptGameRV.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptGameRV.hpp"
 #include "BNO08x.hpp"
 

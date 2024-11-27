@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRpt.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRpt.hpp"
 #include "BNO08x.hpp"
 
@@ -29,7 +34,7 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
     {
         period_us = time_between_reports;                    // Update the period
         xEventGroupSetBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
-        vTaskDelay(20UL / portTICK_PERIOD_MS);               // delay a bit to allow command to execute
+        vTaskDelay(30UL / portTICK_PERIOD_MS);               // delay a bit to allow command to execute
         return true;
     }
 }

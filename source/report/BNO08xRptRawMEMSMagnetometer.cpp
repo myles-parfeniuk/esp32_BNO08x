@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptRawMEMSMagnetometer.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptRawMEMSMagnetometer.hpp"
 #include "BNO08x.hpp"
 

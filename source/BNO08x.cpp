@@ -1,3 +1,8 @@
+/**
+ * @file BNO08x.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08x.hpp"
 
 /**
@@ -39,8 +44,8 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , evt_grp_bno08x_task(xEventGroupCreate())
     , evt_grp_report_en(xEventGroupCreate())
     , evt_grp_report_data_available(xEventGroupCreate())
-    , queue_rx_sensor_event(xQueueCreate(5, sizeof(sh2_SensorEvent_t)))
-    , queue_cb_report_id(xQueueCreate(5, sizeof(uint8_t)))
+    , queue_rx_sensor_event(xQueueCreate(10, sizeof(sh2_SensorEvent_t)))
+    , queue_cb_report_id(xQueueCreate(20, sizeof(uint8_t)))
     , imu_config(imu_config)
 {
 }
@@ -54,23 +59,20 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
  */
 BNO08x::~BNO08x()
 {
-    // disable interrupts before beginning so we can ensure SPI transaction doesn't attempt to run
-    gpio_intr_disable(imu_config.io_int);
+    // deinitialize tasks if they have been initialized
+    ESP_ERROR_CHECK(deinit_tasks());
 
     // deinitialize sh2 HAL if it has been initialized
     ESP_ERROR_CHECK(deinit_sh2_HAL());
 
-    // deinitialize spi if has been initialized
-    ESP_ERROR_CHECK(deinit_spi());
-
     // deinitialize hint ISR if it has been initialized
     ESP_ERROR_CHECK(deinit_hint_isr());
 
+    // deinitialize spi if has been initialized
+    ESP_ERROR_CHECK(deinit_spi());
+
     // deinitialize GPIO if they have been initialized
     ESP_ERROR_CHECK(deinit_gpio());
-
-    // deinitialize tasks if they have been initialized
-    ESP_ERROR_CHECK(deinit_tasks());
 
     // delete all semaphores
     vSemaphoreDelete(sh2_HAL_lock);
@@ -157,29 +159,26 @@ void BNO08x::data_proc_task_trampoline(void* arg)
 void BNO08x::data_proc_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
+    BaseType_t queue_rx_success = pdFALSE;
     sh2_SensorEvent_t sensor_evt;
     sh2_SensorValue_t sensor_val;
 
-    while (1)
+    do
     {
-        if (xQueueReceive(queue_rx_sensor_event, &sensor_evt, portMAX_DELAY) == pdTRUE)
+
+        if (queue_rx_success == pdTRUE)
         {
-            evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
-
-            if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
-            {
-
-                if (sh2_decodeSensorEvent(&sensor_val, &sensor_evt) != SH2_ERR)
-                    handle_sensor_report(&sensor_val);
-            }
-            else
-            {
-                break; // exit loop, deconstructor requested task to commit self-deletion
-            }
+            if (sh2_decodeSensorEvent(&sensor_val, &sensor_evt) != SH2_ERR)
+                handle_sensor_report(&sensor_val);
         }
-    }
+
+        queue_rx_success = xQueueReceive(queue_rx_sensor_event, &sensor_evt, portMAX_DELAY);
+        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+
+    } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    init_status.data_proc_task = false;
     vTaskDelete(NULL);
 }
 
@@ -206,36 +205,35 @@ void BNO08x::sh2_HAL_service_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
 
-    while (1)
+    do
     {
-        xEventGroupWaitBits(
-                evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
 
-        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
-
-        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
+        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
         {
-            if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
-                if (!re_enable_reports())
-                {
-                    // clang-format off
-                    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-                    ESP_LOGE(TAG, "Failed to re-enable enabled reports after IMU reset.");
-                    #endif
-                    // clang-format on
-                }
+            if (!re_enable_reports())
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                ESP_LOGE(TAG, "Failed to re-enable enabled reports after IMU reset.");
+                #endif
+                // clang-format on
+            }
+        }
 
+        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT)
+        {
             lock_sh2_HAL();
             sh2_service();
             unlock_sh2_HAL();
         }
-        else
-        {
-            break; // exit loop, deconstructor requested task to commit self-deletion
-        }
-    }
+
+        evt_grp_bno08x_task_bits = xEventGroupWaitBits(
+                evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
+
+    } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    init_status.sh2_HAL_service_task = false;
     vTaskDelete(NULL);
 }
 
@@ -261,47 +259,22 @@ void BNO08x::cb_task_trampoline(void* arg)
 void BNO08x::cb_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
-    uint8_t rpt_ID;
+    uint8_t rpt_ID = 0;
 
-    while (1)
+    do
     {
+        // execute callbacks
+        for (auto& cb_entry : cb_list)
+            handle_cb(rpt_ID, cb_entry);
+
         xQueueReceive(queue_cb_report_id, &rpt_ID, portMAX_DELAY);
 
         evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
 
-        if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING)
-        {
-            // execute callbacks
-            for (auto& cb_entry : cb_list)
-            {
-                // only execute callback if it is registered to this report or all reports
-                if ((cb_entry.report_ID == 0) || (cb_entry.report_ID == rpt_ID))
-                {
-                    std::visit(
-                            [rpt_ID](auto&& cb_fxn)
-                            {
-                                if constexpr (std::is_invocable_v<decltype(cb_fxn)>)
-                                {
-                                    // Handles std::function<void()> (i.e., no parameters)
-                                    cb_fxn();
-                                }
-                                else
-                                {
-                                    // Handles std::function<void(uint8_t)> (i.e., with a report ID)
-                                    cb_fxn(rpt_ID);
-                                }
-                            },
-                            cb_entry.cb);
-                }
-            }
-        }
-        else
-        {
-            break; // exit loop, deconstructor requested task to commit self-deletion
-        }
-    }
+    } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    init_status.cb_task = false;
     vTaskDelete(NULL);
 }
 
@@ -355,24 +328,49 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     uint8_t rpt_ID = sensor_val->sensorId;
 
     // check if report exists within map
-    auto it = usr_reports.find(rpt_ID);
-    if (it != usr_reports.end())
+    if ((rpt_ID > 0) && (rpt_ID < SH2_MAX_SENSOR_ID))
     {
-        // update respective report with new data
-        it->second->update_data(sensor_val);
+        auto& rpt = usr_reports.at(rpt_ID);
 
         // send report ids to cb_task for callback execution (only if this report is enabled)
-        if (usr_reports.at(rpt_ID)->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
+        if (rpt->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
         {
+            // update respective report with new data
+            rpt->update_data(sensor_val);
+
             if (cb_list.size() != 0)
                 if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
                 {
                     // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
-                #endif
+                    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                    ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
+                    #endif
                     // clang-format on
                 }
+        }
+    }
+}
+
+/**
+ * @brief Determines the flavor of a passed callback and executes it appropriately.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::handle_cb(uint8_t rpt_ID, bno08x_cb_data_t& cb_entry)
+{
+    // only execute callback if it is registered to this report or all reports
+    if ((cb_entry.report_ID == 0) || (cb_entry.report_ID == rpt_ID))
+    {
+        // check the type of the callback stored in the variant
+        if (std::holds_alternative<std::function<void()>>(cb_entry.cb))
+        {
+            // handles std::function<void()> (i.e., no parameters)
+            std::get<std::function<void()>>(cb_entry.cb)();
+        }
+        else
+        {
+            // handles std::function<void(uint8_t)> (i.e., with a report ID)
+            std::get<std::function<void(uint8_t)>>(cb_entry.cb)(rpt_ID);
         }
     }
 }
@@ -647,28 +645,7 @@ esp_err_t BNO08x::init_tasks()
     }
     else
     {
-        init_status.task_init_cnt++;
         init_status.data_proc_task = true;
-    }
-
-    // launch data processing task
-    task_created =
-            xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
-
-    if (task_created != pdTRUE)
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, sh2_HAL_service_task failed to launch.");
-        #endif
-        // clang-format on
-
-        return ESP_FAIL;
-    }
-    else
-    {
-        init_status.task_init_cnt++;
-        init_status.sh2_HAL_service_task = true;
     }
 
     // launch cb task
@@ -686,8 +663,26 @@ esp_err_t BNO08x::init_tasks()
     }
     else
     {
-        init_status.task_init_cnt++;
         init_status.cb_task = true;
+    }
+
+    // launch sh2 hal service task
+    task_created =
+            xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
+
+    if (task_created != pdTRUE)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Initialization failed, sh2_HAL_service_task failed to launch.");
+        #endif
+        // clang-format on
+
+        return ESP_FAIL;
+    }
+    else
+    {
+        init_status.sh2_HAL_service_task = true;
     }
 
     return ESP_OK;
@@ -810,6 +805,8 @@ esp_err_t BNO08x::deinit_gpio()
         ret = deinit_gpio_inputs();
         if (ret != ESP_OK)
             return ret;
+
+        init_status.gpio_inputs = false;
     }
 
     if (init_status.gpio_outputs)
@@ -817,6 +814,8 @@ esp_err_t BNO08x::deinit_gpio()
         ret = deinit_gpio_outputs();
         if (ret != ESP_OK)
             return ret;
+
+        init_status.gpio_outputs = false;
     }
 
     return ret;
@@ -917,6 +916,8 @@ esp_err_t BNO08x::deinit_hint_isr()
 
             return ret;
         }
+
+        init_status.isr_handler = false;
     }
 
     if (init_status.isr_service)
@@ -953,6 +954,8 @@ esp_err_t BNO08x::deinit_spi()
 
             return ret;
         }
+
+        init_status.spi_device = false;
     }
 
     if (init_status.spi_bus)
@@ -968,6 +971,8 @@ esp_err_t BNO08x::deinit_spi()
 
             return ret;
         }
+
+        init_status.spi_bus = false;
     }
 
     return ret;
@@ -980,38 +985,46 @@ esp_err_t BNO08x::deinit_spi()
  */
 esp_err_t BNO08x::deinit_tasks()
 {
-    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = 100UL;
+    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = HOST_INT_TIMEOUT_DEFAULT_MS;
     uint8_t kill_count = 0;
+    uint8_t init_count = 0;
     sh2_SensorEvent_t empty_event;
     uint8_t empty_ID = 0;
 
-    sem_kill_tasks = xSemaphoreCreateCounting(init_status.task_init_cnt, 0);
+    // disable interrupts before beginning so we can ensure SPI transaction doesn't attempt to run
+    gpio_intr_disable(imu_config.io_int);
 
-    // signal tasks to commit self-deletion
-    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
+    init_count += (static_cast<uint8_t>(init_status.cb_task) + static_cast<uint8_t>(init_status.data_proc_task) +
+                   static_cast<uint8_t>(init_status.sh2_HAL_service_task));
 
-    if (init_status.data_proc_task)
-        xQueueSend(queue_rx_sensor_event, &empty_event, 0);
-
-    if (init_status.sh2_HAL_service_task)
-        xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
-
-    if (init_status.cb_task)
-        xQueueSend(queue_cb_report_id, &empty_ID, 0);
-
-    for (uint8_t i = 0; i < init_status.task_init_cnt; i++)
-        if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS / portTICK_PERIOD_MS) == pdTRUE)
-            kill_count++;
-
-    if (kill_count != init_status.task_init_cnt)
+    if (init_count != 0)
     {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
-        #endif
-        // clang-format on
+        sem_kill_tasks = xSemaphoreCreateCounting(init_count, 0);
+        xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING); // clear task running bit request deletion of tasks
 
-        return ESP_FAIL;
+        if (init_status.cb_task)
+            xQueueSend(queue_cb_report_id, &empty_ID, 0);
+
+        if (init_status.data_proc_task)
+            xQueueSend(queue_rx_sensor_event, &empty_event, 0);
+
+        if (init_status.sh2_HAL_service_task)
+            xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
+
+        for (uint8_t i = 0; i < init_count; i++)
+            if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS) == pdTRUE)
+                kill_count++;
+
+        if (kill_count != init_count)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+            ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+            #endif
+            // clang-format on
+
+            return ESP_FAIL;
+        }
     }
 
     return ESP_OK;
@@ -1025,7 +1038,10 @@ esp_err_t BNO08x::deinit_tasks()
 esp_err_t BNO08x::deinit_sh2_HAL()
 {
     if (init_status.sh2_HAL)
+    {
+        init_status.sh2_HAL = false;
         sh2_close();
+    }
 
     return ESP_OK;
 }

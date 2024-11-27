@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptActivityClassifier.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptActivityClassifier.hpp"
 #include "BNO08x.hpp"
 

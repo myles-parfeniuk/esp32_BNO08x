@@ -2,6 +2,7 @@
  * @file BNO08xSH2HAL.hpp
  * @author Myles Parfeniuk
  */
+
 #pragma once
 
 // hill-crest labs includes (apache 2.0 license, compatible with MIT)

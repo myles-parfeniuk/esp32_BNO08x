@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptRV.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
 #include "BNO08xRptRVGeneric.hpp"

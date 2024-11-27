@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptARVRStabilizedGameRV.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
 #include "BNO08xRptRVGeneric.hpp"

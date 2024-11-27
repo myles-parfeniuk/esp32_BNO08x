@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptGravity.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptGravity.hpp"
 #include "BNO08x.hpp"
 

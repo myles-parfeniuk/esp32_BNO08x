@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptUncalMagnetometer.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptUncalMagnetometer.hpp"
 #include "BNO08x.hpp"
 

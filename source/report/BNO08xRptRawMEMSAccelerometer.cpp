@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptRawMEMSAccelerometer.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptRawMEMSAccelerometer.hpp"
 #include "BNO08x.hpp"
 

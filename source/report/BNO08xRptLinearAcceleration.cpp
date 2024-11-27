@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptLinearAcceleration.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptLinearAcceleration.hpp"
 #include "BNO08x.hpp"
 

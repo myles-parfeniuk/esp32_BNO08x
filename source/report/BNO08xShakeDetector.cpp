@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xShakeDetector.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xShakeDetector.hpp"
 #include "BNO08x.hpp"
 

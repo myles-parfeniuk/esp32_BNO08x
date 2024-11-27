@@ -2,10 +2,10 @@
  * @file BNO08x.hpp
  * @author Myles Parfeniuk
  */
+
 #pragma once
 
 // standard library includes
-#include <functional>
 #include <variant>
 #include <vector>
 #include <map>
@@ -119,7 +119,6 @@ class BNO08x
                 bool data_proc_task;       ///< True if xTaskCreate has been called successfully for data_proc_task.
                 bool sh2_HAL_service_task; ///< True if xTaskCreate has been called successfully for sh2_HAL_service_task.
                 bool cb_task;              ///< True if xTaskCreate has been called successfully for cb_task.
-                uint8_t task_init_cnt;     ///< Amount of tasks that have been successfully initialized.
 
                 bno08x_init_status_t()
                     : gpio_outputs(false)
@@ -131,7 +130,6 @@ class BNO08x
                     , data_proc_task(false)
                     , sh2_HAL_service_task(false)
                     , cb_task(false)
-                    , task_init_cnt(0)
                 {
                 }
         } bno08x_init_status_t;
@@ -145,14 +143,16 @@ class BNO08x
         } bno08x_cb_data_t;
 
         // data processing task
-        static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ = 2048UL; ///< Size of data_proc_task() stack in bytes
-        TaskHandle_t data_proc_task_hdl;                                          ///<data_proc_task() task handle
+        static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ =
+                CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ; ///< Size of data_proc_task() stack in bytes
+        TaskHandle_t data_proc_task_hdl;               ///<data_proc_task() task handle
         static void data_proc_task_trampoline(void* arg);
         void data_proc_task();
 
         // sh2 service task
-        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ = 4095UL; ///< Size of sh2_HAL_service_task() stack in bytes
-        TaskHandle_t sh2_HAL_service_task_hdl;                                          ///<sh2_HAL_service_task() task handle
+        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ =
+                CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_SZ; ///< Size of sh2_HAL_service_task() stack in bytes
+        TaskHandle_t sh2_HAL_service_task_hdl;               ///<sh2_HAL_service_task() task handle
         static void sh2_HAL_service_task_trampoline(void* arg);
         void sh2_HAL_service_task();
 
@@ -172,6 +172,7 @@ class BNO08x
         void unlock_user_data();
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
+        void handle_cb(uint8_t rpt_ID, bno08x_cb_data_t& cb_entry);
 
         esp_err_t init_config_args();
         esp_err_t init_gpio();
@@ -236,14 +237,15 @@ class BNO08x
         static const constexpr uint16_t RX_DATA_LENGTH = 300U; ///<length buffer containing data received over spi
 
         static const constexpr TickType_t HOST_INT_TIMEOUT_DEFAULT_MS =
-                500UL /
-                portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds), when no reports are enabled (ie during reset)
+                CONFIG_ESP32_BNO08X_HINT_TIMEOUT_MS /
+                portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds).
 
         static const constexpr TickType_t DATA_AVAILABLE_TIMEOUT_MS =
-                3000UL / portTICK_PERIOD_MS; ///<Max wait between data_available() being called and no new data/report being detected.
+                CONFIG_ESP32_BNO08X_DATA_AVAILABLE_TIMEOUT_MS /
+                portTICK_PERIOD_MS; ///<Max wait between data_available() being called and no new data/report being detected.
 
         static const constexpr TickType_t HARD_RESET_DELAY_MS =
-                100UL /
+                CONFIG_ESP32_BNO08X_HARD_RESET_DELAY_MS /
                 portTICK_PERIOD_MS; ///<How long RST pin is held low during hard reset (min 10ns according to datasheet, but should be longer for stable operation)
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of.
@@ -301,6 +303,7 @@ class BNO08x
 
         // we have a lot of friends
         friend class BNO08xSH2HAL;
+        friend class BNO08xTestHelper;
         friend class BNO08xRpt;
         friend class BNO08xRptRVGeneric;
         friend class BNO08xRptRV;

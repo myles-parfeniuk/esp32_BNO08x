@@ -77,7 +77,29 @@ menu "esp32_BNO08x"
             default 5
             help
                Amount of SPI transactions that can be queued during operation. 
-               This argument is loaded directly into the spi_device_interface_config_t struct used for SPI configuration. 
+               This argument is loaded directly into the spi_device_interface_config_t struct used for SPI configuration.
+               
+        config ESP32_BNO08X_HINT_TIMEOUT_MS
+            int "HINT TIMEOUT (ms)" 
+            range 100 10000
+            default 500
+            help
+                Max wait between HINT being asserted by BNO08x before transaction is considered failed. (in miliseconds).
+                
+        config ESP32_BNO08X_DATA_AVAILABLE_TIMEOUT_MS
+            int "DATA AVAILABLE TIMEOUT (ms)" 
+            range 100 10000
+            default 3000
+            help
+                Max wait between data_available() being called and no new data/report being detected. (in miliseconds).
+
+        config ESP32_BNO08X_HARD_RESET_DELAY_MS
+            int "HARD RESET DELAY (ms)" 
+            range 100 10000
+            default 100
+            help
+                How long RST pin is held low during hard reset (min 10ns according to datasheet, 
+                but should be longer for stable operation). Not recommended to lower below 100ms. 
 
     endmenu #SPI Configuration
 
@@ -97,7 +119,7 @@ menu "esp32_BNO08x"
                 
     endmenu #Logging 
 
-    menu "Callbacks"
+    menu "Callbacks & Tasks"
 
         config ESP32_BNO08X_CB_TASK_SZ
             int "Callback task size, (cb_task())"
@@ -108,6 +130,30 @@ menu "esp32_BNO08x"
                 Note that callbacks should remain as short as possible, pass the data out of
                 the callback with a queue or save it to different variables for longer operations.
 
-    endmenu #Callbacks
+        config ESP32_BNO08X_CB_QUEUE_SZ
+            int "Callback queue size."
+            range 1 200
+            default 16
+            help
+                Amount of callbacks that can be in the air/pending to be executed at any given time. 
+
+        config ESP32_BNO08X_DATA_PROC_TASK_SZ
+            int "Data processing task size, (data_proc_task())"
+            range 1024 20480
+            default 2048
+            help
+                Stack size of task responsible for parsing/handling sensor events sent by SH2 HAL and 
+                updating data that is returned to user.
+
+                
+        config ESP32_BNO08X_SH2_HAL_SERVICE_TASK_SZ
+            int "Data processing task size, (data_proc_task())"
+            range 1024 20480
+            default 4096
+            help
+                Stack size of task responsible for calling shtp_service() when HINT is asserted,
+                to dispatch any sh2 HAL lib callbacks.
+
+    endmenu #Callbacks & Tasks
 
 endmenu

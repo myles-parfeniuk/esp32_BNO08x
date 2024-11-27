@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptIGyroRV.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptIGyroRV.hpp"
 #include "BNO08x.hpp"
 

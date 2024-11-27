@@ -1,5 +1,5 @@
-idf_component_register(SRC_DIRS "source" "SH2"
-                    INCLUDE_DIRS "include" "include/report" "SH2"
+idf_component_register(SRC_DIRS "."
+                    INCLUDE_DIRS "."
                     REQUIRES cmock esp32_BNO08x)
 
 # supress unused var warnings from test_imu

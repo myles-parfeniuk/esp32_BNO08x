@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptStepCounter.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptStepCounter.hpp"
 #include "BNO08x.hpp"
 

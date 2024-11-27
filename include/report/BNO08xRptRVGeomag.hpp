@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptRVGeomag.hpp
+ * @author Myles Parfeniuk
+ */
+
 #pragma once
 
 #include "BNO08xRptRVGeneric.hpp"

@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xTapDetector.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xTapDetector.hpp"
 #include "BNO08x.hpp"
 

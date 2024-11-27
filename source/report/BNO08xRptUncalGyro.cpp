@@ -1,3 +1,8 @@
+/**
+ * @file BNO08xRptUncalGyro.cpp
+ * @author Myles Parfeniuk
+ */
+
 #include "BNO08xRptUncalGyro.hpp"
 #include "BNO08x.hpp"
 
