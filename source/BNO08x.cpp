@@ -324,12 +324,14 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
     uint8_t rpt_ID = sensor_val->sensorId;
 
-    // check if report exists within map
-    auto it = usr_reports.find(rpt_ID);
-    if (it == usr_reports.end())
+     // check if report implementation exists within map
+     if(rpt_ID == SH2_RESERVED)
         return;
 
-    auto& rpt = it->second;
+    auto& rpt = usr_reports.at(rpt_ID);
+
+    if(rpt == nullptr)
+        return;
 
     // send report ids to cb_task for callback execution (only if this report is enabled)
     if (rpt->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
@@ -1266,6 +1268,11 @@ esp_err_t BNO08x::re_enable_reports()
     for (auto entry = usr_reports.begin(); entry != usr_reports.end(); ++entry)
     {
         BNO08xRpt* rpt = entry->second;
+
+        //all reports in map passed this point should be null
+        if(rpt == nullptr)
+            break; 
+
         if (rpt->rpt_bit & report_en_bits)
         {
             if (!rpt->enable(rpt->period_us))

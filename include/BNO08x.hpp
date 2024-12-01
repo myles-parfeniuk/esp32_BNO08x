@@ -220,11 +220,10 @@ class BNO08x
 
         sh2_ProductIds_t product_IDs; ///< Product ID info returned IMU at initialization, can be viewed with print_product_ids()
 
-        static const constexpr uint8_t IMPLEMENTED_REPORT_COUNT =
-                21; ///< Amount of report implementations that have been created, some are still missing.
+        static const constexpr uint8_t TOTAL_RPT_COUNT = 38; ///< Amount of possible reports returned from BNO08x. 
 
         // clang-format off
-        etl::map<uint8_t, BNO08xRpt*, IMPLEMENTED_REPORT_COUNT, etl::less<uint8_t>> usr_reports = 
+        etl::map<uint8_t, BNO08xRpt*, TOTAL_RPT_COUNT, etl::less<uint8_t>> usr_reports = 
         {
                 {SH2_ACCELEROMETER, &accelerometer},
                 {SH2_LINEAR_ACCELERATION, &linear_accelerometer}, 
@@ -233,7 +232,8 @@ class BNO08x
                 {SH2_MAGNETIC_FIELD_UNCALIBRATED, &uncal_magnetometer}, 
                 {SH2_GYROSCOPE_CALIBRATED, &cal_gyro},
                 {SH2_GYROSCOPE_UNCALIBRATED, &uncal_gyro}, 
-                {SH2_ROTATION_VECTOR, &rv}, {SH2_GAME_ROTATION_VECTOR, &rv_game},
+                {SH2_ROTATION_VECTOR, &rv}, 
+                {SH2_GAME_ROTATION_VECTOR, &rv_game},
                 {SH2_ARVR_STABILIZED_RV, &rv_ARVR_stabilized}, 
                 {SH2_ARVR_STABILIZED_GRV, &rv_ARVR_stabilized_game},
                 {SH2_GYRO_INTEGRATED_RV, &rv_gyro_integrated}, 
@@ -245,7 +245,26 @@ class BNO08x
                 {SH2_PERSONAL_ACTIVITY_CLASSIFIER, &activity_classifier}, 
                 {SH2_STABILITY_CLASSIFIER, &stability_classifier},
                 {SH2_SHAKE_DETECTOR, &shake_detector}, 
-                {SH2_TAP_DETECTOR, &tap_detector}};
+                {SH2_TAP_DETECTOR, &tap_detector},
+                
+                // not implemented, see include/report for existing implementations to add your own
+                {SH2_PRESSURE, nullptr}, // requires auxilary i2c sensor
+                {SH2_AMBIENT_LIGHT, nullptr},  // requires auxilary i2c sensor
+                {SH2_HUMIDITY, nullptr},  // requires auxilary i2c sensor
+                {SH2_PROXIMITY, nullptr},  // requires auxilary i2c sensor
+                {SH2_TEMPERATURE, nullptr},  // requires auxilary i2c sensor
+                {SH2_HEART_RATE_MONITOR, nullptr},  // requires auxilary i2c sensor
+                {SH2_STEP_DETECTOR, nullptr},
+                {SH2_SIGNIFICANT_MOTION, nullptr},
+                {SH2_FLIP_DETECTOR, nullptr},
+                {SH2_PICKUP_DETECTOR, nullptr},
+                {SH2_STABILITY_DETECTOR, nullptr},
+                {SH2_SLEEP_DETECTOR, nullptr},
+                {SH2_TILT_DETECTOR, nullptr},
+                {SH2_POCKET_DETECTOR, nullptr},
+                {SH2_CIRCLE_DETECTOR, nullptr},
+                {SH2_IZRO_MOTION_REQUEST, nullptr}
+        };
         // clang-format on
 
         static void IRAM_ATTR hint_handler(void* arg);
