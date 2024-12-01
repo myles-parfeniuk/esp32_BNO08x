@@ -61,6 +61,11 @@
 // forward dec to prevent compile errors
 class BNO08x;
 
+/**
+ * @class BNO08xSH2HAL
+ *
+ * @brief Fully static class containing callback implementations for sh2 HAL lib.
+ * */
 class BNO08xSH2HAL
 {
     public:

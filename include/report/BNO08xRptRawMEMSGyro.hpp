@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptRawMEMSGyro
+ *
  * @brief Class to represent raw gyro reports. (See Ref. Manual 6.5.12)
  */
 class BNO08xRptRawMEMSGyro : public BNO08xRpt

@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptLinearAcceleration
+ *
  * @brief Class to represent linear accelerometer reports. (See Ref. Manual 6.5.10)
  */
 class BNO08xRptLinearAcceleration : public BNO08xRpt

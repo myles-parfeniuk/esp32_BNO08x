@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptStepCounter
+ *
  * @brief Class to represent step counter reports. (See Ref. Manual 6.5.29)
  */
 class BNO08xRptStepCounter : public BNO08xRpt

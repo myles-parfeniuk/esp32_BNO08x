@@ -8,6 +8,8 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
+ * @class BNO08xRptRVGeomag
+ *
  * @brief Class to represent geomagnetic rotation vector reports. (See Ref. Manual 6.5.20)
  */
 class BNO08xRptRVGeomag : public BNO08xRptRVGeneric

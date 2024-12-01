@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptActivityClassifier
+ *
  * @brief Class to represent activity classifier reports. (See Ref. Manual 6.5.36)
  */
 class BNO08xRptActivityClassifier : public BNO08xRpt

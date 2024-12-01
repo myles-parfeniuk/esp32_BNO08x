@@ -5,9 +5,6 @@
 
 #pragma once
 
-// standard library includes
-#include <stdio.h>
-#include <string.h>
 // esp-idf includes
 #include "unity.h"
 // in-house includes

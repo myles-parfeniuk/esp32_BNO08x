@@ -8,6 +8,8 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
+ * @class BNO08xRptIGyroRV
+ *
  * @brief Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.5.44)
  */
 class BNO08xRptIGyroRV : public BNO08xRptRVGeneric

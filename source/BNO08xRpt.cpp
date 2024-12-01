@@ -71,7 +71,8 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
  */
 void BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 {
-    imu->cb_list.push_back({ID, cb_fxn});
+    imu->cb_list_void_param.push_back(BNO08xCbParamVoid(cb_fxn, ID));
+    imu->cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&imu->cb_list_void_param.back()));
 }
 
 /**

@@ -8,6 +8,8 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
+ * @class BNO08xRptGameRV
+ *
  * @brief Class to represent game rotation vector reports. (See Ref. Manual 6.5.19)
  */
 class BNO08xRptGameRV : public BNO08xRptRVGeneric

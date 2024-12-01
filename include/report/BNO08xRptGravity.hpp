@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptGravity
+ *
  * @brief Class to represent gravity reports. (See Ref. Manual 6.5.11)
  */
 class BNO08xRptGravity : public BNO08xRpt

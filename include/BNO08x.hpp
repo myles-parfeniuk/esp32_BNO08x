@@ -5,10 +5,9 @@
 
 #pragma once
 
-// standard library includes
-#include <variant>
-#include <vector>
-#include <map>
+// etl includes
+#include <etl/vector.h>
+#include <etl/map.h>
 
 // esp-idf includes
 #include <freertos/FreeRTOS.h>
@@ -20,6 +19,8 @@
 // in-house includes
 #include "BNO08x_global_types.hpp"
 #include "BNO08xSH2HAL.hpp"
+#include "BNO08xCbParamRptID.hpp"
+#include "BNO08xCbParamVoid.hpp"
 #include "BNO08xRptAcceleration.hpp"
 #include "BNO08xRptLinearAcceleration.hpp"
 #include "BNO08xRptGravity.hpp"
@@ -134,14 +135,6 @@ class BNO08x
                 }
         } bno08x_init_status_t;
 
-        using bno08x_cb_t = std::variant<std::function<void()>, std::function<void(uint8_t)>>;
-        /// @brief Holds registered callback info.
-        typedef struct bno08x_cb_data_t
-        {
-                uint8_t report_ID; ///< Report this callback is registered to (0 if to execute on any new report).
-                bno08x_cb_t cb;    ///< Callback function pointer.
-        } bno08x_cb_data_t;
-
         // data processing task
         static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ =
                 CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ; ///< Size of data_proc_task() stack in bytes
@@ -172,7 +165,7 @@ class BNO08x
         void unlock_user_data();
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
-        void handle_cb(uint8_t rpt_ID, bno08x_cb_data_t& cb_entry);
+        void handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry);
 
         esp_err_t init_config_args();
         esp_err_t init_gpio();
@@ -210,7 +203,12 @@ class BNO08x
 
         QueueHandle_t queue_cb_report_id; ///< Queue to send report ID of most recent report to cb_task()
 
-        std::vector<bno08x_cb_data_t> cb_list; // Vector for storing any call-back functions added with register_cb()
+        etl::vector<BNO08xCbParamVoid, CONFIG_ESP32_BNO08X_CB_MAX>
+                cb_list_void_param; // Vector for storing any call-back functions added with register_cb()
+        etl::vector<BNO08xCbParamRptID, CONFIG_ESP32_BNO08X_CB_MAX>
+                cb_list_rpt_param; // Vector for storing any call-back functions added with register_cb()
+        etl::vector<BNO08xCbGeneric*, CONFIG_ESP32_BNO08X_CB_MAX>
+                cb_ptr_list; // Vector for storing any call-back functions added with register_cb() as pointer to generic type
 
         bno08x_config_t imu_config{};                   ///<IMU configuration settings
         spi_bus_config_t bus_config{};                  ///<SPI bus GPIO configuration settings
@@ -222,15 +220,33 @@ class BNO08x
 
         sh2_ProductIds_t product_IDs; ///< Product ID info returned IMU at initialization, can be viewed with print_product_ids()
 
-        std::map<uint8_t, BNO08xRpt*> usr_reports = {{SH2_ACCELEROMETER, &accelerometer}, {SH2_LINEAR_ACCELERATION, &linear_accelerometer},
-                {SH2_GRAVITY, &gravity}, {SH2_MAGNETIC_FIELD_CALIBRATED, &cal_magnetometer}, {SH2_MAGNETIC_FIELD_UNCALIBRATED, &uncal_magnetometer},
-                {SH2_GYROSCOPE_CALIBRATED, &cal_gyro}, {SH2_GYROSCOPE_UNCALIBRATED, &uncal_gyro}, {SH2_ROTATION_VECTOR, &rv},
-                {SH2_GAME_ROTATION_VECTOR, &rv_game}, {SH2_ARVR_STABILIZED_RV, &rv_ARVR_stabilized},
-                {SH2_ARVR_STABILIZED_GRV, &rv_ARVR_stabilized_game}, {SH2_GYRO_INTEGRATED_RV, &rv_gyro_integrated},
-                {SH2_GEOMAGNETIC_ROTATION_VECTOR, &rv_geomagnetic}, {SH2_RAW_GYROSCOPE, &raw_gyro}, {SH2_RAW_ACCELEROMETER, &raw_accelerometer},
-                {SH2_RAW_MAGNETOMETER, &raw_magnetometer}, {SH2_STEP_COUNTER, &step_counter},
-                {SH2_PERSONAL_ACTIVITY_CLASSIFIER, &activity_classifier}, {SH2_STABILITY_CLASSIFIER, &stability_classifier},
-                {SH2_SHAKE_DETECTOR, &shake_detector}, {SH2_TAP_DETECTOR, &tap_detector}};
+        static const constexpr uint8_t IMPLEMENTED_REPORT_COUNT =
+                21; ///< Amount of report implementations that have been created, some are still missing.
+
+        // clang-format off
+        etl::map<uint8_t, BNO08xRpt*, IMPLEMENTED_REPORT_COUNT, etl::less<uint8_t>> usr_reports = 
+        {
+                {SH2_ACCELEROMETER, &accelerometer},
+                {SH2_LINEAR_ACCELERATION, &linear_accelerometer}, 
+                {SH2_GRAVITY, &gravity}, 
+                {SH2_MAGNETIC_FIELD_CALIBRATED, &cal_magnetometer},
+                {SH2_MAGNETIC_FIELD_UNCALIBRATED, &uncal_magnetometer}, 
+                {SH2_GYROSCOPE_CALIBRATED, &cal_gyro},
+                {SH2_GYROSCOPE_UNCALIBRATED, &uncal_gyro}, 
+                {SH2_ROTATION_VECTOR, &rv}, {SH2_GAME_ROTATION_VECTOR, &rv_game},
+                {SH2_ARVR_STABILIZED_RV, &rv_ARVR_stabilized}, 
+                {SH2_ARVR_STABILIZED_GRV, &rv_ARVR_stabilized_game},
+                {SH2_GYRO_INTEGRATED_RV, &rv_gyro_integrated}, 
+                {SH2_GEOMAGNETIC_ROTATION_VECTOR, &rv_geomagnetic}, 
+                {SH2_RAW_GYROSCOPE, &raw_gyro},
+                {SH2_RAW_ACCELEROMETER, &raw_accelerometer}, 
+                {SH2_RAW_MAGNETOMETER, &raw_magnetometer}, 
+                {SH2_STEP_COUNTER, &step_counter},
+                {SH2_PERSONAL_ACTIVITY_CLASSIFIER, &activity_classifier}, 
+                {SH2_STABILITY_CLASSIFIER, &stability_classifier},
+                {SH2_SHAKE_DETECTOR, &shake_detector}, 
+                {SH2_TAP_DETECTOR, &tap_detector}};
+        // clang-format on
 
         static void IRAM_ATTR hint_handler(void* arg);
 

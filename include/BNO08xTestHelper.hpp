@@ -5,8 +5,6 @@
 
 #pragma once
 
-// standard library includes
-#include <stdio.h>
 // in-house includes
 #include "BNO08x.hpp"
 

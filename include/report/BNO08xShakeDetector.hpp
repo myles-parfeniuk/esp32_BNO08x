@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xShakeDetector
+ *
  * @brief Class to represent shake detector reports. (See Ref. Manual 6.5.32)
  */
 class BNO08xShakeDetector : public BNO08xRpt

@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptRVGeneric
+ *
  * @brief Class to represent rotation vector reports.
  */
 class BNO08xRptRVGeneric : public BNO08xRpt

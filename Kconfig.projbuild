@@ -45,13 +45,6 @@ menu "esp32_BNO08x"
             help
                 MISO GPIO pin connected to BNO08x SDA pin.
 
-        config ESP32_BNO08X_GPIO_WAKE
-            int "WAKE GPIO NUM (optional, -1 == unused)" 
-            range -1 50
-            default -1
-            help
-                Wake GPIO pin, connected to BNO08x P0 pin (optional)
-
     endmenu # GPIO Config
 
     menu "SPI Configuration"
@@ -62,7 +55,6 @@ menu "esp32_BNO08x"
             default 2
             help
                 SPI controller peripheral inside ESP32. 
-
 
         config ESP32_BNO08X_SCL_SPEED_HZ
             int "SCL SPEED (HZ)" 
@@ -78,7 +70,59 @@ menu "esp32_BNO08x"
             help
                Amount of SPI transactions that can be queued during operation. 
                This argument is loaded directly into the spi_device_interface_config_t struct used for SPI configuration.
-               
+
+    endmenu #SPI Configuration
+
+    menu "Tasks"
+
+        config ESP32_BNO08X_CB_TASK_SZ
+            int "Callback task size, (cb_task())"
+            range 1024 20480
+            default 4096
+            help
+                Stack size of task responsible for executing callbacks.
+                Note that callbacks should remain as short as possible, pass the data out of
+                the callback with a queue or save it to different variables for longer operations.
+
+        config ESP32_BNO08X_DATA_PROC_TASK_SZ
+            int "Data processing task size, (data_proc_task())"
+            range 1024 20480
+            default 2048
+            help
+                Stack size of task responsible for parsing/handling sensor events sent by SH2 HAL and 
+                updating data that is returned to user.
+
+                
+        config ESP32_BNO08X_SH2_HAL_SERVICE_TASK_SZ
+            int "sh2 HAL service task size (sh2_HAL_service_task())"
+            range 1024 20480
+            default 4096
+            help
+                Stack size of task responsible for calling shtp_service() when HINT is asserted,
+                to dispatch any sh2 HAL lib callbacks.
+
+    endmenu #Tasks
+
+    menu "Callbacks"
+
+        config ESP32_BNO08X_CB_MAX
+            int "Maxmium amount of callbacks that can be registered."
+            range 1 200
+            default 10
+            help
+                Maximum amount of callbacks that can be registered.
+
+        config ESP32_BNO08X_CB_QUEUE_SZ
+            int "Callback queue size."
+            range 1 200
+            default 16
+            help
+                Amount of callback invocation requests that can be in the air/pending at any given time. 
+
+    endmenu #Callbacks
+
+    menu "Timeouts"
+
         config ESP32_BNO08X_HINT_TIMEOUT_MS
             int "HINT TIMEOUT (ms)" 
             range 100 10000
@@ -101,7 +145,8 @@ menu "esp32_BNO08x"
                 How long RST pin is held low during hard reset (min 10ns according to datasheet, 
                 but should be longer for stable operation). Not recommended to lower below 100ms. 
 
-    endmenu #SPI Configuration
+    endmenu #Timeouts
+
 
     menu "Logging"
 
@@ -118,42 +163,5 @@ menu "esp32_BNO08x"
                 Print the various debug statements scattered throughout the code when running.
                 
     endmenu #Logging 
-
-    menu "Callbacks & Tasks"
-
-        config ESP32_BNO08X_CB_TASK_SZ
-            int "Callback task size, (cb_task())"
-            range 1024 20480
-            default 4096
-            help
-                Stack size of task responsible for executing callbacks.
-                Note that callbacks should remain as short as possible, pass the data out of
-                the callback with a queue or save it to different variables for longer operations.
-
-        config ESP32_BNO08X_CB_QUEUE_SZ
-            int "Callback queue size."
-            range 1 200
-            default 16
-            help
-                Amount of callbacks that can be in the air/pending to be executed at any given time. 
-
-        config ESP32_BNO08X_DATA_PROC_TASK_SZ
-            int "Data processing task size, (data_proc_task())"
-            range 1024 20480
-            default 2048
-            help
-                Stack size of task responsible for parsing/handling sensor events sent by SH2 HAL and 
-                updating data that is returned to user.
-
-                
-        config ESP32_BNO08X_SH2_HAL_SERVICE_TASK_SZ
-            int "Data processing task size, (data_proc_task())"
-            range 1024 20480
-            default 4096
-            help
-                Stack size of task responsible for calling shtp_service() when HINT is asserted,
-                to dispatch any sh2 HAL lib callbacks.
-
-    endmenu #Callbacks & Tasks
 
 endmenu

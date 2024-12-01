@@ -45,7 +45,7 @@ BNO08x::BNO08x(bno08x_config_t imu_config)
     , evt_grp_report_en(xEventGroupCreate())
     , evt_grp_report_data_available(xEventGroupCreate())
     , queue_rx_sensor_event(xQueueCreate(10, sizeof(sh2_SensorEvent_t)))
-    , queue_cb_report_id(xQueueCreate(20, sizeof(uint8_t)))
+    , queue_cb_report_id(xQueueCreate(CONFIG_ESP32_BNO08X_CB_QUEUE_SZ, sizeof(uint8_t)))
     , imu_config(imu_config)
 {
 }
@@ -88,9 +88,6 @@ BNO08x::~BNO08x()
     // delete all queues
     vQueueDelete(queue_rx_sensor_event);
     vQueueDelete(queue_cb_report_id);
-
-    // clear callback lists
-    cb_list.clear();
 }
 
 /**
@@ -264,7 +261,7 @@ void BNO08x::cb_task()
     do
     {
         // execute callbacks
-        for (auto& cb_entry : cb_list)
+        for (auto& cb_entry : cb_ptr_list)
             handle_cb(rpt_ID, cb_entry);
 
         xQueueReceive(queue_cb_report_id, &rpt_ID, portMAX_DELAY);
@@ -328,26 +325,27 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     uint8_t rpt_ID = sensor_val->sensorId;
 
     // check if report exists within map
-    if ((rpt_ID > 0) && (rpt_ID < SH2_MAX_SENSOR_ID))
+    auto it = usr_reports.find(rpt_ID);
+    if (it == usr_reports.end())
+        return;
+
+    auto& rpt = it->second;
+
+    // send report ids to cb_task for callback execution (only if this report is enabled)
+    if (rpt->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
     {
-        auto& rpt = usr_reports.at(rpt_ID);
+        // update respective report with new data
+        rpt->update_data(sensor_val);
 
-        // send report ids to cb_task for callback execution (only if this report is enabled)
-        if (rpt->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
-        {
-            // update respective report with new data
-            rpt->update_data(sensor_val);
-
-            if (cb_list.size() != 0)
-                if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
-                {
-                    // clang-format off
+        if (cb_ptr_list.size() != 0)
+            if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
+            {
+                // clang-format off
                     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                     ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
                     #endif
-                    // clang-format on
-                }
-        }
+                // clang-format on
+            }
     }
 }
 
@@ -356,22 +354,12 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
  *
  * @return void, nothing to return
  */
-void BNO08x::handle_cb(uint8_t rpt_ID, bno08x_cb_data_t& cb_entry)
+void BNO08x::handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry)
 {
     // only execute callback if it is registered to this report or all reports
-    if ((cb_entry.report_ID == 0) || (cb_entry.report_ID == rpt_ID))
+    if ((cb_entry->rpt_ID == 0) || (cb_entry->rpt_ID == rpt_ID))
     {
-        // check the type of the callback stored in the variant
-        if (std::holds_alternative<std::function<void()>>(cb_entry.cb))
-        {
-            // handles std::function<void()> (i.e., no parameters)
-            std::get<std::function<void()>>(cb_entry.cb)();
-        }
-        else
-        {
-            // handles std::function<void(uint8_t)> (i.e., with a report ID)
-            std::get<std::function<void(uint8_t)>>(cb_entry.cb)(rpt_ID);
-        }
+        cb_entry->invoke(rpt_ID);
     }
 }
 
@@ -513,12 +501,10 @@ esp_err_t BNO08x::init_gpio_outputs()
 {
     esp_err_t ret = ESP_OK;
 
-    // configure output(s) (CS, RST, and WAKE)
+    // configure output(s) (CS, RST)
     gpio_config_t outputs_config;
 
-    outputs_config.pin_bit_mask = (imu_config.io_wake != GPIO_NUM_NC)
-                                          ? ((1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst) | (1ULL << imu_config.io_wake))
-                                          : ((1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst));
+    outputs_config.pin_bit_mask = ((1ULL << imu_config.io_cs) | (1ULL << imu_config.io_rst));
 
     outputs_config.mode = GPIO_MODE_OUTPUT;
     outputs_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
@@ -530,7 +516,7 @@ esp_err_t BNO08x::init_gpio_outputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to configure CS, RST, and WAKE (if used) gpio.");
+        ESP_LOGE(TAG, "Initialization failed, failed to configure CS, and RST gpio.");
         #endif
         // clang-format on
     }
@@ -563,9 +549,6 @@ esp_err_t BNO08x::init_gpio()
 
     gpio_set_level(imu_config.io_cs, 1);
     gpio_set_level(imu_config.io_rst, 1);
-
-    if (imu_config.io_wake != GPIO_NUM_NC)
-        gpio_set_level(imu_config.io_wake, 1);
 
     return ret;
 }
@@ -851,21 +834,6 @@ esp_err_t BNO08x::deinit_gpio_inputs()
 esp_err_t BNO08x::deinit_gpio_outputs()
 {
     esp_err_t ret = ESP_OK;
-
-    if (imu_config.io_wake != GPIO_NUM_NC)
-    {
-        ret = gpio_reset_pin(imu_config.io_wake);
-        if (ret != ESP_OK)
-        {
-            // clang-format off
-            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Deconstruction failed, could reset gpio WAKE pin to default state.");
-            #endif
-            // clang-format on
-
-            return ret;
-        }
-    }
 
     ret = gpio_reset_pin(imu_config.io_cs);
     if (ret != ESP_OK)
@@ -1279,9 +1247,6 @@ void BNO08x::toggle_reset()
 
     gpio_set_level(imu_config.io_cs, 1);
 
-    if (imu_config.io_wake != GPIO_NUM_NC)
-        gpio_set_level(imu_config.io_wake, 1);
-
     gpio_set_level(imu_config.io_rst, 0); // set reset pin low
     vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
@@ -1344,7 +1309,8 @@ bool BNO08x::data_available()
  */
 void BNO08x::register_cb(std::function<void(void)> cb_fxn)
 {
-    cb_list.push_back({0U, cb_fxn});
+    cb_list_void_param.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
+    cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&cb_list_void_param.back()));
 }
 
 /**
@@ -1356,7 +1322,8 @@ void BNO08x::register_cb(std::function<void(void)> cb_fxn)
  */
 void BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
 {
-    cb_list.push_back({0U, cb_fxn});
+    cb_list_rpt_param.push_back(BNO08xCbParamRptID(cb_fxn, 0U));
+    cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&cb_list_rpt_param.back()));
 }
 
 /**

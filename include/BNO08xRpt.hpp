@@ -7,6 +7,7 @@
 
 // standard library includes
 #include <functional>
+
 // in-house includes
 #include "BNO08x_global_types.hpp"
 
@@ -14,9 +15,9 @@
 class BNO08x;
 
 /**
- * @brief Class to represent and manage reports returned from BNO08x.
+ * @class BNO08xRpt
  *
- * @return ESP_OK if report was successfully enabled.
+ * @brief Class to represent and manage reports returned from BNO08x.
  */
 class BNO08xRpt
 {

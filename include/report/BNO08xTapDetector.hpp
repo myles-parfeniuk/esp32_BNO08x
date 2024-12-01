@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xTapDetector
+ *
  * @brief Class to represent tap detector reports. (See Ref. Manual 6.5.27)
  */
 class BNO08xTapDetector : public BNO08xRpt

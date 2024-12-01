@@ -9,6 +9,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptUncalMagnetometer
+ *
  * @brief Class to represent uncalibrated magnetometer reports. (See Ref. Manual 6.5.17)
  */
 class BNO08xRptUncalMagnetometer : public BNO08xRpt

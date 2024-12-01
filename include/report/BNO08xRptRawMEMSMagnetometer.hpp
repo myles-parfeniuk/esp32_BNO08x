@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptRawMEMSMagnetometer
+ *
  * @brief Class to represent raw magnetometer reports. (See Ref. Manual 6.5.15)
  */
 class BNO08xRptRawMEMSMagnetometer : public BNO08xRpt

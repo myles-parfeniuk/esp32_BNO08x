@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xRptCalGyro
+ *
  * @brief Class to represent calibrated gyro reports. (See Ref. Manual 6.5.13)
  */
 class BNO08xRptCalGyro : public BNO08xRpt

@@ -8,6 +8,8 @@
 #include "BNO08xRpt.hpp"
 
 /**
+ * @class BNO08xStabilityClassifier
+ *
  * @brief Class to represent stability classifier reports. (See Ref. Manual 6.5.31)
  */
 class BNO08xStabilityClassifier : public BNO08xRpt

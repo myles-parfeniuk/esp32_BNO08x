@@ -8,6 +8,8 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
+ * @class BNO08xRptARVRStabilizedRV
+ *
  * @brief Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.42)
  */
 class BNO08xRptARVRStabilizedRV : public BNO08xRptRVGeneric
