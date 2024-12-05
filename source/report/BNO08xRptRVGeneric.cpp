@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xRptRVGeneric.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if available, else constant 0.0f).
@@ -19,9 +18,9 @@
  */
 bno08x_quat_t BNO08xRptRVGeneric::get_quat()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_quat_t rqdata = data;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }
 
@@ -71,9 +70,9 @@ bool BNO08xRptRVGeneric::tare(bool x, bool y, bool z, sh2_TareBasis_t basis)
     if (z)
         axis_flag |= SH2_TARE_Z;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_setTareNow(axis_flag, basis);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     if (success != SH2_OK)
         return false;

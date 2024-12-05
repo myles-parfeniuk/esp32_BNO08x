@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xStabilityClassifier.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Updates stability classifier data from decoded sensor event.
@@ -15,12 +14,12 @@
  */
 void BNO08xStabilityClassifier::update_data(sh2_SensorValue_t* sensor_val)
 {
-    imu->lock_user_data();
+    lock_user_data();
     data = sensor_val->un.stabilityClassifier;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    imu->unlock_user_data();
+    unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -31,9 +30,9 @@ void BNO08xStabilityClassifier::update_data(sh2_SensorValue_t* sensor_val)
  */
 bno08x_stability_classifier_t BNO08xStabilityClassifier::get()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_stability_classifier_t rqdata = data;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }
 
@@ -44,8 +43,8 @@ bno08x_stability_classifier_t BNO08xStabilityClassifier::get()
  */
 BNO08xStability BNO08xStabilityClassifier::get_stability()
 {
-    imu->lock_user_data();
+    lock_user_data();
     BNO08xStability rqdata = data.stability;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }

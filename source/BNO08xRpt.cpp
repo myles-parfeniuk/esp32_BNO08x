@@ -4,13 +4,12 @@
  */
 
 #include "BNO08xRpt.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Enables a sensor report such that the BNO08x begins sending it.
  *
  * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional, see BNO08xRpt::default_sensor_cfg for defaults).
+ * @param sensor_cfg Sensor special configuration (optional, see BNO08xPrivateTypes::default_sensor_cfg for defaults).
  *
  * @return True if report was successfully enabled.
  */
@@ -18,13 +17,13 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
 {
     int sh2_res = SH2_OK;
 
-    xEventGroupClearBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
+    EventBits_t report_en_bits = xEventGroupGetBits(*_evt_grp_rpt_en);
 
     sensor_cfg.reportInterval_us = time_between_reports;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     if (sh2_res != SH2_OK)
     {
@@ -32,9 +31,16 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
     }
     else
     {
-        period_us = time_between_reports;                    // Update the period
-        xEventGroupSetBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
-        vTaskDelay(30UL / portTICK_PERIOD_MS);               // delay a bit to allow command to execute
+        vTaskDelay(30UL / portTICK_PERIOD_MS); // delay a bit to allow command to execute
+        period_us = time_between_reports;      // update the period
+
+        // if not already enabled (ie user called this, not re_enable_reports())
+        if (!(report_en_bits & rpt_bit))
+        {
+            _en_report_ids->push_back(ID);                 // add report ID to enabled report IDs
+            xEventGroupSetBits(*_evt_grp_rpt_en, rpt_bit); // set the event group bit
+        }
+
         return true;
     }
 }
@@ -49,14 +55,30 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
  */
 bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
 {
-    EventBits_t evt_grp_report_en_bits = xEventGroupGetBits(imu->evt_grp_report_en);
+    int16_t idx = -1;
 
-    if (evt_grp_report_en_bits & rpt_bit)
+    if (!enable(0UL, sensor_cfg))
     {
-        if (!enable(0UL, sensor_cfg))
-            return false;
-        else
-            xEventGroupClearBits(imu->evt_grp_report_en, rpt_bit); // Set the event group bit
+        return false;
+    }
+    else
+    {
+        for (int i = 0; i < _en_report_ids->size(); i++)
+        {
+            if (_en_report_ids->at(i) == ID)
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        vTaskDelay(30UL / portTICK_PERIOD_MS); // delay a bit to allow command to execute
+        period_us = 0UL;                       // update the period
+
+        if (idx != -1)
+            _en_report_ids->erase(_en_report_ids->begin() + idx);
+
+        xEventGroupClearBits(*_evt_grp_rpt_en, rpt_bit); // Set the event group bit
     }
 
     return true;
@@ -69,10 +91,14 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
  *
  * @return void, nothing to return
  */
-void BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
+bool BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 {
-    imu->cb_list_void_param.push_back(BNO08xCbParamVoid(cb_fxn, ID));
-    imu->cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&imu->cb_list_void_param.back()));
+    if (_cb_list->size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    {
+        _cb_list->push_back(BNO08xCbParamVoid(cb_fxn, ID));
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -85,10 +111,10 @@ bool BNO08xRpt::has_new_data()
 {
     bool new_data = false;
 
-    if (xEventGroupGetBits(imu->evt_grp_report_data_available) & rpt_bit)
+    if (xEventGroupGetBits(*_evt_grp_rpt_data_available) & rpt_bit)
     {
         new_data = true;
-        xEventGroupClearBits(imu->evt_grp_report_data_available, rpt_bit);
+        xEventGroupClearBits(*_evt_grp_rpt_data_available, rpt_bit);
     }
 
     return new_data;
@@ -103,9 +129,9 @@ bool BNO08xRpt::flush()
 {
     int success = SH2_OK;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_flush(ID);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     return (success != SH2_OK) ? false : true;
 }
@@ -122,9 +148,9 @@ bool BNO08xRpt::get_sample_counts(bno08x_sample_counts_t& sample_counts)
     int success = SH2_OK;
     sh2_Counts_t pCounts;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_getCounts(ID, &pCounts);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     if (success != SH2_OK)
     {
@@ -146,9 +172,9 @@ bool BNO08xRpt::clear_sample_counts()
 {
     int success = SH2_OK;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_clearCounts(ID);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     return (success == SH2_OK);
 }
@@ -166,14 +192,54 @@ bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
 
     sh2_SensorMetadata_t sensor_meta_data;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_getMetadata(ID, &sensor_meta_data);
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     if (success == SH2_OK)
         meta_data = sensor_meta_data;
 
     return (success == SH2_OK);
+}
+
+/**
+ * @brief Locks sh2 HAL lib to only allow the calling task to call its APIs.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::lock_sh2_HAL()
+{
+    xSemaphoreTake(*_sh2_HAL_lock, portMAX_DELAY);
+}
+
+/**
+ * @brief Unlocks sh2 HAL lib to allow other tasks to call its APIs.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::unlock_sh2_HAL()
+{
+    xSemaphoreGive(*_sh2_HAL_lock);
+}
+
+/**
+ * @brief Locks locks user data to only allow the calling task to read/modify it.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::lock_user_data()
+{
+    xSemaphoreTake(*_data_lock, portMAX_DELAY);
+}
+
+/**
+ * @brief Unlocks user data to allow other tasks to read/modify it.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::unlock_user_data()
+{
+    xSemaphoreGive(*_data_lock);
 }
 
 /**
@@ -183,6 +249,6 @@ bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
  */
 void BNO08xRpt::signal_data_available()
 {
-    xEventGroupSetBits(imu->evt_grp_report_data_available, rpt_bit);
-    xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    xEventGroupSetBits(*_evt_grp_rpt_data_available, rpt_bit);
+    xEventGroupSetBits(*_evt_grp_bno08x_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

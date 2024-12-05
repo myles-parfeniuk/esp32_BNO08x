@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xRptStepCounter.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Updates step counter data from decoded sensor event.
@@ -17,7 +16,7 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
 {
     static uint16_t prev_steps = 0;
 
-    imu->lock_user_data();
+    lock_user_data();
     data = sensor_val->un.stepCounter;
 
     if (prev_steps > data.steps)
@@ -29,9 +28,9 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
 
     prev_steps = data.steps;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    imu->unlock_user_data();
+    unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -42,9 +41,9 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
  */
 uint32_t BNO08xRptStepCounter::get_total_steps()
 {
-    imu->lock_user_data();
+    lock_user_data();
     uint32_t total_steps = step_accumulator + data.steps;
-    imu->unlock_user_data();
+    unlock_user_data();
     return total_steps;
 }
 
@@ -55,8 +54,8 @@ uint32_t BNO08xRptStepCounter::get_total_steps()
  */
 bno08x_step_counter_t BNO08xRptStepCounter::get()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_step_counter_t rqdata = data;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }

@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xRptIGyroRV.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Updates gyro integrated rotation vector data from decoded sensor event.
@@ -15,13 +14,13 @@
  */
 void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
 {
-    imu->lock_user_data();
+    lock_user_data();
     data = sensor_val->un.gyroIntegratedRV;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     data_vel = sensor_val->un.gyroIntegratedRV;
-    imu->unlock_user_data();
+    unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -35,10 +34,10 @@ void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
  */
 void BNO08xRptIGyroRV::get(bno08x_quat_t& quat, bno08x_ang_vel_t& vel)
 {
-    imu->lock_user_data();
+    lock_user_data();
     quat = data;
     vel = data_vel;
-    imu->unlock_user_data();
+    unlock_user_data();
 }
 
 /**
@@ -48,8 +47,8 @@ void BNO08xRptIGyroRV::get(bno08x_quat_t& quat, bno08x_ang_vel_t& vel)
  */
 bno08x_ang_vel_t BNO08xRptIGyroRV::get_vel()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_ang_vel_t rqdata = data_vel;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }

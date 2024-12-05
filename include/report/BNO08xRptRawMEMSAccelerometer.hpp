@@ -15,8 +15,8 @@
 class BNO08xRptRawMEMSAccelerometer : public BNO08xRpt
 {
     public:
-        BNO08xRptRawMEMSAccelerometer(BNO08x* imu, uint8_t report_ID, uint32_t period_us, uint32_t rpt_bit)
-            : BNO08xRpt(imu, report_ID, period_us, rpt_bit)
+        BNO08xRptRawMEMSAccelerometer(BNO08xPrivateTypes::bno08x_report_info_t info)
+            : BNO08xRpt(info)
         {
         }
 

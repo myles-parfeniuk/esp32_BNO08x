@@ -4,6 +4,9 @@
  */
 
 #include "BNO08x.hpp"
+#include "BNO08xPrivateTypes.hpp"
+
+using namespace BNO08xPrivateTypes;
 
 /**
  * @brief BNO08x imu constructor.
@@ -14,27 +17,48 @@
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : accelerometer(this, SH2_ACCELEROMETER, 0UL, EVT_GRP_RPT_ACCELEROMETER_BIT)
-    , linear_accelerometer(this, SH2_LINEAR_ACCELERATION, 0UL, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT)
-    , gravity(this, SH2_GRAVITY, 0UL, EVT_GRP_RPT_GRAVITY_BIT)
-    , cal_magnetometer(this, SH2_MAGNETIC_FIELD_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT)
-    , uncal_magnetometer(this, SH2_MAGNETIC_FIELD_UNCALIBRATED, 0UL, EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT)
-    , cal_gyro(this, SH2_GYROSCOPE_CALIBRATED, 0UL, EVT_GRP_RPT_CAL_GYRO_BIT)
-    , uncal_gyro(this, SH2_GYROSCOPE_UNCALIBRATED, 0UL, EVT_GRP_RPT_UNCAL_GYRO_BIT)
-    , rv(this, SH2_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_BIT)
-    , rv_game(this, SH2_GAME_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_RV_GAME_BIT)
-    , rv_ARVR_stabilized(this, SH2_ARVR_STABILIZED_RV, 0UL, EVT_GRP_RPT_RV_ARVR_S_BIT)
-    , rv_ARVR_stabilized_game(this, SH2_ARVR_STABILIZED_GRV, 0UL, EVT_GRP_RPT_RV_ARVR_S_GAME_BIT)
-    , rv_gyro_integrated(this, SH2_GYRO_INTEGRATED_RV, 0UL, EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT)
-    , rv_geomagnetic(this, SH2_GEOMAGNETIC_ROTATION_VECTOR, 0UL, EVT_GRP_RPT_GEOMAG_RV_BIT)
-    , raw_gyro(this, SH2_RAW_GYROSCOPE, 0UL, EVT_GRP_RPT_RAW_GYRO_BIT)
-    , raw_accelerometer(this, SH2_RAW_ACCELEROMETER, 0UL, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT)
-    , raw_magnetometer(this, SH2_RAW_MAGNETOMETER, 0UL, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT)
-    , step_counter(this, SH2_STEP_COUNTER, 0UL, EVT_GRP_RPT_STEP_COUNTER_BIT)
-    , activity_classifier(this, SH2_PERSONAL_ACTIVITY_CLASSIFIER, 0UL, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT)
-    , stability_classifier(this, SH2_STABILITY_CLASSIFIER, 0UL, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT)
-    , shake_detector(this, SH2_SHAKE_DETECTOR, 0UL, EVT_GRP_RPT_SHAKE_DETECTOR_BIT)
-    , tap_detector(this, SH2_TAP_DETECTOR, 0UL, EVT_GRP_RPT_TAP_DETECTOR_BIT)
+    : accelerometer(bno08x_report_info_t(SH2_ACCELEROMETER, EVT_GRP_RPT_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , linear_accelerometer(bno08x_report_info_t(SH2_LINEAR_ACCELERATION, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , gravity(bno08x_report_info_t(SH2_GRAVITY, EVT_GRP_RPT_GRAVITY_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , cal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_CALIBRATED, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , uncal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_UNCALIBRATED, EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , cal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_CALIBRATED, EVT_GRP_RPT_CAL_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , uncal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_UNCALIBRATED, EVT_GRP_RPT_UNCAL_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv(bno08x_report_info_t(SH2_ROTATION_VECTOR, EVT_GRP_RPT_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv_game(bno08x_report_info_t(SH2_GAME_ROTATION_VECTOR, EVT_GRP_RPT_RV_GAME_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv_ARVR_stabilized(bno08x_report_info_t(SH2_ARVR_STABILIZED_RV, EVT_GRP_RPT_RV_ARVR_S_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv_ARVR_stabilized_game(bno08x_report_info_t(SH2_ARVR_STABILIZED_GRV, EVT_GRP_RPT_RV_ARVR_S_GAME_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv_gyro_integrated(bno08x_report_info_t(SH2_GYRO_INTEGRATED_RV, EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rv_geomagnetic(bno08x_report_info_t(SH2_GEOMAGNETIC_ROTATION_VECTOR, EVT_GRP_RPT_GEOMAG_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , raw_gyro(bno08x_report_info_t(SH2_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , raw_accelerometer(bno08x_report_info_t(SH2_RAW_ACCELEROMETER, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , raw_magnetometer(bno08x_report_info_t(SH2_RAW_MAGNETOMETER, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , step_counter(bno08x_report_info_t(SH2_STEP_COUNTER, EVT_GRP_RPT_STEP_COUNTER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , activity_classifier(bno08x_report_info_t(SH2_PERSONAL_ACTIVITY_CLASSIFIER, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , stability_classifier(bno08x_report_info_t(SH2_STABILITY_CLASSIFIER, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock,
+              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , shake_detector(bno08x_report_info_t(SH2_SHAKE_DETECTOR, EVT_GRP_RPT_SHAKE_DETECTOR_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , tap_detector(bno08x_report_info_t(SH2_TAP_DETECTOR, EVT_GRP_RPT_TAP_DETECTOR_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
     , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , cb_task_hdl(NULL)
@@ -261,8 +285,19 @@ void BNO08x::cb_task()
     do
     {
         // execute callbacks
-        for (auto& cb_entry : cb_ptr_list)
-            handle_cb(rpt_ID, cb_entry);
+        for (auto& cb_entry : cb_list)
+        {
+            BNO08xCbGeneric* cb_ptr = nullptr;
+
+            if (auto* ptr = etl::get_if<BNO08xCbParamVoid>(&cb_entry))
+                cb_ptr = ptr;
+
+            else if (auto* ptr = etl::get_if<BNO08xCbParamRptID>(&cb_entry))
+                cb_ptr = ptr;
+
+            if (cb_ptr != nullptr)
+                handle_cb(rpt_ID, cb_ptr);
+        }
 
         xQueueReceive(queue_cb_report_id, &rpt_ID, portMAX_DELAY);
 
@@ -324,13 +359,13 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
     uint8_t rpt_ID = sensor_val->sensorId;
 
-     // check if report implementation exists within map
-     if(rpt_ID == SH2_RESERVED)
+    // check if report implementation exists within map
+    if (rpt_ID == SH2_RESERVED)
         return;
 
     auto& rpt = usr_reports.at(rpt_ID);
 
-    if(rpt == nullptr)
+    if (rpt == nullptr)
         return;
 
     // send report ids to cb_task for callback execution (only if this report is enabled)
@@ -339,7 +374,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
         // update respective report with new data
         rpt->update_data(sensor_val);
 
-        if (cb_ptr_list.size() != 0)
+        if (cb_list.size() != 0)
             if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
             {
                 // clang-format off
@@ -1264,14 +1299,18 @@ esp_err_t BNO08x::re_enable_reports()
 {
     EventBits_t report_en_bits = xEventGroupGetBits(evt_grp_report_en);
 
-    // loop through all entries of map and check if they are enabled
-    for (auto entry = usr_reports.begin(); entry != usr_reports.end(); ++entry)
+    for (const auto& rpt_ID : en_report_ids)
     {
-        BNO08xRpt* rpt = entry->second;
-
-        //all reports in map passed this point should be null
-        if(rpt == nullptr)
-            break; 
+        BNO08xRpt* rpt = usr_reports.at(rpt_ID);
+        if (rpt == nullptr)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "NULL pointer detected in usr_reports map for enabled report.");
+            #endif
+            // clang-format on
+            continue;
+        }
 
         if (rpt->rpt_bit & report_en_bits)
         {
@@ -1314,10 +1353,15 @@ bool BNO08x::data_available()
  *
  * @return void, nothing to return
  */
-void BNO08x::register_cb(std::function<void(void)> cb_fxn)
+bool BNO08x::register_cb(std::function<void(void)> cb_fxn)
 {
-    cb_list_void_param.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
-    cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&cb_list_void_param.back()));
+
+    if (cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    {
+        cb_list.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -1327,10 +1371,14 @@ void BNO08x::register_cb(std::function<void(void)> cb_fxn)
  *
  * @return void, nothing to return
  */
-void BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
+bool BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
 {
-    cb_list_rpt_param.push_back(BNO08xCbParamRptID(cb_fxn, 0U));
-    cb_ptr_list.push_back(static_cast<BNO08xCbGeneric*>(&cb_list_rpt_param.back()));
+    if (cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    {
+        cb_list.push_back(BNO08xCbParamRptID(cb_fxn, 0U));
+        return true;
+    }
+    return false;
 }
 
 /**

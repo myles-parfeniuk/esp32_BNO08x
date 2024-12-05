@@ -136,7 +136,7 @@ uint32_t BNO08xSH2HAL::get_time_us(sh2_Hal_t* self)
 void BNO08xSH2HAL::hal_cb(void* cookie, sh2_AsyncEvent_t* pEvent)
 {
     if (pEvent->eventId == SH2_RESET)
-        xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08x::EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
+        xEventGroupSetBits(imu->evt_grp_bno08x_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 }
 
 /**

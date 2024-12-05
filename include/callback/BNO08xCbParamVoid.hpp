@@ -34,5 +34,5 @@ class BNO08xCbParamVoid : public BNO08xCbGeneric
         }
 
     private:
-        std::function<void(void)> cb_fxn;
+        std::function<void(void)> cb_fxn; ///< Wrapped callback function passed at register_cb(). 
 };

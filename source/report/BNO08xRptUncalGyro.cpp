@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xRptUncalGyro.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Updates uncalibrated gyro data from decoded sensor event.
@@ -15,13 +14,13 @@
  */
 void BNO08xRptUncalGyro::update_data(sh2_SensorValue_t* sensor_val)
 {
-    imu->lock_user_data();
+    lock_user_data();
     data = sensor_val->un.gyroscopeUncal;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     bias_data = sensor_val->un.gyroscopeUncal;
-    imu->unlock_user_data();
+    unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -35,10 +34,10 @@ void BNO08xRptUncalGyro::update_data(sh2_SensorValue_t* sensor_val)
  */
 void BNO08xRptUncalGyro::get(bno08x_gyro_t& vel, bno08x_gyro_bias_t& bias)
 {
-    imu->lock_user_data();
+    lock_user_data();
     vel = data;
     bias = bias_data;
-    imu->unlock_user_data();
+    unlock_user_data();
 }
 
 /**
@@ -48,9 +47,9 @@ void BNO08xRptUncalGyro::get(bno08x_gyro_t& vel, bno08x_gyro_bias_t& bias)
  */
 bno08x_gyro_t BNO08xRptUncalGyro::get_vel()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_gyro_t rqdata = data;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }
 
@@ -61,8 +60,8 @@ bno08x_gyro_t BNO08xRptUncalGyro::get_vel()
  */
 bno08x_gyro_bias_t BNO08xRptUncalGyro::get_bias()
 {
-    imu->lock_user_data();
+    lock_user_data();
     bno08x_gyro_bias_t rqdata = bias_data;
-    imu->unlock_user_data();
+    unlock_user_data();
     return rqdata;
 }

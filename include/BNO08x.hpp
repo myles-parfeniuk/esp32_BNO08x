@@ -7,41 +7,22 @@
 
 // etl includes
 #include <etl/vector.h>
+#include <etl/variant.h>
 #include <etl/map.h>
 
 // esp-idf includes
+#include <driver/gpio.h>
+#include <driver/spi_common.h>
+#include <driver/spi_master.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/event_groups.h>
 #include <freertos/queue.h>
-#include <freertos/semphr.h>
-
 // in-house includes
-#include "BNO08x_global_types.hpp"
+#include "BNO08xGlobalTypes.hpp"
+#include "BNO08xPrivateTypes.hpp"
 #include "BNO08xSH2HAL.hpp"
-#include "BNO08xCbParamRptID.hpp"
-#include "BNO08xCbParamVoid.hpp"
-#include "BNO08xRptAcceleration.hpp"
-#include "BNO08xRptLinearAcceleration.hpp"
-#include "BNO08xRptGravity.hpp"
-#include "BNO08xRptCalMagnetometer.hpp"
-#include "BNO08xRptUncalMagnetometer.hpp"
-#include "BNO08xRptCalGyro.hpp"
-#include "BNO08xRptUncalGyro.hpp"
-#include "BNO08xRptRV.hpp"
-#include "BNO08xRptGameRV.hpp"
-#include "BNO08xRptARVRStabilizedRV.hpp"
-#include "BNO08xRptARVRStabilizedGameRV.hpp"
-#include "BNO08xRptIGyroRV.hpp"
-#include "BNO08xRptRVGeomag.hpp"
-#include "BNO08xRptRawMEMSGyro.hpp"
-#include "BNO08xRptRawMEMSAccelerometer.hpp"
-#include "BNO08xRptRawMEMSMagnetometer.hpp"
-#include "BNO08xRptStepCounter.hpp"
-#include "BNO08xRptActivityClassifier.hpp"
-#include "BNO08xStabilityClassifier.hpp"
-#include "BNO08xShakeDetector.hpp"
-#include "BNO08xTapDetector.hpp"
+#include "BNO08xReports.hpp"
 
 /**
  * @class BNO08x
@@ -51,15 +32,6 @@
 class BNO08x
 {
     public:
-        inline static sh2_SensorConfig default_sensor_cfg = {.changeSensitivityEnabled = false, ///<TODO
-                .changeSensitivityRelative = false,
-                .wakeupEnabled = false,
-                .alwaysOnEnabled = false,
-                .changeSensitivity = 0,
-                .reportInterval_us = 0,
-                .batchInterval_us = 0,
-                .sensorSpecific = 0};
-
         BNO08x(bno08x_config_t imu_config = bno08x_config_t());
         ~BNO08x();
 
@@ -74,8 +46,8 @@ class BNO08x
         bool get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
 
         bool data_available();
-        void register_cb(std::function<void(void)> cb_fxn);
-        void register_cb(std::function<void(uint8_t report_ID)> cb_fxn);
+        bool register_cb(std::function<void(void)> cb_fxn);
+        bool register_cb(std::function<void(uint8_t report_ID)> cb_fxn);
 
         void print_product_ids();
 
@@ -107,34 +79,6 @@ class BNO08x
         BNO08xTapDetector tap_detector;
 
     private:
-        /// @brief Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup).
-        typedef struct bno08x_init_status_t
-        {
-                bool gpio_outputs;         ///< True if GPIO outputs have been initialized.
-                bool gpio_inputs;          ///< True if GPIO inputs have been initialized.
-                bool isr_service;          ///< True if global ISR service has been initialized.
-                bool isr_handler;          ///< True if HINT ISR handler has been initialized.
-                bool spi_bus;              ///< True if spi_bus_initialize() has been called successfully.
-                bool spi_device;           ///< True if spi_bus_add_device() has been called successfully.
-                bool sh2_HAL;              ///< True if sh2_open() has been called successfully.
-                bool data_proc_task;       ///< True if xTaskCreate has been called successfully for data_proc_task.
-                bool sh2_HAL_service_task; ///< True if xTaskCreate has been called successfully for sh2_HAL_service_task.
-                bool cb_task;              ///< True if xTaskCreate has been called successfully for cb_task.
-
-                bno08x_init_status_t()
-                    : gpio_outputs(false)
-                    , gpio_inputs(false)
-                    , isr_service(false)
-                    , isr_handler(false)
-                    , spi_bus(false)
-                    , spi_device(false)
-                    , data_proc_task(false)
-                    , sh2_HAL_service_task(false)
-                    , cb_task(false)
-                {
-                }
-        } bno08x_init_status_t;
-
         // data processing task
         static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ =
                 CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ; ///< Size of data_proc_task() stack in bytes
@@ -203,24 +147,19 @@ class BNO08x
 
         QueueHandle_t queue_cb_report_id; ///< Queue to send report ID of most recent report to cb_task()
 
-        etl::vector<BNO08xCbParamVoid, CONFIG_ESP32_BNO08X_CB_MAX>
-                cb_list_void_param; // Vector for storing any call-back functions added with register_cb()
-        etl::vector<BNO08xCbParamRptID, CONFIG_ESP32_BNO08X_CB_MAX>
-                cb_list_rpt_param; // Vector for storing any call-back functions added with register_cb()
-        etl::vector<BNO08xCbGeneric*, CONFIG_ESP32_BNO08X_CB_MAX>
-                cb_ptr_list; // Vector for storing any call-back functions added with register_cb() as pointer to generic type
-
         bno08x_config_t imu_config{};                   ///<IMU configuration settings
         spi_bus_config_t bus_config{};                  ///<SPI bus GPIO configuration settings
         spi_device_interface_config_t imu_spi_config{}; ///<SPI slave device settings
         spi_device_handle_t spi_hdl{};                  ///<SPI device handle
         spi_transaction_t spi_transaction{};            ///<SPI transaction handle
-        bno08x_init_status_t
+        BNO08xPrivateTypes::bno08x_init_status_t
                 init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization.
 
         sh2_ProductIds_t product_IDs; ///< Product ID info returned IMU at initialization, can be viewed with print_product_ids()
 
-        static const constexpr uint8_t TOTAL_RPT_COUNT = 38; ///< Amount of possible reports returned from BNO08x. 
+        BNO08xPrivateTypes::bno08x_cb_list_t cb_list; ///< Vector to contain registered callbacks.
+
+        etl::vector<uint8_t, TOTAL_RPT_COUNT> en_report_ids; ///< Vector to contain IDs of currently enabled reports
 
         // clang-format off
         etl::map<uint8_t, BNO08xRpt*, TOTAL_RPT_COUNT, etl::less<uint8_t>> usr_reports = 
@@ -285,81 +224,10 @@ class BNO08x
 
         static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of.
 
-        // evt_grp_bno08x_task bits
-        static const constexpr EventBits_t EVT_GRP_BNO08x_TASKS_RUNNING =
-                (1UL << 0U); ///<When this bit is set it indicates the BNO08x tasks are running, it is always set to 1 for the duration BNO08x driver object. Cleared in deconstructor for safe task deletion.
-        static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT =
-                (1UL << 1U); ///<When this bit is set it indicates the BNO08x has asserted its host interrupt pin, thus an SPI transaction should commence.
-        static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_RESET_OCCURRED =
-                (1UL << 2U); ///<When this bit is set it indicates the SH2 HAL lib has reset the IMU, any reports enabled by the user must be re-enabled.
-        static const constexpr EventBits_t EVT_GRP_BNO08x_TASK_DATA_AVAILABLE =
-                (1UL << 3U); ///<When this bit is set it indicates a report has been received for the user to read, cleared in data_available() set/cleared in handle_sensor_report()
-
-        // evt_grp_report_en bits
-        static const constexpr EventBits_t EVT_GRP_RPT_RV_BIT = (1UL << 0U);        ///< When set, rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RV_GAME_BIT = (1UL << 1U);   ///< When set, game rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RV_ARVR_S_BIT = (1UL << 2U); ///< When set, ARVR stabilized rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RV_ARVR_S_GAME_BIT =
-                (1UL << 3U); ///< When set, ARVR stabilized game rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT =
-                (1UL << 4U);                                                        ///< When set, gyro integrator rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GEOMAG_RV_BIT = (1UL << 5U); ///< When set, gyro integrator rotation vector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACCELEROMETER_BIT = (1UL << 6U);        ///< When set, accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT = (1UL << 7U); ///< When set, linear accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_GRAVITY_BIT = (1UL << 8U);              ///< When set, gravity reports are active.
-
-        static const constexpr EventBits_t EVT_GRP_RPT_CAL_GYRO_BIT = (1UL << 9U);    ///< When set, gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_UNCAL_GYRO_BIT = (1UL << 10U); ///< When set, uncalibrated gyro reports are active.
-
-        static const constexpr EventBits_t EVT_GRP_RPT_CAL_MAGNETOMETER_BIT = (1UL << 11U); ///< When set, calibrated magnetometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT =
-                (1UL << 12U); ///< When set, uncalibrated magnetometer reports are active.
-
-        static const constexpr EventBits_t EVT_GRP_RPT_TAP_DETECTOR_BIT = (1UL << 13U); ///< When set, tap detector reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STEP_COUNTER_BIT = (1UL << 14U); ///< When set, step counter reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT =
-                (1UL << 15U);                                                                  ///< When set, stability classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT = (1UL << 16U); ///< When set, activity classifier reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_SHAKE_DETECTOR_BIT = (1UL << 17U);      ///< When set, shake detector reports are active.
-
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1UL << 18U); ///< When set, raw accelerometer reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_GYRO_BIT = (1UL << 19U);          ///< When set, raw gyro reports are active.
-        static const constexpr EventBits_t EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1UL << 20U);  ///< When set, raw magnetometer reports are active.
-
-        static const constexpr EventBits_t EVT_GRP_RPT_ALL =
-                EVT_GRP_RPT_RV_BIT | EVT_GRP_RPT_RV_GAME_BIT | EVT_GRP_RPT_RV_ARVR_S_BIT | EVT_GRP_RPT_RV_ARVR_S_GAME_BIT |
-                EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT | EVT_GRP_RPT_GRAVITY_BIT | EVT_GRP_RPT_CAL_GYRO_BIT | EVT_GRP_RPT_UNCAL_GYRO_BIT |
-                EVT_GRP_RPT_CAL_MAGNETOMETER_BIT | EVT_GRP_RPT_TAP_DETECTOR_BIT | EVT_GRP_RPT_STEP_COUNTER_BIT |
-                EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT | EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT | EVT_GRP_RPT_RAW_ACCELEROMETER_BIT |
-                EVT_GRP_RPT_RAW_GYRO_BIT | EVT_GRP_RPT_RAW_MAGNETOMETER_BIT | EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT | EVT_GRP_RPT_SHAKE_DETECTOR_BIT |
-                EVT_GRP_RPT_ACCELEROMETER_BIT | EVT_GRP_RPT_GEOMAG_RV_BIT | EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT;
+      
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 
-        // we have a lot of friends
         friend class BNO08xSH2HAL;
         friend class BNO08xTestHelper;
-        friend class BNO08xRpt;
-        friend class BNO08xRptRVGeneric;
-        friend class BNO08xRptRV;
-        friend class BNO08xRptGameRV;
-        friend class BNO08xRptARVRStabilizedRV;
-        friend class BNO08xRptARVRStabilizedGameRV;
-        friend class BNO08xRptAcceleration;
-        friend class BNO08xRptLinearAcceleration;
-        friend class BNO08xRptGravity;
-        friend class BNO08xRptCalMagnetometer;
-        friend class BNO08xRptUncalMagnetometer;
-        friend class BNO08xRptCalGyro;
-        friend class BNO08xRptUncalGyro;
-        friend class BNO08xRptIGyroRV;
-        friend class BNO08xRptRVGeomag;
-        friend class BNO08xRptRawMEMSGyro;
-        friend class BNO08xRptRawMEMSAccelerometer;
-        friend class BNO08xRptRawMEMSMagnetometer;
-        friend class BNO08xRptStepCounter;
-        friend class BNO08xRptActivityClassifier;
-        friend class BNO08xStabilityClassifier;
-        friend class BNO08xShakeDetector;
-        friend class BNO08xTapDetector;
 };

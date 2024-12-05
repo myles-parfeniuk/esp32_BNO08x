@@ -15,12 +15,13 @@
 class BNO08xRptActivityClassifier : public BNO08xRpt
 {
     public:
-        BNO08xRptActivityClassifier(BNO08x* imu, uint8_t report_ID, uint32_t period_us, uint32_t rpt_bit)
-            : BNO08xRpt(imu, report_ID, period_us, rpt_bit)
+        BNO08xRptActivityClassifier(BNO08xPrivateTypes::bno08x_report_info_t info)
+            : BNO08xRpt(info)
         {
         }
 
-        bool enable(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg = default_sensor_cfg);
+        bool enable(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable,
+                sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         bno08x_activity_classifier_t get();
         BNO08xActivity get_most_likely_activity();
 

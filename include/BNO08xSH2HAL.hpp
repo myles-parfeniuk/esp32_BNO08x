@@ -9,10 +9,11 @@
 #include "sh2.h"
 #include "sh2_SensorValue.h"
 #include "sh2_err.h"
-
 // esp-idf includes
 #include <esp_log.h>
 #include <esp_timer.h>
+// in-house includes
+#include "BNO08xPrivateTypes.hpp"
 
 /**
  * @brief Clears the most significant byte of a 16-bit value.
@@ -58,8 +59,8 @@
  */
 #define PARSE_PACKET_LENGTH(header) (UINT16_CLR_LSB(static_cast<uint16_t>(header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(header[0])))
 
-// forward dec to prevent compile errors
-class BNO08x;
+        // forward dec to prevent compile errors
+        class BNO08x;
 
 /**
  * @class BNO08xSH2HAL

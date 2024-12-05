@@ -15,8 +15,8 @@
 class BNO08xRptGameRV : public BNO08xRptRVGeneric
 {
     public:
-        BNO08xRptGameRV(BNO08x* imu, uint8_t report_ID, uint32_t period_us, uint32_t rpt_bit)
-            : BNO08xRptRVGeneric(imu, report_ID, period_us, rpt_bit)
+        BNO08xRptGameRV(BNO08xPrivateTypes::bno08x_report_info_t info)
+            : BNO08xRptRVGeneric(info)
         {
         }
 

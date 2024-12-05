@@ -4,7 +4,6 @@
  */
 
 #include "BNO08xRptRV.hpp"
-#include "BNO08x.hpp"
 
 /**
  * @brief Updates rotation vector data from decoded sensor event.
@@ -15,12 +14,12 @@
  */
 void BNO08xRptRV::update_data(sh2_SensorValue_t* sensor_val)
 {
-    imu->lock_user_data();
+    lock_user_data();
     data = sensor_val->un.rotationVector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    imu->unlock_user_data();
+    unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(imu->evt_grp_report_en))
+    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -48,9 +47,9 @@ bool BNO08xRptRV::tare_persist()
 {
     int success = SH2_ERR;
 
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     success = sh2_persistTare();
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 
     if (success != SH2_OK)
         return false;
@@ -65,7 +64,7 @@ bool BNO08xRptRV::tare_persist()
  */
 void BNO08xRptRV::tare_clear()
 {
-    imu->lock_sh2_HAL();
+    lock_sh2_HAL();
     sh2_clearTare();
-    imu->unlock_sh2_HAL();
+    unlock_sh2_HAL();
 }
