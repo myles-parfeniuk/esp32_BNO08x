@@ -64,9 +64,8 @@ typedef struct bno08x_config_t
         }
 
         /// @brief Overloaded IMU configuration settings constructor for custom pin settings
-        bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso,
-                gpio_num_t io_sclk, gpio_num_t io_cs, gpio_num_t io_int, gpio_num_t io_rst,
-                uint32_t sclk_speed, bool install_isr_service = true)
+        bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso, gpio_num_t io_sclk,
+                gpio_num_t io_cs, gpio_num_t io_int, gpio_num_t io_rst, uint32_t sclk_speed, bool install_isr_service = true)
             : spi_peripheral(spi_peripheral)
             , io_mosi(io_mosi)
             , io_miso(io_miso)
@@ -801,5 +800,4 @@ typedef struct bno08x_meta_data_t
         }
 } bno08x_meta_data_t;
 
-static const constexpr uint8_t TOTAL_RPT_COUNT =
-        38; ///< Amount of possible reports returned from BNO08x.
+static const constexpr uint8_t TOTAL_RPT_COUNT = 38; ///< Amount of possible reports returned from BNO08x.

@@ -15,12 +15,11 @@
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRptActivityClassifier::enable(uint32_t time_between_reports,
-        BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptActivityClassifier::enable(
+        uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg)
 {
-    sensor_cfg.sensorSpecific =
-            static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
-                                                        // or no reports will be received
+    sensor_cfg.sensorSpecific = static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
+                                                                            // or no reports will be received
 
     return BNO08xRpt::enable(time_between_reports, sensor_cfg);
 }
@@ -39,7 +38,7 @@ void BNO08xRptActivityClassifier::update_data(sh2_SensorValue_t* sensor_val)
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
+    if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
 }
 

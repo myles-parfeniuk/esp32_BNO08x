@@ -1,9 +1,9 @@
 /**
- * @file BNO08xShakeDetector.cpp
+ * @file BNO08xRptShakeDetector.cpp
  * @author Myles Parfeniuk
  */
 
-#include "BNO08xShakeDetector.hpp"
+#include "BNO08xRptShakeDetector.hpp"
 
 /**
  * @brief Updates shake detector data from decoded sensor event.
@@ -12,14 +12,14 @@
  *
  * @return void, nothing to return
  */
-void BNO08xShakeDetector::update_data(sh2_SensorValue_t* sensor_val)
+void BNO08xRptShakeDetector::update_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
     data = sensor_val->un.shakeDetector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
+    if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -28,7 +28,7 @@ void BNO08xShakeDetector::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return Struct containing the requested data.
  */
-bno08x_shake_detector_t BNO08xShakeDetector::get()
+bno08x_shake_detector_t BNO08xRptShakeDetector::get()
 {
     lock_user_data();
     bno08x_shake_detector_t rqdata = data;

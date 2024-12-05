@@ -15,8 +15,8 @@
 class BNO08xRptActivityClassifier : public BNO08xRpt
 {
     public:
-        BNO08xRptActivityClassifier(BNO08xPrivateTypes::bno08x_report_info_t info)
-            : BNO08xRpt(info)
+        BNO08xRptActivityClassifier(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+            : BNO08xRpt(ID, rpt_bit, sync_ctx)
         {
         }
 
@@ -27,7 +27,6 @@ class BNO08xRptActivityClassifier : public BNO08xRpt
 
     private:
         void update_data(sh2_SensorValue_t* sensor_val) override;
-        bno08x_activity_classifier_t
-                data; ///< Most recent report data, doesn't account for step rollover.
+        bno08x_activity_classifier_t data; ///< Most recent report data, doesn't account for step rollover.
         static const constexpr char* TAG = "BNO08xRptActivityClassifier";
 };

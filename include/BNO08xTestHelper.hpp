@@ -31,8 +31,7 @@ class BNO08xTestHelper
          */
         static void print_test_start_banner(const char* TEST_TAG)
         {
-            printf("------------------------ BEGIN TEST: %s ------------------------\n\r",
-                    TEST_TAG);
+            printf("------------------------ BEGIN TEST: %s ------------------------\n\r", TEST_TAG);
         }
 
         /**

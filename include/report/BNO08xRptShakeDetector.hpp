@@ -1,5 +1,5 @@
 /**
- * @file BNO08xShakeDetector.hpp
+ * @file BNO08xRptShakeDetector.hpp
  * @author Myles Parfeniuk
  */
 
@@ -8,15 +8,15 @@
 #include "BNO08xRpt.hpp"
 
 /**
- * @class BNO08xShakeDetector
+ * @class BNO08xRptShakeDetector
  *
  * @brief Class to represent shake detector reports. (See Ref. Manual 6.5.32)
  */
-class BNO08xShakeDetector : public BNO08xRpt
+class BNO08xRptShakeDetector : public BNO08xRpt
 {
     public:
-        BNO08xShakeDetector(BNO08xPrivateTypes::bno08x_report_info_t info)
-            : BNO08xRpt(info)
+        BNO08xRptShakeDetector(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+            : BNO08xRpt(ID, rpt_bit, sync_ctx)
         {
         }
 
@@ -25,5 +25,5 @@ class BNO08xShakeDetector : public BNO08xRpt
     private:
         void update_data(sh2_SensorValue_t* sensor_val) override;
         bno08x_shake_detector_t data;
-        static const constexpr char* TAG = "BNO08xShakeDetector";
+        static const constexpr char* TAG = "BNO08xRptShakeDetector";
 };

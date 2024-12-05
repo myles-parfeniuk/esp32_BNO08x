@@ -18,78 +18,11 @@ using namespace BNO08xPrivateTypes;
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : rpt_accelerometer(bno08x_report_info_t(SH2_ACCELEROMETER, EVT_GRP_RPT_ACCELEROMETER_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_linear_accelerometer(bno08x_report_info_t(SH2_LINEAR_ACCELERATION,
-              EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_gravity(bno08x_report_info_t(SH2_GRAVITY, EVT_GRP_RPT_GRAVITY_BIT, &sh2_HAL_lock,
-              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
-              &en_report_ids, &cb_list))
-    , rpt_cal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_CALIBRATED,
-              EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_uncal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_UNCALIBRATED,
-              EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_cal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_CALIBRATED, EVT_GRP_RPT_CAL_GYRO_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_uncal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_UNCALIBRATED, EVT_GRP_RPT_UNCAL_GYRO_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_rv(bno08x_report_info_t(SH2_ROTATION_VECTOR, EVT_GRP_RPT_RV_BIT, &sh2_HAL_lock,
-              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
-              &en_report_ids, &cb_list))
-    , rpt_rv_game(bno08x_report_info_t(SH2_GAME_ROTATION_VECTOR, EVT_GRP_RPT_RV_GAME_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_rv_ARVR_stabilized(bno08x_report_info_t(SH2_ARVR_STABILIZED_RV, EVT_GRP_RPT_RV_ARVR_S_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_rv_ARVR_stabilized_game(bno08x_report_info_t(SH2_ARVR_STABILIZED_GRV,
-              EVT_GRP_RPT_RV_ARVR_S_GAME_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_rv_gyro_integrated(bno08x_report_info_t(SH2_GYRO_INTEGRATED_RV,
-              EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_rv_geomagnetic(bno08x_report_info_t(SH2_GEOMAGNETIC_ROTATION_VECTOR,
-              EVT_GRP_RPT_GEOMAG_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_raw_gyro(bno08x_report_info_t(SH2_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT, &sh2_HAL_lock,
-              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
-              &en_report_ids, &cb_list))
-    , rpt_raw_accelerometer(bno08x_report_info_t(SH2_RAW_ACCELEROMETER,
-              EVT_GRP_RPT_RAW_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_raw_magnetometer(bno08x_report_info_t(SH2_RAW_MAGNETOMETER,
-              EVT_GRP_RPT_RAW_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_step_counter(bno08x_report_info_t(SH2_STEP_COUNTER, EVT_GRP_RPT_STEP_COUNTER_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_activity_classifier(bno08x_report_info_t(SH2_PERSONAL_ACTIVITY_CLASSIFIER,
-              EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_stability_classifier(bno08x_report_info_t(SH2_STABILITY_CLASSIFIER,
-              EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_shake_detector(bno08x_report_info_t(SH2_SHAKE_DETECTOR, EVT_GRP_RPT_SHAKE_DETECTOR_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rpt_tap_detector(bno08x_report_info_t(SH2_TAP_DETECTOR, EVT_GRP_RPT_TAP_DETECTOR_BIT,
-              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
-              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    : rpt(bno08x_reports_t(&sync_ctx))
     , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , cb_task_hdl(NULL)
-    , sh2_HAL_lock(xSemaphoreCreateMutex())
-    , data_lock(xSemaphoreCreateMutex())
     , sem_kill_tasks(NULL)
-    , evt_grp_bno08x_task(xEventGroupCreate())
-    , evt_grp_report_en(xEventGroupCreate())
-    , evt_grp_report_data_available(xEventGroupCreate())
     , queue_rx_sensor_event(xQueueCreate(10, sizeof(sh2_SensorEvent_t)))
     , queue_cb_report_id(xQueueCreate(CONFIG_ESP32_BNO08X_CB_QUEUE_SZ, sizeof(uint8_t)))
     , imu_config(imu_config)
@@ -121,15 +54,15 @@ BNO08x::~BNO08x()
     ESP_ERROR_CHECK(deinit_gpio());
 
     // delete all semaphores
-    vSemaphoreDelete(sh2_HAL_lock);
-    vSemaphoreDelete(data_lock);
+    vSemaphoreDelete(sync_ctx.sh2_HAL_lock);
+    vSemaphoreDelete(sync_ctx.data_lock);
     if (sem_kill_tasks != NULL)
         vSemaphoreDelete(sem_kill_tasks);
 
     // delete event groups
-    vEventGroupDelete(evt_grp_bno08x_task);
-    vEventGroupDelete(evt_grp_report_en);
-    vEventGroupDelete(evt_grp_report_data_available);
+    vEventGroupDelete(sync_ctx.evt_grp_task);
+    vEventGroupDelete(sync_ctx.evt_grp_rpt_en);
+    vEventGroupDelete(sync_ctx.evt_grp_rpt_data_available);
 
     // delete all queues
     vQueueDelete(queue_rx_sensor_event);
@@ -219,7 +152,7 @@ void BNO08x::data_proc_task()
         }
 
         queue_rx_success = xQueueReceive(queue_rx_sensor_event, &sensor_evt, portMAX_DELAY);
-        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+        evt_grp_bno08x_task_bits = xEventGroupGetBits(sync_ctx.evt_grp_task);
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
@@ -275,9 +208,8 @@ void BNO08x::sh2_HAL_service_task()
             unlock_sh2_HAL();
         }
 
-        evt_grp_bno08x_task_bits = xEventGroupWaitBits(evt_grp_bno08x_task,
-                EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE,
-                pdFALSE, portMAX_DELAY);
+        evt_grp_bno08x_task_bits = xEventGroupWaitBits(sync_ctx.evt_grp_task,
+                EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
@@ -314,7 +246,7 @@ void BNO08x::cb_task()
     do
     {
         // execute callbacks
-        for (auto& cb_entry : cb_list)
+        for (auto& cb_entry : sync_ctx.cb_list)
         {
             BNO08xCbGeneric* cb_ptr = nullptr;
 
@@ -330,7 +262,7 @@ void BNO08x::cb_task()
 
         xQueueReceive(queue_cb_report_id, &rpt_ID, portMAX_DELAY);
 
-        evt_grp_bno08x_task_bits = xEventGroupGetBits(evt_grp_bno08x_task);
+        evt_grp_bno08x_task_bits = xEventGroupGetBits(sync_ctx.evt_grp_task);
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
@@ -346,7 +278,7 @@ void BNO08x::cb_task()
  */
 void BNO08x::lock_sh2_HAL()
 {
-    xSemaphoreTake(sh2_HAL_lock, portMAX_DELAY);
+    xSemaphoreTake(sync_ctx.sh2_HAL_lock, portMAX_DELAY);
 }
 
 /**
@@ -356,7 +288,7 @@ void BNO08x::lock_sh2_HAL()
  */
 void BNO08x::unlock_sh2_HAL()
 {
-    xSemaphoreGive(sh2_HAL_lock);
+    xSemaphoreGive(sync_ctx.sh2_HAL_lock);
 }
 
 /**
@@ -366,7 +298,7 @@ void BNO08x::unlock_sh2_HAL()
  */
 void BNO08x::lock_user_data()
 {
-    xSemaphoreTake(data_lock, portMAX_DELAY);
+    xSemaphoreTake(sync_ctx.data_lock, portMAX_DELAY);
 }
 
 /**
@@ -376,7 +308,7 @@ void BNO08x::lock_user_data()
  */
 void BNO08x::unlock_user_data()
 {
-    xSemaphoreGive(data_lock);
+    xSemaphoreGive(sync_ctx.data_lock);
 }
 
 /**
@@ -398,12 +330,12 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
         return;
 
     // send report ids to cb_task for callback execution (only if this report is enabled)
-    if (rpt->rpt_bit & xEventGroupGetBits(evt_grp_report_en))
+    if (rpt->rpt_bit & xEventGroupGetBits(sync_ctx.evt_grp_rpt_en))
     {
         // update respective report with new data
         rpt->update_data(sensor_val);
 
-        if (cb_list.size() != 0)
+        if (sync_ctx.cb_list.size() != 0)
             if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
             {
                 // clang-format off
@@ -518,11 +450,9 @@ esp_err_t BNO08x::init_config_args()
     imu_spi_config.clock_speed_hz = imu_config.sclk_speed; // assign SCLK speed
     imu_spi_config.address_bits = 0;                       // 0 address bits, not using this system
     imu_spi_config.command_bits = 0;                       // 0 command bits, not using this system
-    imu_spi_config.spics_io_num =
-            -1; // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
-                // driver, it must be handled via calls to gpio pins
-    imu_spi_config.queue_size = static_cast<int>(
-            CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ); // set max allowable queued SPI transactions
+    imu_spi_config.spics_io_num = -1; // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
+                                      // driver, it must be handled via calls to gpio pins
+    imu_spi_config.queue_size = static_cast<int>(CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ); // set max allowable queued SPI transactions
 
     return ESP_OK;
 }
@@ -650,9 +580,8 @@ esp_err_t BNO08x::init_hint_isr()
     }
     else
     {
-        init_status.isr_service =
-                true; // set isr service to initialized such that deconstructor knows to clean it up
-                      // (this will be ignored if imu_config.install_isr_service == false)
+        init_status.isr_service = true; // set isr service to initialized such that deconstructor knows to clean it up
+                                        // (this will be ignored if imu_config.install_isr_service == false)
     }
 
     ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
@@ -669,8 +598,7 @@ esp_err_t BNO08x::init_hint_isr()
     }
     else
     {
-        init_status.isr_handler =
-                true; // set isr handler to initialized such that deconstructor knows to clean it up
+        init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
     }
 
     return ret;
@@ -685,11 +613,11 @@ esp_err_t BNO08x::init_tasks()
 {
     BaseType_t task_created = pdFALSE;
 
-    xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
+    xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASKS_RUNNING);
 
     // launch data processing task
-    task_created = xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task",
-            DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
+    task_created = xTaskCreate(
+            &data_proc_task_trampoline, "bno08x_data_processing_task", DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -707,8 +635,7 @@ esp_err_t BNO08x::init_tasks()
     }
 
     // launch cb task
-    task_created =
-            xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
+    task_created = xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -726,8 +653,8 @@ esp_err_t BNO08x::init_tasks()
     }
 
     // launch sh2 hal service task
-    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task",
-            SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
+    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7,
+            &sh2_HAL_service_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -1038,14 +965,13 @@ esp_err_t BNO08x::deinit_tasks()
     // disable interrupts before beginning so we can ensure SPI transaction doesn't attempt to run
     gpio_intr_disable(imu_config.io_int);
 
-    init_count += (static_cast<uint8_t>(init_status.cb_task) +
-                   static_cast<uint8_t>(init_status.data_proc_task) +
+    init_count += (static_cast<uint8_t>(init_status.cb_task) + static_cast<uint8_t>(init_status.data_proc_task) +
                    static_cast<uint8_t>(init_status.sh2_HAL_service_task));
 
     if (init_count != 0)
     {
         sem_kill_tasks = xSemaphoreCreateCounting(init_count, 0);
-        xEventGroupClearBits(evt_grp_bno08x_task,
+        xEventGroupClearBits(sync_ctx.evt_grp_task,
                 EVT_GRP_BNO08x_TASKS_RUNNING); // clear task running bit request deletion of tasks
 
         if (init_status.cb_task)
@@ -1055,7 +981,7 @@ esp_err_t BNO08x::deinit_tasks()
             xQueueSend(queue_rx_sensor_event, &empty_event, 0);
 
         if (init_status.sh2_HAL_service_task)
-            xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
+            xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
 
         for (uint8_t i = 0; i < init_count; i++)
             if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS) == pdTRUE)
@@ -1259,13 +1185,54 @@ bool BNO08x::sleep()
 }
 
 /**
+ * @brief Starts simple calibration, see ref. manual 6.4.10.1
+ *
+ * @param period_us This interval should be set to whatever rate the sensor hub is expected to run
+ * at after calibration.
+ *
+ * After the calibration is started, the IMU should be rotated 180 degrees.
+ * After the IMU has been rotated call calibration_end().
+ * See ref. manual 6.4.10 for more detailed instructions.
+ *
+ * @return True if start simple calibration operation succeeded.
+ */
+bool BNO08x::calibration_start(uint32_t period_us)
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_startCal(period_us);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Ends turn-table calibration, see ref. manual 6.4.10.2
+ *
+ * @param status Returned status bits indicating result of turntable calibration.
+ *
+ * @return True if enable start turn-table calibration operation succeeded.
+ */
+bool BNO08x::calibration_end(sh2_CalStatus_t& status)
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_finishCal(&status);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
  * @brief Enables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6.4.6.1
  *
  * @param sensor The sensor(s) to enable dynamic/ME calibration for.
  *
  * @return True if enable dynamic/ME calibration succeeded.
  */
-bool BNO08x::enable_dynamic_calibration(BNO08xCalSel sensor)
+bool BNO08x::dynamic_calibration_enable(BNO08xCalSel sensor)
 {
     int op_success = SH2_ERR;
 
@@ -1284,7 +1251,7 @@ bool BNO08x::enable_dynamic_calibration(BNO08xCalSel sensor)
  *
  * @return True if disable dynamic/ME calibration succeeded.
  */
-bool BNO08x::disable_dynamic_calibration(BNO08xCalSel sensor)
+bool BNO08x::dynamic_calibration_disable(BNO08xCalSel sensor)
 {
     int op_success = SH2_ERR;
     uint8_t active_sensors = 0U;
@@ -1311,7 +1278,7 @@ bool BNO08x::disable_dynamic_calibration(BNO08xCalSel sensor)
  *
  * @return True if dynamic/ME calibration autosave data enable succeeded.
  */
-bool BNO08x::enable_autosave_dynamic_calibration()
+bool BNO08x::dynamic_calibration_autosave_enable()
 {
     int op_success = SH2_ERR;
 
@@ -1328,7 +1295,7 @@ bool BNO08x::enable_autosave_dynamic_calibration()
  *
  * @return True if dynamic/ME calibration autosave data enable succeeded.
  */
-bool BNO08x::disable_autosave_dynamic_calibration()
+bool BNO08x::dynamic_calibration_autosave_disable()
 {
     int op_success = SH2_ERR;
 
@@ -1458,8 +1425,8 @@ esp_err_t BNO08x::wait_for_hint()
 {
     EventBits_t spi_evt_bits;
 
-    spi_evt_bits = xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT,
-            pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
+    spi_evt_bits = xEventGroupWaitBits(
+            sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
 
     if (spi_evt_bits & EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT)
         return ESP_OK;
@@ -1475,8 +1442,8 @@ esp_err_t BNO08x::wait_for_hint()
  */
 esp_err_t BNO08x::wait_for_reset()
 {
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE,
-                pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS) &
+    if (xEventGroupWaitBits(
+                sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS) &
             EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
         return ESP_OK;
     else
@@ -1496,7 +1463,7 @@ void BNO08x::toggle_reset()
     gpio_set_level(imu_config.io_cs, 1);
 
     gpio_set_level(imu_config.io_rst, 0); // set reset pin low
-    vTaskDelay(HARD_RESET_DELAY_MS); // 10ns min, set to larger delay to let things stabilize(Anton)
+    vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
 }
@@ -1509,9 +1476,9 @@ void BNO08x::toggle_reset()
  */
 esp_err_t BNO08x::re_enable_reports()
 {
-    EventBits_t report_en_bits = xEventGroupGetBits(evt_grp_report_en);
+    EventBits_t report_en_bits = xEventGroupGetBits(sync_ctx.evt_grp_rpt_en);
 
-    for (const auto& rpt_ID : en_report_ids)
+    for (const auto& rpt_ID : sync_ctx.en_report_ids)
     {
         BNO08xRpt* rpt = usr_reports.at(rpt_ID);
         if (rpt == nullptr)
@@ -1538,7 +1505,7 @@ esp_err_t BNO08x::re_enable_reports()
         }
     }
 
-    xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
+    xEventGroupClearBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 
     return ESP_OK;
 }
@@ -1551,8 +1518,8 @@ esp_err_t BNO08x::re_enable_reports()
 bool BNO08x::data_available()
 {
 
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE,
-                pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
+    if (xEventGroupWaitBits(
+                sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
             EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
         return true;
 
@@ -1569,9 +1536,9 @@ bool BNO08x::data_available()
 bool BNO08x::register_cb(std::function<void(void)> cb_fxn)
 {
 
-    if (cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    if (sync_ctx.cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
     {
-        cb_list.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
+        sync_ctx.cb_list.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
         return true;
     }
     return false;
@@ -1588,9 +1555,9 @@ bool BNO08x::register_cb(std::function<void(void)> cb_fxn)
  */
 bool BNO08x::register_cb(std::function<void(uint8_t report_ID)> cb_fxn)
 {
-    if (cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    if (sync_ctx.cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
     {
-        cb_list.push_back(BNO08xCbParamRptID(cb_fxn, 0U));
+        sync_ctx.cb_list.push_back(BNO08xCbParamRptID(cb_fxn, 0U));
         return true;
     }
     return false;
@@ -1614,9 +1581,8 @@ void BNO08x::print_product_ids()
                 "                SW Build Number:  0x%" PRIx32 "\n\r"
                 "                SW Version Patch: 0x%" PRIx16 "\n\r"
                 "                ---------------------------\n\r",
-                i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor,
-                product_IDs.entry->swVersionMinor, product_IDs.entry->swBuildNumber,
-                product_IDs.entry->swVersionPatch);
+                i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor, product_IDs.entry->swVersionMinor,
+                product_IDs.entry->swBuildNumber, product_IDs.entry->swVersionPatch);
     }
 }
 
@@ -1715,7 +1681,6 @@ void IRAM_ATTR BNO08x::hint_handler(void* arg)
                                  // to imu object created by constructor call)
 
     // notify any tasks/function calls waiting for HINT assertion
-    xEventGroupSetBitsFromISR(
-            imu->evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, &xHighPriorityTaskWoken);
+    xEventGroupSetBitsFromISR(imu->sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, &xHighPriorityTaskWoken);
     portYIELD_FROM_ISR(xHighPriorityTaskWoken); // perform context switch if necessary
 }

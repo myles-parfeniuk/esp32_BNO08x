@@ -1,9 +1,9 @@
 /**
- * @file BNO08xTapDetector.cpp
+ * @file BNO08xRptTapDetector.cpp
  * @author Myles Parfeniuk
  */
 
-#include "BNO08xTapDetector.hpp"
+#include "BNO08xRptTapDetector.hpp"
 
 /**
  * @brief Enables tap detector reports such that the BNO08x begins sending them (only sends reports
@@ -15,12 +15,10 @@
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    sensor_cfg.changeSensitivityEnabled =
-            true; // this must be set regardless of user cfg or no reports will be received
-    sensor_cfg.changeSensitivity =
-            0U; // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.changeSensitivityEnabled = true; // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.changeSensitivity = 0U;          // this must be set regardless of user cfg or no reports will be received
 
     return BNO08xRpt::enable(time_between_reports, sensor_cfg);
 }
@@ -32,14 +30,14 @@ bool BNO08xTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfig_t
  *
  * @return void, nothing to return
  */
-void BNO08xTapDetector::update_data(sh2_SensorValue_t* sensor_val)
+void BNO08xRptTapDetector::update_data(sh2_SensorValue_t* sensor_val)
 {
     lock_user_data();
     data = sensor_val->un.tapDetector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     unlock_user_data();
 
-    if (rpt_bit & xEventGroupGetBits(*_evt_grp_rpt_en))
+    if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
 }
 
@@ -48,7 +46,7 @@ void BNO08xTapDetector::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return Struct containing requested data;
  */
-bno08x_tap_detector_t BNO08xTapDetector::get()
+bno08x_tap_detector_t BNO08xRptTapDetector::get()
 {
     lock_user_data();
     bno08x_tap_detector_t rqdata = data;

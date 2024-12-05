@@ -18,8 +18,7 @@ TEST_CASE("InitComprehensive Config Args", "[InitComprehensive]")
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
-    BNO08xTestHelper::print_test_msg(
-            TEST_TAG, "Creating test IMU for [InitComprehensive] and [DeinitComprehensive].");
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Creating test IMU for [InitComprehensive] and [DeinitComprehensive].");
     BNO08xTestHelper::create_test_imu();
     imu = BNO08xTestHelper::get_test_imu();
 

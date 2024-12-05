@@ -18,7 +18,7 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
 {
     int sh2_res = SH2_OK;
 
-    EventBits_t report_en_bits = xEventGroupGetBits(*_evt_grp_rpt_en);
+    EventBits_t report_en_bits = xEventGroupGetBits(sync_ctx->evt_grp_rpt_en);
 
     sensor_cfg.reportInterval_us = time_between_reports;
 
@@ -38,8 +38,8 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
         // if not already enabled (ie user called this, not re_enable_reports())
         if (!(report_en_bits & rpt_bit))
         {
-            _en_report_ids->push_back(ID);                 // add report ID to enabled report IDs
-            xEventGroupSetBits(*_evt_grp_rpt_en, rpt_bit); // set the event group bit
+            sync_ctx->en_report_ids.push_back(ID);                 // add report ID to enabled report IDs
+            xEventGroupSetBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // set the event group bit
         }
 
         return true;
@@ -65,9 +65,9 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
     }
     else
     {
-        for (int i = 0; i < _en_report_ids->size(); i++)
+        for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
         {
-            if (_en_report_ids->at(i) == ID)
+            if (sync_ctx->en_report_ids[i] == ID)
             {
                 idx = i;
                 break;
@@ -78,9 +78,9 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         period_us = 0UL;                       // update the period
 
         if (idx != -1)
-            _en_report_ids->erase(_en_report_ids->begin() + idx);
+            sync_ctx->en_report_ids.erase(sync_ctx->en_report_ids.begin() + idx);
 
-        xEventGroupClearBits(*_evt_grp_rpt_en, rpt_bit); // Set the event group bit
+        xEventGroupClearBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // Set the event group bit
     }
 
     return true;
@@ -95,9 +95,9 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
  */
 bool BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 {
-    if (_cb_list->size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    if (sync_ctx->cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
     {
-        _cb_list->push_back(BNO08xCbParamVoid(cb_fxn, ID));
+        sync_ctx->cb_list.push_back(BNO08xCbParamVoid(cb_fxn, ID));
         return true;
     }
     return false;
@@ -113,10 +113,10 @@ bool BNO08xRpt::has_new_data()
 {
     bool new_data = false;
 
-    if (xEventGroupGetBits(*_evt_grp_rpt_data_available) & rpt_bit)
+    if (xEventGroupGetBits(sync_ctx->evt_grp_rpt_data_available) & rpt_bit)
     {
         new_data = true;
-        xEventGroupClearBits(*_evt_grp_rpt_data_available, rpt_bit);
+        xEventGroupClearBits(sync_ctx->evt_grp_rpt_data_available, rpt_bit);
     }
 
     return new_data;
@@ -213,7 +213,7 @@ bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
  */
 void BNO08xRpt::lock_sh2_HAL()
 {
-    xSemaphoreTake(*_sh2_HAL_lock, portMAX_DELAY);
+    xSemaphoreTake(sync_ctx->sh2_HAL_lock, portMAX_DELAY);
 }
 
 /**
@@ -223,7 +223,7 @@ void BNO08xRpt::lock_sh2_HAL()
  */
 void BNO08xRpt::unlock_sh2_HAL()
 {
-    xSemaphoreGive(*_sh2_HAL_lock);
+    xSemaphoreGive(sync_ctx->sh2_HAL_lock);
 }
 
 /**
@@ -233,7 +233,7 @@ void BNO08xRpt::unlock_sh2_HAL()
  */
 void BNO08xRpt::lock_user_data()
 {
-    xSemaphoreTake(*_data_lock, portMAX_DELAY);
+    xSemaphoreTake(sync_ctx->data_lock, portMAX_DELAY);
 }
 
 /**
@@ -243,7 +243,7 @@ void BNO08xRpt::lock_user_data()
  */
 void BNO08xRpt::unlock_user_data()
 {
-    xSemaphoreGive(*_data_lock);
+    xSemaphoreGive(sync_ctx->data_lock);
 }
 
 /**
@@ -253,7 +253,6 @@ void BNO08xRpt::unlock_user_data()
  */
 void BNO08xRpt::signal_data_available()
 {
-    xEventGroupSetBits(*_evt_grp_rpt_data_available, rpt_bit);
-    xEventGroupSetBits(
-            *_evt_grp_bno08x_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    xEventGroupSetBits(sync_ctx->evt_grp_rpt_data_available, rpt_bit);
+    xEventGroupSetBits(sync_ctx->evt_grp_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

@@ -11,8 +11,7 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-TEST_CASE(
-        "BNO08x Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("BNO08x Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "BNO08x Driver Creation for [MultiReportEnableDisable] Tests";
     BNO08x* imu = nullptr;
@@ -47,18 +46,18 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
-        if (imu->rpt_accelerometer.has_new_data())
+        if (imu->rpt.accelerometer.has_new_data())
         {
             data_available_accel = true;
-            data = imu->rpt_accelerometer.get();
+            data = imu->rpt.accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
@@ -66,10 +65,10 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_linear_accelerometer.has_new_data())
+        if (imu->rpt.linear_accelerometer.has_new_data())
         {
             data_available_lin_accel = true;
-            data = imu->rpt_linear_accelerometer.get();
+            data = imu->rpt.linear_accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
@@ -78,8 +77,8 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
@@ -109,69 +108,65 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_gravity.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
-        if (imu->rpt_accelerometer.has_new_data())
+        if (imu->rpt.accelerometer.has_new_data())
         {
             data_available_accel = true;
-            data_accel = imu->rpt_accelerometer.get();
+            data_accel = imu->rpt.accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_linear_accelerometer.has_new_data())
+        if (imu->rpt.linear_accelerometer.has_new_data())
         {
             data_available_lin_accel = true;
-            data_accel = imu->rpt_linear_accelerometer.get();
+            data_accel = imu->rpt.linear_accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_gravity.has_new_data())
+        if (imu->rpt.gravity.has_new_data())
         {
             data_available_gravity = true;
-            data_accel = imu->rpt_gravity.get();
+            data_accel = imu->rpt.gravity.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_cal_gyro.has_new_data())
+        if (imu->rpt.cal_gyro.has_new_data())
         {
             data_available_cal_gyro = true;
-            data_vel = imu->rpt_cal_gyro.get();
+            data_vel = imu->rpt.cal_gyro.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_vel.x, data_vel.y, data_vel.z,
-                    BNO08x::accuracy_to_str(data_vel.accuracy));
+                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_gravity.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_gyro.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
@@ -209,125 +204,117 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_gravity.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_gyro.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_magnetometer.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv_game.enable(REPORT_PERIOD));
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv_geomagnetic.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
-        if (imu->rpt_accelerometer.has_new_data())
+        if (imu->rpt.accelerometer.has_new_data())
         {
             data_available_accel = true;
-            data_accel = imu->rpt_accelerometer.get();
+            data_accel = imu->rpt.accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_linear_accelerometer.has_new_data())
+        if (imu->rpt.linear_accelerometer.has_new_data())
         {
             data_available_lin_accel = true;
-            data_accel = imu->rpt_linear_accelerometer.get();
+            data_accel = imu->rpt.linear_accelerometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_gravity.has_new_data())
+        if (imu->rpt.gravity.has_new_data())
         {
             data_available_gravity = true;
-            data_accel = imu->rpt_gravity.get();
+            data_accel = imu->rpt.gravity.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_cal_gyro.has_new_data())
+        if (imu->rpt.cal_gyro.has_new_data())
         {
             data_available_cal_gyro = true;
-            data_vel = imu->rpt_cal_gyro.get();
+            data_vel = imu->rpt.cal_gyro.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_vel.x, data_vel.y, data_vel.z,
-                    BNO08x::accuracy_to_str(data_vel.accuracy));
+                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_cal_magnetometer.has_new_data())
+        if (imu->rpt.cal_magnetometer.has_new_data())
         {
             data_available_cal_magnetometer = true;
-            data_magf = imu->rpt_cal_magnetometer.get();
+            data_magf = imu->rpt.cal_magnetometer.get();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalMagnetometer: [uTesla] x: %.2f y: %.2f z: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_magf.x, data_magf.y, data_magf.z,
-                    BNO08x::accuracy_to_str(data_magf.accuracy));
+                    (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08x::accuracy_to_str(data_magf.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_rv.has_new_data())
+        if (imu->rpt.rv.has_new_data())
         {
             data_available_rv = true;
-            data_quat = imu->rpt_rv.get_quat();
+            data_quat = imu->rpt.rv.get_quat();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_rv_game.has_new_data())
+        if (imu->rpt.rv_game.has_new_data())
         {
             data_available_rv_game = true;
-            data_quat = imu->rpt_rv_game.get_quat();
+            data_quat = imu->rpt.rv_game.get_quat();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV Game: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
-        if (imu->rpt_rv_geomagnetic.has_new_data())
+        if (imu->rpt.rv_geomagnetic.has_new_data())
         {
             data_available_rv_geomagnetic = true;
-            data_quat = imu->rpt_rv_geomagnetic.get_quat();
+            data_quat = imu->rpt.rv_geomagnetic.get_quat();
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV Geomagnetic: [n/a] real: %.2f i: %.2f j: %.2f k: "
                     "%.2f accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_linear_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_gravity.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_gyro.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_cal_magnetometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv_game.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt_rv_geomagnetic.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.disable());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
@@ -341,8 +328,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE(
-        "BNO08x Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("BNO08x Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [MultiReportEnableDisable] Tests";
 
