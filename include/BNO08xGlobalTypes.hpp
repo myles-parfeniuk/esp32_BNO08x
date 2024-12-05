@@ -64,8 +64,9 @@ typedef struct bno08x_config_t
         }
 
         /// @brief Overloaded IMU configuration settings constructor for custom pin settings
-        bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso, gpio_num_t io_sclk, gpio_num_t io_cs,
-                gpio_num_t io_int, gpio_num_t io_rst, uint32_t sclk_speed, bool install_isr_service = true)
+        bno08x_config_t(spi_host_device_t spi_peripheral, gpio_num_t io_mosi, gpio_num_t io_miso,
+                gpio_num_t io_sclk, gpio_num_t io_cs, gpio_num_t io_int, gpio_num_t io_rst,
+                uint32_t sclk_speed, bool install_isr_service = true)
             : spi_peripheral(spi_peripheral)
             , io_mosi(io_mosi)
             , io_miso(io_miso)
@@ -80,6 +81,15 @@ typedef struct bno08x_config_t
 } bno08x_config_t;
 typedef bno08x_config_t imu_config_t; // legacy version compatibility
 
+enum class BNO08xCalSel
+{
+    accelerometer = SH2_CAL_ACCEL,
+    gyro = SH2_CAL_GYRO,
+    magnetometer = SH2_CAL_MAG,
+    planar_accelerometer = SH2_CAL_PLANAR,
+    all = (SH2_CAL_ACCEL | SH2_CAL_GYRO | SH2_CAL_MAG | SH2_CAL_PLANAR)
+};
+
 /// @brief Reason for previous IMU reset (returned by get_reset_reason())
 enum class BNO08xResetReason
 {
@@ -91,7 +101,8 @@ enum class BNO08xResetReason
     OTHER      ///< Previous reset was due to power other reason.
 };
 
-/// @brief Sensor accuracy returned from input reports, corresponds to status bits (see ref. manual 6.5.1)
+/// @brief Sensor accuracy returned from input reports, corresponds to status bits (see ref.
+/// manual 6.5.1)
 enum class BNO08xAccuracy
 {
     UNRELIABLE,
@@ -220,9 +231,11 @@ typedef struct bno08x_euler_angle_t
         // overloaded = operator for quat to euler conversion
         bno08x_euler_angle_t& operator=(const bno08x_quat_t& source)
         {
-            this->x = atan2(2.0f * (source.real * source.i + source.j * source.k), 1.0f - 2.0f * (source.i * source.i + source.j * source.j));
+            this->x = atan2(2.0f * (source.real * source.i + source.j * source.k),
+                    1.0f - 2.0f * (source.i * source.i + source.j * source.j));
             this->y = asin(2.0f * (source.real * source.j - source.k * source.i));
-            this->z = atan2(2.0f * (source.real * source.k + source.i * source.j), 1.0f - 2.0f * (source.j * source.j + source.k * source.k));
+            this->z = atan2(2.0f * (source.real * source.k + source.i * source.j),
+                    1.0f - 2.0f * (source.j * source.j + source.k * source.k));
             this->rad_accuracy = source.rad_accuracy;
             this->accuracy = source.accuracy;
             return *this;
@@ -429,7 +442,8 @@ typedef struct bno08x_activity_classifier_t
         }
 } bno08x_activity_classifier_t;
 
-/// @brief Struct to represent tap detector data (flag meaning: 0 = no tap, 1 = positive tap on axis, -1 = negative tap on axis)
+/// @brief Struct to represent tap detector data (flag meaning: 0 = no tap, 1 = positive tap on
+/// axis, -1 = negative tap on axis)
 typedef struct bno08x_tap_detector_t
 {
         int8_t x_flag;
@@ -523,7 +537,8 @@ typedef struct bno08x_shake_detector_t
 
 } bno08x_shake_detector_t;
 
-/// @brief Struct to represent acceleration data from acceleration, linear acceleration, and gravity reports.
+/// @brief Struct to represent acceleration data from acceleration, linear acceleration, and gravity
+/// reports.
 typedef struct bno08x_accel_t
 {
         float x;
@@ -604,7 +619,8 @@ typedef struct bno08x_raw_gyro_t
         }
 } bno08x_raw_gyro_t;
 
-/// @brief Struct to represent raw mems accelerometer data from raw accelerometer reports (units in ADC counts).
+/// @brief Struct to represent raw mems accelerometer data from raw accelerometer reports (units in
+/// ADC counts).
 typedef struct bno08x_raw_accel_t
 {
         int16_t x;
@@ -633,7 +649,8 @@ typedef struct bno08x_raw_accel_t
         }
 } bno08x_raw_accel_t;
 
-/// @brief Struct to represent raw mems magnetometer data from raw magnetometer reports (units in ADC counts).
+/// @brief Struct to represent raw mems magnetometer data from raw magnetometer reports (units in
+/// ADC counts).
 typedef struct bno08x_raw_magf_t
 {
         int16_t x;
@@ -686,10 +703,11 @@ typedef struct bno08x_stability_classifier_t
 /// @brief Struct to represent sample counts, returned from BNO08xRpt::get_sample_counts()
 typedef struct bno08x_sample_counts_t
 {
-        uint32_t offered;   ///< Number of samples produced by underlying data source.
-        uint32_t on;        ///< Number of "offered" samples while this sensor was requested by host.
-        uint32_t accepted;  ///< Number of "on" samples that passed decimation filter.
-        uint32_t attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
+        uint32_t offered;  ///< Number of samples produced by underlying data source.
+        uint32_t on;       ///< Number of "offered" samples while this sensor was requested by host.
+        uint32_t accepted; ///< Number of "on" samples that passed decimation filter.
+        uint32_t
+                attempted; ///< Number of "accepted" samples that passed threshold requirements and had transmission to the host attempted.
 
         bno08x_sample_counts_t()
             : offered(0UL)
@@ -783,4 +801,5 @@ typedef struct bno08x_meta_data_t
         }
 } bno08x_meta_data_t;
 
-static const constexpr uint8_t TOTAL_RPT_COUNT = 38; ///< Amount of possible reports returned from BNO08x.
+static const constexpr uint8_t TOTAL_RPT_COUNT =
+        38; ///< Amount of possible reports returned from BNO08x.

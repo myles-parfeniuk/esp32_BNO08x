@@ -24,7 +24,8 @@ class BNO08xCbParamVoid : public BNO08xCbGeneric
         /**
          * @brief Invokes contained callback function.
          *
-         * @param rpt_ID n/a, not used, kept to maintain same prototype as BNO08xCbParamRptID::invoke()
+         * @param rpt_ID n/a, not used, kept to maintain same prototype as
+         * BNO08xCbParamRptID::invoke()
          *
          * @return void, nothing to return
          */
@@ -34,5 +35,5 @@ class BNO08xCbParamVoid : public BNO08xCbGeneric
         }
 
     private:
-        std::function<void(void)> cb_fxn; ///< Wrapped callback function passed at register_cb(). 
+        std::function<void(void)> cb_fxn; ///< Wrapped callback function passed at register_cb().
 };

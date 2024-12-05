@@ -27,6 +27,7 @@ class BNO08xRptActivityClassifier : public BNO08xRpt
 
     private:
         void update_data(sh2_SensorValue_t* sensor_val) override;
-        bno08x_activity_classifier_t data; ///< Most recent report data, doesn't account for step rollover.
+        bno08x_activity_classifier_t
+                data; ///< Most recent report data, doesn't account for step rollover.
         static const constexpr char* TAG = "BNO08xRptActivityClassifier";
 };

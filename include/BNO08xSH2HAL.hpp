@@ -57,10 +57,12 @@
  * @param packet Pointer to bno08x_rx_packet_t containing data.
  * @return Length of SHTP packet.
  */
-#define PARSE_PACKET_LENGTH(header) (UINT16_CLR_LSB(static_cast<uint16_t>(header[1]) << 8U) | UINT16_CLR_MSB(static_cast<uint16_t>(header[0])))
+#define PARSE_PACKET_LENGTH(header)                                                                \
+    (UINT16_CLR_LSB(static_cast<uint16_t>(header[1]) << 8U) |                                      \
+            UINT16_CLR_MSB(static_cast<uint16_t>(header[0])))
 
-        // forward dec to prevent compile errors
-        class BNO08x;
+// forward dec to prevent compile errors
+class BNO08x;
 
 /**
  * @class BNO08xSH2HAL

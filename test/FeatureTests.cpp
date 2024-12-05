@@ -3,8 +3,9 @@
  * @author Myles Parfeniuk
  *
  *
- * @warning YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS TEST SUITE TO BE BUILT WITH PROJECT:
- *          set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
+ * @warning YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS
+ * TEST SUITE TO BE BUILT WITH PROJECT: set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components
+ * to test.")
  */
 
 #include "unity.h"
@@ -41,15 +42,17 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
@@ -59,14 +62,16 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -86,15 +91,17 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
@@ -104,14 +111,16 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -131,15 +140,17 @@ TEST_CASE("Sleep", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
@@ -158,14 +169,16 @@ TEST_CASE("Sleep", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -186,36 +199,43 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Getting meta data...");
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.get_meta_data(meta_data));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.get_meta_data(meta_data));
 
-    sprintf(msg_buff, "Re-enabling report with fastest possible period of %ldus from accelerometer meta data.", meta_data.min_period_us);
+    sprintf(msg_buff,
+            "Re-enabling report with fastest possible period of %ldus from accelerometer meta "
+            "data.",
+            meta_data.min_period_us);
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(meta_data.min_period_us));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(meta_data.min_period_us));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -236,38 +256,202 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Getting sample counts...");
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.get_sample_counts(sample_counts));
-    sprintf(msg_buff, "offered: %ld on: %ld accepted: %ld attempted: %ld", sample_counts.offered, sample_counts.on, sample_counts.accepted,
-            sample_counts.attempted);
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.get_sample_counts(sample_counts));
+    sprintf(msg_buff, "offered: %ld on: %ld accepted: %ld attempted: %ld", sample_counts.offered,
+            sample_counts.on, sample_counts.accepted, sample_counts.attempted);
 
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->accelerometer.has_new_data());
-        data_accel = imu->accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x, data_accel.y,
-                data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+}
+
+TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Enable Dynamic Calibration";
+    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+
+    BNO08x* imu = nullptr;
+    char msg_buff[200] = {};
+    bno08x_accel_t data_accel;
+    bno08x_sample_counts_t sample_counts;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->enable_dynamic_calibration(BNO08xCalSel::all));
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        TEST_ASSERT_EQUAL(true, imu->data_available());
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    }
+}
+
+TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Save Dynamic Calibration";
+    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+
+    BNO08x* imu = nullptr;
+    char msg_buff[200] = {};
+    bno08x_accel_t data_accel;
+    bno08x_sample_counts_t sample_counts;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    TEST_ASSERT_EQUAL(true, imu->save_dynamic_calibration());
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        TEST_ASSERT_EQUAL(true, imu->data_available());
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    }
+}
+
+TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Autosave Dynamic Calibration";
+    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 200;
+    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+
+    BNO08x* imu = nullptr;
+    char msg_buff[200] = {};
+    bno08x_accel_t data_accel;
+    bno08x_sample_counts_t sample_counts;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    TEST_ASSERT_EQUAL(true, imu->enable_autosave_dynamic_calibration());
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        TEST_ASSERT_EQUAL(true, imu->data_available());
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    }
+
+    TEST_ASSERT_EQUAL(true, imu->disable_autosave_dynamic_calibration());
+}
+
+TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Disable Dynamic Calibration";
+    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+
+    BNO08x* imu = nullptr;
+    char msg_buff[200] = {};
+    bno08x_accel_t data_accel;
+    bno08x_sample_counts_t sample_counts;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    TEST_ASSERT_EQUAL(true, imu->disable_dynamic_calibration(BNO08xCalSel::all));
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        TEST_ASSERT_EQUAL(true, imu->data_available());
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    }
+}
+
+TEST_CASE("Clear Dynamic Calibration", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Clear Dynamic Calibration";
+    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+
+    BNO08x* imu = nullptr;
+    char msg_buff[200] = {};
+    bno08x_accel_t data_accel;
+    bno08x_sample_counts_t sample_counts;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    TEST_ASSERT_EQUAL(true, imu->clear_dynamic_calibration());
+
+    for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
+    {
+        TEST_ASSERT_EQUAL(true, imu->data_available());
+        TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.has_new_data());
+        data_accel = imu->rpt_accelerometer.get();
+        sprintf(msg_buff,
+                "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ",
+                (i + 1), data_accel.x, data_accel.y, data_accel.z,
+                BNO08x::accuracy_to_str(data_accel.accuracy));
+        BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    }
+
+    TEST_ASSERT_EQUAL(true, imu->rpt_accelerometer.disable());
 }
 
 TEST_CASE("BNO08x Driver Cleanup for [FeatureTests] Tests", "[FeatureTests]")

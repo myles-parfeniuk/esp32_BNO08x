@@ -48,7 +48,8 @@ uint32_t BNO08xRptStepCounter::get_total_steps()
 }
 
 /**
- * @brief Grabs most recent step counter data (rollover not accounted for in step count, just most recent report data).
+ * @brief Grabs most recent step counter data (rollover not accounted for in step count, just most
+ * recent report data).
  *
  * @return Struct containing requested data.
  */

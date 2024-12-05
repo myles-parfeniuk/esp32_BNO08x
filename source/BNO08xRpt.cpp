@@ -9,7 +9,8 @@
  * @brief Enables a sensor report such that the BNO08x begins sending it.
  *
  * @param report_period_us The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional, see BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
  *
  * @return True if report was successfully enabled.
  */
@@ -46,7 +47,8 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
 }
 
 /**
- * @brief Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it.
+ * @brief Disables a sensor report by setting its period to 0us such that the BNO08x stops sending
+ * it.
  *
  * @param sensor_ID The ID of the sensor for the respective report to be disabled.
  * @param sensor_cfg Sensor special configuration.
@@ -180,9 +182,11 @@ bool BNO08xRpt::clear_sample_counts()
 }
 
 /**
- * @brief Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system).
+ * @brief Retrieves meta data for this sensor/report by reading respective record in FRS (flash
+ * record system).
  *
- * Can be used to retrieve the minimum period, maximum period, actual Q points, resolution, and other info for a given sensor.
+ * Can be used to retrieve the minimum period, maximum period, actual Q points, resolution, and
+ * other info for a given sensor.
  *
  * @return True clear get meta data operation succeeded.
  */
@@ -250,5 +254,6 @@ void BNO08xRpt::unlock_user_data()
 void BNO08xRpt::signal_data_available()
 {
     xEventGroupSetBits(*_evt_grp_rpt_data_available, rpt_bit);
-    xEventGroupSetBits(*_evt_grp_bno08x_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    xEventGroupSetBits(
+            *_evt_grp_bno08x_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

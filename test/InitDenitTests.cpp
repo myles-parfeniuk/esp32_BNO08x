@@ -3,8 +3,9 @@
  * @author Myles Parfeniuk
  *
  *
- * @warning YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS TEST SUITE TO BE BUILT WITH PROJECT:
- *          set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components to test.")
+ * @warning YOU MUST ADD THE FOLLOWING LINE TO YOUR MAIN PROJECTS CMakeLists.txt IN ORDER FOR THIS
+ * TEST SUITE TO BE BUILT WITH PROJECT: set(TEST_COMPONENTS "esp32_BNO08x" CACHE STRING "Components
+ * to test.")
  */
 
 #include "unity.h"
@@ -17,7 +18,8 @@ TEST_CASE("InitComprehensive Config Args", "[InitComprehensive]")
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
-    BNO08xTestHelper::print_test_msg(TEST_TAG, "Creating test IMU for [InitComprehensive] and [DeinitComprehensive].");
+    BNO08xTestHelper::print_test_msg(
+            TEST_TAG, "Creating test IMU for [InitComprehensive] and [DeinitComprehensive].");
     BNO08xTestHelper::create_test_imu();
     imu = BNO08xTestHelper::get_test_imu();
 

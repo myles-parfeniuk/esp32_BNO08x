@@ -4,6 +4,7 @@
  */
 
 #include "BNO08xShakeDetector.hpp"
+
 /**
  * @brief Updates shake detector data from decoded sensor event.
  *

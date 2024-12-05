@@ -6,17 +6,21 @@
 #include "BNO08xTapDetector.hpp"
 
 /**
- * @brief Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap is detected).
+ * @brief Enables tap detector reports such that the BNO08x begins sending them (only sends reports
+ * when a tap is detected).
  *
  * @param time_between_reports The period/interval of the report in microseconds.
- * @param sensor_cfg Sensor special configuration (optional, see BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
  *
  * @return True if report was successfully enabled.
  */
 bool BNO08xTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    sensor_cfg.changeSensitivityEnabled = true; // this must be set regardless of user cfg or no reports will be received
-    sensor_cfg.changeSensitivity = 0U;          // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.changeSensitivityEnabled =
+            true; // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.changeSensitivity =
+            0U; // this must be set regardless of user cfg or no reports will be received
 
     return BNO08xRpt::enable(time_between_reports, sensor_cfg);
 }

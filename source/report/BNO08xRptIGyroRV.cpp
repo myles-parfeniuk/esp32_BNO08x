@@ -41,7 +41,8 @@ void BNO08xRptIGyroRV::get(bno08x_quat_t& quat, bno08x_ang_vel_t& vel)
 }
 
 /**
- * @brief Grabs most recent gyro integrated rotation vector angular velocity data, units are in rad/s.
+ * @brief Grabs most recent gyro integrated rotation vector angular velocity data, units are in
+ * rad/s.
  *
  * @return Struct containing requested data.
  */

@@ -6,7 +6,8 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
- * @brief Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if available, else constant 0.0f).
+ * @brief Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in
+ * radians (if available, else constant 0.0f).
  *
  * The following RV reports have rad accuracy data:
  *
@@ -25,7 +26,8 @@ bno08x_quat_t BNO08xRptRVGeneric::get_quat()
 }
 
 /**
- * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads.
+ * @brief Grabs most recent rotation vector data in form of an euler angle, units are in degrees or
+ * rads.
  *
  * @param in_degrees If true returned euler angle is in degrees, if false in radians
  *

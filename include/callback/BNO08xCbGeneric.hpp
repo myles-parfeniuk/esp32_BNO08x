@@ -12,7 +12,8 @@
 /**
  * @class BNO08xCbGeneric
  *
- * @brief Parent class to represent callback functions as generic type such that all flavors can be invoked by single type.
+ * @brief Parent class to represent callback functions as generic type such that all flavors can be
+ * invoked by single type.
  */
 class BNO08xCbGeneric
 {

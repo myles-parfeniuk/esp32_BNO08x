@@ -13,52 +13,74 @@ using namespace BNO08xPrivateTypes;
  *
  * Construct a BNO08x object for managing a BNO08x sensor.
  *
- * @param imu_config Configuration settings (optional), default settings can be seen in bno08x_config_t
+ * @param imu_config Configuration settings (optional), default settings can be seen in
+ * bno08x_config_t
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : accelerometer(bno08x_report_info_t(SH2_ACCELEROMETER, EVT_GRP_RPT_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , linear_accelerometer(bno08x_report_info_t(SH2_LINEAR_ACCELERATION, EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , gravity(bno08x_report_info_t(SH2_GRAVITY, EVT_GRP_RPT_GRAVITY_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , cal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_CALIBRATED, EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , uncal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_UNCALIBRATED, EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , cal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_CALIBRATED, EVT_GRP_RPT_CAL_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , uncal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_UNCALIBRATED, EVT_GRP_RPT_UNCAL_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
-              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv(bno08x_report_info_t(SH2_ROTATION_VECTOR, EVT_GRP_RPT_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+    : rpt_accelerometer(bno08x_report_info_t(SH2_ACCELEROMETER, EVT_GRP_RPT_ACCELEROMETER_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
               &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv_game(bno08x_report_info_t(SH2_GAME_ROTATION_VECTOR, EVT_GRP_RPT_RV_GAME_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_linear_accelerometer(bno08x_report_info_t(SH2_LINEAR_ACCELERATION,
+              EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv_ARVR_stabilized(bno08x_report_info_t(SH2_ARVR_STABILIZED_RV, EVT_GRP_RPT_RV_ARVR_S_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_gravity(bno08x_report_info_t(SH2_GRAVITY, EVT_GRP_RPT_GRAVITY_BIT, &sh2_HAL_lock,
+              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
+              &en_report_ids, &cb_list))
+    , rpt_cal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_CALIBRATED,
+              EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv_ARVR_stabilized_game(bno08x_report_info_t(SH2_ARVR_STABILIZED_GRV, EVT_GRP_RPT_RV_ARVR_S_GAME_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv_gyro_integrated(bno08x_report_info_t(SH2_GYRO_INTEGRATED_RV, EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , rv_geomagnetic(bno08x_report_info_t(SH2_GEOMAGNETIC_ROTATION_VECTOR, EVT_GRP_RPT_GEOMAG_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_uncal_magnetometer(bno08x_report_info_t(SH2_MAGNETIC_FIELD_UNCALIBRATED,
+              EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , raw_gyro(bno08x_report_info_t(SH2_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_cal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_CALIBRATED, EVT_GRP_RPT_CAL_GYRO_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_uncal_gyro(bno08x_report_info_t(SH2_GYROSCOPE_UNCALIBRATED, EVT_GRP_RPT_UNCAL_GYRO_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_rv(bno08x_report_info_t(SH2_ROTATION_VECTOR, EVT_GRP_RPT_RV_BIT, &sh2_HAL_lock,
+              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
+              &en_report_ids, &cb_list))
+    , rpt_rv_game(bno08x_report_info_t(SH2_GAME_ROTATION_VECTOR, EVT_GRP_RPT_RV_GAME_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_rv_ARVR_stabilized(bno08x_report_info_t(SH2_ARVR_STABILIZED_RV, EVT_GRP_RPT_RV_ARVR_S_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_rv_ARVR_stabilized_game(bno08x_report_info_t(SH2_ARVR_STABILIZED_GRV,
+              EVT_GRP_RPT_RV_ARVR_S_GAME_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , raw_accelerometer(bno08x_report_info_t(SH2_RAW_ACCELEROMETER, EVT_GRP_RPT_RAW_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_rv_gyro_integrated(bno08x_report_info_t(SH2_GYRO_INTEGRATED_RV,
+              EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , raw_magnetometer(bno08x_report_info_t(SH2_RAW_MAGNETOMETER, EVT_GRP_RPT_RAW_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_rv_geomagnetic(bno08x_report_info_t(SH2_GEOMAGNETIC_ROTATION_VECTOR,
+              EVT_GRP_RPT_GEOMAG_RV_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , step_counter(bno08x_report_info_t(SH2_STEP_COUNTER, EVT_GRP_RPT_STEP_COUNTER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_raw_gyro(bno08x_report_info_t(SH2_RAW_GYROSCOPE, EVT_GRP_RPT_RAW_GYRO_BIT, &sh2_HAL_lock,
+              &data_lock, &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task,
+              &en_report_ids, &cb_list))
+    , rpt_raw_accelerometer(bno08x_report_info_t(SH2_RAW_ACCELEROMETER,
+              EVT_GRP_RPT_RAW_ACCELEROMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , activity_classifier(bno08x_report_info_t(SH2_PERSONAL_ACTIVITY_CLASSIFIER, EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , stability_classifier(bno08x_report_info_t(SH2_STABILITY_CLASSIFIER, EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock,
-              &evt_grp_report_en, &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , shake_detector(bno08x_report_info_t(SH2_SHAKE_DETECTOR, EVT_GRP_RPT_SHAKE_DETECTOR_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_raw_magnetometer(bno08x_report_info_t(SH2_RAW_MAGNETOMETER,
+              EVT_GRP_RPT_RAW_MAGNETOMETER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
-    , tap_detector(bno08x_report_info_t(SH2_TAP_DETECTOR, EVT_GRP_RPT_TAP_DETECTOR_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+    , rpt_step_counter(bno08x_report_info_t(SH2_STEP_COUNTER, EVT_GRP_RPT_STEP_COUNTER_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_activity_classifier(bno08x_report_info_t(SH2_PERSONAL_ACTIVITY_CLASSIFIER,
+              EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
               &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_stability_classifier(bno08x_report_info_t(SH2_STABILITY_CLASSIFIER,
+              EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, &sh2_HAL_lock, &data_lock, &evt_grp_report_en,
+              &evt_grp_report_data_available, &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_shake_detector(bno08x_report_info_t(SH2_SHAKE_DETECTOR, EVT_GRP_RPT_SHAKE_DETECTOR_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
+    , rpt_tap_detector(bno08x_report_info_t(SH2_TAP_DETECTOR, EVT_GRP_RPT_TAP_DETECTOR_BIT,
+              &sh2_HAL_lock, &data_lock, &evt_grp_report_en, &evt_grp_report_data_available,
+              &evt_grp_bno08x_task, &en_report_ids, &cb_list))
     , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , cb_task_hdl(NULL)
@@ -118,7 +140,8 @@ BNO08x::~BNO08x()
  * @brief Initializes BNO08x sensor
  *
  * Resets sensor and goes through initialization process.
- * Configures GPIO, required ISRs, and launches two tasks, one to manage SPI transactions, another to process any received data.
+ * Configures GPIO, required ISRs, and launches two tasks, one to manage SPI transactions, another
+ * to process any received data.
  *
  * @return True if initialization was success, false if otherwise.
  */
@@ -168,12 +191,14 @@ bool BNO08x::initialize()
  */
 void BNO08x::data_proc_task_trampoline(void* arg)
 {
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu
+                                 // object created by constructor call)
     imu->data_proc_task();       // launch data processing task task from object
 }
 
 /**
- * @brief Task responsible for parsing/handling sensor events sent by SH2 HAL and updating data that is returned to user.
+ * @brief Task responsible for parsing/handling sensor events sent by SH2 HAL and updating data that
+ * is returned to user.
  *
  * @return void, nothing to return
  */
@@ -213,12 +238,14 @@ void BNO08x::data_proc_task()
  */
 void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
 {
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu
+                                 // object created by constructor call)
     imu->sh2_HAL_service_task(); // launch data processing task task from object
 }
 
 /**
- * @brief Task responsible for calling shtp_service() when HINT is asserted to dispatch any sh2 HAL lib callbacks.
+ * @brief Task responsible for calling shtp_service() when HINT is asserted to dispatch any sh2 HAL
+ * lib callbacks.
  *
  * @return void, nothing to return
  */
@@ -248,8 +275,9 @@ void BNO08x::sh2_HAL_service_task()
             unlock_sh2_HAL();
         }
 
-        evt_grp_bno08x_task_bits = xEventGroupWaitBits(
-                evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
+        evt_grp_bno08x_task_bits = xEventGroupWaitBits(evt_grp_bno08x_task,
+                EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE,
+                pdFALSE, portMAX_DELAY);
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
@@ -268,7 +296,8 @@ void BNO08x::sh2_HAL_service_task()
  */
 void BNO08x::cb_task_trampoline(void* arg)
 {
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu object created by constructor call)
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by xTaskCreate ("this" pointer to imu
+                                 // object created by constructor call)
     imu->cb_task();              // launch data processing task task from object
 }
 
@@ -401,7 +430,8 @@ void BNO08x::handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry)
 }
 
 /**
- * @brief Initializes required esp-idf SPI data structures with values from user passed bno08x_config_t struct.
+ * @brief Initializes required esp-idf SPI data structures with values from user passed
+ * bno08x_config_t struct.
  *
  * @return ESP_OK if initialization was success.
  */
@@ -470,7 +500,8 @@ esp_err_t BNO08x::init_config_args()
     bus_config.quadwp_io_num = -1;               // write protect signal gpio (not used)
 
     // SPI slave device specific config
-    imu_spi_config.mode = 0x3; // set mode to 3 as per BNO08x datasheet (CPHA second edge, CPOL bus high when idle)
+    imu_spi_config.mode = 0x3; // set mode to 3 as per BNO08x datasheet (CPHA second edge, CPOL bus
+                               // high when idle)
 
     if (imu_config.sclk_speed > SCLK_MAX_SPEED) // max sclk speed of 3MHz for BNO08x
     {
@@ -487,9 +518,11 @@ esp_err_t BNO08x::init_config_args()
     imu_spi_config.clock_speed_hz = imu_config.sclk_speed; // assign SCLK speed
     imu_spi_config.address_bits = 0;                       // 0 address bits, not using this system
     imu_spi_config.command_bits = 0;                       // 0 command bits, not using this system
-    imu_spi_config.spics_io_num = -1;                      // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
-                                                           // driver, it must be handled via calls to gpio pins
-    imu_spi_config.queue_size = static_cast<int>(CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ); // set max allowable queued SPI transactions
+    imu_spi_config.spics_io_num =
+            -1; // due to esp32 silicon issue, chip select cannot be used with full-duplex mode
+                // driver, it must be handled via calls to gpio pins
+    imu_spi_config.queue_size = static_cast<int>(
+            CONFIG_ESP32_BNO08X_SPI_QUEUE_SZ); // set max allowable queued SPI transactions
 
     return ESP_OK;
 }
@@ -523,7 +556,8 @@ esp_err_t BNO08x::init_gpio_inputs()
     }
     else
     {
-        init_status.gpio_inputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
+        init_status.gpio_inputs = true; // set gpio_inputs to initialized such that deconstructor
+                                        // knows to clean them up
     }
 
     return ret;
@@ -559,7 +593,8 @@ esp_err_t BNO08x::init_gpio_outputs()
     }
     else
     {
-        init_status.gpio_outputs = true; // set gpio_inputs to initialized such that deconstructor knows to clean them up
+        init_status.gpio_outputs = true; // set gpio_inputs to initialized such that deconstructor
+                                         // knows to clean them up
     }
 
     return ret;
@@ -615,8 +650,9 @@ esp_err_t BNO08x::init_hint_isr()
     }
     else
     {
-        init_status.isr_service = true; // set isr service to initialized such that deconstructor knows to clean it up (this will be ignored if
-                                        // imu_config.install_isr_service == false)
+        init_status.isr_service =
+                true; // set isr service to initialized such that deconstructor knows to clean it up
+                      // (this will be ignored if imu_config.install_isr_service == false)
     }
 
     ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
@@ -633,7 +669,8 @@ esp_err_t BNO08x::init_hint_isr()
     }
     else
     {
-        init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
+        init_status.isr_handler =
+                true; // set isr handler to initialized such that deconstructor knows to clean it up
     }
 
     return ret;
@@ -651,7 +688,8 @@ esp_err_t BNO08x::init_tasks()
     xEventGroupSetBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING);
 
     // launch data processing task
-    task_created = xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task", DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
+    task_created = xTaskCreate(&data_proc_task_trampoline, "bno08x_data_processing_task",
+            DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -669,7 +707,8 @@ esp_err_t BNO08x::init_tasks()
     }
 
     // launch cb task
-    task_created = xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
+    task_created =
+            xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -687,8 +726,8 @@ esp_err_t BNO08x::init_tasks()
     }
 
     // launch sh2 hal service task
-    task_created =
-            xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
+    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task",
+            SH2_HAL_SERVICE_TASK_SZ, this, 7, &sh2_HAL_service_task_hdl);
 
     if (task_created != pdTRUE)
     {
@@ -999,13 +1038,15 @@ esp_err_t BNO08x::deinit_tasks()
     // disable interrupts before beginning so we can ensure SPI transaction doesn't attempt to run
     gpio_intr_disable(imu_config.io_int);
 
-    init_count += (static_cast<uint8_t>(init_status.cb_task) + static_cast<uint8_t>(init_status.data_proc_task) +
+    init_count += (static_cast<uint8_t>(init_status.cb_task) +
+                   static_cast<uint8_t>(init_status.data_proc_task) +
                    static_cast<uint8_t>(init_status.sh2_HAL_service_task));
 
     if (init_count != 0)
     {
         sem_kill_tasks = xSemaphoreCreateCounting(init_count, 0);
-        xEventGroupClearBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASKS_RUNNING); // clear task running bit request deletion of tasks
+        xEventGroupClearBits(evt_grp_bno08x_task,
+                EVT_GRP_BNO08x_TASKS_RUNNING); // clear task running bit request deletion of tasks
 
         if (init_status.cb_task)
             xQueueSend(queue_cb_report_id, &empty_ID, 0);
@@ -1218,7 +1259,165 @@ bool BNO08x::sleep()
 }
 
 /**
- * @brief Retrieves a record from flash record system (if your goal is to retrieve meta data use the BNO08xRpt:get_meta_data() method instead)
+ * @brief Enables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6.4.6.1
+ *
+ * @param sensor The sensor(s) to enable dynamic/ME calibration for.
+ *
+ * @return True if enable dynamic/ME calibration succeeded.
+ */
+bool BNO08x::enable_dynamic_calibration(BNO08xCalSel sensor)
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_setCalConfig(static_cast<uint8_t>(sensor));
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Disables dynamic/motion engine calibration for specified sensor(s), see ref.
+ * manual 6.4.6.1
+ *
+ * @param sensor The sensor(s) to disable dynamic/ME calibration for.
+ *
+ * @return True if disable dynamic/ME calibration succeeded.
+ */
+bool BNO08x::disable_dynamic_calibration(BNO08xCalSel sensor)
+{
+    int op_success = SH2_ERR;
+    uint8_t active_sensors = 0U;
+
+    lock_sh2_HAL();
+    op_success = sh2_getCalConfig(&active_sensors);
+    unlock_sh2_HAL();
+
+    if (op_success == SH2_OK)
+    {
+        active_sensors &= ~static_cast<uint8_t>(sensor);
+
+        lock_sh2_HAL();
+        op_success = sh2_setCalConfig(active_sensors);
+        unlock_sh2_HAL();
+    }
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Enables the automatic saving of dynamic/ME calibration data to BNO08x internal flash See
+ * ref manual 6.4.7.1.
+ *
+ * @return True if dynamic/ME calibration autosave data enable succeeded.
+ */
+bool BNO08x::enable_autosave_dynamic_calibration()
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_setDcdAutoSave(true);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Disables the automatic saving of dynamic/ME calibration data to BNO08x internal flash See
+ * ref manual 6.4.7.1.
+ *
+ * @return True if dynamic/ME calibration autosave data enable succeeded.
+ */
+bool BNO08x::disable_autosave_dynamic_calibration()
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_setDcdAutoSave(false);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Saves dynamic/motion engine calibration data to BNO08x internal flash immediately. See ref
+ * manual 6.4.5.1
+ *
+ * @return True if save dynamic/ME calibration data succeeded.
+ */
+bool BNO08x::save_dynamic_calibration()
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_saveDcdNow();
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
+/**
+ * @brief Clears dynamic/motion engine calibration data and resets BNO08x device. See ref
+ * manual 6.4.9.1
+ *
+ * @return True if save dynamic/ME calibration data succeeded.
+ */
+bool BNO08x::clear_dynamic_calibration()
+{
+    int op_success = SH2_ERR;
+
+    // send clear DCD and reset command
+    lock_sh2_HAL();
+    op_success = sh2_clearDcdAndReset();
+    unlock_sh2_HAL();
+
+    if (op_success == SH2_OK)
+    {
+        // wait for reset to be detected by SH2 HAL lib
+        if (wait_for_reset() == ESP_OK)
+        {
+            // run service to dispatch callbacks
+            lock_sh2_HAL();
+            sh2_service();
+            unlock_sh2_HAL();
+
+            if (get_reset_reason() == BNO08xResetReason::EXT_RST)
+            {
+                return true;
+            }
+            else
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Clear dynamic calibration failure, incorrect reset reason returned.");
+                #endif
+                // clang-format on
+            }
+        }
+        else
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "Clear dynamic calibration failure, reset never detected after sending command.");
+            #endif
+            // clang-format on
+        }
+    }
+    else
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Clear dynamic calibration failure, failed to send reset command");
+        #endif
+        // clang-format on
+    }
+
+    return false;
+}
+
+/**
+ * @brief Retrieves a record from flash record system (if your goal is to retrieve meta data use the
+ * BNO08xRpt:get_meta_data() method instead)
  *
  * For more details on returned and data and frs_ID see ref. manual 6.3.7 & 4.3
  *
@@ -1240,6 +1439,16 @@ bool BNO08x::get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz
 }
 
 /**
+ * @brief Returns product ID info sent by IMU at initialization.
+ *
+ * @return The product ID info returned at initialization.
+ */
+sh2_ProductIds_t BNO08x::get_product_IDs()
+{
+    return product_IDs;
+}
+
+/**
  * @brief Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse.
  *
  *
@@ -1249,7 +1458,8 @@ esp_err_t BNO08x::wait_for_hint()
 {
     EventBits_t spi_evt_bits;
 
-    spi_evt_bits = xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
+    spi_evt_bits = xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT,
+            pdTRUE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS);
 
     if (spi_evt_bits & EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT)
         return ESP_OK;
@@ -1265,7 +1475,8 @@ esp_err_t BNO08x::wait_for_hint()
  */
 esp_err_t BNO08x::wait_for_reset()
 {
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS) &
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE,
+                pdFALSE, HOST_INT_TIMEOUT_DEFAULT_MS) &
             EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
         return ESP_OK;
     else
@@ -1285,13 +1496,14 @@ void BNO08x::toggle_reset()
     gpio_set_level(imu_config.io_cs, 1);
 
     gpio_set_level(imu_config.io_rst, 0); // set reset pin low
-    vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
+    vTaskDelay(HARD_RESET_DELAY_MS); // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
 }
 
 /**
- * @brief Re-enables all reports enabled by user (called when BNO08x reset is detected by sh2 HAL lib).
+ * @brief Re-enables all reports enabled by user (called when BNO08x reset is detected by sh2 HAL
+ * lib).
  *
  * @return ESP_OK if enabled reports were successfuly re-enabled.
  */
@@ -1339,7 +1551,8 @@ esp_err_t BNO08x::re_enable_reports()
 bool BNO08x::data_available()
 {
 
-    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE, pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
+    if (xEventGroupWaitBits(evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_DATA_AVAILABLE, pdTRUE,
+                pdFALSE, DATA_AVAILABLE_TIMEOUT_MS) &
             EVT_GRP_BNO08x_TASK_DATA_AVAILABLE)
         return true;
 
@@ -1365,9 +1578,11 @@ bool BNO08x::register_cb(std::function<void(void)> cb_fxn)
 }
 
 /**
- * @brief Registers a callback to execute when new data from a report is received, overloaded with callback param for most recent report ID.
+ * @brief Registers a callback to execute when new data from a report is received, overloaded with
+ * callback param for most recent report ID.
  *
- * @param cb_fxn Pointer to the call-back function should be of void return type with single input param of uint8_t for most recent report ID.
+ * @param cb_fxn Pointer to the call-back function should be of void return type with single input
+ * param of uint8_t for most recent report ID.
  *
  * @return void, nothing to return
  */
@@ -1399,8 +1614,9 @@ void BNO08x::print_product_ids()
                 "                SW Build Number:  0x%" PRIx32 "\n\r"
                 "                SW Version Patch: 0x%" PRIx16 "\n\r"
                 "                ---------------------------\n\r",
-                i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor, product_IDs.entry->swVersionMinor,
-                product_IDs.entry->swBuildNumber, product_IDs.entry->swVersionPatch);
+                i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor,
+                product_IDs.entry->swVersionMinor, product_IDs.entry->swBuildNumber,
+                product_IDs.entry->swVersionPatch);
     }
 }
 
@@ -1495,10 +1711,11 @@ const char* BNO08x::accuracy_to_str(BNO08xAccuracy accuracy)
 void IRAM_ATTR BNO08x::hint_handler(void* arg)
 {
     BaseType_t xHighPriorityTaskWoken = pdFALSE;
-    BNO08x* imu = (BNO08x*) arg; // cast argument received by gpio_isr_handler_add ("this" pointer to imu object
-                                 // created by constructor call)
+    BNO08x* imu = (BNO08x*) arg; // cast argument received by gpio_isr_handler_add ("this" pointer
+                                 // to imu object created by constructor call)
 
     // notify any tasks/function calls waiting for HINT assertion
-    xEventGroupSetBitsFromISR(imu->evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, &xHighPriorityTaskWoken);
+    xEventGroupSetBitsFromISR(
+            imu->evt_grp_bno08x_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT, &xHighPriorityTaskWoken);
     portYIELD_FROM_ISR(xHighPriorityTaskWoken); // perform context switch if necessary
 }

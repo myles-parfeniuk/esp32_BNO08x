@@ -10,13 +10,17 @@
  *
  * @param time_between_reports The period/interval of the report in microseconds.
  * @param activities_to_enable Which activities to enable.
- * @param sensor_cfg Sensor special configuration (optional, see BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRptActivityClassifier::enable(uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptActivityClassifier::enable(uint32_t time_between_reports,
+        BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg)
 {
-    sensor_cfg.sensorSpecific = static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.sensorSpecific =
+            static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
+                                                        // or no reports will be received
 
     return BNO08xRpt::enable(time_between_reports, sensor_cfg);
 }

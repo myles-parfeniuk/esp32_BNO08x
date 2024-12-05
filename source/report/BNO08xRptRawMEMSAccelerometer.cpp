@@ -24,7 +24,8 @@ void BNO08xRptRawMEMSAccelerometer::update_data(sh2_SensorValue_t* sensor_val)
 }
 
 /**
- * @brief Grabs most recent raw accelerometer data, units are ADC counts, time_stamp in microseconds.
+ * @brief Grabs most recent raw accelerometer data, units are ADC counts, time_stamp in
+ * microseconds.
  *
  * @return Struct containing requested data.
  */

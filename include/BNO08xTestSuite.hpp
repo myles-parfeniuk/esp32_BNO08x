@@ -21,12 +21,14 @@ class BNO08xTestSuite
     private:
         static void print_begin_tests_banner(const char* test_set_name)
         {
-            printf("####################### BEGIN TESTS: %s #######################\n\r", test_set_name);
+            printf("####################### BEGIN TESTS: %s #######################\n\r",
+                    test_set_name);
         }
 
         static void print_end_tests_banner(const char* test_set_name)
         {
-            printf("####################### END TESTS: %s #######################\n\r", test_set_name);
+            printf("####################### END TESTS: %s #######################\n\r",
+                    test_set_name);
         }
 
     public:
