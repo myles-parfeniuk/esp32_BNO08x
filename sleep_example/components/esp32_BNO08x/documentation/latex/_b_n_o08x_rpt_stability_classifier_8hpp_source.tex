@@ -1,0 +1,27 @@
+\doxysection{BNO08x\+Rpt\+Stability\+Classifier.\+hpp}
+\hypertarget{_b_n_o08x_rpt_stability_classifier_8hpp_source}{}\label{_b_n_o08x_rpt_stability_classifier_8hpp_source}\index{BNO08xRptStabilityClassifier.hpp@{BNO08xRptStabilityClassifier.hpp}}
+\mbox{\hyperlink{_b_n_o08x_rpt_stability_classifier_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier}{BNO08xRptStabilityClassifier}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a41052d651d03bccc414b14d6e9b670ab}{BNO08xRptStabilityClassifier}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__stability__classifier__t}{bno08x\_stability\_classifier\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a552b8df91df3905c7e2242ee42d11931}{get}}();}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a498b35f9e00b24e51f8f60b029751ab5}{BNO08xStability}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a8c8c794004f8b2a5e67656286beae7cd}{get\_stability}}();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a53f291245bb6c40ae272fbe0142609c2}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__stability__classifier__t}{bno08x\_stability\_classifier\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a1fecfc1b74f501f4caef9bd2e95b0b3a}{data}};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a363d10cfb6740d6003189ccc2684adbd}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptStabilityClassifier"{}};}
+\DoxyCodeLine{00030\ \};}
+
+\end{DoxyCode}

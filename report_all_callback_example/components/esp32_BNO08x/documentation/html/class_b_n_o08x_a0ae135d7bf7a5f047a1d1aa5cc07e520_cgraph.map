@@ -1,0 +1,7 @@
+<map id="BNO08x::data_proc_task_trampoline" name="BNO08x::data_proc_task_trampoline">
+<area shape="rect" id="Node000001" title="Static function used to launch data processing task." alt="" coords="5,5,173,48"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ab4373e9b87837ea9fcbc0b536338c7b8" title="Task responsible for parsing/handling sensor events sent by SH2 HAL and updating data that is returne..." alt="" coords="221,13,388,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,24,205,24,205,29,173,29"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a7d5250a6017f9e76e3c2ddb00d7103a1" title="Parses receieved report and updates uer data with it." alt="" coords="436,5,598,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,24,421,24,421,29,388,29"/>
+</map>

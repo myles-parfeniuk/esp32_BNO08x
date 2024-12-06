@@ -1,0 +1,5 @@
+<map id="BNO08x::init_hint_isr" name="BNO08x::init_hint_isr">
+<area shape="rect" id="Node000001" title="Initializes host interrupt ISR." alt="" coords="5,5,150,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a804b95c58c30d36933fd251626b85bf7" title="HINT interrupt service routine, handles falling edge of BNO08x HINT pin." alt="" coords="198,5,346,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,16,182,16,182,21,150,21"/>
+</map>

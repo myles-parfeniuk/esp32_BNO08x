@@ -1,0 +1,9 @@
+<map id="BNO08xRptTapDetector" name="BNO08xRptTapDetector">
+<area shape="rect" id="Node000001" title="Class to represent tap detector reports. (See Ref. Manual 6.5.27)" alt="" coords="105,203,266,229"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="32,112,123,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,147,172,200,168,204,103,151"/>
+<area shape="rect" id="Node000003" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,150,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,64,80,112,75,112,75,64"/>
+<area shape="rect" id="Node000004" href="$structbno08x__tap__detector__t.html" title="Struct to represent tap detector data (flag meaning: 0 = no tap, 1 = positive tap on axis,..." alt="" coords="146,112,300,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,154,193,203,188,201,209,152"/>
+</map>

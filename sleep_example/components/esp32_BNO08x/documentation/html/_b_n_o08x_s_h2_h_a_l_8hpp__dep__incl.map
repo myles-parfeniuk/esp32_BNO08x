@@ -1,0 +1,24 @@
+<map id="BNO08xSH2HAL.hpp" name="BNO08xSH2HAL.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="483,5,628,32"/>
+<area shape="rect" id="Node000002" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="465,80,560,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="542,47,522,81,518,78,538,44"/>
+<area shape="rect" id="Node000004" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="571,155,716,181"/>
+<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="573,44,638,153,633,156,568,47"/>
+<area shape="rect" id="Node000003" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="269,155,364,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="465,115,352,157,350,152,463,110"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="550,112,622,152,619,156,547,117"/>
+<area shape="rect" id="Node000005" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="389,155,546,181"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="499,122,477,156,473,153,494,119"/>
+<area shape="rect" id="Node000006" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,229,156,256"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="385,187,149,231,148,226,384,182"/>
+<area shape="rect" id="Node000007" href="$_callback_tests_8cpp.html" title=" " alt="" coords="180,229,309,256"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="415,189,284,231,283,226,413,184"/>
+<area shape="rect" id="Node000008" href="$_feature_tests_8cpp.html" title=" " alt="" coords="333,229,455,256"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="445,194,408,231,405,227,442,191"/>
+<area shape="rect" id="Node000009" href="$_init_denit_tests_8cpp.html" title=" " alt="" coords="479,229,605,256"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="493,190,531,227,527,231,489,194"/>
+<area shape="rect" id="Node000010" href="$_multi_report_tests_8cpp.html" title=" " alt="" coords="628,229,773,256"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="523,184,660,226,659,231,521,189"/>
+<area shape="rect" id="Node000011" href="$_single_report_tests_8cpp.html" title=" " alt="" coords="796,229,949,256"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="554,182,802,226,801,231,553,187"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="BNO08x::save_dynamic_calibration" name="BNO08x::save_dynamic_calibration">
+<area shape="rect" id="Node000001" title="Saves dynamic/motion engine calibration data to BNO08x internal flash immediately...." alt="" coords="5,23,166,65"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="221,5,383,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,32,205,27,205,33,166,37"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="214,56,390,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,51,198,55,198,60,165,56"/>
+</map>

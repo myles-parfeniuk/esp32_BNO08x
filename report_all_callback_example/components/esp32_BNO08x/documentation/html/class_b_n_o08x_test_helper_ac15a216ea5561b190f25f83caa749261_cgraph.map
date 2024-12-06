@@ -1,0 +1,5 @@
+<map id="BNO08xTestHelper::call_deinit_hint_isr" name="BNO08xTestHelper::call_deinit_hint_isr">
+<area shape="rect" id="Node000001" title="Used to call private BNO08x::deinit_hint_isr() member for tests." alt="" coords="5,5,166,48"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a9d96108b0f5b1e1e1ac431bc993ca758" title="Deinitializes host interrupt ISR, called from deconstructor." alt="" coords="214,13,372,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,24,198,24,198,29,166,29"/>
+</map>

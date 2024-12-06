@@ -1,0 +1,23 @@
+<map id="BNO08x::init_sh2_HAL" name="BNO08x::init_sh2_HAL">
+<area shape="rect" id="Node000001" title="Initializes sh2 HAL." alt="" coords="358,153,513,180"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#a854c60f602fe6d9af1da1a07eee0a449" title="Used to call private BNO08x::init_tasks() member for tests." alt="" coords="150,57,310,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="387,149,281,103,283,98,389,144"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#aea8e2c6dd7a2c9899479a7f39fe94798" title="Initializes BNO08x sensor." alt="" coords="167,183,293,209"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,183,293,190,293,184,342,177"/>
+<area shape="rect" id="Node000003" href="$_init_denit_tests_8cpp.html#a82451407bbaeafb4370d82b27f0638e8" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="150,55,94,35,96,30,152,49"/>
+<area shape="rect" id="Node000005" href="$_callback_tests_8cpp.html#aeec6d3065f943c1339c060573c89e05f" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="200,174,154,137,100,97,81,86,84,81,103,92,158,132,203,170"/>
+<area shape="rect" id="Node000006" href="$_callback_tests_8cpp.html#a10683e9d548d5edb7fa36fcb00515f00" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="182,179,85,136,88,131,184,174"/>
+<area shape="rect" id="Node000007" href="$_callback_tests_8cpp.html#a8eee2d5630a432e4c206fd941aa9affa" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="152,187,102,180,103,175,152,182"/>
+<area shape="rect" id="Node000008" href="$_feature_tests_8cpp.html#afabd65c2cd56b58720aaf252803b5fc2" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="152,210,103,217,102,212,152,205"/>
+<area shape="rect" id="Node000009" href="$_multi_report_tests_8cpp.html#a1fd7b6a0d4dbb7f91fd5691b5b054bda" title=" " alt="" coords="5,259,102,285"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="184,218,88,261,85,256,182,213"/>
+<area shape="rect" id="Node000010" href="$_single_report_tests_8cpp.html#aac644123799c1f836d379c9789a064ab" title=" " alt="" coords="5,309,102,336"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="203,222,158,260,103,300,84,311,81,306,100,295,154,255,200,218"/>
+<area shape="rect" id="Node000011" href="$_init_denit_tests_8cpp.html#ad6ee077b389f38cb1535e3f6fdab6081" title=" " alt="" coords="5,360,102,387"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="214,224,167,285,137,319,103,350,86,362,83,357,100,346,133,315,163,281,209,220"/>
+</map>

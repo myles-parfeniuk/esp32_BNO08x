@@ -1,0 +1,5 @@
+<map id="BNO08x::sleep" name="BNO08x::sleep">
+<area shape="rect" id="Node000001" title="Places BNO08x device in sleep state by sending SLEEP (3) command on &quot;device&quot; channel." alt="" coords="150,5,259,32"/>
+<area shape="rect" id="Node000002" href="$_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
+</map>

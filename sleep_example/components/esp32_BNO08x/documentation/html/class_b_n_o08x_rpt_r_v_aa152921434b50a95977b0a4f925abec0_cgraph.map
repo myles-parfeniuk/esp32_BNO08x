@@ -1,0 +1,7 @@
+<map id="BNO08xRptRV::tare_persist" name="BNO08xRptRV::tare_persist">
+<area shape="rect" id="Node000001" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="5,31,190,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="245,5,427,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,32,229,27,229,33,191,37"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="238,56,434,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,51,222,55,222,60,190,56"/>
+</map>

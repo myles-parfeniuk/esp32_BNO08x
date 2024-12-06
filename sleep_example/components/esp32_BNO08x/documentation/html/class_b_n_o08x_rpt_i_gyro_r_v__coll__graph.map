@@ -1,0 +1,13 @@
+<map id="BNO08xRptIGyroRV" name="BNO08xRptIGyroRV">
+<area shape="rect" id="Node000001" title="Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.5.44)" alt="" coords="151,293,290,320"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_r_v_generic.html" title="Class to represent rotation vector reports." alt="" coords="62,203,216,229"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,239,210,291,207,295,159,243"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="32,112,123,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,150,132,201,128,204,93,153"/>
+<area shape="rect" id="Node000004" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,150,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="80,64,80,112,75,112,75,64"/>
+<area shape="rect" id="Node000005" href="$structbno08x__quat__t.html" title="Struct to represent unit quaternion." alt="" coords="147,112,253,139"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="185,153,150,204,145,201,180,150"/>
+<area shape="rect" id="Node000006" href="$structbno08x__ang__vel__t.html" title="Struct to represent angular velocity (units in rad/s)" alt="" coords="239,203,364,229"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="282,243,234,295,230,291,278,239"/>
+</map>

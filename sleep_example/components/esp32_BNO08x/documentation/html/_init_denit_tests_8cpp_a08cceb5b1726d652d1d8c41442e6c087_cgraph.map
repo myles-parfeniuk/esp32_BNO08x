@@ -1,0 +1,19 @@
+<map id="TEST_CASE" name="TEST_CASE">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,180,102,207"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#a71d9fd7d459a98a7e9089a8587a21f8d" title="Used to call private BNO08x::init_config_args() member for tests." alt="" coords="158,5,318,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,178,92,121,117,87,148,58,153,54,156,59,151,62,121,91,96,124,63,181"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_test_helper.html#a6bd040c7d670a9713f2ab8a8a3913518" title="Calls BNO08x constructor and creates new test IMU on heap." alt="" coords="150,72,326,115"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="70,177,105,151,148,124,159,119,161,124,151,129,108,156,73,182"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="159,139,317,181"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="102,182,143,174,144,180,103,187"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="155,205,321,248"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="103,199,140,206,139,212,102,205"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="155,272,321,315"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="73,205,108,231,151,258,161,263,159,268,148,262,105,235,70,209"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="155,339,321,381"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="63,206,96,263,121,296,151,325,156,328,153,332,148,329,117,299,92,266,59,208"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a589eb9780f5bf613bbd447ef5b9ade3d" title="Initializes required esp&#45;idf SPI data structures with values from user passed bno08x_config_t struct." alt="" coords="382,13,550,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="319,24,366,24,366,29,319,29"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="374,72,557,115"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="326,91,358,91,358,96,326,96"/>
+</map>

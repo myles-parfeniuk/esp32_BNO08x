@@ -1,0 +1,9 @@
+<map id="BNO08xRptRV::tare" name="BNO08xRptRV::tare">
+<area shape="rect" id="Node000001" title="Tares rotation vector axis." alt="" coords="5,31,144,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="192,23,345,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,41,176,41,176,47,144,47"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="400,5,582,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="345,33,384,28,385,33,346,38"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="393,56,589,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="346,50,378,54,377,59,345,55"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="BNO08x::~BNO08x" name="BNO08x::~BNO08x">
+<area shape="rect" id="Node000001" title="BNO08x imu deconstructor." alt="" coords="5,148,141,175"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a4f007dd431f10e741414d197bb4926c3" title="Deinitializes GPIO, called from deconstructor." alt="" coords="203,47,344,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,145,133,114,187,83,202,77,204,82,190,88,136,119,93,150"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a9d96108b0f5b1e1e1ac431bc993ca758" title="Deinitializes host interrupt ISR, called from deconstructor." alt="" coords="194,97,353,124"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="128,145,202,126,204,131,130,150"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a75c7226ea4626862a5039aa053116861" title="Deinitializes sh2 HAL." alt="" coords="189,148,358,175"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="141,159,173,159,173,164,141,164"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a233920ce97f685fbdabecccacf471d85" title="Deinitializes SPI." alt="" coords="207,199,340,225"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="130,173,204,192,202,197,128,178"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x.html#a968144efd5100ccce0e453c40a63592b" title="Deinitializes tasks used by BNO08x driver." alt="" coords="199,249,348,276"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="93,173,136,204,190,235,204,241,202,246,187,240,133,208,90,177"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a1f0f4cd8dc7d38448e2198ea47d0018c" title="Deinitializes GPIO inputs, called from deconstructor." alt="" coords="406,5,546,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,46,390,38,391,43,345,51"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#ab132a061bd437fd109225446aa1f6010" title="Deinitializes GPIO outputs, called from deconstructor." alt="" coords="406,72,546,115"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="345,69,391,77,390,82,344,74"/>
+</map>

@@ -1,0 +1,19 @@
+<map id="TEST_CASE" name="TEST_CASE">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,180,102,207"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#a347b8ca2697388394b7cb68c8895494b" title="Used to call private BNO08x::deinit_gpio() member for tests." alt="" coords="161,39,322,81"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,178,97,136,121,112,148,91,156,86,159,91,151,96,125,116,101,139,67,181"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="150,105,333,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="93,177,164,151,166,156,95,182"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="162,172,321,215"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="102,191,146,191,146,196,102,196"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="159,239,324,281"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="95,205,166,230,164,235,93,210"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="159,305,324,348"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="67,206,101,247,125,271,151,291,159,296,156,300,148,296,121,275,97,251,63,209"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a4f007dd431f10e741414d197bb4926c3" title="Deinitializes GPIO, called from deconstructor." alt="" coords="381,47,521,73"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="322,57,366,57,366,63,322,63"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a1f0f4cd8dc7d38448e2198ea47d0018c" title="Deinitializes GPIO inputs, called from deconstructor." alt="" coords="569,5,710,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="521,45,553,39,554,44,522,50"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#ab132a061bd437fd109225446aa1f6010" title="Deinitializes GPIO outputs, called from deconstructor." alt="" coords="569,72,710,115"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="522,70,554,76,553,81,521,75"/>
+</map>

@@ -1,0 +1,32 @@
+<map id="TEST_CASE" name="TEST_CASE">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,237,102,264"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="180,5,352,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="54,236,62,198,79,145,107,89,126,64,148,42,165,31,167,36,151,46,130,67,111,92,84,147,68,199,59,238"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="186,56,346,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="57,236,68,206,87,167,113,126,148,93,170,81,173,85,151,97,117,130,91,169,73,208,62,238"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="196,107,336,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="62,235,97,193,121,170,148,150,180,135,182,140,151,154,124,174,101,197,66,239"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="462,120,598,147"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="73,234,107,213,149,193,205,179,282,165,446,141,447,146,283,170,206,184,151,199,110,218,76,239"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_rpt_uncal_magnetometer.html#ad4d5abc8875955b6236bbe526be1e8fb" title="Grabs most recent uncalibrated magnetometer data, units are in uTesla." alt="" coords="150,208,382,235"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="102,241,149,235,150,240,102,247"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="187,259,345,301"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="102,255,172,264,171,270,102,260"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="175,325,357,352"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="73,262,108,287,151,311,170,318,168,323,149,316,105,292,70,267"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="183,376,349,419"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="65,263,98,312,123,339,151,362,170,372,168,377,148,366,119,343,94,315,60,266"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="183,443,349,485"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="61,264,71,297,89,342,115,389,132,410,151,429,170,441,168,445,148,433,128,414,111,392,84,344,66,299,56,265"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="183,509,349,552"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="59,264,65,308,80,371,108,438,127,469,151,495,171,509,167,513,148,499,123,472,103,440,75,372,60,309,53,265"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="336,121,447,126,446,132,336,126"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="685,95,868,121"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="598,124,669,116,670,122,599,129"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="678,145,875,172"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="599,138,663,144,663,150,598,143"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="437,183,623,209"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="382,208,421,204,422,209,383,213"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="430,233,630,260"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="383,230,415,233,414,238,382,235"/>
+</map>

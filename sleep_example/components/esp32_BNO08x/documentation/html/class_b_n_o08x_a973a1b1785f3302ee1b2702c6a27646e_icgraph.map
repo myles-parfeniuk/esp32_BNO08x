@@ -1,0 +1,5 @@
+<map id="BNO08x::soft_reset" name="BNO08x::soft_reset">
+<area shape="rect" id="Node000001" title="Soft resets BNO08x device by sending RESET (1) command on &quot;device&quot; channel." alt="" coords="150,5,285,32"/>
+<area shape="rect" id="Node000002" href="$_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
+</map>

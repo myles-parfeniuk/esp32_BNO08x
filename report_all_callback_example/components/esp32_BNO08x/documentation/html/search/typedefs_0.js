@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['bno08x_5faccel_5ft_0',['bno08x_accel_t',['../_b_n_o08x_global_types_8hpp.html#a0c22a2a9fede695256dfaa4703497a2e',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5factivity_5fclassifier_5ft_1',['bno08x_activity_classifier_t',['../_b_n_o08x_global_types_8hpp.html#a7913a36911f75945cfaa0a3249a280e3',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fang_5fvel_5ft_2',['bno08x_ang_vel_t',['../_b_n_o08x_global_types_8hpp.html#a2babea2516c7c91039316693fc23a8c1',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fcb_5flist_5ft_3',['bno08x_cb_list_t',['../namespace_b_n_o08x_private_types.html#a72315cafa76ff8c07f84f03fc6b36bc2',1,'BNO08xPrivateTypes']]],
+  ['bno08x_5fconfig_5ft_4',['bno08x_config_t',['../_b_n_o08x_global_types_8hpp.html#a648bbdbf22731476890dd8da977d7503',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5feuler_5fangle_5ft_5',['bno08x_euler_angle_t',['../_b_n_o08x_global_types_8hpp.html#a8ae22357b6f53c2cf806bb3aeb80814a',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fgyro_5fbias_5ft_6',['bno08x_gyro_bias_t',['../_b_n_o08x_global_types_8hpp.html#a7bf3b6ed58dd988c0f4566ba56bff415',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fgyro_5ft_7',['bno08x_gyro_t',['../_b_n_o08x_global_types_8hpp.html#ac166834f6280e6ef21af7dd8a01be1e4',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5finit_5fstatus_5ft_8',['bno08x_init_status_t',['../namespace_b_n_o08x_private_types.html#a2698bcb8153e67716b43ce3cccc0f31a',1,'BNO08xPrivateTypes']]],
+  ['bno08x_5fmagf_5fbias_5ft_9',['bno08x_magf_bias_t',['../_b_n_o08x_global_types_8hpp.html#a3d6e56080638d872486935323f393ab7',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fmagf_5ft_10',['bno08x_magf_t',['../_b_n_o08x_global_types_8hpp.html#a429f861977153379e28e8f3710330b45',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fmeta_5fdata_5ft_11',['bno08x_meta_data_t',['../_b_n_o08x_global_types_8hpp.html#a1145e5dfd14e96bd70c6e73af017b548',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fquat_5ft_12',['bno08x_quat_t',['../_b_n_o08x_global_types_8hpp.html#a0c7367913526c0d634c5f8f5365a55b4',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fraw_5faccel_5ft_13',['bno08x_raw_accel_t',['../_b_n_o08x_global_types_8hpp.html#ace2ea90ebebddfcdb75e1b8b7b48f905',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fraw_5fgyro_5ft_14',['bno08x_raw_gyro_t',['../_b_n_o08x_global_types_8hpp.html#a3e205d9599aa01b7946d1ed1cbb7f1c4',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fraw_5fmagf_5ft_15',['bno08x_raw_magf_t',['../_b_n_o08x_global_types_8hpp.html#a673f429cbcd0f48394de3d990d8bda4a',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5freports_5ft_16',['bno08x_reports_t',['../class_b_n_o08x.html#ae08bdaff01ecacf0f399ab289fdf0b99',1,'BNO08x']]],
+  ['bno08x_5fsample_5fcounts_5ft_17',['bno08x_sample_counts_t',['../_b_n_o08x_global_types_8hpp.html#afceb7f957002d3e024d4971963ecfa20',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fshake_5fdetector_5ft_18',['bno08x_shake_detector_t',['../_b_n_o08x_global_types_8hpp.html#a7c22ac348c71afe0d42dcfae6c97ca32',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fstability_5fclassifier_5ft_19',['bno08x_stability_classifier_t',['../_b_n_o08x_global_types_8hpp.html#a9f0440c67ec56fafcd25a24bf36f842f',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fstep_5fcounter_5ft_20',['bno08x_step_counter_t',['../_b_n_o08x_global_types_8hpp.html#ad52b092f56d1fa0064f2ea3502399cfc',1,'BNO08xGlobalTypes.hpp']]],
+  ['bno08x_5fsync_5fctx_5ft_21',['bno08x_sync_ctx_t',['../namespace_b_n_o08x_private_types.html#a67b3b4702d94bb4ba152a213feae944f',1,'BNO08xPrivateTypes']]],
+  ['bno08x_5ftap_5fdetector_5ft_22',['bno08x_tap_detector_t',['../_b_n_o08x_global_types_8hpp.html#adcfe69b10c9c2244015bad5b978beedd',1,'BNO08xGlobalTypes.hpp']]]
+];
