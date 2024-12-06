@@ -1,0 +1,15 @@
+<map id="BNO08xSH2HAL::spi_read" name="BNO08xSH2HAL::spi_read">
+<area shape="rect" id="Node000001" title="SPI rx callback for sh2 HAL lib." alt="" coords="5,80,183,107"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_s_h2_h_a_l.html#a6003e3011b0e8208e2632f729e195922" title="SPI rx packet body (invoked from SPI rx callback.)" alt="" coords="231,5,408,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,77,229,50,231,56,143,82"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_s_h2_h_a_l.html#ac63619162addd952a2af599cb414783f" title="SPI rx packet header (invoked from SPI rx callback.)" alt="" coords="231,72,408,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,91,215,91,215,96,183,96"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_s_h2_h_a_l.html#a15b568922a498b988bd8b897b3ae2278" title="SPI wait for HINT sh2 HAL lib callback." alt="" coords="232,139,407,181"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="143,105,231,131,229,136,141,110"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_s_h2_h_a_l.html#a0c4cc938180a997fb94c0c34c0dce07e" title="Hardware reset callback for sh2 HAL lib, toggle RST gpio." alt="" coords="456,109,636,152"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="407,146,440,142,441,147,408,151"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x.html#a69cf0da11a71f5ea40f9fddd598d06fc" title="Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="471,176,621,203"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="408,169,456,175,455,180,407,174"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="684,117,834,144"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="637,128,669,128,669,133,637,133"/>
+</map>

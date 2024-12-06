@@ -1,0 +1,26 @@
+\doxysection{BNO08x\+Rpt\+Shake\+Detector.\+hpp}
+\hypertarget{_b_n_o08x_rpt_shake_detector_8hpp_source}{}\label{_b_n_o08x_rpt_shake_detector_8hpp_source}\index{BNO08xRptShakeDetector.hpp@{BNO08xRptShakeDetector.hpp}}
+\mbox{\hyperlink{_b_n_o08x_rpt_shake_detector_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector}{BNO08xRptShakeDetector}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector_a22021e497ed9a31b2070b884f7eb6bd8}{BNO08xRptShakeDetector}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__shake__detector__t}{bno08x\_shake\_detector\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector_adf134a67833f9e2c71f76858abc88ee6}{get}}();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector_aebaecde5751d7b9a3fa1d5cfe09a7393}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__shake__detector__t}{bno08x\_shake\_detector\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector_a9edf6220d0206afc6fc732f4065e5022}{data}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_shake_detector_ad282b4fa916bd10237b7d83b3e56861b}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptShakeDetector"{}};}
+\DoxyCodeLine{00029\ \};}
+
+\end{DoxyCode}

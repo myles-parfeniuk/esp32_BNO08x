@@ -1,0 +1,36 @@
+<map id="BNO08x::init_sh2_HAL" name="BNO08x::init_sh2_HAL">
+<area shape="rect" id="Node000001" title="Initializes sh2 HAL." alt="" coords="5,249,161,276"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_s_h2_h_a_l.html#ad89b6a3166e2eee003ad87a517a31cd5" title="Get time in microseconds callback for sh2 HAL lib." alt="" coords="209,5,408,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,248,99,207,123,151,159,92,181,65,207,42,214,37,217,42,210,46,185,69,163,95,128,154,104,209,91,250"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_s_h2_h_a_l.html#a1add67e38698c9f33541af7bd2912d8f" title="General event callback for sh2 HAL lib, used to notify tasks of reset." alt="" coords="225,56,392,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="88,248,104,216,130,173,165,130,207,93,216,87,219,92,210,97,169,133,135,177,109,218,93,250"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a7441f7f2477c152deca17054041bf3e6" title="Prints product IDs received at initialization." alt="" coords="220,107,397,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="93,247,139,196,171,167,207,143,220,137,222,142,210,148,174,172,143,200,97,251"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_s_h2_h_a_l.html#a19c041ef614d7eda85b94b10202a3997" title="Sensor event callback for sh2 HAL lib, sends received reports to data_proc_task()." alt="" coords="225,157,392,200"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="116,246,208,210,226,203,227,208,210,214,118,251"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_s_h2_h_a_l.html#a236ccf0ff8d36060b465bc1f4f0a37fa" title="Sets the BNO08x driver object to be used with sh2 HAL lib callbacks." alt="" coords="209,224,408,251"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="161,251,193,248,194,253,161,257"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_s_h2_h_a_l.html#a5fa6b901d1790fcd7dc0905f62ae040f" title="Closes SPI instance (nothing to do here, but required by sh2 HAL lib for cases where other communicat..." alt="" coords="217,275,400,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="161,269,201,273,201,279,161,274"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_s_h2_h_a_l.html#ae079b1384cba806a778eb0e27f981da0" title="Opens SPI instance by waiting for interrupt." alt="" coords="218,376,399,403"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="101,274,147,314,210,355,240,368,238,373,207,360,144,318,97,278"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="910,355,1059,381"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="112,274,157,294,209,311,317,323,505,338,894,361,894,366,505,343,316,329,208,316,155,299,110,279"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x_s_h2_h_a_l.html#a3e691461235b3e3c59866ac179d06f25" title="SPI rx callback for sh2 HAL lib." alt="" coords="220,477,397,504"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="91,276,105,313,130,364,165,418,186,442,210,463,217,468,215,472,207,467,182,446,161,421,125,367,101,315,86,277"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x_s_h2_h_a_l.html#a96d5b8fa7669f22cd0ecaf1feee13299" title="SPI tx callback for sh2 HAL lib." alt="" coords="219,427,398,453"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="94,275,137,342,170,380,210,412,219,418,217,422,207,417,167,384,133,345,89,278"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_s_h2_h_a_l.html#a15b568922a498b988bd8b897b3ae2278" title="SPI wait for HINT sh2 HAL lib callback." alt="" coords="457,403,632,445"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="399,400,442,406,441,412,398,405"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x_s_h2_h_a_l.html#a0c4cc938180a997fb94c0c34c0dce07e" title="Hardware reset callback for sh2 HAL lib, toggle RST gpio." alt="" coords="681,376,862,419"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="632,411,665,407,666,412,633,416"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#a69cf0da11a71f5ea40f9fddd598d06fc" title="Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="696,443,847,469"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="633,434,681,441,680,446,632,439"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="862,382,894,378,895,383,862,388"/>
+<area shape="poly" id="edge15_Node000013_Node000009" title=" " alt="" coords="365,474,407,463,458,448,460,453,409,468,366,479"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x_s_h2_h_a_l.html#a6003e3011b0e8208e2632f729e195922" title="SPI rx packet body (invoked from SPI rx callback.)" alt="" coords="456,469,633,512"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="397,488,441,488,441,493,397,493"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x_s_h2_h_a_l.html#ac63619162addd952a2af599cb414783f" title="SPI rx packet header (invoked from SPI rx callback.)" alt="" coords="456,536,633,579"/>
+<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="359,502,453,529,451,534,358,507"/>
+<area shape="poly" id="edge17_Node000016_Node000009" title=" " alt="" coords="398,431,441,428,442,434,398,437"/>
+</map>

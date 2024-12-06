@@ -1,0 +1,9 @@
+<map id="BNO08x::cb_task_trampoline" name="BNO08x::cb_task_trampoline">
+<area shape="rect" id="Node000001" title="Static function used to launch cb_task task." alt="" coords="5,5,197,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a5fb7f6c3e5d1b3478f529644a0f175b7" title="Task responsible for executing callbacks registered with register_cb()." alt="" coords="245,5,369,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,16,229,16,229,21,197,21"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a86275a93706656dae6af421bc15a4e59" title="Determines the flavor of a passed callback and executes it appropriately." alt="" coords="417,5,554,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="369,16,401,16,401,21,369,21"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_cb_generic.html#a19f9e8a22d039acf29c98801368ff0bb" title=" " alt="" coords="602,5,778,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="555,16,587,16,587,21,555,21"/>
+</map>

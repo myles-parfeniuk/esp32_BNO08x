@@ -1,0 +1,7 @@
+<map id="BNO08xTestHelper::call_init_hint_isr" name="BNO08xTestHelper::call_init_hint_isr">
+<area shape="rect" id="Node000001" title="Used to call private BNO08x::init_hint_isr() member for tests." alt="" coords="5,5,166,48"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#aa27026da2c52b4aca49b78863f10ec61" title="Initializes host interrupt ISR." alt="" coords="214,13,358,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,24,198,24,198,29,166,29"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a804b95c58c30d36933fd251626b85bf7" title="HINT interrupt service routine, handles falling edge of BNO08x HINT pin." alt="" coords="406,13,554,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,24,390,24,390,29,359,29"/>
+</map>

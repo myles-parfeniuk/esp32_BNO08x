@@ -1,0 +1,7 @@
+<map id="BNO08x::calibration_end" name="BNO08x::calibration_end">
+<area shape="rect" id="Node000001" title="Ends turn&#45;table calibration, see ref. manual 6.4.10.2." alt="" coords="5,31,171,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="226,5,388,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,32,210,27,210,33,171,37"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="219,56,395,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,51,203,55,203,60,171,56"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="BNO08x::get_reset_reason" name="BNO08x::get_reset_reason">
+<area shape="rect" id="Node000001" title="Returns reason for previous reset via product ID report." alt="" coords="5,31,184,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="239,5,401,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,31,223,27,223,32,184,37"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="232,56,408,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,51,216,55,216,60,184,57"/>
+</map>

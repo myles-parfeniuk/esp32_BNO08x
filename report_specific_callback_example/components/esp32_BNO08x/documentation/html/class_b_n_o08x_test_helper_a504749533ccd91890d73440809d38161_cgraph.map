@@ -1,0 +1,9 @@
+<map id="BNO08xTestHelper::call_init_gpio" name="BNO08xTestHelper::call_init_gpio">
+<area shape="rect" id="Node000001" title="Used to call private BNO08x::init_gpio() member for tests." alt="" coords="5,23,166,65"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#ae0dab25557befcf62bf384fdc241ef10" title="Initializes required gpio." alt="" coords="214,31,340,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,41,198,41,198,47,166,47"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a8f34d5475474f00ae6a92f73c1fe14e4" title="Initializes required gpio inputs." alt="" coords="392,5,560,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="340,33,376,29,377,34,341,39"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#ad0b9e8f8d051798bb1da9b19598dbd64" title="Initializes required gpio outputs." alt="" coords="388,56,564,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="341,49,373,54,372,59,340,55"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="BNO08xSH2HAL::spi_wait_for_int" name="BNO08xSH2HAL::spi_wait_for_int">
+<area shape="rect" id="Node000001" title="SPI wait for HINT sh2 HAL lib callback." alt="" coords="5,35,181,77"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_s_h2_h_a_l.html#a0c4cc938180a997fb94c0c34c0dce07e" title="Hardware reset callback for sh2 HAL lib, toggle RST gpio." alt="" coords="229,5,409,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,42,213,38,214,43,182,47"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a69cf0da11a71f5ea40f9fddd598d06fc" title="Waits for HINT pin assertion or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="244,72,394,99"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,65,228,71,228,76,181,70"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="457,13,606,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="409,24,442,24,442,29,409,29"/>
+</map>

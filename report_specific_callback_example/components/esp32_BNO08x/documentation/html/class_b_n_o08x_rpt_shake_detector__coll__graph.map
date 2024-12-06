@@ -1,0 +1,9 @@
+<map id="BNO08xRptShakeDetector" name="BNO08xRptShakeDetector">
+<area shape="rect" id="Node000001" title="Class to represent shake detector reports. (See Ref. Manual 6.5.32)" alt="" coords="67,203,243,229"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="32,112,123,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,149,146,200,142,204,96,152"/>
+<area shape="rect" id="Node000003" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,150,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,64,80,112,75,112,75,64"/>
+<area shape="rect" id="Node000004" href="$structbno08x__shake__detector__t.html" title="Struct to represent shake detector data (flag meaning: 0 = no shake 1 = shake detected)" alt="" coords="147,112,317,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,152,168,204,164,200,209,149"/>
+</map>

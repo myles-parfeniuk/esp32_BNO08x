@@ -1,0 +1,7 @@
+<map id="BNO08xRpt::flush" name="BNO08xRpt::flush">
+<area shape="rect" id="Node000001" title="Flush all buffered reports for this sensor/report module." alt="" coords="5,31,131,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="186,5,368,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,34,170,29,170,34,132,39"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="179,56,375,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,49,164,53,163,58,131,54"/>
+</map>

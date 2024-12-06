@@ -1,0 +1,41 @@
+BasedOnStyle: LLVM
+Standard: Cpp11
+
+UseTab: Never
+IndentWidth: 4
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 8
+AccessModifierOffset: -4
+
+AlwaysBreakTemplateDeclarations: true
+BreakConstructorInitializersBeforeComma: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+AlignAfterOpenBracket: DontAlign
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+SortIncludes: false
+SpaceAfterCStyleCast: true
+
+CommentPragmas: '^[/!]<'
+
+ColumnLimit: 130  
+WrapComments: true  
+AllowShortCommentsOnASingleLine: true  
+AlignConsecutiveComments: true 
+
+BreakBeforeBraces: Allman
+IndentAccessModifiers: true
+
+IndentPPDirectives: AfterHash
+
+IndentCaseLabels: true
+
+NamespaceIndentation: All

@@ -1,0 +1,26 @@
+\doxysection{BNO08x\+Rpt\+Raw\+MEMSAccelerometer.\+hpp}
+\hypertarget{_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_8hpp_source}{}\label{_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_8hpp_source}\index{BNO08xRptRawMEMSAccelerometer.hpp@{BNO08xRptRawMEMSAccelerometer.hpp}}
+\mbox{\hyperlink{_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer}{BNO08xRptRawMEMSAccelerometer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_a1a7c70a4c2d2004fe827dfa834d789e7}{BNO08xRptRawMEMSAccelerometer}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__accel__t}{bno08x\_raw\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_ae72428b3455327ecec5ee1c6ad065d56}{get}}();}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_a269b8a306d47b0a873421674e8996187}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__accel__t}{bno08x\_raw\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_ad5dbc83482df0cec3ca970717e5671dc}{data}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer_af82e98eae44b512870fe5cb65e7ea4cf}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptRawMEMSAccelerometer"{}};}
+\DoxyCodeLine{00029\ \};}
+
+\end{DoxyCode}
