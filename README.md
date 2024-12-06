@@ -32,9 +32,11 @@
 
 esp32_BNO08x is a C++ component for esp-idf v5.x, serving as a driver for both BNO080 and BNO085 IMUs.  
 
-Originally based on the SparkFun BNO080 Arduino Library, it has since diverged significantly in implementation while retaining all original features and more, including callback functions enabled by its multi-tasked approach.
+Originally based on the SparkFun BNO080 Arduino Library, it has since diverged significantly in implementation, taking a multi-tasked approach to avoid wasting CPU time polling the HINT pin of the IMU. Currently, only SPI is supported. There are no plans to support I2C due to unpredictable behavior caused by an esp32 I2C driver silicon bug. UART support may be implemented in the future.
 
-Currently, only SPI is supported. There are no plans to support I2C due to unpredictable behavior caused by an esp32 I2C driver silicon bug. UART support may be implemented in the future.
+**NOTE: If you are here because this most recent update broke your code:**  
+You can still use the old version on the `no_sh2_HAL` branch of this repo. It will no longer receive support. It's highly recommended you update your code base to this version as it uses the official [Hillcrest Labs sh2 HAL lib](https://github.com/ceva-dsp/sh2) to handle sh2 SHTP communication with the IMU, instead of my own implementation. It is better tested and more reliable at the cost of slightly more overhead. 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Getting Started
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -42,7 +44,7 @@ Currently, only SPI is supported. There are no plans to support I2C due to unpre
 ### Wiring
 The default wiring is depicted below, it can be changed at driver initialization (see example section).  
 
-If your ESP does not have the GPIO pin numbers depicted below, you **must change the default GPIO settings in menuconfig**. See the Menuconfig section. 
+**If your ESP does not have the GPIO pin numbers depicted below, you must change the default GPIO settings in menuconfig**. See the Menuconfig section. 
 
 ![image](README_images/esp32_BNO08x_wiring.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -82,21 +84,23 @@ To access the menu:
 2. Scroll down to the esp_BNO08x menu and enter it, if you're using vsCode you may have to use the "j" and "k" keys instead of the arrow keys.
     ![image](README_images/esp32_BNO08x_menuconfig_1.png)
 
-3. Modify whatever settings you'd like from the sub menus. The GPIO Configuration menu allows for the default GPIO pins to be modified, the SPI Configuration menu allows for the default host peripheral, SCLK frequency, and queue size to be modified, the Logging menu allows for the enabling and disabling of log/print statements, and the Callbacks menu allows for the default size of the call-back execution task to be modified.
+3. Modify whatever settings you'd like from the sub menus.  
     ![image](README_images/esp32_BNO08x_menuconfig_2.png)
+    - The GPIO Configuration menu allows for the default GPIO pins to be modified.
+    - The SPI Configuration menu allows for the default host peripheral, SCLK frequency, and SPI queue size to be modified.
+    - The Tasks menu allows for the stack size of the three tasks utilized by this library to be modified. 
+    - The Callbacks menu allows for the size of the callback queue and maximum amount of callbacks to be modified. 
+    - The Timeouts menu allows the length of various timeouts/delays to be set.
+    - The Logging menu allows for the enabling and disabling of serial log/print statements for production code.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Examples
 There are two ways data returned from the BNO08x can be accessed with this library:
 
 1. **Polling Method with** `data_available()` **Function**:
-  - Use the `data_available()` function to poll for new data, similar to the SparkFun library.
-  - Behavior: It is a blocking function that returns `true` when new data is received or `false` if a timeout occurs.
   - See the **Polling Example** below.
 
 2. **Callback Registration with** `register_cb()` **Function**:
-  - Register callback functions that automatically execute upon receiving new data.
-  - Behavior: The registered callback will be invoked whenever new data is available.
   - See the **Call-Back Function Example** below. 
   
 #### Polling Example
@@ -104,97 +108,147 @@ There are two ways data returned from the BNO08x can be accessed with this libra
 #include <stdio.h>
 #include "BNO08x.hpp"
 
+static const constexpr char *TAG = "Main";
+
 extern "C" void app_main(void)
 {
-    BNO08x imu; //create IMU object with default wiring scheme
-    float x, y, z = 0;
-
-    //if a custom wiring scheme is desired instead of default:
+    static BNO08x imu;
+    // if a custom wiring scheme is desired instead of default:
 
     /*
-    bno08x_config_t imu_config;     //create config struct
-    imu_config.io_mosi = GPIO_NUM_X; //assign pin
-    imu_config.io_miso = GPIO_NUM_X; //assign pin
+    bno08x_config_t imu_config;        //create config struct
+    imu_config.io_mosi = GPIO_NUM_X;   //assign pin
+    imu_config.io_miso = GPIO_NUM_X;   //assign pin
     //etc...
-    BNO08x imu(imu_config); //pass config to BNO08x constructor
+    BNO08x imu(imu_config);            //pass config to BNO08x constructor
     */
-    
 
-    imu.initialize();  //initialize IMU
-
-    //enable gyro & game rotation vector
-    imu.enable_game_rotation_vector(100000UL); //100,000us == 100ms report interval
-    imu.enable_calibrated_gyro(150000UL); //150,000us == 150ms report interval 
-
-    while(1)
+    // initialize imu
+    if (!imu.initialize())
     {
-        //print absolute heading in degrees and angular velocity in Rad/s
-        if(imu.data_available())
-        {
-            x = imu.get_calibrated_gyro_velocity_X();
-            y = imu.get_calibrated_gyro_velocity_Y();
-            z = imu.get_calibrated_gyro_velocity_Z();
-            ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", x, y, z);
-
-            x = imu.get_roll_deg();
-            y = imu.get_pitch_deg();
-            z = imu.get_yaw_deg();
-            ESP_LOGI("Main", "Euler Angle: x (roll): %.3f y (pitch): %.3f z (yaw): %.3f", x, y, z);
-        }
+        ESP_LOGE(TAG, "Init failure, returning from main.");
+        return;
     }
 
+    // enable game rotation vector and calibrated gyro reports
+    imu.rpt.rv_game.enable(100000UL);  // 100,000us == 100ms report interval
+    imu.rpt.cal_gyro.enable(100000UL); // 100,000us == 100ms report interval
+
+    while (1)
+    {
+        // block until new report is detected
+        if (imu.data_available())
+        {
+            // check for game rotation vector report
+            if (imu.rpt.rv_game.has_new_data())
+            {
+                // get absolute heading in degrees
+                bno08x_euler_angle_t euler = imu.rpt.rv_game.get_euler();
+                // display heading
+                ESP_LOGI(TAG, "Euler Angle: x (roll): %.2f y (pitch): %.2f z (yaw): %.2f", euler.x, euler.y, euler.z);
+            }
+
+            // check for cal gyro report
+            if (imu.rpt.cal_gyro.has_new_data())
+            {
+                // get angular velocity in rad/s
+                bno08x_gyro_t velocity = imu.rpt.cal_gyro.get();
+                // display velocity
+                ESP_LOGW(TAG, "Velocity: x: %.2f y: %.2f z: %.2f", velocity.x, velocity.y, velocity.z);
+            }
+        }
+    }
 }
 ```
+- Initialize the IMU and enable desired reports. 
+- Use the `data_available()` function to poll for new data, similar to the SparkFun library.
+- Behavior: It is a blocking function that returns `true` when new data is received or `false` if a timeout occurs.
+- Check for report flavor received if desired, with `has_new_data()`
 
 #### Call-Back Function Example
 ```cpp
 #include <stdio.h>
 #include "BNO08x.hpp"
 
+static const constexpr char *TAG = "Main";
+
 extern "C" void app_main(void)
 {
-    BNO08x imu; // create IMU object with default wiring scheme
-
+    static BNO08x imu;
     // if a custom wiring scheme is desired instead of default:
 
     /*
-    bno08x_config_t imu_config;     //create config struct
-    imu_config.io_mosi = GPIO_NUM_X; //assign pin
-    imu_config.io_miso = GPIO_NUM_X; //assign pin
+    bno08x_config_t imu_config;        //create config struct
+    imu_config.io_mosi = GPIO_NUM_X;   //assign pin
+    imu_config.io_miso = GPIO_NUM_X;   //assign pin
     //etc...
-    BNO08x imu(imu_config); //pass config to BNO08x constructor
+    BNO08x imu(imu_config);            //pass config to BNO08x constructor
     */
 
-    imu.initialize(); // initialize IMU
+    // initialize imu
+    if (!imu.initialize())
+    {
+        ESP_LOGE(TAG, "Init failure, returning from main.");
+        return;
+    }
 
-    // enable gyro & game rotation vector
-    imu.enable_game_rotation_vector(100000UL); // 100,000us == 100ms report interval
-    imu.enable_calibrated_gyro(150000UL);                 // 150,000us == 150ms report interval
+    // enable game rotation vector and calibrated gyro reports
+    imu.rpt.rv_game.enable(100000UL);  // 100,000us == 100ms report interval
+    imu.rpt.cal_gyro.enable(100000UL); // 100,000us == 100ms report interval
+    
 
-    // register a callback function (in this case a lambda function, but it doesn't have to be)
-    imu.register_cb(
-        [&imu]()
-        {
-            // callback function contents, executed whenever new data is parsed
-            // print absolute heading in degrees and angular velocity in Rad/s
-            float x, y, z = 0;
-            x = imu.get_calibrated_gyro_velocity_X();
-            y = imu.get_calibrated_gyro_velocity_Y();
-            z = imu.get_calibrated_gyro_velocity_Z();
-            ESP_LOGW("Main", "Velocity: x: %.3f y: %.3f z: %.3f", x, y, z);
+    // There are 3 different flavors of callbacks available:
 
-            x = imu.get_roll_deg();
-            y = imu.get_pitch_deg();
-            z = imu.get_yaw_deg();
-            ESP_LOGI("Main", "Euler Angle: x (roll): %.3f y (pitch): %.3f z (yaw): %.3f", x, y, z);
-        });
+    // 1) register a callback to execute when new data is received for any report
+    imu.register_cb([&imu]()
+                    {
+                        // check for game rotation vector report
+                        if (imu.rpt.rv_game.has_new_data())
+                        {
+                            // get absolute heading in degrees
+                            bno08x_euler_angle_t euler = imu.rpt.rv_game.get_euler();
+                            // display heading
+                            ESP_LOGI(TAG, "Euler Angle: x (roll): %.2f y (pitch): %.2f z (yaw): %.2f", euler.x, euler.y, euler.z);
+                        } 
+                    });
+
+    // 2) register a callback that is only executed for a specific report
+    imu.rpt.cal_gyro.register_cb([&imu]()
+                                 {
+                                    // get angular velocity in rad/s
+                                    bno08x_gyro_t velocity = imu.rpt.cal_gyro.get();
+                                    // display velocity
+                                    ESP_LOGI(TAG, "Velocity: x: %.2f y: %.2f z: %.2f", velocity.x, velocity.y, velocity.z); 
+                                });
+
+    // 3) register a callback this passed report ID of report that asserted callback
+    imu.register_cb([](uint8_t rpt_ID)
+                    {
+                        switch (rpt_ID)
+                        {
+                            case SH2_GAME_ROTATION_VECTOR:
+                                ESP_LOGW(TAG, "Game RV report RX");
+                                break;
+
+                            case SH2_CAL_GYRO:
+                                ESP_LOGW(TAG, "Cal Gyro report RX");
+                                break;
+
+                            default:
+
+                                break;
+                        } 
+                    });
 
     while (1)
     {
-        vTaskDelay(300 / portTICK_PERIOD_MS); // delay here is irrelevant, we just don't want to trip cpu watchdog
+        vTaskDelay(10000UL / portTICK_PERIOD_MS); // delay here is irrelevant, we just don't want to trip cpu watchdog
     }
 }
 ```
+- Register callback functions that automatically execute upon receiving new data.
+- Behavior: The registered callback will be invoked whenever new data is available.
+- It is possible to register a callback to one report, or all reports. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Unit Tests
@@ -243,7 +297,8 @@ It can be used to verify some of the basic features of a BNO08x device and this 
 Tests are implemented with the [unity unit testing component](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/unit-tests.html).
 
 To add a test, create a new .cpp file, or modify one of the existing ones in `esp32_BNO08x/test/`. 
-Follow the existing test structure as an example, use the `TEST_CASE(){}` macro.  
+Follow the existing test structure as an example, use the `TEST_CASE(){}` macro, then add a function
+to the `esp32BNO08x/include/BNO08xTestSuite.hpp` file to run your test(s).   
 
 Any tests added will automatically be detected at build time. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -253,17 +308,14 @@ API documentation generated with doxygen can be found in the documentation direc
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Program Flowcharts
-The following charts illustrate the program flow this library implements for sending and receiving data from BNO08x.  
-These are here to aid development for anyone looking to modify, fork, or contribute.  
+The following charts illustrate the program flow this library implements to deal with handling sh2 HAL lib in a multi-tasked manner. These are here to aid development for anyone looking to modify, fork, or contribute.  
+Sh2 HAL lib handles all communication with the IMU through callbacks which can be viewed in `BNO08xSH2HAL.hpp`. Sh2 HAL lib handles the sh2 SHTP protocol imposed ontop of SPI, while the callbacks give it the means to send/receive over SPI, reset the device, etc...
 
 ![image](README_images/esp32_BNO08x_flowchart.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Acknowledgements
-Special thanks to the original creators of the sparkfun BNO080 library. Developing this without a reference would have been much more time consuming.  
-https://github.com/sparkfun/SparkFun_BNO080_Arduino_Library  
-
 Special thanks to Anton Babiy, aka hwBirdy007 for helping with debugging SPI.   
 https://github.com/hwBirdy007  
 

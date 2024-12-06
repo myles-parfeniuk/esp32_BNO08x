@@ -32,10 +32,10 @@ namespace BNO08xPrivateTypes
             bool isr_handler;          ///< True if HINT ISR handler has been initialized.
             bool spi_bus;              ///< True if spi_bus_initialize() has been called successfully.
             bool spi_device;           ///< True if spi_bus_add_device() has been called successfully.
-            bool sh2_HAL;              ///< True if sh2_open() has been called successfully.
             bool data_proc_task;       ///< True if xTaskCreate has been called successfully for data_proc_task.
             bool sh2_HAL_service_task; ///< True if xTaskCreate has been called successfully for sh2_HAL_service_task.
             bool cb_task;              ///< True if xTaskCreate has been called successfully for cb_task.
+            bool sh2_HAL;              ///< True if sh2_open() has been called successfully.
 
             bno08x_init_status_t()
                 : gpio_outputs(false)
@@ -47,6 +47,7 @@ namespace BNO08xPrivateTypes
                 , data_proc_task(false)
                 , sh2_HAL_service_task(false)
                 , cb_task(false)
+                , sh2_HAL(false)
             {
             }
     } bno08x_init_status_t;

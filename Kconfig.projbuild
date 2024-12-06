@@ -64,7 +64,7 @@ menu "esp32_BNO08x"
                 SPI clock speed in Hz, default 2MHz.
 
         config ESP32_BNO08X_SPI_QUEUE_SZ
-            int "SPI Callback queue size."
+            int "SPI queue size."
             range 1 100
             default 5
             help
