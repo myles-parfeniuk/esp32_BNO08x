@@ -1,0 +1,27 @@
+<map id="TEST_CASE" name="TEST_CASE">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,195,102,221"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,193,67,162,86,121,113,78,148,42,155,37,158,42,151,46,117,82,91,124,72,164,61,195"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,193,94,144,119,116,148,92,158,87,160,92,151,97,123,120,98,147,65,196"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,107,338,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="70,192,105,167,149,143,165,136,167,141,151,148,108,172,74,196"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,157,323,200"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="102,198,149,191,150,196,103,203"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,224,335,251"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="103,213,139,218,138,224,102,218"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,275,327,317"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="78,220,151,260,164,266,162,271,148,265,75,224"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,341,327,384"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="64,220,98,272,122,302,151,327,158,331,155,336,148,331,119,305,93,275,60,223"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x.html#a1c703a1fb79ce777dc73a83f02bfdb85" title="Saves dynamic/motion engine calibration data to BNO08x internal flash immediately...." alt="" coords="164,408,324,451"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="61,221,71,255,88,302,115,351,132,374,151,394,155,397,152,401,148,398,128,377,111,354,84,304,65,257,55,222"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,81,579,108"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="338,107,377,103,378,109,339,113"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,132,586,159"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="339,127,371,131,370,136,338,133"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="405,391,567,417"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="324,418,389,411,390,417,325,424"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="398,441,574,468"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="325,435,383,441,382,447,324,440"/>
+</map>

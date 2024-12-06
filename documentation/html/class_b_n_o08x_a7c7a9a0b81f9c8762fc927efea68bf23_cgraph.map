@@ -1,0 +1,9 @@
+<map id="BNO08x::sh2_HAL_service_task" name="BNO08x::sh2_HAL_service_task">
+<area shape="rect" id="Node000001" title="Task responsible for calling shtp_service() when HINT is asserted to dispatch any sh2 HAL lib callbac..." alt="" coords="5,56,216,83"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="273,5,436,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,53,271,33,272,38,179,58"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#ac732c968f8d639c81f5d423aad004e95" title="Re&#45;enables all reports enabled by user (called when BNO08x reset is detected by sh2 HAL lib)." alt="" coords="264,56,445,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,67,248,67,248,72,216,72"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="266,107,443,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,81,272,100,271,106,178,86"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BNO08x::handle_cb" name="BNO08x::handle_cb">
+<area shape="rect" id="Node000001" title="Determines the flavor of a passed callback and executes it appropriately." alt="" coords="5,5,143,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_cb_generic.html#a19f9e8a22d039acf29c98801368ff0bb" title=" " alt="" coords="191,5,366,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,16,175,16,175,21,143,21"/>
+</map>

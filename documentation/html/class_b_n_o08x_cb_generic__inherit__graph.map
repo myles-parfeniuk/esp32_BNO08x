@@ -1,0 +1,7 @@
+<map id="BNO08xCbGeneric" name="BNO08xCbGeneric">
+<area shape="rect" id="Node000001" title="Parent class to represent callback functions as generic type such that all flavors can be invoked by ..." alt="" coords="106,5,237,32"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_cb_param_rpt_i_d.html" title="Class to hold callback functions which are passed report ID as input parameter." alt="" coords="5,80,162,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,44,100,82,97,78,143,40"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_cb_param_void.html" title=" " alt="" coords="186,80,336,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,40,247,78,244,82,197,44"/>
+</map>

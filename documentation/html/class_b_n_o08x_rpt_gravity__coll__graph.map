@@ -1,0 +1,9 @@
+<map id="BNO08xRptGravity" name="BNO08xRptGravity">
+<area shape="rect" id="Node000001" title="Class to represent gravity reports. (See Ref. Manual 6.5.11)" alt="" coords="106,203,236,229"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="32,112,123,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,147,159,200,156,204,100,151"/>
+<area shape="rect" id="Node000003" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,150,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,64,80,112,75,112,75,64"/>
+<area shape="rect" id="Node000004" href="$structbno08x__accel__t.html" title="Struct to represent acceleration data from acceleration, linear acceleration, and gravity reports." alt="" coords="147,112,259,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,154,178,203,173,201,191,152"/>
+</map>

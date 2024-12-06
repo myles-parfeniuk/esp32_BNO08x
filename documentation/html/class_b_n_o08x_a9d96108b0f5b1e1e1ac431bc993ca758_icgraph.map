@@ -1,0 +1,9 @@
+<map id="BNO08x::deinit_hint_isr" name="BNO08x::deinit_hint_isr">
+<area shape="rect" id="Node000001" title="Deinitializes host interrupt ISR, called from deconstructor." alt="" coords="358,43,516,69"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#ac15a216ea5561b190f25f83caa749261" title="Used to call private BNO08x::deinit_hint_isr() member for tests." alt="" coords="150,5,310,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="342,45,310,41,311,35,343,40"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a687eee44d68e1bcabce04780d7eb5fb9" title="BNO08x imu deconstructor." alt="" coords="162,72,298,99"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,72,298,78,297,73,342,67"/>
+<area shape="rect" id="Node000003" href="$_init_denit_tests_8cpp.html#af8076e4d67ed1a2c42b2194a68b9ef58" title=" " alt="" coords="5,13,102,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
+</map>

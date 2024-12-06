@@ -1,0 +1,252 @@
+\doxysection{BNO08x\+Rpt\+Activity\+Classifier Class Reference}
+\hypertarget{class_b_n_o08x_rpt_activity_classifier}{}\label{class_b_n_o08x_rpt_activity_classifier}\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+
+
+Class to represent activity classifier reports. (See Ref. Manual 6.\+5.\+36)  
+
+
+
+
+{\ttfamily \#include $<$BNO08x\+Rpt\+Activity\+Classifier.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+Activity\+Classifier\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{class_b_n_o08x_rpt_activity_classifier__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+Activity\+Classifier\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{class_b_n_o08x_rpt_activity_classifier__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}{BNO08x\+Rpt\+Activity\+Classifier}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_adefe3069a697b16d93cd281bda331db4}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08x\+Activity\+Enable}} activities\+\_\+to\+\_\+enable, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
+\begin{DoxyCompactList}\small\item\em Enables activity classifier reports such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}{get}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most recent activity classifier data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_abcc5d57e21ea6ed79e792deafcb62187}{BNO08x\+Activity}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}{get\+\_\+most\+\_\+likely\+\_\+activity}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most the most likely activity from most recent activity classifier data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
+\begin{DoxyCompactList}\small\item\em Enables a sensor report such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending it. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc}{disable}} (sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
+\begin{DoxyCompactList}\small\item\em Disables a sensor report by setting its period to 0us such that the \doxylink{class_b_n_o08x}{BNO08x} stops sending it. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a5b542b28c81fcd05cf2e3f3d2d437d46}{register\+\_\+cb}} (std\+::function$<$ void(void)$>$ cb\+\_\+fxn)
+\begin{DoxyCompactList}\small\item\em Registers a callback to execute when new data from a specific report is received. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a74f6037286b51382535bab61680297ed}{has\+\_\+new\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em Checks if a new report has been received since the last time this function was called. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_ab3bb962696b135841ef7313bc631fc72}{flush}} ()
+\begin{DoxyCompactList}\small\item\em Flush all buffered reports for this sensor/report module. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a7ce8e48cadf59f49068af7f1cb680b38}{get\+\_\+sample\+\_\+counts}} (\mbox{\hyperlink{structbno08x__sample__counts__t}{bno08x\+\_\+sample\+\_\+counts\+\_\+t}} \&sample\+\_\+counts)
+\begin{DoxyCompactList}\small\item\em Gets sample counts for this sensor (see SH-\/2 ref manual 6.\+4.\+3.\+1) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_a1418be33824d3102dbc8f92558a402a6}{clear\+\_\+sample\+\_\+counts}} ()
+\begin{DoxyCompactList}\small\item\em Clears \doxylink{class_b_n_o08x}{BNO08x} internal sample counts for this sensor. (see SH-\/2 ref manual 6.\+4.\+3.\+1) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_ad5b054279b01204f61b4c0408acf51cf}{get\+\_\+meta\+\_\+data}} (\mbox{\hyperlink{structbno08x__meta__data__t}{bno08x\+\_\+meta\+\_\+data\+\_\+t}} \&meta\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333}{update\+\_\+data}} (sh2\+\_\+\+Sensor\+Value\+\_\+t \texorpdfstring{$\ast$}{*}sensor\+\_\+val) override
+\begin{DoxyCompactList}\small\item\em Updates activity classifier data from decoded sensor event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a55ed407cd5174879f791ddfde1bc119c}{data}}
+\begin{DoxyCompactList}\small\item\em Most recent report data, doesn\textquotesingle{}t account for step rollover. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const constexpr char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_af39bac9547a4f9a822e4505b08941b7d}{TAG}} = "{}BNO08x\+Rpt\+Activity\+Classifier"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_a15e8eebe3fe90ac19837e3860c76374c}{BNO08x\+Rpt}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\begin{DoxyCompactList}\small\item\em \doxylink{class_b_n_o08x_rpt}{BNO08x\+Rpt} report constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765}{unlock\+\_\+sh2\+\_\+\+HAL}} ()
+\begin{DoxyCompactList}\small\item\em Unlocks sh2 HAL lib to allow other tasks to call its APIs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_a7a5619a74c1237c5abde2e4bd6619d12}{lock\+\_\+sh2\+\_\+\+HAL}} ()
+\begin{DoxyCompactList}\small\item\em Locks sh2 HAL lib to only allow the calling task to call its APIs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_a26bacc572187119339ec248bb4e7d6f3}{unlock\+\_\+user\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em Unlocks user data to allow other tasks to read/modify it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_a48e7b1a2c2ebc6b1f2f292735c0832a0}{lock\+\_\+user\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em Locks locks user data to only allow the calling task to read/modify it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_a47a623eb0a1db51af76a03a103c32329}{signal\+\_\+data\+\_\+available}} ()
+\begin{DoxyCompactList}\small\item\em Signals to \doxylink{class_b_n_o08x_a367d525d1c0ba119b3dca3067bb5bccc}{BNO08x\+::data\+\_\+available()} that a new report has arrived. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}
+\begin{DoxyCompactList}\small\item\em Report ID, ex. SH2\+\_\+\+ACCELERATION. \end{DoxyCompactList}\item 
+Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}
+\begin{DoxyCompactList}\small\item\em Respective enable and data bit for report in evt\+\_\+grp\+\_\+rpt\+\_\+en and evt\+\_\+grp\+\_\+rpt\+\_\+data. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a1d4d6f4cc6f1eae503863eedf7fb9f52}{period\+\_\+us}}
+\begin{DoxyCompactList}\small\item\em The period/interval of the report in microseconds. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Attributes inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
+\begin{DoxyCompactItemize}
+\item 
+static const constexpr float \mbox{\hyperlink{class_b_n_o08x_rpt_a201aeb71fefb0d9d485914176a82dd80}{RAD\+\_\+2\+\_\+\+DEG}}
+\begin{DoxyCompactList}\small\item\em Constant for radian to degree conversions, sed in quaternion to euler function conversions. \end{DoxyCompactList}\item 
+static const constexpr char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_rpt_a2c57f370fb08b793bb10ec22d5acca45}{TAG}} = "{}BNO08x\+Rpt"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class to represent activity classifier reports. (See Ref. Manual 6.\+5.\+36) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}\label{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptActivityClassifier()}{BNO08xRptActivityClassifier()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+Activity\+Classifier\+::\+BNO08x\+Rpt\+Activity\+Classifier (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_adefe3069a697b16d93cd281bda331db4}\label{class_b_n_o08x_rpt_activity_classifier_adefe3069a697b16d93cd281bda331db4} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!enable@{enable}}
+\index{enable@{enable}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Activity\+Classifier\+::enable (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08x\+Activity\+Enable}}}]{activities\+\_\+to\+\_\+enable,  }\item[{sh2\+\_\+\+Sensor\+Config\+\_\+t}]{sensor\+\_\+cfg = {\ttfamily \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}}} }\end{DoxyParamCaption})}
+
+
+
+Enables activity classifier reports such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+between\+\_\+reports} & The period/interval of the report in microseconds. \\
+\hline
+{\em activities\+\_\+to\+\_\+enable} & Which activities to enable. \\
+\hline
+{\em sensor\+\_\+cfg} & Sensor special configuration (optional, see \doxylink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg} for defaults).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if report was successfully enabled. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_adefe3069a697b16d93cd281bda331db4_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}\label{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!get@{get}}
+\index{get@{get}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} BNO08x\+Rpt\+Activity\+Classifier\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent activity classifier data. 
+
+\begin{DoxyReturn}{Returns}
+Struct containing requested data. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}\label{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!get\_most\_likely\_activity@{get\_most\_likely\_activity}}
+\index{get\_most\_likely\_activity@{get\_most\_likely\_activity}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_most\_likely\_activity()}{get\_most\_likely\_activity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_abcc5d57e21ea6ed79e792deafcb62187}{BNO08x\+Activity}} BNO08x\+Rpt\+Activity\+Classifier\+::get\+\_\+most\+\_\+likely\+\_\+activity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most the most likely activity from most recent activity classifier data. 
+
+\begin{DoxyReturn}{Returns}
+BNO08x\+Activity object with detected state. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333}\label{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!update\_data@{update\_data}}
+\index{update\_data@{update\_data}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{update\_data()}{update\_data()}}
+{\footnotesize\ttfamily void BNO08x\+Rpt\+Activity\+Classifier\+::update\+\_\+data (\begin{DoxyParamCaption}\item[{sh2\+\_\+\+Sensor\+Value\+\_\+t \texorpdfstring{$\ast$}{*}}]{sensor\+\_\+val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates activity classifier data from decoded sensor event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sensor\+\_\+val} & The sh2\+\_\+\+Sensor\+Value\+\_\+t struct used in sh2\+\_\+decode\+Sensor\+Event() call.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_b_n_o08x_rpt_a970fb7e7d3745c62fec626f0ccf0759f}{BNO08x\+Rpt}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_a55ed407cd5174879f791ddfde1bc119c}\label{class_b_n_o08x_rpt_activity_classifier_a55ed407cd5174879f791ddfde1bc119c} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!data@{data}}
+\index{data@{data}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} BNO08x\+Rpt\+Activity\+Classifier\+::data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Most recent report data, doesn\textquotesingle{}t account for step rollover. 
+
+\Hypertarget{class_b_n_o08x_rpt_activity_classifier_af39bac9547a4f9a822e4505b08941b7d}\label{class_b_n_o08x_rpt_activity_classifier_af39bac9547a4f9a822e4505b08941b7d} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!TAG@{TAG}}
+\index{TAG@{TAG}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily const constexpr char\texorpdfstring{$\ast$}{*} BNO08x\+Rpt\+Activity\+Classifier\+::\+TAG = "{}BNO08x\+Rpt\+Activity\+Classifier"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8hpp}{BNO08x\+Rpt\+Activity\+Classifier.\+hpp}}\item 
+\mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8cpp}{BNO08x\+Rpt\+Activity\+Classifier.\+cpp}}\end{DoxyCompactItemize}

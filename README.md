@@ -39,7 +39,6 @@ You can still use the old version on the `no_sh2_HAL` branch of this repo. It wi
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Getting Started
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Wiring
 The default wiring is depicted below, it can be changed at driver initialization (see example section).  
@@ -308,8 +307,8 @@ API documentation generated with doxygen can be found in the documentation direc
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Program Flowcharts
-The following charts illustrate the program flow this library implements to deal with handling sh2 HAL lib in a multi-tasked manner. These are here to aid development for anyone looking to modify, fork, or contribute.  
-Sh2 HAL lib handles all communication with the IMU through callbacks which can be viewed in `BNO08xSH2HAL.hpp`. Sh2 HAL lib handles the sh2 SHTP protocol imposed ontop of SPI, while the callbacks give it the means to send/receive over SPI, reset the device, etc...
+The following charts illustrate the program flow this library implements to deal with handling reports from the IMU in a multi-tasked manner. These are here to aid development for anyone looking to modify, fork, or contribute.      
+Sh2 HAL lib handles all communication with the IMU through callbacks which can be viewed in `BNO08xSH2HAL.hpp`. 
 
 ![image](README_images/esp32_BNO08x_flowchart.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

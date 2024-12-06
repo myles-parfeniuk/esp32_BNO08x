@@ -1,0 +1,7 @@
+<map id="BNO08xRptLinearAcceleration::get" name="BNO08xRptLinearAcceleration::get">
+<area shape="rect" id="Node000001" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="5,31,229,57"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="284,5,470,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,30,268,27,268,32,230,36"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="277,56,477,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="230,52,262,55,261,61,229,58"/>
+</map>

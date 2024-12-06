@@ -1,0 +1,581 @@
+\doxysection{BNO08x\+Test\+Helper Class Reference}
+\hypertarget{class_b_n_o08x_test_helper}{}\label{class_b_n_o08x_test_helper}\index{BNO08xTestHelper@{BNO08xTestHelper}}
+
+
+\doxylink{class_b_n_o08x}{BNO08x} unit test helper class.  
+
+
+
+
+{\ttfamily \#include $<$BNO08x\+Test\+Helper.\+hpp$>$}
+
+
+
+Collaboration diagram for BNO08x\+Test\+Helper\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_a066f8389fd1c682ec9565ebc3060d885}{print\+\_\+test\+\_\+start\+\_\+banner}} (const char \texorpdfstring{$\ast$}{*}TEST\+\_\+\+TAG)
+\begin{DoxyCompactList}\small\item\em Prints test begin banner. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919}{print\+\_\+test\+\_\+end\+\_\+banner}} (const char \texorpdfstring{$\ast$}{*}TEST\+\_\+\+TAG)
+\begin{DoxyCompactList}\small\item\em Prints end begin banner. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c}{print\+\_\+test\+\_\+msg}} (const char \texorpdfstring{$\ast$}{*}TEST\+\_\+\+TAG, const char \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Prints a message during a test. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_a9e2f9bf13f28f1a6ba87e86bc5947cf1}{set\+\_\+test\+\_\+imu\+\_\+cfg}} (\mbox{\hyperlink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t}} cfg)
+\begin{DoxyCompactList}\small\item\em Set test imu configuration used with \doxylink{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}{create\+\_\+test\+\_\+imu()} \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}{create\+\_\+test\+\_\+imu}} ()
+\begin{DoxyCompactList}\small\item\em Calls \doxylink{class_b_n_o08x}{BNO08x} constructor and creates new test IMU on heap. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}{destroy\+\_\+test\+\_\+imu}} ()
+\begin{DoxyCompactList}\small\item\em Deletes test IMU calling deconstructor and releases heap allocated memory. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b}{get\+\_\+test\+\_\+imu}} ()
+\begin{DoxyCompactList}\small\item\em Deletes test IMU calling deconstructor and releases heap allocated memory. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d}{call\+\_\+init\+\_\+config\+\_\+args}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a589eb9780f5bf613bbd447ef5b9ade3d}{BNO08x\+::init\+\_\+config\+\_\+args()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161}{call\+\_\+init\+\_\+gpio}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_ae0dab25557befcf62bf384fdc241ef10}{BNO08x\+::init\+\_\+gpio()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15}{call\+\_\+init\+\_\+hint\+\_\+isr}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_aa27026da2c52b4aca49b78863f10ec61}{BNO08x\+::init\+\_\+hint\+\_\+isr()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5}{call\+\_\+init\+\_\+spi}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a58f43c8bb1e7fe8560ce442d46240e81}{BNO08x\+::init\+\_\+spi()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4}{call\+\_\+init\+\_\+tasks}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a90d959312e6f7f8151b8a38218492ead}{BNO08x\+::init\+\_\+tasks()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449}{call\+\_\+init\+\_\+sh2\+\_\+\+HAL}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a90d959312e6f7f8151b8a38218492ead}{BNO08x\+::init\+\_\+tasks()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b}{call\+\_\+deinit\+\_\+gpio}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a4f007dd431f10e741414d197bb4926c3}{BNO08x\+::deinit\+\_\+gpio()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261}{call\+\_\+deinit\+\_\+hint\+\_\+isr}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a9d96108b0f5b1e1e1ac431bc993ca758}{BNO08x\+::deinit\+\_\+hint\+\_\+isr()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868}{call\+\_\+deinit\+\_\+spi}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a233920ce97f685fbdabecccacf471d85}{BNO08x\+::deinit\+\_\+spi()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec}{call\+\_\+deinit\+\_\+tasks}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b}{BNO08x\+::deinit\+\_\+tasks()} member for tests. \end{DoxyCompactList}\item 
+static esp\+\_\+err\+\_\+t \mbox{\hyperlink{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d}{call\+\_\+deinit\+\_\+sh2\+\_\+\+HAL}} ()
+\begin{DoxyCompactList}\small\item\em Used to call private \doxylink{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b}{BNO08x\+::deinit\+\_\+tasks()} member for tests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\+\_\+imu}} = nullptr
+\item 
+static \mbox{\hyperlink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_test_helper_a008b268f705b9d2925230cb8193c9f28}{imu\+\_\+cfg}}
+\item 
+static const constexpr char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_n_o08x_test_helper_aa09d388a5da3a925ac25125b9c5c3a90}{TAG}} = "{}BNO08x\+Test\+Helper"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_b_n_o08x}{BNO08x} unit test helper class. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b}\label{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_deinit\_gpio@{call\_deinit\_gpio}}
+\index{call\_deinit\_gpio@{call\_deinit\_gpio}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_deinit\_gpio()}{call\_deinit\_gpio()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+deinit\+\_\+gpio (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a4f007dd431f10e741414d197bb4926c3}{BNO08x\+::deinit\+\_\+gpio()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if deinit succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261}\label{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_deinit\_hint\_isr@{call\_deinit\_hint\_isr}}
+\index{call\_deinit\_hint\_isr@{call\_deinit\_hint\_isr}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_deinit\_hint\_isr()}{call\_deinit\_hint\_isr()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+deinit\+\_\+hint\+\_\+isr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a9d96108b0f5b1e1e1ac431bc993ca758}{BNO08x\+::deinit\+\_\+hint\+\_\+isr()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if deinit succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d}\label{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_deinit\_sh2\_HAL@{call\_deinit\_sh2\_HAL}}
+\index{call\_deinit\_sh2\_HAL@{call\_deinit\_sh2\_HAL}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_deinit\_sh2\_HAL()}{call\_deinit\_sh2\_HAL()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+deinit\+\_\+sh2\+\_\+\+HAL (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b}{BNO08x\+::deinit\+\_\+tasks()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if deinit succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868}\label{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_deinit\_spi@{call\_deinit\_spi}}
+\index{call\_deinit\_spi@{call\_deinit\_spi}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_deinit\_spi()}{call\_deinit\_spi()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+deinit\+\_\+spi (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a233920ce97f685fbdabecccacf471d85}{BNO08x\+::deinit\+\_\+spi()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if deinit succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec}\label{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_deinit\_tasks@{call\_deinit\_tasks}}
+\index{call\_deinit\_tasks@{call\_deinit\_tasks}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_deinit\_tasks()}{call\_deinit\_tasks()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+deinit\+\_\+tasks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b}{BNO08x\+::deinit\+\_\+tasks()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if deinit succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d}\label{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_config\_args@{call\_init\_config\_args}}
+\index{call\_init\_config\_args@{call\_init\_config\_args}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_config\_args()}{call\_init\_config\_args()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+config\+\_\+args (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a589eb9780f5bf613bbd447ef5b9ade3d}{BNO08x\+::init\+\_\+config\+\_\+args()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161}\label{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_gpio@{call\_init\_gpio}}
+\index{call\_init\_gpio@{call\_init\_gpio}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_gpio()}{call\_init\_gpio()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+gpio (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_ae0dab25557befcf62bf384fdc241ef10}{BNO08x\+::init\+\_\+gpio()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15}\label{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_hint\_isr@{call\_init\_hint\_isr}}
+\index{call\_init\_hint\_isr@{call\_init\_hint\_isr}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_hint\_isr()}{call\_init\_hint\_isr()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+hint\+\_\+isr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_aa27026da2c52b4aca49b78863f10ec61}{BNO08x\+::init\+\_\+hint\+\_\+isr()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449}\label{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_sh2\_HAL@{call\_init\_sh2\_HAL}}
+\index{call\_init\_sh2\_HAL@{call\_init\_sh2\_HAL}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_sh2\_HAL()}{call\_init\_sh2\_HAL()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+sh2\+\_\+\+HAL (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a90d959312e6f7f8151b8a38218492ead}{BNO08x\+::init\+\_\+tasks()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5}\label{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_spi@{call\_init\_spi}}
+\index{call\_init\_spi@{call\_init\_spi}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_spi()}{call\_init\_spi()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+spi (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a58f43c8bb1e7fe8560ce442d46240e81}{BNO08x\+::init\+\_\+spi()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4}\label{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!call\_init\_tasks@{call\_init\_tasks}}
+\index{call\_init\_tasks@{call\_init\_tasks}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{call\_init\_tasks()}{call\_init\_tasks()}}
+{\footnotesize\ttfamily static esp\+\_\+err\+\_\+t BNO08x\+Test\+Helper\+::call\+\_\+init\+\_\+tasks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Used to call private \doxylink{class_b_n_o08x_a90d959312e6f7f8151b8a38218492ead}{BNO08x\+::init\+\_\+tasks()} member for tests. 
+
+\begin{DoxyReturn}{Returns}
+ESP\+\_\+\+OK if init succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}\label{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!create\_test\_imu@{create\_test\_imu}}
+\index{create\_test\_imu@{create\_test\_imu}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{create\_test\_imu()}{create\_test\_imu()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::create\+\_\+test\+\_\+imu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Calls \doxylink{class_b_n_o08x}{BNO08x} constructor and creates new test IMU on heap. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}\label{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!destroy\_test\_imu@{destroy\_test\_imu}}
+\index{destroy\_test\_imu@{destroy\_test\_imu}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{destroy\_test\_imu()}{destroy\_test\_imu()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::destroy\+\_\+test\+\_\+imu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Deletes test IMU calling deconstructor and releases heap allocated memory. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b}\label{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!get\_test\_imu@{get\_test\_imu}}
+\index{get\_test\_imu@{get\_test\_imu}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{get\_test\_imu()}{get\_test\_imu()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} \texorpdfstring{$\ast$}{*} BNO08x\+Test\+Helper\+::get\+\_\+test\+\_\+imu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Deletes test IMU calling deconstructor and releases heap allocated memory. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to \doxylink{class_b_n_o08x}{BNO08x} IMU object to test. 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919}\label{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!print\_test\_end\_banner@{print\_test\_end\_banner}}
+\index{print\_test\_end\_banner@{print\_test\_end\_banner}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{print\_test\_end\_banner()}{print\_test\_end\_banner()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::print\+\_\+test\+\_\+end\+\_\+banner (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{TEST\+\_\+\+TAG }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Prints end begin banner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em TEST\+\_\+\+TAG} & String containing test name.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c}\label{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!print\_test\_msg@{print\_test\_msg}}
+\index{print\_test\_msg@{print\_test\_msg}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{print\_test\_msg()}{print\_test\_msg()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::print\+\_\+test\+\_\+msg (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{TEST\+\_\+\+TAG,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Prints a message during a test. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em TEST\+\_\+\+TAG} & String containing test name. \\
+\hline
+{\em msg} & String containing message to print.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_test_helper_a066f8389fd1c682ec9565ebc3060d885}\label{class_b_n_o08x_test_helper_a066f8389fd1c682ec9565ebc3060d885} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!print\_test\_start\_banner@{print\_test\_start\_banner}}
+\index{print\_test\_start\_banner@{print\_test\_start\_banner}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{print\_test\_start\_banner()}{print\_test\_start\_banner()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::print\+\_\+test\+\_\+start\+\_\+banner (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{TEST\+\_\+\+TAG }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Prints test begin banner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em TEST\+\_\+\+TAG} & String containing test name.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\Hypertarget{class_b_n_o08x_test_helper_a9e2f9bf13f28f1a6ba87e86bc5947cf1}\label{class_b_n_o08x_test_helper_a9e2f9bf13f28f1a6ba87e86bc5947cf1} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!set\_test\_imu\_cfg@{set\_test\_imu\_cfg}}
+\index{set\_test\_imu\_cfg@{set\_test\_imu\_cfg}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{set\_test\_imu\_cfg()}{set\_test\_imu\_cfg()}}
+{\footnotesize\ttfamily static void BNO08x\+Test\+Helper\+::set\+\_\+test\+\_\+imu\+\_\+cfg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t}}}]{cfg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Set test imu configuration used with \doxylink{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}{create\+\_\+test\+\_\+imu()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cfg} & String containing test name.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_b_n_o08x_test_helper_a008b268f705b9d2925230cb8193c9f28}\label{class_b_n_o08x_test_helper_a008b268f705b9d2925230cb8193c9f28} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!imu\_cfg@{imu\_cfg}}
+\index{imu\_cfg@{imu\_cfg}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{imu\_cfg}{imu\_cfg}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__config__t}{bno08x\+\_\+config\+\_\+t}} BNO08x\+Test\+Helper\+::imu\+\_\+cfg\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_b_n_o08x_test_helper_aa09d388a5da3a925ac25125b9c5c3a90}\label{class_b_n_o08x_test_helper_aa09d388a5da3a925ac25125b9c5c3a90} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!TAG@{TAG}}
+\index{TAG@{TAG}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily const constexpr char\texorpdfstring{$\ast$}{*} BNO08x\+Test\+Helper\+::\+TAG = "{}BNO08x\+Test\+Helper"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+\Hypertarget{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}\label{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243} 
+\index{BNO08xTestHelper@{BNO08xTestHelper}!test\_imu@{test\_imu}}
+\index{test\_imu@{test\_imu}!BNO08xTestHelper@{BNO08xTestHelper}}
+\doxysubsubsection{\texorpdfstring{test\_imu}{test\_imu}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}\texorpdfstring{$\ast$}{*} BNO08x\+Test\+Helper\+::test\+\_\+imu = nullptr\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_b_n_o08x_test_helper_8hpp}{BNO08x\+Test\+Helper.\+hpp}}\end{DoxyCompactItemize}
