@@ -35,6 +35,7 @@ esp32_BNO08x is a C++ component for esp-idf v5.x, serving as a driver for both B
 Originally based on the SparkFun BNO080 Arduino Library, it has since diverged significantly in implementation, taking a multi-tasked approach to avoid wasting CPU time polling the HINT pin of the IMU. Currently, only SPI is supported. There are no plans to support I2C due to unpredictable behavior caused by an esp32 I2C driver silicon bug. UART support may be implemented in the future.
 
 **NOTE: If you are here because this most recent update broke your code:**  
+
 You can still use the old version on the `no_sh2_HAL` branch of this repo. It will no longer receive support. It's highly recommended you update your code base to this version as it uses the official [Hillcrest Labs sh2 HAL lib](https://github.com/ceva-dsp/sh2) to handle sh2 SHTP communication with the IMU, instead of my own implementation. It is better tested and more reliable at the cost of slightly more overhead. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,6 +95,7 @@ To access the menu:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Examples
+There are multiple examples available on the `examples` branch of this repo, but here is a quick intro. 
 There are two ways data returned from the BNO08x can be accessed with this library:
 
 1. **Polling Method with** `data_available()` **Function**:
