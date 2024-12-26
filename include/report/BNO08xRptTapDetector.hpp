@@ -20,7 +20,8 @@ class BNO08xRptTapDetector : public BNO08xRpt
         {
         }
 
-        bool enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
+        bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         bno08x_tap_detector_t get();
 
     private:

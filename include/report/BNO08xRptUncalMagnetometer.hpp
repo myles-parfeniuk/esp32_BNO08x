@@ -21,6 +21,8 @@ class BNO08xRptUncalMagnetometer : public BNO08xRpt
         {
         }
 
+        bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         void get(bno08x_magf_t& magf, bno08x_magf_bias_t& bias);
         bno08x_magf_t get_magf();
         bno08x_magf_bias_t get_bias();

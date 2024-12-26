@@ -20,6 +20,8 @@ class BNO08xRptCalMagnetometer : public BNO08xRpt
         {
         }
 
+        bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         bno08x_magf_t get();
 
     private:

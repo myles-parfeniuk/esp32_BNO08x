@@ -6,25 +6,6 @@
 #include "BNO08xRptActivityClassifier.hpp"
 
 /**
- * @brief Enables activity classifier reports such that the BNO08x begins sending them.
- *
- * @param time_between_reports The period/interval of the report in microseconds.
- * @param activities_to_enable Which activities to enable.
- * @param sensor_cfg Sensor special configuration (optional, see
- * BNO08xPrivateTypes::default_sensor_cfg for defaults).
- *
- * @return True if report was successfully enabled.
- */
-bool BNO08xRptActivityClassifier::enable(
-        uint32_t time_between_reports, BNO08xActivityEnable activities_to_enable, sh2_SensorConfig_t sensor_cfg)
-{
-    sensor_cfg.sensorSpecific = static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
-                                                                            // or no reports will be received
-
-    return BNO08xRpt::enable(time_between_reports, sensor_cfg);
-}
-
-/**
  * @brief Updates activity classifier data from decoded sensor event.
  *
  * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
@@ -40,6 +21,23 @@ void BNO08xRptActivityClassifier::update_data(sh2_SensorValue_t* sensor_val)
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
+}
+
+/**
+ * @brief Enables activity classifier reports such that the BNO08x begins sending them.
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ *
+ * @return True if report was successfully enabled.
+ */
+bool BNO08xRptActivityClassifier::enable(
+        uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    sensor_cfg.sensorSpecific = static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
+                                                                            // or no reports will be received
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
 }
 
 /**
@@ -66,4 +64,16 @@ BNO08xActivity BNO08xRptActivityClassifier::get_most_likely_activity()
     BNO08xActivity rqdata = static_cast<BNO08xActivity>(data.mostLikelyState);
     unlock_user_data();
     return rqdata;
+}
+
+/**
+ * @brief Sets the activities to be monitored for with ActivityClassifier reports, all enable after setting.
+ *
+ * @param activities_to_enable The activities to be monitored with sent reports.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRptActivityClassifier::set_activities_to_enable(BNO08xActivityEnable activities_to_enable)
+{
+    this->activities_to_enable = activities_to_enable;
 }

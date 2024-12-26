@@ -67,7 +67,7 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -112,7 +112,7 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -166,7 +166,7 @@ TEST_CASE("Sleep", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -219,7 +219,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -269,7 +269,7 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
@@ -421,7 +421,7 @@ TEST_CASE("Clear Dynamic Calibration", "[FeatureTests]")
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 }
 
 TEST_CASE("BNO08x Driver Cleanup for [FeatureTests] Tests", "[FeatureTests]")

@@ -14,11 +14,10 @@
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
     int sh2_res = SH2_OK;
-
-    EventBits_t report_en_bits = xEventGroupGetBits(sync_ctx->evt_grp_rpt_en);
+    int16_t idx = -1;
 
     sensor_cfg.reportInterval_us = time_between_reports;
 
@@ -32,15 +31,28 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
     }
     else
     {
+        xEventGroupSetBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // set the event group bit
+
         vTaskDelay(30UL / portTICK_PERIOD_MS); // delay a bit to allow command to execute
         period_us = time_between_reports;      // update the period
 
-        // if not already enabled (ie user called this, not re_enable_reports())
-        if (!(report_en_bits & rpt_bit))
+        lock_user_data();
+        for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
         {
-            sync_ctx->en_report_ids.push_back(ID);                 // add report ID to enabled report IDs
-            xEventGroupSetBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // set the event group bit
+            if (sync_ctx->en_report_ids[i] == ID)
+            {
+                idx = i;
+                break;
+            }
         }
+
+        // if not already enabled (ie user called this, not re_enable_reports())
+        if (idx == -1)
+        {
+            ESP_LOGI(TAG, "ADDED: %d", ID);
+            sync_ctx->en_report_ids.push_back(ID); // add report ID to enabled report IDs
+        }
+        unlock_user_data();
 
         return true;
     }
@@ -57,14 +69,26 @@ bool BNO08xRpt::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_
  */
 bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
 {
+    int sh2_res = SH2_OK;
     int16_t idx = -1;
 
-    if (!enable(0UL, sensor_cfg))
+    sensor_cfg.reportInterval_us = 0UL;
+
+    lock_sh2_HAL();
+    sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
+    unlock_sh2_HAL();
+
+    if (sh2_res != SH2_OK)
     {
         return false;
     }
     else
     {
+        // clear the event group bit (this is redundant if called from BNO08x::disable_all_reports())
+        xEventGroupClearBits(sync_ctx->evt_grp_rpt_en, rpt_bit);
+
+        // remove report ID from enabled report IDs
+        lock_user_data();
         for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
         {
             if (sync_ctx->en_report_ids[i] == ID)
@@ -78,9 +102,11 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         period_us = 0UL;                       // update the period
 
         if (idx != -1)
+        {
+            ESP_LOGW(TAG, "ERASED: %d", ID);
             sync_ctx->en_report_ids.erase(sync_ctx->en_report_ids.begin() + idx);
-
-        xEventGroupClearBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // Set the event group bit
+        }
+        unlock_user_data();
     }
 
     return true;

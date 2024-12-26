@@ -185,16 +185,22 @@ void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
 void BNO08x::sh2_HAL_service_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+    int64_t last_hint_time = esp_timer_get_time();
+    int64_t current_hint_time; 
+    #endif
+    // clang-format on
 
     do
     {
 
         if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_RESET_OCCURRED)
         {
-            if (!re_enable_reports())
+            if (re_enable_reports() != ESP_OK)
             {
                 // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
                 ESP_LOGE(TAG, "Failed to re-enable enabled reports after IMU reset.");
                 #endif
                 // clang-format on
@@ -210,6 +216,14 @@ void BNO08x::sh2_HAL_service_task()
 
         evt_grp_bno08x_task_bits = xEventGroupWaitBits(sync_ctx.evt_grp_task,
                 EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED, pdFALSE, pdFALSE, portMAX_DELAY);
+
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+        current_hint_time = esp_timer_get_time();
+        ESP_LOGW(TAG, "HINT Asserted, time since last assertion: %lldus", current_hint_time - last_hint_time);
+        last_hint_time = current_hint_time;
+        #endif
+        // clang-format on
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
@@ -319,6 +333,12 @@ void BNO08x::unlock_user_data()
 void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 {
     uint8_t rpt_ID = sensor_val->sensorId;
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+    ESP_LOGE(TAG, "Report RX'd, ID: %d", sensor_val->sensorId);
+    #endif
+    // clang-format on
 
     // check if report implementation exists within map
     if (rpt_ID == SH2_RESERVED)
@@ -990,7 +1010,7 @@ esp_err_t BNO08x::deinit_tasks()
         if (kill_count != init_count)
         {
             // clang-format off
-            #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
             ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
             #endif
             // clang-format on
@@ -1118,6 +1138,47 @@ bool BNO08x::soft_reset()
     }
 
     return false;
+}
+
+/**
+ * @brief Disables all currently enabled reports.
+ *
+ * @return True if all currently enabled reports were disabled successfully.
+ */
+bool BNO08x::disable_all_reports()
+{
+    int attempts = 0;
+
+    xEventGroupClearBits(sync_ctx.evt_grp_rpt_en, EVT_GRP_RPT_ALL);
+
+    while (sync_ctx.en_report_ids.size() != 0 && (attempts < TOTAL_RPT_COUNT))
+    {
+        uint8_t rpt_ID = sync_ctx.en_report_ids.back();
+        BNO08xRpt* rpt = usr_reports.at(rpt_ID);
+        if (rpt == nullptr)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "NULL pointer detected in usr_reports map for enabled report.");
+            #endif
+            // clang-format on
+            return false;
+        }
+
+        if (!rpt->disable())
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "Failed to disable: %d", rpt->ID);
+            #endif
+            // clang-format on
+            return false;
+        }
+
+        attempts++;
+    }
+
+    return true;
 }
 
 /**
@@ -1490,6 +1551,8 @@ esp_err_t BNO08x::re_enable_reports()
             // clang-format on
             continue;
         }
+
+        ESP_LOGI(TAG, "Re-enabling. %d", rpt->ID);
 
         if (rpt->rpt_bit & report_en_bits)
         {

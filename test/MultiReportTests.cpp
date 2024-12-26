@@ -77,8 +77,7 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
@@ -112,7 +111,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
     TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
     TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
     TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
-
+    
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         data_available = imu->data_available();
@@ -163,10 +162,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
@@ -307,14 +303,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
         }
     }
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.disable());
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.disable());
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);

@@ -15,6 +15,8 @@
 class BNO08xRptRVGeneric : public BNO08xRpt
 {
     public:
+        bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         bno08x_quat_t get_quat();
         bno08x_euler_angle_t get_euler(bool in_degrees = true);
 

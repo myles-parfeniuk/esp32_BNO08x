@@ -24,6 +24,21 @@ void BNO08xRptRawMEMSMagnetometer::update_data(sh2_SensorValue_t* sensor_val)
 }
 
 /**
+ * @brief Enables raw magnetometer such that the BNO08x begins sending them.
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ *
+ * @return True if report was successfully enabled.
+ */
+bool BNO08xRptRawMEMSMagnetometer::enable(
+        uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
+}
+
+/**
  * @brief Grabs most recent raw magnetometer data, units are ADC counts, time_stamp in microseconds.
  *
  * @return Struct containing requested data.

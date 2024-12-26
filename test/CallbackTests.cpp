@@ -153,14 +153,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                 }
                 else if (test_running)
                 {
-                    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.disable());
+                    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
                     test_running = false;
                 }
             });
@@ -352,14 +345,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                 }
                 else if (test_running)
                 {
-                    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.disable());
-                    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.disable());
+                    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
                     test_running = false;
                 }
             });
@@ -453,7 +439,7 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
                 }
                 else if (test_running)
                 {
-                    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.disable());
+                    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
                     test_running = false;
                 }
             });
