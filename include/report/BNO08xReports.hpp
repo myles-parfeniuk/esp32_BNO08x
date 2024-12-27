@@ -21,4 +21,3 @@
 #include "BNO08xRptStabilityClassifier.hpp"
 #include "BNO08xRptShakeDetector.hpp"
 #include "BNO08xRptTapDetector.hpp"
-#include "BNO08xRptCircleDetector.hpp"

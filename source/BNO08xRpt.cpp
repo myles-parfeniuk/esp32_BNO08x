@@ -48,10 +48,8 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
 
         // if not already enabled (ie user called this, not re_enable_reports())
         if (idx == -1)
-        {
-            ESP_LOGI(TAG, "ADDED: %d", ID);
             sync_ctx->en_report_ids.push_back(ID); // add report ID to enabled report IDs
-        }
+
         unlock_user_data();
 
         return true;
@@ -102,10 +100,8 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         period_us = 0UL;                       // update the period
 
         if (idx != -1)
-        {
-            ESP_LOGW(TAG, "ERASED: %d", ID);
             sync_ctx->en_report_ids.erase(sync_ctx->en_report_ids.begin() + idx);
-        }
+
         unlock_user_data();
     }
 

@@ -21,7 +21,7 @@ class BNO08xRptActivityClassifier : public BNO08xRpt
         }
 
         bool enable(
-                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg) override;
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         bno08x_activity_classifier_t get();
         BNO08xActivity get_most_likely_activity();
         void set_activities_to_enable(BNO08xActivityEnable activities_to_enable);

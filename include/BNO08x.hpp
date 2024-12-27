@@ -92,7 +92,6 @@ class BNO08x
                 BNO08xRptStabilityClassifier stability_classifier;
                 BNO08xRptShakeDetector shake_detector;
                 BNO08xRptTapDetector tap_detector;
-                BNO08xRptCircleDetector circle_detector;
 
                 bno08x_reports_t(BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
                     : accelerometer(SH2_ACCELEROMETER, BNO08xPrivateTypes::EVT_GRP_RPT_ACCELEROMETER_BIT, sync_ctx)
@@ -122,7 +121,6 @@ class BNO08x
                               SH2_STABILITY_CLASSIFIER, BNO08xPrivateTypes::EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, sync_ctx)
                     , shake_detector(SH2_SHAKE_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_SHAKE_DETECTOR_BIT, sync_ctx)
                     , tap_detector(SH2_TAP_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_TAP_DETECTOR_BIT, sync_ctx)
-                    , circle_detector(SH2_CIRCLE_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_CIRCLE_DETECTOR_BIT, sync_ctx)
                 {
                 }
         } bno08x_reports_t;
@@ -226,7 +224,6 @@ class BNO08x
                 {SH2_STABILITY_CLASSIFIER, &rpt.stability_classifier},
                 {SH2_SHAKE_DETECTOR, &rpt.shake_detector}, 
                 {SH2_TAP_DETECTOR, &rpt.tap_detector},
-                {SH2_CIRCLE_DETECTOR, &rpt.circle_detector},
                 
                 // not implemented, see include/report for existing implementations to add your own
                 {SH2_PRESSURE, nullptr}, // requires auxilary i2c sensor
@@ -243,6 +240,7 @@ class BNO08x
                 {SH2_SLEEP_DETECTOR, nullptr},
                 {SH2_TILT_DETECTOR, nullptr},
                 {SH2_POCKET_DETECTOR, nullptr},
+                {SH2_CIRCLE_DETECTOR, nullptr},
                 {SH2_IZRO_MOTION_REQUEST, nullptr}
         };
         // clang-format on

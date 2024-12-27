@@ -1178,7 +1178,10 @@ bool BNO08x::disable_all_reports()
         attempts++;
     }
 
-    return true;
+    if (attempts < TOTAL_RPT_COUNT)
+        return true;
+    else
+        return false;
 }
 
 /**
@@ -1551,8 +1554,6 @@ esp_err_t BNO08x::re_enable_reports()
             // clang-format on
             continue;
         }
-
-        ESP_LOGI(TAG, "Re-enabling. %d", rpt->ID);
 
         if (rpt->rpt_bit & report_en_bits)
         {
