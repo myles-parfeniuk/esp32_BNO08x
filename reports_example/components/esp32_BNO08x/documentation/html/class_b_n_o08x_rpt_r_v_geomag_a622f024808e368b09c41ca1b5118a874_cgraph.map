@@ -1,9 +1,0 @@
-<map id="BNO08xRptRVGeomag::tare" name="BNO08xRptRVGeomag::tare">
-<area shape="rect" id="Node000001" title="Tares geomagnetic rotation vector." alt="" coords="5,31,193,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="241,23,394,65"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,41,225,41,225,47,193,47"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="449,5,631,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,33,433,28,434,33,395,38"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="442,56,638,83"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="395,50,427,54,426,59,394,55"/>
-</map>

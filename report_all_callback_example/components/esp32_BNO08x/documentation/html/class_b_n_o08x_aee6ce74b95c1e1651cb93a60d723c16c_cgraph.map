@@ -1,7 +1,0 @@
-<map id="BNO08x::get_frs" name="BNO08x::get_frs">
-<area shape="rect" id="Node000001" title="Retrieves a record from flash record system (if your goal is to retrieve meta data use the BNO08xRpt:..." alt="" coords="5,31,123,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="178,5,340,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,34,162,29,162,34,123,39"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="171,56,347,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="123,49,155,53,155,58,123,54"/>
-</map>

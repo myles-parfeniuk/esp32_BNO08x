@@ -1,5 +1,0 @@
-<map id="BNO08xRptUncalGyro::get" name="BNO08xRptUncalGyro::get">
-<area shape="rect" id="Node000001" title="Grabs most recent uncalibrated gyroscope data, units are in rad/s." alt="" coords="150,5,327,32"/>
-<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
-</map>

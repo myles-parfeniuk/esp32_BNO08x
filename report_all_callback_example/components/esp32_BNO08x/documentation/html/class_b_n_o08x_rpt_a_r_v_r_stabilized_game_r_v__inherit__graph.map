@@ -1,7 +1,0 @@
-<map id="BNO08xRptARVRStabilizedGameRV" name="BNO08xRptARVRStabilizedGameRV">
-<area shape="rect" id="Node000001" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.43)" alt="" coords="5,155,242,181"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_r_v_generic.html" title="Class to represent rotation vector reports." alt="" coords="47,80,200,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,122,126,154,121,154,121,122"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="78,5,169,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="126,48,126,80,121,80,121,48"/>
-</map>

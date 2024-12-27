@@ -1,9 +1,0 @@
-<map id="BNO08xRptRawMEMSAccelerometer::update_data" name="BNO08xRptRawMEMSAccelerometer::update_data">
-<area shape="rect" id="Node000001" title="Updates raw accelerometer data from decoded sensor event." alt="" coords="5,56,245,99"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="300,5,486,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,53,313,33,314,39,226,58"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a47a623eb0a1db51af76a03a103c32329" title="Signals to BNO08x::data_available() that a new report has arrived." alt="" coords="311,56,475,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,75,295,75,295,80,245,80"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="293,123,493,149"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,97,314,116,313,121,225,102"/>
-</map>

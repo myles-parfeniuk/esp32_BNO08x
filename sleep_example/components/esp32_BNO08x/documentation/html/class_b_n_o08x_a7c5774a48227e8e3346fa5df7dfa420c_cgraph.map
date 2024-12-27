@@ -1,7 +1,0 @@
-<map id="BNO08x::sleep" name="BNO08x::sleep">
-<area shape="rect" id="Node000001" title="Places BNO08x device in sleep state by sending SLEEP (3) command on &quot;device&quot; channel." alt="" coords="5,31,115,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="170,5,332,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,34,154,29,155,34,116,39"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="163,56,339,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,49,148,53,147,58,115,54"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="BNO08xRptCalGyro::get" name="BNO08xRptCalGyro::get">
-<area shape="rect" id="Node000001" title="Grabs most recent gyroscope data (velocity), units are in rad/s." alt="" coords="5,31,169,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="224,5,410,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,32,208,28,208,33,169,38"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="217,56,417,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,50,201,54,201,59,169,56"/>
-</map>

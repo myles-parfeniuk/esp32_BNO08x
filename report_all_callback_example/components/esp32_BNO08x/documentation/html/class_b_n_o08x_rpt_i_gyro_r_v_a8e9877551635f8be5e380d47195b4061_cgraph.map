@@ -1,7 +1,0 @@
-<map id="BNO08xRptIGyroRV::get_vel" name="BNO08xRptIGyroRV::get_vel">
-<area shape="rect" id="Node000001" title="Grabs most recent gyro integrated rotation vector angular velocity data, units are in rad/s." alt="" coords="5,31,193,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="248,5,434,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,32,232,27,232,33,193,37"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="241,56,441,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,51,225,55,225,60,193,56"/>
-</map>

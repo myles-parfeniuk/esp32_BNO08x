@@ -1,5 +1,0 @@
-<map id="BNO08xSH2HAL::hardware_reset" name="BNO08xSH2HAL::hardware_reset">
-<area shape="rect" id="Node000001" title="Hardware reset callback for sh2 HAL lib, toggle RST gpio." alt="" coords="5,5,186,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="234,13,383,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,24,219,24,219,29,186,29"/>
-</map>

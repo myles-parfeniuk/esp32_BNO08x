@@ -1,9 +1,0 @@
-<map id="BNO08xRptUncalGyro::update_data" name="BNO08xRptUncalGyro::update_data">
-<area shape="rect" id="Node000001" title="Updates uncalibrated gyro data from decoded sensor event." alt="" coords="5,56,157,99"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="212,5,398,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,54,204,41,233,34,235,39,205,47,158,59"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a47a623eb0a1db51af76a03a103c32329" title="Signals to BNO08x::data_available() that a new report has arrived." alt="" coords="223,56,387,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,75,207,75,207,80,157,80"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="205,123,405,149"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,95,205,108,235,116,233,121,204,113,157,101"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="BNO08xTestHelper::call_init_config_args" name="BNO08xTestHelper::call_init_config_args">
-<area shape="rect" id="Node000001" title="Used to call private BNO08x::init_config_args() member for tests." alt="" coords="5,5,166,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a589eb9780f5bf613bbd447ef5b9ade3d" title="Initializes required esp&#45;idf SPI data structures with values from user passed bno08x_config_t struct." alt="" coords="214,13,382,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,24,198,24,198,29,166,29"/>
-</map>

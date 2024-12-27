@@ -1,7 +1,0 @@
-<map id="BNO08xRptStabilityClassifier::get" name="BNO08xRptStabilityClassifier::get">
-<area shape="rect" id="Node000001" title="Grabs most recent stability classifier data." alt="" coords="5,31,222,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="277,5,463,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,31,261,27,261,32,222,36"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="270,56,470,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,52,255,55,254,61,222,57"/>
-</map>

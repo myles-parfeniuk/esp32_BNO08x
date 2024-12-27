@@ -1,5 +1,0 @@
-<map id="BNO08xRptRawMEMSAccelerometer" name="BNO08xRptRawMEMSAccelerometer">
-<area shape="rect" id="Node000001" title="Class to represent raw accelerometer reports. (See Ref. Manual 6.5.8)" alt="" coords="5,80,245,107"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="80,5,170,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,48,128,80,122,80,122,48"/>
-</map>

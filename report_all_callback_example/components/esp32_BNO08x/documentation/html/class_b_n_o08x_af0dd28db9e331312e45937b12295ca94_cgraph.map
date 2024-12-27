@@ -1,7 +1,0 @@
-<map id="BNO08x::calibration_start" name="BNO08x::calibration_start">
-<area shape="rect" id="Node000001" title="Starts simple calibration, see ref. manual 6.4.10.1." alt="" coords="5,23,143,65"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="198,5,360,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,33,182,28,183,33,144,38"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="191,56,367,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="144,50,175,54,175,59,143,55"/>
-</map>

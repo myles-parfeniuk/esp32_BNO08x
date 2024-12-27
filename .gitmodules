@@ -1,0 +1,12 @@
+[submodule "sleep_example/components/esp32_BNO08x"]
+	path = sleep_example/components/esp32_BNO08x
+	url = https://github.com/myles-parfeniuk/esp32_BNO08x.git
+[submodule "report_all_callback_example/components/esp32_BNO08x"]
+	path = report_all_callback_example/components/esp32_BNO08x
+	url = https://github.com/myles-parfeniuk/esp32_BNO08x.git
+[submodule "report_specific_callback_example/components/esp32_BNO08x"]
+	path = report_specific_callback_example/components/esp32_BNO08x
+	url = https://github.com/myles-parfeniuk/esp32_BNO08x.git
+[submodule "reports_example/components/esp32_BNO08x"]
+	path = reports_example/components/esp32_BNO08x
+	url = https://github.com/myles-parfeniuk/esp32_BNO08x.git

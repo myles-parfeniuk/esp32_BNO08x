@@ -1,5 +1,0 @@
-<map id="BNO08xTestHelper::call_init_hint_isr" name="BNO08xTestHelper::call_init_hint_isr">
-<area shape="rect" id="Node000001" title="Used to call private BNO08x::init_hint_isr() member for tests." alt="" coords="150,5,310,48"/>
-<area shape="rect" id="Node000002" href="$_init_denit_tests_8cpp.html#a135555b0273a578259f0a9af775e5c79" title=" " alt="" coords="5,13,102,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
-</map>

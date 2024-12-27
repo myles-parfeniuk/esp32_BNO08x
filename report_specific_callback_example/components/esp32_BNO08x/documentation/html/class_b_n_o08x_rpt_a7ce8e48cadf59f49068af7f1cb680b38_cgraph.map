@@ -1,7 +1,0 @@
-<map id="BNO08xRpt::get_sample_counts" name="BNO08xRpt::get_sample_counts">
-<area shape="rect" id="Node000001" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="5,23,171,65"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="226,5,408,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,32,210,28,210,33,171,38"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="219,56,415,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,50,203,54,203,59,171,56"/>
-</map>

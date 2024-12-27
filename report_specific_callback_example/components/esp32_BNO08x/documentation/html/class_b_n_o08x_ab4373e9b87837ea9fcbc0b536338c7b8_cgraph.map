@@ -1,5 +1,0 @@
-<map id="BNO08x::data_proc_task" name="BNO08x::data_proc_task">
-<area shape="rect" id="Node000001" title="Task responsible for parsing/handling sensor events sent by SH2 HAL and updating data that is returne..." alt="" coords="5,13,173,40"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a7d5250a6017f9e76e3c2ddb00d7103a1" title="Parses receieved report and updates uer data with it." alt="" coords="221,5,383,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,24,205,24,205,29,173,29"/>
-</map>

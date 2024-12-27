@@ -1,5 +1,0 @@
-<map id="BNO08x::dynamic_calibration_autosave_disable" name="BNO08x::dynamic_calibration_autosave_disable">
-<area shape="rect" id="Node000001" title="Disables the automatic saving of dynamic/ME calibration data to BNO08x internal flash See ref manual ..." alt="" coords="150,5,343,48"/>
-<area shape="rect" id="Node000002" href="$_feature_tests_8cpp.html#a3998d182117c4def094998f795780351" title=" " alt="" coords="5,13,102,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
-</map>
