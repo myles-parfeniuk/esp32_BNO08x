@@ -19,10 +19,11 @@ var searchData=
   ['deinit_5ftasks_16',['deinit_tasks',['../class_b_n_o08x.html#a968144efd5100ccce0e453c40a63592b',1,'BNO08x']]],
   ['destroy_5ftest_5fimu_17',['destroy_test_imu',['../class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40',1,'BNO08xTestHelper']]],
   ['disable_18',['disable',['../class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc',1,'BNO08xRpt']]],
-  ['documentation_19',['Documentation',['../md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md11',1,'']]],
-  ['double_5ftap_20',['double_tap',['../structbno08x__tap__detector__t.html#aef875a8e6ff23b29cb9fb73af48db11a',1,'bno08x_tap_detector_t']]],
-  ['dynamic_5fcalibration_5fautosave_5fdisable_21',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fautosave_5fenable_22',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fdisable_23',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fenable_24',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]]
+  ['disable_5fall_5freports_19',['disable_all_reports',['../class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6',1,'BNO08x']]],
+  ['documentation_20',['Documentation',['../md__r_e_a_d_m_e.html#autotoc_md11',1,'']]],
+  ['double_5ftap_21',['double_tap',['../structbno08x__tap__detector__t.html#aef875a8e6ff23b29cb9fb73af48db11a',1,'bno08x_tap_detector_t']]],
+  ['dynamic_5fcalibration_5fautosave_5fdisable_22',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fautosave_5fenable_23',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fdisable_24',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fenable_25',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]]
 ];

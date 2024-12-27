@@ -95,7 +95,7 @@ To access the menu:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Examples
-There are multiple examples available on the `examples` branch of this repo, but here is a quick intro. 
+There are multiple examples available on the [examples](https://github.com/myles-parfeniuk/esp32_BNO08x/tree/examples) branch of this repo, but here is a quick intro. 
 There are two ways data returned from the BNO08x can be accessed with this library:
 
 1. **Polling Method with** `data_available()` **Function**:

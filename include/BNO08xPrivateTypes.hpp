@@ -99,6 +99,7 @@ namespace BNO08xPrivateTypes
         EVT_GRP_RPT_RAW_ACCELEROMETER_BIT = (1UL << 18U),    ///< When set, raw accelerometer reports are active.
         EVT_GRP_RPT_RAW_GYRO_BIT = (1UL << 19U),             ///< When set, raw gyro reports are active.
         EVT_GRP_RPT_RAW_MAGNETOMETER_BIT = (1UL << 20U),     ///< When set, raw magnetometer reports are active.
+        EVT_GRP_RPT_CIRCLE_DETECTOR_BIT = (1UL << 21U),      ///< When set, circle detector reports are active.
 
         EVT_GRP_RPT_ALL = EVT_GRP_RPT_RV_BIT | EVT_GRP_RPT_RV_GAME_BIT | EVT_GRP_RPT_RV_ARVR_S_BIT |
                           EVT_GRP_RPT_RV_ARVR_S_GAME_BIT | EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT | EVT_GRP_RPT_GRAVITY_BIT |
@@ -106,7 +107,8 @@ namespace BNO08xPrivateTypes
                           EVT_GRP_RPT_TAP_DETECTOR_BIT | EVT_GRP_RPT_STEP_COUNTER_BIT | EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT |
                           EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT | EVT_GRP_RPT_RAW_ACCELEROMETER_BIT | EVT_GRP_RPT_RAW_GYRO_BIT |
                           EVT_GRP_RPT_RAW_MAGNETOMETER_BIT | EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT | EVT_GRP_RPT_SHAKE_DETECTOR_BIT |
-                          EVT_GRP_RPT_ACCELEROMETER_BIT | EVT_GRP_RPT_GEOMAG_RV_BIT | EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT
+                          EVT_GRP_RPT_ACCELEROMETER_BIT | EVT_GRP_RPT_GEOMAG_RV_BIT | EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT |
+                          EVT_GRP_RPT_CIRCLE_DETECTOR_BIT
     };
 
     /// @brief Bits for evt_grp_bno08x_task

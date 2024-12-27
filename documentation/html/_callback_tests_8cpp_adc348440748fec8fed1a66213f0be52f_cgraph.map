@@ -1,50 +1,68 @@
 <map id="TEST_CASE" name="TEST_CASE">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,335,102,361"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="176,5,347,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,334,56,281,69,205,81,163,97,122,119,83,148,49,163,37,166,42,152,53,124,86,102,124,86,165,74,206,61,282,58,334"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="192,107,331,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="54,334,63,295,80,244,107,190,126,165,148,143,176,128,178,133,151,147,130,168,112,192,85,246,68,297,60,335"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="453,81,589,108"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="52,334,56,286,69,219,81,183,98,149,120,118,148,92,186,72,227,59,270,52,313,50,396,58,465,74,463,79,395,64,313,56,270,57,228,64,188,77,151,97,124,121,103,151,86,185,74,220,61,287,58,335"/>
-<area shape="rect" id="Node000007" href="$class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="167,157,356,184"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="57,333,68,304,87,266,114,227,148,194,156,189,159,193,151,198,118,230,92,269,73,306,62,335"/>
-<area shape="rect" id="Node000010" href="$class_b_n_o08x_rpt_cal_gyro.html#aeb45a1a433c499f2c36dddf393175815" title="Grabs most recent gyroscope data (velocity), units are in rad/s." alt="" coords="180,208,343,235"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="62,332,96,289,120,265,148,244,164,237,167,241,151,249,124,269,100,292,66,336"/>
-<area shape="rect" id="Node000011" href="$class_b_n_o08x_rpt_cal_magnetometer.html#a9a07338f7c149aa3d45d2c4f846620e2" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="152,259,371,285"/>
-<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="75,332,109,313,149,295,171,287,173,292,151,300,112,318,78,337"/>
-<area shape="rect" id="Node000012" href="$class_b_n_o08x_rpt_gravity.html#a18ebbe93997c3ea985290e5b8fc23115" title="Grabs most recent gravity data, units are in m/s^2." alt="" coords="183,309,340,336"/>
-<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="102,340,167,331,168,337,102,345"/>
-<area shape="rect" id="Node000013" href="$class_b_n_o08x_rpt_linear_acceleration.html#aac2eeab16ffbe7a81ea26a21c4e453d0" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,360,373,387"/>
-<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="102,351,134,355,134,360,102,356"/>
-<area shape="rect" id="Node000014" href="$class_b_n_o08x_rpt_r_v_generic.html#afc2accdd72076cd758f9f9108351d7a8" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="185,411,338,453"/>
-<area shape="poly" id="edge22_Node000001_Node000014" title=" " alt="" coords="79,359,151,396,171,404,169,409,149,401,76,364"/>
-<area shape="rect" id="Node000015" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="182,477,341,520"/>
-<area shape="poly" id="edge25_Node000001_Node000015" title=" " alt="" coords="64,360,98,411,122,439,151,463,170,473,167,478,148,468,119,443,94,414,60,363"/>
-<area shape="rect" id="Node000016" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="179,544,344,587"/>
-<area shape="poly" id="edge26_Node000001_Node000016" title=" " alt="" coords="61,361,71,395,88,441,115,489,132,511,151,530,166,540,163,544,148,534,128,514,111,492,83,443,65,397,55,363"/>
-<area shape="rect" id="Node000017" href="$class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="179,611,344,653"/>
-<area shape="poly" id="edge27_Node000001_Node000017" title=" " alt="" coords="59,361,65,406,80,470,108,538,127,569,151,597,166,608,163,612,148,601,123,572,103,540,75,471,59,407,53,362"/>
-<area shape="rect" id="Node000018" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="179,677,344,720"/>
-<area shape="poly" id="edge28_Node000001_Node000018" title=" " alt="" coords="57,362,60,417,72,498,83,542,100,586,123,627,152,663,166,675,163,679,148,667,118,630,95,589,78,544,67,499,54,418,52,362"/>
-<area shape="rect" id="Node000019" href="$class_b_n_o08x.html#aadd44524e6d22c48916acd9518b63ec3" title="Registers a callback to execute when new data from a report is received." alt="" coords="190,744,333,771"/>
-<area shape="poly" id="edge29_Node000001_Node000019" title=" " alt="" coords="59,362,69,438,88,550,115,659,133,702,152,730,177,746,174,751,148,734,128,704,110,661,82,551,64,439,54,362"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="331,111,437,100,437,105,332,116"/>
-<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="676,56,859,83"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="589,85,660,78,661,83,590,90"/>
-<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="669,107,866,133"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="590,99,654,106,654,111,589,104"/>
-<area shape="rect" id="Node000008" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="428,309,614,336"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="356,182,375,194,387,206,394,220,400,246,405,272,412,284,423,295,428,299,425,304,419,299,407,287,400,273,395,247,389,221,382,210,371,198,353,187"/>
-<area shape="rect" id="Node000009" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="421,259,621,285"/>
-<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="336,182,374,193,434,220,485,248,483,253,431,225,372,199,334,187"/>
-<area shape="poly" id="edge11_Node000010_Node000008" title=" " alt="" coords="344,231,374,244,390,257,399,270,408,283,422,295,433,301,431,305,420,300,404,287,395,273,386,261,372,249,342,236"/>
-<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="334,233,435,253,434,258,333,238"/>
-<area shape="poly" id="edge14_Node000011_Node000008" title=" " alt="" coords="334,283,435,303,434,308,333,289"/>
-<area shape="poly" id="edge15_Node000011_Node000009" title=" " alt="" coords="371,269,406,269,406,275,371,275"/>
-<area shape="poly" id="edge17_Node000012_Node000008" title=" " alt="" coords="340,320,413,320,413,325,340,325"/>
-<area shape="poly" id="edge18_Node000012_Node000009" title=" " alt="" coords="333,306,434,286,435,291,334,311"/>
-<area shape="poly" id="edge20_Node000013_Node000008" title=" " alt="" coords="333,357,434,337,435,342,334,362"/>
-<area shape="poly" id="edge21_Node000013_Node000009" title=" " alt="" coords="346,357,372,346,386,334,395,321,404,308,420,295,431,289,433,294,422,300,408,312,399,324,390,338,374,350,348,362"/>
-<area shape="poly" id="edge23_Node000014_Node000008" title=" " alt="" coords="337,409,372,396,431,369,482,342,485,346,433,374,374,401,339,414"/>
-<area shape="poly" id="edge24_Node000014_Node000009" title=" " alt="" coords="337,416,371,397,382,385,389,373,394,347,400,321,407,308,419,295,425,291,428,295,423,299,412,311,405,323,399,348,394,374,387,388,375,401,340,421"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,541,102,568"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="163,5,334,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,541,59,442,75,293,87,214,103,142,123,83,148,42,150,40,154,43,152,46,128,85,108,144,93,215,80,293,64,443,58,541"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="179,56,318,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="53,541,62,454,80,325,93,258,108,196,126,144,148,109,163,96,167,100,152,112,131,147,113,197,98,259,85,326,67,455,59,541"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="167,307,330,349"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="55,540,65,504,83,456,110,404,128,380,148,359,152,356,156,360,151,363,132,384,114,407,88,458,70,506,60,541"/>
+<area shape="rect" id="Node000010" href="$class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="157,373,340,400"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="58,540,89,477,115,441,148,410,156,405,159,409,151,414,119,444,94,480,62,542"/>
+<area shape="rect" id="Node000011" href="$class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="152,424,345,467"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="69,539,104,512,148,483,172,471,175,476,151,488,108,516,72,543"/>
+<area shape="rect" id="Node000012" href="$class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571" title="Enables gravity reports such that the BNO08x begins sending them." alt="" coords="160,123,337,149"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="54,540,63,462,82,348,110,235,128,190,148,160,151,156,155,160,152,163,132,192,115,236,87,349,69,463,59,541"/>
+<area shape="rect" id="Node000013" href="$class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="150,173,347,216"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="52,541,54,484,66,400,78,354,95,308,118,265,148,226,150,224,154,227,152,230,122,267,100,310,83,355,72,401,60,484,57,541"/>
+<area shape="rect" id="Node000014" href="$class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="172,240,325,283"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="53,541,59,494,74,428,86,392,102,356,123,323,148,293,157,285,160,289,152,297,127,326,107,359,91,394,79,430,64,495,58,542"/>
+<area shape="rect" id="Node000015" href="$class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="413,643,601,669"/>
+<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="91,566,150,585,278,615,398,637,397,642,277,620,149,591,90,571"/>
+<area shape="rect" id="Node000016" href="$class_b_n_o08x_rpt_cal_gyro.html#aeb45a1a433c499f2c36dddf393175815" title="Grabs most recent gyroscope data (velocity), units are in rad/s." alt="" coords="425,693,588,720"/>
+<area shape="poly" id="edge22_Node000001_Node000016" title=" " alt="" coords="69,567,103,601,126,619,151,634,215,659,283,678,350,691,410,698,409,704,349,696,282,683,214,665,148,638,123,623,100,605,65,571"/>
+<area shape="rect" id="Node000017" href="$class_b_n_o08x_rpt_cal_magnetometer.html#a9a07338f7c149aa3d45d2c4f846620e2" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="398,744,616,771"/>
+<area shape="poly" id="edge25_Node000001_Node000017" title=" " alt="" coords="62,568,74,596,92,631,118,667,151,696,206,724,265,743,325,753,382,758,381,764,324,759,263,748,204,729,148,701,114,671,88,634,69,598,57,570"/>
+<area shape="rect" id="Node000018" href="$class_b_n_o08x_rpt_gravity.html#a18ebbe93997c3ea985290e5b8fc23115" title="Grabs most recent gravity data, units are in m/s^2." alt="" coords="429,475,585,501"/>
+<area shape="poly" id="edge28_Node000001_Node000018" title=" " alt="" coords="101,538,149,527,287,506,413,492,414,498,288,511,150,532,102,543"/>
+<area shape="rect" id="Node000019" href="$class_b_n_o08x_rpt_linear_acceleration.html#aac2eeab16ffbe7a81ea26a21c4e453d0" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="395,525,618,552"/>
+<area shape="poly" id="edge31_Node000001_Node000019" title=" " alt="" coords="102,550,380,540,380,546,102,556"/>
+<area shape="rect" id="Node000020" href="$class_b_n_o08x_rpt_r_v_generic.html#afc2accdd72076cd758f9f9108351d7a8" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="430,576,583,619"/>
+<area shape="poly" id="edge34_Node000001_Node000020" title=" " alt="" coords="102,556,415,586,415,591,102,562"/>
+<area shape="rect" id="Node000021" href="$class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="169,795,328,837"/>
+<area shape="poly" id="edge37_Node000001_Node000021" title=" " alt="" coords="60,568,68,608,85,663,112,722,130,750,152,774,164,784,160,788,148,778,126,753,108,725,80,665,63,609,54,569"/>
+<area shape="rect" id="Node000022" href="$class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="166,861,331,904"/>
+<area shape="poly" id="edge38_Node000001_Node000022" title=" " alt="" coords="58,568,62,620,75,695,87,736,103,776,125,814,152,848,155,851,151,855,148,851,120,817,99,778,82,737,70,696,57,621,52,569"/>
+<area shape="rect" id="Node000023" href="$class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="166,928,331,971"/>
+<area shape="poly" id="edge39_Node000001_Node000023" title=" " alt="" coords="57,569,57,630,68,723,79,774,96,824,120,872,152,914,155,918,151,921,148,918,115,875,91,826,74,775,62,724,52,631,51,569"/>
+<area shape="rect" id="Node000024" href="$class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="166,995,331,1037"/>
+<area shape="poly" id="edge40_Node000001_Node000024" title=" " alt="" coords="59,568,68,651,86,776,114,899,132,948,152,981,155,984,151,988,148,984,127,950,109,901,81,777,63,652,53,569"/>
+<area shape="rect" id="Node000025" href="$class_b_n_o08x.html#aadd44524e6d22c48916acd9518b63ec3" title="Registers a callback to execute when new data from a report is received." alt="" coords="177,1061,320,1088"/>
+<area shape="poly" id="edge41_Node000001_Node000025" title=" " alt="" coords="58,568,65,664,81,808,94,884,109,953,129,1010,152,1048,165,1058,161,1062,148,1051,124,1012,104,954,88,885,76,809,60,664,53,569"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="428,344,586,371"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="330,335,412,344,412,349,330,340"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="675,319,858,345"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="586,347,659,340,660,345,586,352"/>
+<area shape="rect" id="Node000007" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="673,559,860,585"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="526,369,739,546,735,550,523,373"/>
+<area shape="rect" id="Node000008" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="668,369,865,396"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="586,362,653,369,653,374,586,368"/>
+<area shape="rect" id="Node000009" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="666,609,867,636"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="529,369,574,407,599,433,621,461,631,481,636,500,640,534,646,565,654,580,668,595,672,599,668,603,664,599,650,583,641,567,635,534,631,501,626,483,616,464,595,436,571,411,526,373"/>
+<area shape="poly" id="edge10_Node000010_Node000005" title=" " alt="" coords="340,374,412,365,412,371,341,379"/>
+<area shape="poly" id="edge12_Node000011_Node000005" title=" " alt="" coords="313,421,346,409,450,374,452,379,348,415,314,426"/>
+<area shape="poly" id="edge14_Node000012_Node000005" title=" " alt="" coords="325,148,348,159,397,198,437,244,470,290,493,329,489,331,466,293,433,248,393,202,346,164,323,152"/>
+<area shape="poly" id="edge16_Node000013_Node000005" title=" " alt="" coords="324,214,348,226,387,250,424,278,483,331,479,335,421,283,384,255,346,230,322,219"/>
+<area shape="poly" id="edge18_Node000014_Node000005" title=" " alt="" coords="316,281,348,292,458,335,457,340,346,297,314,286"/>
+<area shape="poly" id="edge20_Node000015_Node000007" title=" " alt="" coords="585,640,617,628,641,612,665,595,682,588,684,593,668,600,644,616,620,633,587,645"/>
+<area shape="poly" id="edge21_Node000015_Node000009" title=" " alt="" coords="601,641,650,635,651,640,602,647"/>
+<area shape="poly" id="edge23_Node000016_Node000007" title=" " alt="" coords="587,694,617,679,633,660,640,639,647,617,665,595,671,591,674,595,668,599,652,619,645,640,638,662,620,683,590,699"/>
+<area shape="poly" id="edge24_Node000016_Node000009" title=" " alt="" coords="575,690,618,679,720,640,722,645,619,684,577,695"/>
+<area shape="poly" id="edge26_Node000017_Node000007" title=" " alt="" coords="600,741,617,730,630,714,637,699,640,665,643,630,650,612,664,595,668,592,672,596,668,599,655,615,648,631,645,665,642,700,634,717,620,734,603,746"/>
+<area shape="poly" id="edge27_Node000017_Node000009" title=" " alt="" coords="586,741,617,730,652,711,685,688,738,644,742,649,688,693,655,715,619,734,588,746"/>
+<area shape="poly" id="edge29_Node000018_Node000007" title=" " alt="" coords="577,499,619,511,722,550,720,555,618,516,575,504"/>
+<area shape="poly" id="edge30_Node000018_Node000009" title=" " alt="" coords="586,495,620,511,638,532,645,554,652,576,668,595,674,600,671,604,665,599,647,578,640,556,633,535,617,515,584,499"/>
+<area shape="poly" id="edge32_Node000019_Node000007" title=" " alt="" coords="616,550,658,555,658,561,616,555"/>
+<area shape="poly" id="edge33_Node000019_Node000009" title=" " alt="" coords="587,550,620,562,644,578,668,595,684,602,682,607,665,600,641,583,617,566,585,555"/>
+<area shape="poly" id="edge35_Node000020_Node000007" title=" " alt="" coords="584,587,658,580,658,585,584,593"/>
+<area shape="poly" id="edge36_Node000020_Node000009" title=" " alt="" coords="584,602,651,609,651,614,584,607"/>
 </map>

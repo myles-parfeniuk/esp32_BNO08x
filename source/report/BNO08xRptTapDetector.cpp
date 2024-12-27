@@ -20,7 +20,7 @@ bool BNO08xRptTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfi
     sensor_cfg.changeSensitivityEnabled = true; // this must be set regardless of user cfg or no reports will be received
     sensor_cfg.changeSensitivity = 0U;          // this must be set regardless of user cfg or no reports will be received
 
-    return BNO08xRpt::enable(time_between_reports, sensor_cfg);
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
 }
 
 /**

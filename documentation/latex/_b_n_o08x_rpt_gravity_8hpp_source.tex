@@ -1,5 +1,5 @@
 \doxysection{BNO08x\+Rpt\+Gravity.\+hpp}
-\hypertarget{_b_n_o08x_rpt_gravity_8hpp_source}{}\label{_b_n_o08x_rpt_gravity_8hpp_source}\index{BNO08xRptGravity.hpp@{BNO08xRptGravity.hpp}}
+\hypertarget{_b_n_o08x_rpt_gravity_8hpp_source}{}\label{_b_n_o08x_rpt_gravity_8hpp_source}\index{include/report/BNO08xRptGravity.hpp@{include/report/BNO08xRptGravity.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_gravity_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
@@ -15,12 +15,14 @@
 \DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__accel__t}{bno08x\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a18ebbe93997c3ea985290e5b8fc23115}{get}}();}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a47a5d1d8f89834662efaaae60a74b4c2}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__accel__t}{bno08x\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_ab9fddb16529de63f82d04b29503e7dbe}{data}};}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a03dfa109a427c7657a2a5bdd3b5af68c}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptGravity"{}};}
-\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a5bb33cf233c6721fac992e447bd5b571}{enable}}(}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__accel__t}{bno08x\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a18ebbe93997c3ea985290e5b8fc23115}{get}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a47a5d1d8f89834662efaaae60a74b4c2}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__accel__t}{bno08x\_accel\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_ab9fddb16529de63f82d04b29503e7dbe}{data}};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_gravity_a03dfa109a427c7657a2a5bdd3b5af68c}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptGravity"{}};}
+\DoxyCodeLine{00031\ \};}
 
 \end{DoxyCode}

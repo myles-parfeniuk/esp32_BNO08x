@@ -4,7 +4,7 @@ var searchData=
   ['cal_5fmagnetometer_1',['cal_magnetometer',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a03d6194225331df5326a97ec6d45b094',1,'BNO08x::bno08x_reports_t']]],
   ['calibration_5fend_2',['calibration_end',['../class_b_n_o08x.html#a817ec9ad9d51a1515f658374de48f483',1,'BNO08x']]],
   ['calibration_5fstart_3',['calibration_start',['../class_b_n_o08x.html#af0dd28db9e331312e45937b12295ca94',1,'BNO08x']]],
-  ['call_20back_20function_20example_4',['Call-Back Function Example',['../md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md7',1,'']]],
+  ['call_20back_20function_20example_4',['Call-Back Function Example',['../md__r_e_a_d_m_e.html#autotoc_md7',1,'']]],
   ['call_5fdeinit_5fgpio_5',['call_deinit_gpio',['../class_b_n_o08x_test_helper.html#a347b8ca2697388394b7cb68c8895494b',1,'BNO08xTestHelper']]],
   ['call_5fdeinit_5fhint_5fisr_6',['call_deinit_hint_isr',['../class_b_n_o08x_test_helper.html#ac15a216ea5561b190f25f83caa749261',1,'BNO08xTestHelper']]],
   ['call_5fdeinit_5fsh2_5fhal_7',['call_deinit_sh2_HAL',['../class_b_n_o08x_test_helper.html#ab1f8d61956fbceecf0baf08cb878397d',1,'BNO08xTestHelper']]],
@@ -26,6 +26,6 @@ var searchData=
   ['clear_5fdynamic_5fcalibration_23',['clear_dynamic_calibration',['../class_b_n_o08x.html#a84a19cd1564f8d427394f137df54477d',1,'BNO08x']]],
   ['clear_5fsample_5fcounts_24',['clear_sample_counts',['../class_b_n_o08x_rpt.html#a1418be33824d3102dbc8f92558a402a6',1,'BNO08xRpt']]],
   ['confidence_25',['confidence',['../structbno08x__activity__classifier__t.html#a6c99dd8968d52c7099c6f6b2acf11796',1,'bno08x_activity_classifier_t']]],
-  ['contact_26',['Contact',['../md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md15',1,'']]],
+  ['contact_26',['Contact',['../md__r_e_a_d_m_e.html#autotoc_md15',1,'']]],
   ['create_5ftest_5fimu_27',['create_test_imu',['../class_b_n_o08x_test_helper.html#a6bd040c7d670a9713f2ab8a8a3913518',1,'BNO08xTestHelper']]]
 ];

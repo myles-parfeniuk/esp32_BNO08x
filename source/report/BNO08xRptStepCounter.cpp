@@ -35,16 +35,17 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
 }
 
 /**
- * @brief Grabs the total step count since boot, accounts for rollover in report data.
+ * @brief Enables step counter reports such that the BNO08x begins sending them.
  *
- * @return Total steps since boot.
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ *
+ * @return True if report was successfully enabled.
  */
-uint32_t BNO08xRptStepCounter::get_total_steps()
+bool BNO08xRptStepCounter::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
-    lock_user_data();
-    uint32_t total_steps = step_accumulator + data.steps;
-    unlock_user_data();
-    return total_steps;
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
 }
 
 /**
@@ -59,4 +60,17 @@ bno08x_step_counter_t BNO08xRptStepCounter::get()
     bno08x_step_counter_t rqdata = data;
     unlock_user_data();
     return rqdata;
+}
+
+/**
+ * @brief Grabs the total step count since boot, accounts for rollover in report data.
+ *
+ * @return Total steps since boot.
+ */
+uint32_t BNO08xRptStepCounter::get_total_steps()
+{
+    lock_user_data();
+    uint32_t total_steps = step_accumulator + data.steps;
+    unlock_user_data();
+    return total_steps;
 }

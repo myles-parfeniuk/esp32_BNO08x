@@ -12,8 +12,9 @@ var searchData=
   ['deinit_5ftasks_9',['deinit_tasks',['../class_b_n_o08x.html#a968144efd5100ccce0e453c40a63592b',1,'BNO08x']]],
   ['destroy_5ftest_5fimu_10',['destroy_test_imu',['../class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40',1,'BNO08xTestHelper']]],
   ['disable_11',['disable',['../class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc',1,'BNO08xRpt']]],
-  ['dynamic_5fcalibration_5fautosave_5fdisable_12',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fautosave_5fenable_13',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fdisable_14',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fenable_15',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]]
+  ['disable_5fall_5freports_12',['disable_all_reports',['../class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fautosave_5fdisable_13',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fautosave_5fenable_14',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fdisable_15',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fenable_16',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]]
 ];

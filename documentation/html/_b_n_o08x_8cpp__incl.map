@@ -1,5 +1,5 @@
-<map id="BNO08x.cpp" name="BNO08x.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="695,5,790,32"/>
+<map id="source/BNO08x.cpp" name="source/BNO08x.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="673,5,811,32"/>
 <area shape="rect" id="Node000002" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="521,80,617,107"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="713,35,614,76,612,71,711,30"/>
 <area shape="rect" id="Node000019" href="$_b_n_o08x_private_types_8hpp.html" title=" " alt="" coords="658,237,827,264"/>

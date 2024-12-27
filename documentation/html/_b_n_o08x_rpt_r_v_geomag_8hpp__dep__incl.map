@@ -1,27 +1,27 @@
-<map id="BNO08xRptRVGeomag.hpp" name="BNO08xRptRVGeomag.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="292,5,474,32"/>
-<area shape="rect" id="Node000002" href="$_b_n_o08x_reports_8hpp.html" title=" " alt="" coords="221,80,361,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="357,44,309,82,305,78,354,40"/>
-<area shape="rect" id="Node000013" href="$_b_n_o08x_rpt_r_v_geomag_8cpp.html" title=" " alt="" coords="385,80,568,107"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="413,40,462,77,459,82,410,44"/>
-<area shape="rect" id="Node000003" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="244,155,339,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,122,294,154,289,154,289,122"/>
-<area shape="rect" id="Node000004" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="100,229,195,256"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="254,191,174,231,171,226,251,186"/>
-<area shape="rect" id="Node000005" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="219,229,364,256"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="294,197,294,229,289,229,289,197"/>
-<area shape="rect" id="Node000006" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="389,229,546,256"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="337,185,437,226,435,231,335,190"/>
-<area shape="rect" id="Node000007" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,304,156,331"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="385,262,149,306,148,301,384,257"/>
-<area shape="rect" id="Node000008" href="$_callback_tests_8cpp.html" title=" " alt="" coords="180,304,309,331"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="415,264,284,306,283,301,413,259"/>
-<area shape="rect" id="Node000009" href="$_feature_tests_8cpp.html" title=" " alt="" coords="333,304,455,331"/>
-<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="445,269,408,306,405,302,442,265"/>
-<area shape="rect" id="Node000010" href="$_init_denit_tests_8cpp.html" title=" " alt="" coords="479,304,605,331"/>
-<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="493,265,531,302,527,306,489,269"/>
-<area shape="rect" id="Node000011" href="$_multi_report_tests_8cpp.html" title=" " alt="" coords="628,304,773,331"/>
-<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="523,258,660,301,659,306,521,263"/>
-<area shape="rect" id="Node000012" href="$_single_report_tests_8cpp.html" title=" " alt="" coords="796,304,949,331"/>
-<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="554,257,802,301,801,306,553,262"/>
+<map id="include/report/BNO08xRptRVGeomag.hpp" name="include/report/BNO08xRptRVGeomag.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="806,5,979,48"/>
+<area shape="rect" id="Node000002" href="$_b_n_o08x_reports_8hpp.html" title=" " alt="" coords="648,96,870,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="847,59,781,98,779,93,844,54"/>
+<area shape="rect" id="Node000013" href="$_b_n_o08x_rpt_r_v_geomag_8cpp.html" title=" " alt="" coords="895,96,1157,123"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="941,54,1006,93,1003,98,938,59"/>
+<area shape="rect" id="Node000003" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="689,171,829,197"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="762,138,762,170,756,170,756,138"/>
+<area shape="rect" id="Node000004" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="463,245,666,272"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="712,206,599,247,598,242,710,201"/>
+<area shape="rect" id="Node000011" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="690,245,828,272"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="762,213,762,245,756,245,756,213"/>
+<area shape="rect" id="Node000012" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="853,245,1041,272"/>
+<area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="807,201,915,242,913,247,805,206"/>
+<area shape="rect" id="Node000005" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,320,201,347"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="469,278,184,322,183,317,468,272"/>
+<area shape="rect" id="Node000006" href="$_callback_tests_8cpp.html" title=" " alt="" coords="225,320,379,347"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="505,279,348,322,347,317,503,274"/>
+<area shape="rect" id="Node000007" href="$_feature_tests_8cpp.html" title=" " alt="" coords="404,320,552,347"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="539,284,494,322,491,318,536,280"/>
+<area shape="rect" id="Node000008" href="$_init_denit_tests_8cpp.html" title=" " alt="" coords="575,320,727,347"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="593,280,638,318,634,322,589,284"/>
+<area shape="rect" id="Node000009" href="$_multi_report_tests_8cpp.html" title=" " alt="" coords="751,320,922,347"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="627,274,789,317,788,322,626,279"/>
+<area shape="rect" id="Node000010" href="$_single_report_tests_8cpp.html" title=" " alt="" coords="946,320,1124,347"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="662,272,953,317,952,322,662,278"/>
 </map>

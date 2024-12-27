@@ -27,6 +27,7 @@ var namespace_b_n_o08x_private_types =
       [ "EVT_GRP_RPT_RAW_ACCELEROMETER_BIT", "namespace_b_n_o08x_private_types.html#ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2", null ],
       [ "EVT_GRP_RPT_RAW_GYRO_BIT", "namespace_b_n_o08x_private_types.html#ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb", null ],
       [ "EVT_GRP_RPT_RAW_MAGNETOMETER_BIT", "namespace_b_n_o08x_private_types.html#ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7", null ],
+      [ "EVT_GRP_RPT_CIRCLE_DETECTOR_BIT", "namespace_b_n_o08x_private_types.html#ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10", null ],
       [ "EVT_GRP_RPT_ALL", "namespace_b_n_o08x_private_types.html#ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1", null ]
     ] ],
     [ "bno08x_tsk_bit_t", "namespace_b_n_o08x_private_types.html#a59097f108831dd9860e17438d2976c1c", [

@@ -1,5 +1,5 @@
 \doxysection{BNO08x\+Rpt\+Uncal\+Magnetometer.\+hpp}
-\hypertarget{_b_n_o08x_rpt_uncal_magnetometer_8hpp_source}{}\label{_b_n_o08x_rpt_uncal_magnetometer_8hpp_source}\index{BNO08xRptUncalMagnetometer.hpp@{BNO08xRptUncalMagnetometer.hpp}}
+\hypertarget{_b_n_o08x_rpt_uncal_magnetometer_8hpp_source}{}\label{_b_n_o08x_rpt_uncal_magnetometer_8hpp_source}\index{include/report/BNO08xRptUncalMagnetometer.hpp@{include/report/BNO08xRptUncalMagnetometer.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_uncal_magnetometer_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
@@ -15,15 +15,17 @@
 \DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_ad4d5abc8875955b6236bbe526be1e8fb}{get}}(\mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\&\ magf,\ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\&\ bias);}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_ae5a99ef7523dcafc4638a538e141306b}{get\_magf}}();}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_aa6818f72419eaebb55cba9ffec28c704}{get\_bias}}();}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a2737505adb4176e5843ce7d13b2b8ec4}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a990d89eb227812938b1bdfd2cebaa29f}{data}};}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a0d38bb10486d87c633036967dfe66d75}{bias\_data}};}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a21e67be0d0c2235e93f3c7f7385e7fff}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptUncalMagnetometer"{}};}
-\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a80ae48107ca1cc27551fd799625f2867}{enable}}(}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_ad4d5abc8875955b6236bbe526be1e8fb}{get}}(\mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\&\ magf,\ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\&\ bias);}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_ae5a99ef7523dcafc4638a538e141306b}{get\_magf}}();}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_aa6818f72419eaebb55cba9ffec28c704}{get\_bias}}();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a2737505adb4176e5843ce7d13b2b8ec4}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__t}{bno08x\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a990d89eb227812938b1bdfd2cebaa29f}{data}};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__magf__bias__t}{bno08x\_magf\_bias\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a0d38bb10486d87c633036967dfe66d75}{bias\_data}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_uncal_magnetometer_a21e67be0d0c2235e93f3c7f7385e7fff}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptUncalMagnetometer"{}};}
+\DoxyCodeLine{00035\ \};}
 
 \end{DoxyCode}

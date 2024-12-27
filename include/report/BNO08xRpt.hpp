@@ -7,6 +7,8 @@
 
 // standard library includes
 #include <functional>
+// esp-idf includes
+#include "esp_log.h"
 // in-house includes
 #include "BNO08xGlobalTypes.hpp"
 #include "BNO08xPrivateTypes.hpp"
@@ -23,7 +25,6 @@
 class BNO08xRpt
 {
     public:
-        bool enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         bool disable(sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         bool register_cb(std::function<void(void)> cb_fxn);
         bool has_new_data();
@@ -31,6 +32,8 @@ class BNO08xRpt
         bool get_sample_counts(bno08x_sample_counts_t& sample_counts);
         bool clear_sample_counts();
         bool get_meta_data(bno08x_meta_data_t& meta_data);
+        virtual bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) = 0;
 
     protected:
         uint8_t ID;          ///< Report ID, ex. SH2_ACCELERATION.
@@ -38,6 +41,7 @@ class BNO08xRpt
         uint32_t period_us;  ///< The period/interval of the report in microseconds.
         BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx;
 
+        bool rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
 
         /**

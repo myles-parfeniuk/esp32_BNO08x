@@ -20,6 +20,8 @@ class BNO08xRptUncalGyro : public BNO08xRpt
         {
         }
 
+        bool enable(
+                uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg) override;
         void get(bno08x_gyro_t& vel, bno08x_gyro_bias_t& bias);
         bno08x_gyro_t get_vel();
         bno08x_gyro_bias_t get_bias();

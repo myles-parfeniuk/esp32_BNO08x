@@ -6,6 +6,20 @@
 #include "BNO08xRptRVGeneric.hpp"
 
 /**
+ * @brief Enables a rotation vector report such that the BNO08x begins it.
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ *
+ * @return True if report was successfully enabled.
+ */
+bool BNO08xRptRVGeneric::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
+}
+
+/**
  * @brief Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in
  * radians (if available, else constant 0.0f).
  *

@@ -16,7 +16,7 @@ var searchData=
   ['get_5ftime_5fus_13',['get_time_us',['../class_b_n_o08x_s_h2_h_a_l.html#ad89b6a3166e2eee003ad87a517a31cd5',1,'BNO08xSH2HAL']]],
   ['get_5ftotal_5fsteps_14',['get_total_steps',['../class_b_n_o08x_rpt_step_counter.html#a017b389771b4d8816b4cfd06c6d9184a',1,'BNO08xRptStepCounter']]],
   ['get_5fvel_15',['get_vel',['../class_b_n_o08x_rpt_i_gyro_r_v.html#a8e9877551635f8be5e380d47195b4061',1,'BNO08xRptIGyroRV::get_vel()'],['../class_b_n_o08x_rpt_uncal_gyro.html#a13c875a4ef09df3a82ac4bfa5109fdf7',1,'BNO08xRptUncalGyro::get_vel()']]],
-  ['getting_20started_16',['Getting Started',['../md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md1',1,'']]],
+  ['getting_20started_16',['Getting Started',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]],
   ['gpio_5finputs_17',['gpio_inputs',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#a9b87a879ec795e2241985f0d33856c14',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
   ['gpio_5foutputs_18',['gpio_outputs',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#ac74b5a17ec13d4bef4e4775f20ed68df',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
   ['gravity_19',['gravity',['../struct_b_n_o08x_1_1bno08x__reports__t.html#af5245d5e4a6f7548a0c3a30af53b7355',1,'BNO08x::bno08x_reports_t']]],

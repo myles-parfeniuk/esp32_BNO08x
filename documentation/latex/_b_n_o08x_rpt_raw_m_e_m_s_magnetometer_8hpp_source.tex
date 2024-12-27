@@ -1,5 +1,5 @@
 \doxysection{BNO08x\+Rpt\+Raw\+MEMSMagnetometer.\+hpp}
-\hypertarget{_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_8hpp_source}{}\label{_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_8hpp_source}\index{BNO08xRptRawMEMSMagnetometer.hpp@{BNO08xRptRawMEMSMagnetometer.hpp}}
+\hypertarget{_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_8hpp_source}{}\label{_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_8hpp_source}\index{include/report/BNO08xRptRawMEMSMagnetometer.hpp@{include/report/BNO08xRptRawMEMSMagnetometer.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
@@ -15,12 +15,14 @@
 \DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__magf__t}{bno08x\_raw\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a44247c8dbd3376ff81599c192b7dfc71}{get}}();}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a5ff68ff342813b240519a315e60d4506}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__magf__t}{bno08x\_raw\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a456822ae1becba508950eb9715ecb4e9}{data}};}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a7e103ad37ce1f4cddf52d110372dc6b9}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptRawMEMSMagnetometer"{}};}
-\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a92832fd0bff6abddbbd87779de5b57fb}{enable}}(}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__magf__t}{bno08x\_raw\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a44247c8dbd3376ff81599c192b7dfc71}{get}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a5ff68ff342813b240519a315e60d4506}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__raw__magf__t}{bno08x\_raw\_magf\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a456822ae1becba508950eb9715ecb4e9}{data}};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer_a7e103ad37ce1f4cddf52d110372dc6b9}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptRawMEMSMagnetometer"{}};}
+\DoxyCodeLine{00031\ \};}
 
 \end{DoxyCode}

@@ -24,6 +24,24 @@ void BNO08xRptShakeDetector::update_data(sh2_SensorValue_t* sensor_val)
 }
 
 /**
+ * @brief Enables shake detector reports such that the BNO08x begins sending them (only sends reports
+ * when a shake is detected).
+ *
+ * @param report_period_us The period/interval of the report in microseconds.
+ * @param sensor_cfg Sensor special configuration (optional, see
+ * BNO08xPrivateTypes::default_sensor_cfg for defaults).
+ *
+ * @return True if report was successfully enabled.
+ */
+bool BNO08xRptShakeDetector::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+{
+    sensor_cfg.changeSensitivityEnabled = true; // this must be set regardless of user cfg or no reports will be received
+    sensor_cfg.changeSensitivity = 0U;          // this must be set regardless of user cfg or no reports will be received
+
+    return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
+}
+
+/**
  * @brief Grabs most recent shake detector detector data.
  *
  * @return Struct containing the requested data.

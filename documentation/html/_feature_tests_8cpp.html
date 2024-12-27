@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>esp32_BNO08x: FeatureTests.cpp File Reference</title>
+<title>esp32_BNO08x: test/FeatureTests.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.3</span>
+   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.31</span>
    </div>
    <div id="projectbrief">C++ BNO08x IMU driver component for esp-idf.</div>
   </td>
@@ -102,9 +102,9 @@ $(function(){initNavTree('_feature_tests_8cpp.html',''); initResizable(); });
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FeatureTests.cpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="_feature_tests_8cpp__incl.png" border="0" usemap="#a_feature_tests_8cpp" alt=""/></div>
-<map name="a_feature_tests_8cpp" id="a_feature_tests_8cpp">
-<area shape="rect" title=" " alt="" coords="265,5,387,32"/>
+<div class="center"><img src="_feature_tests_8cpp__incl.png" border="0" usemap="#atest_2_feature_tests_8cpp" alt=""/></div>
+<map name="atest_2_feature_tests_8cpp" id="atest_2_feature_tests_8cpp">
+<area shape="rect" title=" " alt="" coords="252,5,400,32"/>
 <area shape="rect" title=" " alt="" coords="216,80,276,107"/>
 <area shape="poly" title=" " alt="" coords="314,35,272,72,269,68,310,31"/>
 <area shape="rect" href="_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="300,80,514,107"/>
@@ -479,45 +479,39 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_a5258b4dbee44f7a6964ff93e378fd3fa_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_a5258b4dbee44f7a6964ff93e378fd3fa_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_a5258b4dbee44f7a6964ff93e378fd3fa_cgraph" id="a_feature_tests_8cpp_a5258b4dbee44f7a6964ff93e378fd3fa_cgraph">
-<area shape="rect" title=" " alt="" coords="5,252,102,278"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,33,330,60"/>
-<area shape="poly" title=" " alt="" coords="55,251,64,214,82,165,109,114,127,90,148,70,153,65,157,70,151,74,131,94,114,117,87,168,69,216,60,252"/>
-<area shape="rect" href="class_b_n_o08x.html#a84a19cd1564f8d427394f137df54477d" title="Clears dynamic/motion engine calibration data and resets BNO08x device. See ref manual 6...." alt="" coords="163,84,325,126"/>
-<area shape="poly" title=" " alt="" coords="59,250,93,195,118,164,148,136,154,132,157,137,151,140,122,167,97,198,64,252"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,150,324,177"/>
-<area shape="poly" title=" " alt="" coords="67,249,102,218,148,187,162,180,164,185,151,191,105,222,70,253"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,201,314,228"/>
-<area shape="poly" title=" " alt="" coords="101,250,176,230,177,235,103,255"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,252,338,278"/>
-<area shape="poly" title=" " alt="" coords="102,262,134,262,134,268,102,268"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,302,323,345"/>
-<area shape="poly" title=" " alt="" coords="100,276,159,295,157,300,99,281"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,369,335,396"/>
-<area shape="poly" title=" " alt="" coords="67,277,102,316,125,337,151,355,163,360,160,365,148,359,122,341,98,320,63,280"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,420,327,462"/>
-<area shape="poly" title=" " alt="" coords="63,278,95,339,120,375,151,406,157,409,153,414,148,410,116,378,90,342,58,280"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,486,327,529"/>
-<area shape="poly" title=" " alt="" coords="60,278,69,316,86,368,113,424,131,450,152,472,155,475,152,479,148,476,126,453,108,427,81,370,64,318,55,279"/>
+<area shape="rect" title=" " alt="" coords="5,240,102,267"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
+<area shape="poly" title=" " alt="" coords="54,239,63,200,80,147,107,91,126,65,148,42,153,38,156,42,151,46,130,68,112,93,85,149,68,202,60,240"/>
+<area shape="rect" href="class_b_n_o08x.html#a84a19cd1564f8d427394f137df54477d" title="Clears dynamic/motion engine calibration data and resets BNO08x device. See ref manual 6...." alt="" coords="163,56,325,99"/>
+<area shape="poly" title=" " alt="" coords="58,238,90,177,116,140,148,109,153,105,157,109,151,113,120,144,95,179,63,241"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,123,324,149"/>
+<area shape="poly" title=" " alt="" coords="63,238,98,199,122,177,148,159,160,153,163,158,151,164,125,181,102,202,67,241"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="174,173,314,216"/>
+<area shape="poly" title=" " alt="" coords="99,237,159,218,160,223,100,242"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,240,338,267"/>
+<area shape="poly" title=" " alt="" coords="102,251,134,251,134,256,102,256"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,291,323,333"/>
+<area shape="poly" title=" " alt="" coords="100,265,159,283,157,288,99,270"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,357,335,384"/>
+<area shape="poly" title=" " alt="" coords="67,265,102,304,125,325,151,343,163,349,160,354,148,348,122,329,98,308,63,269"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,408,327,451"/>
+<area shape="poly" title=" " alt="" coords="63,266,95,327,120,363,151,394,157,398,153,402,148,398,116,366,90,330,58,268"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,475,327,517"/>
+<area shape="poly" title=" " alt="" coords="60,267,69,305,86,357,113,412,131,438,152,461,155,464,152,468,148,465,126,441,108,415,81,359,64,306,55,268"/>
 <area shape="rect" href="class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="397,45,575,72"/>
-<area shape="poly" title=" " alt="" coords="325,87,398,73,399,78,326,92"/>
-<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="651,8,814,34"/>
-<area shape="poly" title=" " alt="" coords="313,81,337,69,350,59,359,49,369,39,385,30,448,13,514,5,578,3,636,6,636,11,578,8,515,10,449,18,387,35,373,43,363,53,354,63,339,74,315,85"/>
-<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="644,70,821,97"/>
-<area shape="poly" title=" " alt="" coords="325,99,628,85,629,91,326,104"/>
-<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="407,146,565,173"/>
-<area shape="poly" title=" " alt="" coords="326,121,409,140,408,145,325,126"/>
-<area shape="poly" title=" " alt="" coords="575,42,636,33,636,38,576,47"/>
-<area shape="poly" title=" " alt="" coords="576,65,630,70,629,76,576,70"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,201,554,228"/>
-<area shape="poly" title=" " alt="" coords="314,212,402,212,402,217,314,217"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,176,824,202"/>
-<area shape="poly" title=" " alt="" coords="554,205,625,197,626,203,555,210"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,226,831,253"/>
-<area shape="poly" title=" " alt="" coords="555,219,619,225,619,231,554,224"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,252,579,278"/>
-<area shape="poly" title=" " alt="" coords="339,262,377,262,377,268,339,268"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,302,586,329"/>
-<area shape="poly" title=" " alt="" coords="312,276,405,296,403,301,311,282"/>
+<area shape="poly" title=" " alt="" coords="325,68,381,64,382,69,326,74"/>
+<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,20,804,47"/>
+<area shape="poly" title=" " alt="" coords="301,53,342,40,386,31,448,24,510,21,626,23,625,28,511,26,448,29,386,36,343,45,303,58"/>
+<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,71,811,97"/>
+<area shape="poly" title=" " alt="" coords="326,79,386,81,619,83,619,88,386,87,325,84"/>
+<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="407,147,565,173"/>
+<area shape="poly" title=" " alt="" coords="307,97,339,108,387,125,427,139,426,144,385,131,337,113,305,102"/>
+<area shape="poly" title=" " alt="" coords="576,46,626,41,626,46,576,52"/>
+<area shape="poly" title=" " alt="" coords="576,66,619,70,619,76,576,71"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,209,579,236"/>
+<area shape="poly" title=" " alt="" coords="338,239,377,234,378,239,339,244"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,260,586,287"/>
+<area shape="poly" title=" " alt="" coords="339,258,371,261,370,266,338,264"/>
 </map>
 </div>
 
@@ -599,37 +593,41 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_a2ece5a0676d7eee2c801f6d6b36610ba_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_a2ece5a0676d7eee2c801f6d6b36610ba_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_a2ece5a0676d7eee2c801f6d6b36610ba_cgraph" id="a_feature_tests_8cpp_a2ece5a0676d7eee2c801f6d6b36610ba_cgraph">
-<area shape="rect" title=" " alt="" coords="5,224,102,251"/>
+<area shape="rect" title=" " alt="" coords="5,240,102,267"/>
 <area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="161,5,332,32"/>
-<area shape="poly" title=" " alt="" coords="55,223,64,187,82,138,109,86,127,63,148,42,153,38,157,42,151,46,131,66,113,89,87,140,69,188,60,224"/>
+<area shape="poly" title=" " alt="" coords="54,239,63,200,79,147,107,91,126,65,148,42,153,38,156,42,151,46,130,68,112,93,84,149,68,202,60,240"/>
 <area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="167,56,326,83"/>
-<area shape="poly" title=" " alt="" coords="58,222,89,160,115,123,148,93,156,88,159,92,151,97,119,127,94,163,62,225"/>
+<area shape="poly" title=" " alt="" coords="57,238,68,208,87,169,113,128,148,93,155,88,158,92,151,97,117,131,91,171,73,210,62,240"/>
 <area shape="rect" href="class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5" title="Enables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6...." alt="" coords="150,107,343,149"/>
-<area shape="poly" title=" " alt="" coords="67,222,102,191,148,159,159,154,161,158,151,164,105,195,70,226"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="178,173,315,200"/>
-<area shape="poly" title=" " alt="" coords="101,222,149,209,177,202,179,207,150,215,103,227"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="152,224,341,251"/>
-<area shape="poly" title=" " alt="" coords="102,235,137,235,137,240,102,240"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="167,275,326,317"/>
-<area shape="poly" title=" " alt="" coords="101,249,161,267,159,272,99,254"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="156,341,337,368"/>
-<area shape="poly" title=" " alt="" coords="67,249,102,288,125,309,151,327,163,333,160,338,148,332,122,313,98,292,63,253"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="164,392,329,435"/>
-<area shape="poly" title=" " alt="" coords="63,250,95,311,120,347,151,378,157,382,153,386,148,382,116,351,90,314,58,253"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="164,459,329,501"/>
-<area shape="poly" title=" " alt="" coords="60,251,69,289,86,341,113,397,131,422,152,445,155,448,152,452,148,449,126,425,108,399,81,343,64,290,55,252"/>
-<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="410,43,572,69"/>
-<area shape="poly" title=" " alt="" coords="311,104,390,79,418,71,419,76,392,84,313,109"/>
-<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="403,93,579,120"/>
-<area shape="poly" title=" " alt="" coords="343,117,387,113,388,118,344,122"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="400,144,582,171"/>
-<area shape="poly" title=" " alt="" coords="315,176,384,167,385,173,315,181"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="393,195,589,221"/>
-<area shape="poly" title=" " alt="" coords="315,190,378,195,377,201,315,195"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="398,245,584,272"/>
-<area shape="poly" title=" " alt="" coords="341,243,383,247,382,252,341,248"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="391,296,591,323"/>
-<area shape="poly" title=" " alt="" coords="307,249,344,260,392,282,415,289,414,294,390,286,342,265,305,254"/>
+<area shape="poly" title=" " alt="" coords="64,238,99,199,148,159,157,154,159,159,151,164,102,203,68,241"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="165,173,328,216"/>
+<area shape="poly" title=" " alt="" coords="99,237,159,218,161,224,101,242"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="391,240,579,267"/>
+<area shape="poly" title=" " alt="" coords="102,251,376,251,376,256,102,256"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="167,291,326,333"/>
+<area shape="poly" title=" " alt="" coords="101,265,161,283,159,288,99,270"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="156,357,337,384"/>
+<area shape="poly" title=" " alt="" coords="67,265,102,304,125,325,151,343,163,349,160,354,148,348,122,329,98,308,63,269"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="164,408,329,451"/>
+<area shape="poly" title=" " alt="" coords="63,266,95,327,120,363,151,394,157,398,153,402,148,398,116,367,90,330,58,269"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="164,475,329,517"/>
+<area shape="poly" title=" " alt="" coords="60,267,69,305,86,357,113,413,131,438,152,461,155,464,152,468,148,465,126,441,108,415,81,359,64,306,55,268"/>
+<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="404,72,566,99"/>
+<area shape="poly" title=" " alt="" coords="343,108,391,99,392,105,344,113"/>
+<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="397,123,573,149"/>
+<area shape="poly" title=" " alt="" coords="343,129,381,130,381,135,343,134"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="406,181,564,208"/>
+<area shape="poly" title=" " alt="" coords="328,192,391,192,391,197,328,197"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="636,109,819,136"/>
+<area shape="poly" title=" " alt="" coords="525,178,627,145,654,138,655,143,628,151,527,183"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="634,211,821,237"/>
+<area shape="poly" title=" " alt="" coords="565,202,619,208,618,213,565,207"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="629,160,826,187"/>
+<area shape="poly" title=" " alt="" coords="565,185,614,181,614,186,565,190"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="627,261,828,288"/>
+<area shape="poly" title=" " alt="" coords="528,206,580,226,628,247,652,254,650,259,626,252,578,230,526,211"/>
+<area shape="poly" title=" " alt="" coords="580,239,618,234,619,240,580,245"/>
+<area shape="poly" title=" " alt="" coords="580,259,612,262,611,267,580,264"/>
 </map>
 </div>
 
@@ -658,40 +656,43 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_ae6b70979bd6502fbeaef43fb4bc8d508_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_ae6b70979bd6502fbeaef43fb4bc8d508_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_ae6b70979bd6502fbeaef43fb4bc8d508_cgraph" id="a_feature_tests_8cpp_ae6b70979bd6502fbeaef43fb4bc8d508_cgraph">
-<area shape="rect" title=" " alt="" coords="5,259,102,285"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
-<area shape="poly" title=" " alt="" coords="54,258,61,216,77,158,105,96,124,67,148,42,153,38,156,42,151,46,129,70,110,98,82,160,66,217,59,259"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
-<area shape="poly" title=" " alt="" coords="56,257,66,224,84,179,111,133,128,111,148,93,154,88,157,92,151,97,132,115,115,136,89,182,71,225,61,259"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,107,314,133"/>
-<area shape="poly" title=" " alt="" coords="60,257,94,205,119,176,148,150,170,137,173,142,151,154,123,179,98,208,65,259"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,157,554,184"/>
-<area shape="poly" title=" " alt="" coords="73,256,107,235,149,216,214,198,281,185,402,171,403,177,282,190,215,203,151,221,110,240,76,260"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,259,338,285"/>
-<area shape="poly" title=" " alt="" coords="102,269,134,269,134,275,102,275"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="394,208,578,235"/>
-<area shape="poly" title=" " alt="" coords="100,255,149,244,267,229,378,222,379,227,268,234,150,249,101,261"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,309,323,352"/>
-<area shape="poly" title=" " alt="" coords="100,283,159,302,157,307,99,288"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,376,335,403"/>
-<area shape="poly" title=" " alt="" coords="67,284,102,323,125,344,151,362,163,368,160,372,148,366,122,348,98,327,63,288"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="161,427,327,469"/>
-<area shape="poly" title=" " alt="" coords="63,285,95,346,120,382,151,413,157,416,153,421,148,417,116,385,90,349,58,287"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,493,327,536"/>
-<area shape="poly" title=" " alt="" coords="60,285,69,324,86,376,113,431,131,457,152,479,155,483,152,487,148,483,126,460,108,434,81,378,64,325,55,287"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,560,327,603"/>
-<area shape="poly" title=" " alt="" coords="58,285,63,334,78,404,90,442,106,479,126,515,152,546,154,548,150,552,148,550,122,518,101,482,85,444,73,405,58,335,53,286"/>
-<area shape="poly" title=" " alt="" coords="312,131,405,151,403,156,311,137"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,157,824,184"/>
-<area shape="poly" title=" " alt="" coords="555,168,626,168,626,173,555,173"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,208,831,235"/>
-<area shape="poly" title=" " alt="" coords="555,182,650,202,649,207,554,187"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,259,579,285"/>
-<area shape="poly" title=" " alt="" coords="339,269,377,269,377,275,339,275"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,309,586,336"/>
-<area shape="poly" title=" " alt="" coords="312,283,405,303,403,308,311,289"/>
-<area shape="poly" title=" " alt="" coords="554,205,649,185,650,190,555,210"/>
-<area shape="poly" title=" " alt="" coords="579,219,619,219,619,224,579,224"/>
+<area shape="rect" title=" " alt="" coords="5,291,102,317"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="155,5,326,32"/>
+<area shape="poly" title=" " alt="" coords="53,290,58,243,73,176,85,140,101,105,122,71,148,42,152,39,155,43,152,46,126,74,106,107,90,142,78,178,64,244,58,291"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="161,56,320,83"/>
+<area shape="poly" title=" " alt="" coords="54,290,63,251,80,198,107,141,126,115,148,93,153,88,157,93,151,97,130,119,112,144,85,200,68,252,60,291"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="171,107,310,149"/>
+<area shape="poly" title=" " alt="" coords="59,289,92,231,118,197,148,166,164,155,167,159,151,170,122,200,96,234,64,292"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="159,224,322,267"/>
+<area shape="poly" title=" " alt="" coords="98,288,155,269,157,274,99,293"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="379,291,567,317"/>
+<area shape="poly" title=" " alt="" coords="102,301,364,301,364,307,102,307"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="381,173,565,200"/>
+<area shape="poly" title=" " alt="" coords="62,288,96,248,121,226,149,210,202,191,258,180,314,175,365,175,365,180,314,180,259,185,203,196,151,214,124,231,100,251,66,292"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="161,341,320,384"/>
+<area shape="poly" title=" " alt="" coords="99,315,157,334,155,339,98,320"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="150,408,331,435"/>
+<area shape="poly" title=" " alt="" coords="67,316,102,355,125,376,151,394,162,399,160,404,148,398,122,380,98,359,63,319"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="158,459,323,501"/>
+<area shape="poly" title=" " alt="" coords="63,317,95,378,120,413,151,445,156,448,153,452,148,449,116,417,90,381,58,319"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="158,525,323,568"/>
+<area shape="poly" title=" " alt="" coords="60,317,69,355,86,407,113,463,131,489,152,511,155,514,151,518,148,515,127,492,108,466,81,409,64,357,55,318"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="158,592,323,635"/>
+<area shape="poly" title=" " alt="" coords="58,317,64,366,78,436,90,474,106,511,126,547,152,578,154,580,150,584,148,582,122,550,101,514,85,475,73,437,58,367,53,318"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="394,232,552,259"/>
+<area shape="poly" title=" " alt="" coords="322,243,379,243,379,248,322,248"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="624,156,807,183"/>
+<area shape="poly" title=" " alt="" coords="512,229,566,209,615,192,641,185,642,190,616,197,568,215,514,234"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="622,257,809,284"/>
+<area shape="poly" title=" " alt="" coords="553,251,607,257,606,262,553,256"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,207,814,233"/>
+<area shape="poly" title=" " alt="" coords="553,234,602,229,602,235,553,240"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="615,308,816,335"/>
+<area shape="poly" title=" " alt="" coords="514,257,568,276,616,293,642,301,641,306,615,299,566,281,512,262"/>
+<area shape="poly" title=" " alt="" coords="567,288,606,283,607,288,568,294"/>
+<area shape="poly" title=" " alt="" coords="568,308,600,310,600,316,568,313"/>
+<area shape="poly" title=" " alt="" coords="566,177,609,174,609,180,566,183"/>
+<area shape="poly" title=" " alt="" coords="566,197,602,202,601,207,565,202"/>
 </map>
 </div>
 
@@ -720,40 +721,43 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_aa6cd73e0d81f1bad0797e318018ffd3a_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_aa6cd73e0d81f1bad0797e318018ffd3a_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_aa6cd73e0d81f1bad0797e318018ffd3a_cgraph" id="a_feature_tests_8cpp_aa6cd73e0d81f1bad0797e318018ffd3a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,259,102,285"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
-<area shape="poly" title=" " alt="" coords="54,258,61,216,77,158,105,96,124,67,148,42,153,38,156,42,151,46,129,70,110,98,82,160,66,217,59,259"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
-<area shape="poly" title=" " alt="" coords="56,257,66,224,84,179,111,133,128,111,148,93,154,88,157,92,151,97,132,115,115,136,89,182,71,225,61,259"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,107,314,133"/>
-<area shape="poly" title=" " alt="" coords="60,257,94,205,119,176,148,150,170,137,173,142,151,154,123,179,98,208,65,259"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,141,554,168"/>
-<area shape="poly" title=" " alt="" coords="73,256,107,235,149,215,214,194,281,179,402,160,403,165,282,184,215,199,151,220,110,239,76,260"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,259,338,285"/>
-<area shape="poly" title=" " alt="" coords="102,269,134,269,134,275,102,275"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="404,192,569,235"/>
-<area shape="poly" title=" " alt="" coords="100,256,149,244,273,226,388,216,388,221,274,232,150,249,101,261"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,309,323,352"/>
-<area shape="poly" title=" " alt="" coords="100,283,159,302,157,307,99,288"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,376,335,403"/>
-<area shape="poly" title=" " alt="" coords="67,284,102,323,125,344,151,362,163,368,160,372,148,366,122,348,98,327,63,288"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="161,427,327,469"/>
-<area shape="poly" title=" " alt="" coords="63,285,95,346,120,382,151,413,157,416,153,421,148,417,116,385,90,349,58,287"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,493,327,536"/>
-<area shape="poly" title=" " alt="" coords="60,285,69,324,86,376,113,431,131,457,152,479,155,483,152,487,148,483,126,460,108,434,81,378,64,325,55,287"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,560,327,603"/>
-<area shape="poly" title=" " alt="" coords="58,285,63,334,78,404,90,442,106,479,126,515,152,546,154,548,150,552,148,550,122,518,101,482,85,444,73,405,58,335,53,286"/>
-<area shape="poly" title=" " alt="" coords="314,127,403,140,402,145,313,133"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,144,824,171"/>
-<area shape="poly" title=" " alt="" coords="555,153,626,154,626,159,555,158"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,196,831,223"/>
-<area shape="poly" title=" " alt="" coords="550,166,655,190,654,195,549,171"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,259,579,285"/>
-<area shape="poly" title=" " alt="" coords="339,269,377,269,377,275,339,275"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,309,586,336"/>
-<area shape="poly" title=" " alt="" coords="312,283,405,303,403,308,311,289"/>
-<area shape="poly" title=" " alt="" coords="569,192,655,172,656,177,570,197"/>
-<area shape="poly" title=" " alt="" coords="569,209,619,209,619,214,569,215"/>
+<area shape="rect" title=" " alt="" coords="5,291,102,317"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="155,5,326,32"/>
+<area shape="poly" title=" " alt="" coords="53,290,58,243,73,176,85,140,101,105,122,71,148,42,152,39,155,43,152,46,126,74,106,107,90,142,78,178,64,244,58,291"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="161,56,320,83"/>
+<area shape="poly" title=" " alt="" coords="54,290,63,251,80,198,107,141,126,115,148,93,153,88,157,93,151,97,130,119,112,144,85,200,68,252,60,291"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="171,107,310,149"/>
+<area shape="poly" title=" " alt="" coords="59,289,92,231,118,197,148,166,164,155,167,159,151,170,122,200,96,234,64,292"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="159,224,322,267"/>
+<area shape="poly" title=" " alt="" coords="98,288,155,269,157,274,99,293"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="379,291,567,317"/>
+<area shape="poly" title=" " alt="" coords="102,301,364,301,364,307,102,307"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="391,165,556,208"/>
+<area shape="poly" title=" " alt="" coords="62,288,96,248,121,226,149,210,205,190,264,179,322,175,375,175,375,180,322,180,264,185,206,195,151,214,124,231,100,251,66,292"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="161,341,320,384"/>
+<area shape="poly" title=" " alt="" coords="99,315,157,334,155,339,98,320"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="150,408,331,435"/>
+<area shape="poly" title=" " alt="" coords="67,316,102,355,125,376,151,394,162,399,160,404,148,398,122,380,98,359,63,319"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="158,459,323,501"/>
+<area shape="poly" title=" " alt="" coords="63,317,95,378,120,413,151,445,156,448,153,452,148,449,116,417,90,381,58,319"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="158,525,323,568"/>
+<area shape="poly" title=" " alt="" coords="60,317,69,355,86,407,113,463,131,489,152,511,155,514,151,518,148,515,127,492,108,466,81,409,64,357,55,318"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="158,592,323,635"/>
+<area shape="poly" title=" " alt="" coords="58,317,64,366,78,436,90,474,106,511,126,547,152,578,154,580,150,584,148,582,122,550,101,514,85,475,73,437,58,367,53,318"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="394,232,552,259"/>
+<area shape="poly" title=" " alt="" coords="322,243,379,243,379,248,322,248"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="624,156,807,183"/>
+<area shape="poly" title=" " alt="" coords="532,229,566,218,590,205,614,192,635,185,637,190,616,197,593,210,568,222,534,234"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="622,257,809,284"/>
+<area shape="poly" title=" " alt="" coords="553,251,607,257,606,262,553,256"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,207,814,233"/>
+<area shape="poly" title=" " alt="" coords="553,234,602,229,602,235,553,240"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="615,308,816,335"/>
+<area shape="poly" title=" " alt="" coords="514,257,568,276,616,293,642,301,641,306,615,299,566,281,512,262"/>
+<area shape="poly" title=" " alt="" coords="567,288,606,283,607,288,568,294"/>
+<area shape="poly" title=" " alt="" coords="568,308,600,310,600,316,568,313"/>
+<area shape="poly" title=" " alt="" coords="556,178,608,174,609,180,557,183"/>
+<area shape="poly" title=" " alt="" coords="557,195,603,202,602,207,556,201"/>
 </map>
 </div>
 
@@ -782,50 +786,53 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_ad2587baeeb225c43d04e355166a29b18_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_ad2587baeeb225c43d04e355166a29b18_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_ad2587baeeb225c43d04e355166a29b18_cgraph" id="a_feature_tests_8cpp_ad2587baeeb225c43d04e355166a29b18_cgraph">
-<area shape="rect" title=" " alt="" coords="5,267,102,293"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
-<area shape="poly" title=" " alt="" coords="54,266,60,223,76,162,104,98,124,68,148,42,152,38,156,42,151,46,128,71,109,100,81,164,66,224,59,267"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
-<area shape="poly" title=" " alt="" coords="55,266,65,231,83,184,110,135,128,112,148,93,154,88,157,92,151,97,132,116,114,138,88,186,70,233,60,267"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,107,314,133"/>
-<area shape="poly" title=" " alt="" coords="59,265,92,210,118,178,148,150,170,137,172,142,151,154,122,181,97,213,64,268"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,107,554,133"/>
-<area shape="poly" title=" " alt="" coords="64,264,99,229,123,210,148,194,195,176,260,160,402,131,403,136,261,165,196,182,151,198,126,214,103,233,68,268"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,208,338,235"/>
-<area shape="poly" title=" " alt="" coords="92,264,149,244,173,237,175,242,150,249,93,269"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,259,323,301"/>
-<area shape="poly" title=" " alt="" coords="102,277,149,277,149,283,102,283"/>
-<area shape="rect" href="class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x device." alt="" coords="174,325,314,352"/>
-<area shape="poly" title=" " alt="" coords="93,291,150,311,175,318,173,323,149,316,92,296"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,376,335,403"/>
-<area shape="poly" title=" " alt="" coords="68,292,103,327,151,362,164,368,161,372,148,366,100,331,64,295"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="161,427,327,469"/>
-<area shape="poly" title=" " alt="" coords="63,293,96,350,121,384,151,413,157,416,154,421,148,417,117,387,91,353,59,295"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,493,327,536"/>
-<area shape="poly" title=" " alt="" coords="60,293,69,330,87,380,114,433,131,458,152,479,155,482,152,487,148,483,127,461,109,436,82,382,64,332,55,295"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,560,327,603"/>
-<area shape="poly" title=" " alt="" coords="58,294,64,341,79,409,91,445,107,482,127,516,152,546,154,548,150,552,148,550,122,519,102,484,86,447,74,410,59,342,53,294"/>
-<area shape="poly" title=" " alt="" coords="314,117,402,117,402,123,314,123"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,81,824,108"/>
-<area shape="poly" title=" " alt="" coords="554,110,625,103,626,108,555,116"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,132,831,159"/>
-<area shape="poly" title=" " alt="" coords="555,124,619,131,619,136,554,130"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,157,579,184"/>
-<area shape="poly" title=" " alt="" coords="311,205,403,185,405,190,312,210"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,208,586,235"/>
-<area shape="poly" title=" " alt="" coords="339,219,370,219,370,224,339,224"/>
-<area shape="rect" href="class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="397,309,575,336"/>
-<area shape="poly" title=" " alt="" coords="314,331,381,327,382,332,314,337"/>
-<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="651,259,814,285"/>
-<area shape="poly" title=" " alt="" coords="298,322,337,311,361,302,385,295,516,277,636,270,636,275,516,282,387,300,363,307,339,316,299,327"/>
-<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="644,335,821,361"/>
-<area shape="poly" title=" " alt="" coords="314,341,386,345,629,347,629,352,386,351,314,347"/>
-<area shape="rect" href="class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="412,411,561,437"/>
-<area shape="poly" title=" " alt="" coords="306,350,339,362,363,375,387,390,421,403,419,408,385,394,361,380,337,366,304,355"/>
-<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="407,461,565,488"/>
-<area shape="poly" title=" " alt="" coords="315,348,340,362,357,384,364,406,371,427,388,447,395,452,392,457,384,451,366,430,359,408,353,386,336,366,313,353"/>
-<area shape="poly" title=" " alt="" coords="554,306,649,286,650,292,555,311"/>
-<area shape="poly" title=" " alt="" coords="576,329,630,335,629,340,576,335"/>
+<area shape="rect" title=" " alt="" coords="5,299,102,325"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="155,5,326,32"/>
+<area shape="poly" title=" " alt="" coords="53,298,58,250,72,181,84,144,100,107,121,72,148,42,152,39,155,43,152,46,126,75,105,109,89,146,77,183,63,251,58,299"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="161,56,320,83"/>
+<area shape="poly" title=" " alt="" coords="54,298,62,258,79,203,106,144,125,116,148,93,153,89,156,93,151,97,129,120,111,146,84,204,67,259,59,299"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="171,107,310,149"/>
+<area shape="poly" title=" " alt="" coords="58,297,89,232,115,193,148,159,155,154,159,158,151,163,119,197,94,235,62,299"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="159,173,322,216"/>
+<area shape="poly" title=" " alt="" coords="68,296,103,265,148,232,169,221,172,226,151,237,106,269,71,300"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="379,236,567,263"/>
+<area shape="poly" title=" " alt="" coords="87,296,149,276,259,259,363,250,364,255,260,264,150,281,89,301"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="161,291,320,333"/>
+<area shape="poly" title=" " alt="" coords="102,309,146,309,146,315,102,315"/>
+<area shape="rect" href="class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x device." alt="" coords="171,357,310,384"/>
+<area shape="poly" title=" " alt="" coords="93,323,150,343,174,350,173,355,149,348,92,328"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="150,408,331,435"/>
+<area shape="poly" title=" " alt="" coords="68,324,103,359,151,394,163,400,161,404,148,398,100,363,64,327"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="158,459,323,501"/>
+<area shape="poly" title=" " alt="" coords="63,325,96,382,121,416,151,445,157,448,154,453,148,449,117,419,91,385,59,327"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="158,525,323,568"/>
+<area shape="poly" title=" " alt="" coords="60,325,70,362,87,412,114,465,131,490,152,511,155,514,151,518,148,515,127,493,109,468,82,414,64,364,55,327"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="158,592,323,635"/>
+<area shape="poly" title=" " alt="" coords="58,325,64,373,79,440,91,477,107,514,127,548,152,578,154,580,150,584,148,582,122,551,102,516,86,479,74,442,59,374,53,326"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="394,181,552,208"/>
+<area shape="poly" title=" " alt="" coords="322,192,379,192,379,197,322,197"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="624,109,807,136"/>
+<area shape="poly" title=" " alt="" coords="513,178,615,145,642,138,643,143,616,151,515,183"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="622,211,809,237"/>
+<area shape="poly" title=" " alt="" coords="553,202,607,208,606,213,553,207"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,160,814,187"/>
+<area shape="poly" title=" " alt="" coords="553,185,602,181,602,186,553,190"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="615,261,816,288"/>
+<area shape="poly" title=" " alt="" coords="525,206,568,222,592,235,616,247,637,254,635,259,614,252,590,239,566,226,523,211"/>
+<area shape="poly" title=" " alt="" coords="568,237,606,233,607,238,568,242"/>
+<area shape="poly" title=" " alt="" coords="568,257,600,260,599,265,568,262"/>
+<area shape="rect" href="class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="384,388,562,415"/>
+<area shape="poly" title=" " alt="" coords="310,377,369,385,368,390,310,382"/>
+<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="634,337,797,364"/>
+<area shape="poly" title=" " alt="" coords="310,365,619,352,619,357,310,370"/>
+<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="627,413,804,440"/>
+<area shape="poly" title=" " alt="" coords="301,382,332,394,356,410,366,418,380,424,438,437,499,442,558,442,612,439,612,444,558,447,498,447,437,442,378,429,363,423,353,415,330,398,299,387"/>
+<area shape="rect" href="class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="399,489,548,516"/>
+<area shape="poly" title=" " alt="" coords="312,382,333,394,350,413,358,432,365,451,381,469,400,481,397,485,377,473,361,453,353,434,345,416,329,398,309,387"/>
+<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="394,287,552,313"/>
+<area shape="poly" title=" " alt="" coords="291,354,330,343,415,316,416,321,332,348,293,359"/>
+<area shape="poly" title=" " alt="" coords="540,385,633,365,634,370,541,390"/>
+<area shape="poly" title=" " alt="" coords="563,408,612,413,612,419,562,413"/>
 </map>
 </div>
 
@@ -907,46 +914,49 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_aa591e9e15fbc5763f8bace22312015c0_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_aa591e9e15fbc5763f8bace22312015c0_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_aa591e9e15fbc5763f8bace22312015c0_cgraph" id="a_feature_tests_8cpp_aa591e9e15fbc5763f8bace22312015c0_cgraph">
-<area shape="rect" title=" " alt="" coords="5,296,102,323"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
-<area shape="poly" title=" " alt="" coords="53,295,58,247,72,179,85,142,101,106,122,72,148,42,152,39,155,43,152,46,126,75,105,108,90,144,78,180,63,248,58,296"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
-<area shape="poly" title=" " alt="" coords="55,295,64,257,81,204,108,148,126,122,148,99,165,87,168,92,151,103,131,126,113,151,86,206,69,258,60,296"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,157,314,184"/>
-<area shape="poly" title=" " alt="" coords="60,294,94,245,119,217,148,194,158,188,161,193,151,198,123,221,98,248,65,297"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,120,554,147"/>
-<area shape="poly" title=" " alt="" coords="55,295,65,262,83,220,110,177,128,158,148,143,180,127,213,116,283,106,351,107,412,114,411,119,351,112,283,111,215,122,182,132,151,148,131,162,114,180,88,222,70,264,61,296"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,208,338,235"/>
-<area shape="poly" title=" " alt="" coords="70,293,105,269,149,244,165,238,167,242,151,249,108,273,74,298"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,259,323,301"/>
-<area shape="poly" title=" " alt="" coords="102,299,149,292,150,297,103,305"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,325,335,352"/>
-<area shape="poly" title=" " alt="" coords="103,314,139,320,138,325,102,319"/>
-<area shape="rect" href="class_b_n_o08x.html#aaaa15b21ad98a3b161065c3d03ff62b5" title="Places BNO08x device in on state by sending ON (2) command on &quot;device&quot; channel." alt="" coords="198,376,290,403"/>
-<area shape="poly" title=" " alt="" coords="77,321,111,342,151,362,184,373,182,378,149,366,108,346,74,326"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="161,477,327,520"/>
-<area shape="poly" title=" " alt="" coords="62,322,93,389,119,429,151,463,156,467,153,471,148,467,114,432,88,392,57,324"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,544,327,587"/>
-<area shape="poly" title=" " alt="" coords="59,322,68,363,84,418,111,478,130,506,152,530,155,533,151,537,148,534,125,509,107,481,79,420,62,364,54,324"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,611,327,653"/>
-<area shape="poly" title=" " alt="" coords="58,323,62,373,76,447,88,487,104,526,125,564,152,597,154,599,150,603,148,600,121,567,99,529,83,489,71,448,57,374,53,323"/>
-<area shape="rect" href="class_b_n_o08x.html#a7c5774a48227e8e3346fa5df7dfa420c" title="Places BNO08x device in sleep state by sending SLEEP (3) command on &quot;device&quot; channel." alt="" coords="189,427,299,453"/>
-<area shape="poly" title=" " alt="" coords="66,322,100,367,124,391,151,412,175,424,173,429,148,417,120,395,95,370,61,325"/>
-<area shape="poly" title=" " alt="" coords="313,157,402,144,403,149,314,163"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,95,824,121"/>
-<area shape="poly" title=" " alt="" coords="554,124,625,116,626,122,555,129"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,145,831,172"/>
-<area shape="poly" title=" " alt="" coords="555,138,619,144,619,150,554,143"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,233,579,260"/>
-<area shape="poly" title=" " alt="" coords="339,229,378,233,377,238,338,234"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,183,586,209"/>
-<area shape="poly" title=" " alt="" coords="338,209,370,205,371,211,339,214"/>
-<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="405,427,567,453"/>
-<area shape="poly" title=" " alt="" coords="291,396,404,420,403,426,290,401"/>
-<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="398,376,574,403"/>
-<area shape="poly" title=" " alt="" coords="290,387,383,387,383,392,290,392"/>
-<area shape="poly" title=" " alt="" coords="299,437,389,437,389,443,299,443"/>
-<area shape="poly" title=" " alt="" coords="298,426,403,404,404,409,300,431"/>
+<area shape="rect" title=" " alt="" coords="5,328,102,355"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="155,5,326,32"/>
+<area shape="poly" title=" " alt="" coords="52,327,56,274,69,198,81,156,97,115,119,76,148,42,152,39,155,43,152,46,124,79,102,117,86,158,74,199,61,275,58,328"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="161,56,320,83"/>
+<area shape="poly" title=" " alt="" coords="53,327,60,283,75,219,103,152,123,120,148,93,152,89,155,93,152,97,127,123,108,154,80,221,65,284,59,328"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="171,107,310,149"/>
+<area shape="poly" title=" " alt="" coords="56,327,67,293,85,248,112,201,148,159,156,153,159,157,152,163,116,204,90,251,72,295,61,328"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="159,173,322,216"/>
+<area shape="poly" title=" " alt="" coords="62,326,97,281,121,256,148,233,165,221,168,226,151,237,125,259,101,285,66,329"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="379,240,567,267"/>
+<area shape="poly" title=" " alt="" coords="69,325,104,299,149,276,202,261,258,252,363,246,364,251,259,258,204,267,151,281,106,304,72,330"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="161,291,320,333"/>
+<area shape="poly" title=" " alt="" coords="102,331,145,324,146,330,103,336"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="150,357,331,384"/>
+<area shape="poly" title=" " alt="" coords="103,346,137,352,136,357,102,352"/>
+<area shape="rect" href="class_b_n_o08x.html#aaaa15b21ad98a3b161065c3d03ff62b5" title="Places BNO08x device in on state by sending ON (2) command on &quot;device&quot; channel." alt="" coords="194,408,287,435"/>
+<area shape="poly" title=" " alt="" coords="77,353,111,374,151,394,180,404,178,409,149,398,108,378,74,358"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="158,509,323,552"/>
+<area shape="poly" title=" " alt="" coords="62,354,93,421,119,461,151,495,156,499,153,503,148,499,115,464,88,424,57,356"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="158,576,323,619"/>
+<area shape="poly" title=" " alt="" coords="59,354,68,395,84,450,112,510,130,538,152,562,155,565,151,569,148,566,126,541,107,512,79,452,62,396,54,355"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="158,643,323,685"/>
+<area shape="poly" title=" " alt="" coords="58,355,63,405,76,478,88,518,104,558,125,596,152,629,154,631,150,635,148,632,121,599,100,561,83,520,71,480,57,406,53,355"/>
+<area shape="rect" href="class_b_n_o08x.html#a7c5774a48227e8e3346fa5df7dfa420c" title="Places BNO08x device in sleep state by sending SLEEP (3) command on &quot;device&quot; channel." alt="" coords="186,459,295,485"/>
+<area shape="poly" title=" " alt="" coords="66,354,100,399,124,423,151,444,172,455,170,460,148,449,120,427,96,402,61,357"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="394,181,552,208"/>
+<area shape="poly" title=" " alt="" coords="322,192,379,192,379,197,322,197"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="624,109,807,136"/>
+<area shape="poly" title=" " alt="" coords="513,178,615,145,642,138,643,143,616,151,515,183"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="622,211,809,237"/>
+<area shape="poly" title=" " alt="" coords="553,202,607,208,606,213,553,207"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,160,814,187"/>
+<area shape="poly" title=" " alt="" coords="553,185,602,181,602,186,553,190"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="615,261,816,288"/>
+<area shape="poly" title=" " alt="" coords="516,206,568,226,616,247,640,254,638,259,614,252,566,230,514,211"/>
+<area shape="poly" title=" " alt="" coords="568,239,606,234,607,240,568,245"/>
+<area shape="poly" title=" " alt="" coords="568,259,600,262,599,267,568,264"/>
+<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="392,408,554,435"/>
+<area shape="poly" title=" " alt="" coords="287,419,377,419,377,424,287,424"/>
+<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="385,459,561,485"/>
+<area shape="poly" title=" " alt="" coords="288,429,394,452,393,457,287,434"/>
+<area shape="poly" title=" " alt="" coords="295,458,393,436,394,441,296,463"/>
+<area shape="poly" title=" " alt="" coords="296,469,369,469,369,475,296,475"/>
 </map>
 </div>
 
@@ -975,48 +985,51 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="_feature_tests_8cpp_abc6316f813506ff1114a4c50b5a72bdf_cgraph.png" border="0" usemap="#a_feature_tests_8cpp_abc6316f813506ff1114a4c50b5a72bdf_cgraph" alt=""/></div>
 <map name="a_feature_tests_8cpp_abc6316f813506ff1114a4c50b5a72bdf_cgraph" id="a_feature_tests_8cpp_abc6316f813506ff1114a4c50b5a72bdf_cgraph">
-<area shape="rect" title=" " alt="" coords="5,267,102,293"/>
-<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="158,5,330,32"/>
-<area shape="poly" title=" " alt="" coords="54,266,60,223,76,162,104,98,124,68,148,42,152,38,156,42,151,46,128,71,109,100,81,164,66,224,59,267"/>
-<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="164,56,324,83"/>
-<area shape="poly" title=" " alt="" coords="55,266,65,231,83,184,110,135,128,112,148,93,154,88,157,92,151,97,132,116,114,138,88,186,70,233,60,267"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,107,314,133"/>
-<area shape="poly" title=" " alt="" coords="59,265,92,210,118,178,148,150,170,137,172,142,151,154,122,181,97,213,64,268"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="418,120,554,147"/>
-<area shape="poly" title=" " alt="" coords="64,264,99,228,123,209,149,194,195,178,260,163,402,141,403,146,261,169,196,183,151,198,126,214,103,232,68,268"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="150,208,338,235"/>
-<area shape="poly" title=" " alt="" coords="92,264,149,244,173,237,175,242,150,249,93,269"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="165,259,323,301"/>
-<area shape="poly" title=" " alt="" coords="102,277,149,277,149,283,102,283"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="153,325,335,352"/>
-<area shape="poly" title=" " alt="" coords="93,291,150,311,175,318,173,323,149,316,92,296"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="161,376,327,419"/>
-<area shape="poly" title=" " alt="" coords="69,292,104,326,151,362,160,367,157,371,148,366,100,330,65,296"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="161,443,327,485"/>
-<area shape="poly" title=" " alt="" coords="62,293,93,358,119,396,151,429,156,432,153,436,148,433,115,399,89,360,57,295"/>
-<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="161,509,327,552"/>
-<area shape="poly" title=" " alt="" coords="60,293,68,333,85,387,112,445,130,472,152,495,155,498,151,502,148,499,126,475,107,448,80,389,63,334,54,294"/>
-<area shape="rect" href="class_b_n_o08x.html#a973a1b1785f3302ee1b2702c6a27646e" title="Soft resets BNO08x device by sending RESET (1) command on &quot;device&quot; channel." alt="" coords="176,576,312,603"/>
-<area shape="poly" title=" " alt="" coords="58,293,62,344,75,416,87,456,103,495,125,531,151,562,164,571,161,576,148,566,120,534,98,497,82,458,70,418,57,345,52,294"/>
-<area shape="poly" title=" " alt="" coords="314,121,402,126,402,131,314,126"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="641,95,824,121"/>
-<area shape="poly" title=" " alt="" coords="554,124,625,116,626,122,555,129"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="634,145,831,172"/>
-<area shape="poly" title=" " alt="" coords="555,138,619,144,619,150,554,143"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="393,183,579,209"/>
-<area shape="poly" title=" " alt="" coords="338,209,377,205,378,210,339,214"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="386,233,586,260"/>
-<area shape="poly" title=" " alt="" coords="339,229,371,232,370,237,338,234"/>
-<area shape="rect" href="class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="397,551,575,577"/>
-<area shape="poly" title=" " alt="" coords="312,580,381,572,382,578,312,585"/>
-<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="651,500,814,527"/>
-<area shape="poly" title=" " alt="" coords="303,573,337,562,360,548,385,536,449,522,515,513,636,507,636,513,515,518,450,527,387,541,363,553,339,566,305,578"/>
-<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="644,576,821,603"/>
-<area shape="poly" title=" " alt="" coords="312,587,629,587,629,592,312,592"/>
-<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="407,652,565,679"/>
-<area shape="poly" title=" " alt="" coords="290,601,427,644,426,649,288,606"/>
-<area shape="poly" title=" " alt="" coords="554,547,649,528,650,533,555,553"/>
-<area shape="poly" title=" " alt="" coords="576,571,630,576,629,581,576,576"/>
+<area shape="rect" title=" " alt="" coords="5,299,102,325"/>
+<area shape="rect" href="class_b_n_o08x.html#a41d65567bb316971f68718ca69039ace" title=" " alt="" coords="155,5,326,32"/>
+<area shape="poly" title=" " alt="" coords="53,298,58,250,72,181,84,144,100,107,121,72,148,42,152,39,155,43,152,46,126,75,105,109,89,146,77,183,63,251,58,299"/>
+<area shape="rect" href="class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="161,56,320,83"/>
+<area shape="poly" title=" " alt="" coords="54,298,62,258,79,203,106,144,125,116,148,93,153,89,156,93,151,97,129,120,111,146,84,204,67,259,59,299"/>
+<area shape="rect" href="class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="171,107,310,149"/>
+<area shape="poly" title=" " alt="" coords="58,297,89,232,115,193,148,159,155,154,159,158,151,163,119,197,94,235,62,299"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="159,173,322,216"/>
+<area shape="poly" title=" " alt="" coords="68,296,103,265,148,232,169,221,172,226,151,237,106,269,71,300"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="379,240,567,267"/>
+<area shape="poly" title=" " alt="" coords="87,296,149,276,259,260,363,252,364,258,260,265,150,281,88,301"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a41a432a3fe288e45b6ab139a00bd7d6b" title="Deletes test IMU calling deconstructor and releases heap allocated memory." alt="" coords="161,291,320,333"/>
+<area shape="poly" title=" " alt="" coords="102,309,146,309,146,315,102,315"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="150,357,331,384"/>
+<area shape="poly" title=" " alt="" coords="93,323,150,343,174,350,173,355,149,348,92,328"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919" title="Prints end begin banner." alt="" coords="158,408,323,451"/>
+<area shape="poly" title=" " alt="" coords="69,324,104,358,151,394,159,398,157,403,148,398,101,362,65,328"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c" title="Prints a message during a test." alt="" coords="158,475,323,517"/>
+<area shape="poly" title=" " alt="" coords="62,325,94,389,119,427,151,461,156,464,153,468,148,465,115,431,89,392,58,327"/>
+<area shape="rect" href="class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885" title="Prints test begin banner." alt="" coords="158,541,323,584"/>
+<area shape="poly" title=" " alt="" coords="60,325,68,365,85,419,112,477,130,504,152,527,155,530,151,534,148,531,126,507,108,479,80,421,63,366,54,326"/>
+<area shape="rect" href="class_b_n_o08x.html#a973a1b1785f3302ee1b2702c6a27646e" title="Soft resets BNO08x device by sending RESET (1) command on &quot;device&quot; channel." alt="" coords="173,608,308,635"/>
+<area shape="poly" title=" " alt="" coords="58,325,62,376,75,448,87,488,103,526,125,563,152,594,160,601,157,605,148,598,120,566,99,529,82,489,70,449,57,376,52,326"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="394,181,552,208"/>
+<area shape="poly" title=" " alt="" coords="322,192,379,192,379,197,322,197"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="624,109,807,136"/>
+<area shape="poly" title=" " alt="" coords="513,178,615,145,642,138,643,143,616,151,515,183"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="622,211,809,237"/>
+<area shape="poly" title=" " alt="" coords="553,202,607,208,606,213,553,207"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,160,814,187"/>
+<area shape="poly" title=" " alt="" coords="553,185,602,181,602,186,553,190"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="615,261,816,288"/>
+<area shape="poly" title=" " alt="" coords="516,206,568,226,616,247,640,254,638,259,614,252,566,230,514,211"/>
+<area shape="poly" title=" " alt="" coords="568,239,606,234,607,240,568,245"/>
+<area shape="poly" title=" " alt="" coords="568,259,600,262,599,267,568,264"/>
+<area shape="rect" href="class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="384,633,562,660"/>
+<area shape="poly" title=" " alt="" coords="309,626,369,633,368,638,308,631"/>
+<area shape="rect" href="class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="634,659,797,685"/>
+<area shape="poly" title=" " alt="" coords="271,633,321,653,380,669,441,677,503,681,619,678,619,684,503,686,440,683,378,675,319,658,269,638"/>
+<area shape="rect" href="class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="627,557,804,584"/>
+<area shape="poly" title=" " alt="" coords="297,605,330,594,353,580,378,568,438,557,499,553,611,555,611,561,499,558,438,563,380,573,356,585,332,598,298,610"/>
+<area shape="rect" href="class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="394,583,552,609"/>
+<area shape="poly" title=" " alt="" coords="308,611,378,604,379,609,309,617"/>
+<area shape="poly" title=" " alt="" coords="563,653,619,659,618,665,562,659"/>
+<area shape="poly" title=" " alt="" coords="527,630,567,619,661,587,663,592,568,624,528,635"/>
 </map>
 </div>
 
@@ -1027,7 +1040,7 @@ Here is the call graph for this function:</div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_85e9385bd83516731053aadc7da3c8af.html">imu_update</a></li><li class="navelem"><a class="el" href="dir_c60d9bf80716f90f729fd65c40ec81f7.html">bno08x_update</a></li><li class="navelem"><a class="el" href="dir_fd670e5d11b8bb731501003ff6578ae1.html">components</a></li><li class="navelem"><a class="el" href="dir_a6718ce9703adf4789a693642ffedf7f.html">esp32_BNO08x</a></li><li class="navelem"><a class="el" href="dir_14dea6b744ab39100edf1f9916c217e0.html">test</a></li><li class="navelem"><a class="el" href="_feature_tests_8cpp.html">FeatureTests.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li><li class="navelem"><a class="el" href="_feature_tests_8cpp.html">FeatureTests.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>

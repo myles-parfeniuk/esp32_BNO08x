@@ -38,6 +38,7 @@ class BNO08x
         bool initialize();
         bool hard_reset();
         bool soft_reset();
+        bool disable_all_reports();
         BNO08xResetReason get_reset_reason();
 
         bool on();
