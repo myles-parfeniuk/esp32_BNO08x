@@ -1,5 +1,5 @@
-<map id="BNO08xGlobalTypes.hpp" name="BNO08xGlobalTypes.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="278,5,445,32"/>
+<map id="include/BNO08xGlobalTypes.hpp" name="include/BNO08xGlobalTypes.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="255,5,468,32"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,80,67,107"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="297,35,82,82,81,77,295,30"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="90,80,169,107"/>
@@ -15,5 +15,5 @@
 <area shape="rect" id="Node000008" title=" " alt="" coords="647,80,777,107"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="423,30,636,74,635,79,422,35"/>
 <area shape="rect" id="Node000009" title=" " alt="" coords="801,80,935,107"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="446,29,786,77,785,82,445,34"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="454,30,786,77,785,82,453,35"/>
 </map>

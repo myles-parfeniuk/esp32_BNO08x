@@ -34,6 +34,8 @@ Collaboration diagram for BNO08x\+Rpt\+Stability\+Classifier\+:
 \item 
 \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a41052d651d03bccc414b14d6e9b670ab}{BNO08x\+Rpt\+Stability\+Classifier}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
 \item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a4959110a01f638d04d87696d8a03dd60}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}}) override
+\begin{DoxyCompactList}\small\item\em Enables stability classifier reports such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending them. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structbno08x__stability__classifier__t}{bno08x\+\_\+stability\+\_\+classifier\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a552b8df91df3905c7e2242ee42d11931}{get}} ()
 \begin{DoxyCompactList}\small\item\em Grabs most recent stability classifier data. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a498b35f9e00b24e51f8f60b029751ab5}{BNO08x\+Stability}} \mbox{\hyperlink{class_b_n_o08x_rpt_stability_classifier_a8c8c794004f8b2a5e67656286beae7cd}{get\+\_\+stability}} ()
@@ -41,8 +43,6 @@ Collaboration diagram for BNO08x\+Rpt\+Stability\+Classifier\+:
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{class_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
-\begin{DoxyCompactList}\small\item\em Enables a sensor report such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending it. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc}{disable}} (sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
 \begin{DoxyCompactList}\small\item\em Disables a sensor report by setting its period to 0us such that the \doxylink{class_b_n_o08x}{BNO08x} stops sending it. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_b_n_o08x_rpt_a5b542b28c81fcd05cf2e3f3d2d437d46}{register\+\_\+cb}} (std\+::function$<$ void(void)$>$ cb\+\_\+fxn)
@@ -76,6 +76,8 @@ static const constexpr char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_b_
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08x\+Rpt}}}
 \begin{DoxyCompactItemize}
 \item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c}{rpt\+\_\+enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=\mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}})
+\begin{DoxyCompactList}\small\item\em Enables a sensor report such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending it. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_b_n_o08x_rpt_a15e8eebe3fe90ac19837e3860c76374c}{BNO08x\+Rpt}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
 \begin{DoxyCompactList}\small\item\em \doxylink{class_b_n_o08x_rpt}{BNO08x\+Rpt} report constructor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765}{unlock\+\_\+sh2\+\_\+\+HAL}} ()
@@ -121,6 +123,38 @@ Class to represent stability classifier reports. (See Ref. Manual 6.\+5.\+31)
 
 
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_b_n_o08x_rpt_stability_classifier_a4959110a01f638d04d87696d8a03dd60}\label{class_b_n_o08x_rpt_stability_classifier_a4959110a01f638d04d87696d8a03dd60} 
+\index{BNO08xRptStabilityClassifier@{BNO08xRptStabilityClassifier}!enable@{enable}}
+\index{enable@{enable}!BNO08xRptStabilityClassifier@{BNO08xRptStabilityClassifier}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Stability\+Classifier\+::enable (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{sh2\+\_\+\+Sensor\+Config\+\_\+t}]{sensor\+\_\+cfg = {\ttfamily \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Enables stability classifier reports such that the \doxylink{class_b_n_o08x}{BNO08x} begins sending them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+period\+\_\+us} & The period/interval of the report in microseconds. \\
+\hline
+{\em sensor\+\_\+cfg} & Sensor special configuration (optional, see \doxylink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg} for defaults).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if report was successfully enabled. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_b_n_o08x_rpt_a4ee529725467412df396d5c610ff7bb4}{BNO08x\+Rpt}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_stability_classifier_a4959110a01f638d04d87696d8a03dd60_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_b_n_o08x_rpt_stability_classifier_a552b8df91df3905c7e2242ee42d11931}\label{class_b_n_o08x_rpt_stability_classifier_a552b8df91df3905c7e2242ee42d11931} 
 \index{BNO08xRptStabilityClassifier@{BNO08xRptStabilityClassifier}!get@{get}}
 \index{get@{get}!BNO08xRptStabilityClassifier@{BNO08xRptStabilityClassifier}}
@@ -212,5 +246,5 @@ Here is the call graph for this function\+:
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{_b_n_o08x_rpt_stability_classifier_8hpp}{BNO08x\+Rpt\+Stability\+Classifier.\+hpp}}\item 
-\mbox{\hyperlink{_b_n_o08x_rpt_stability_classifier_8cpp}{BNO08x\+Rpt\+Stability\+Classifier.\+cpp}}\end{DoxyCompactItemize}
+include/report/\mbox{\hyperlink{_b_n_o08x_rpt_stability_classifier_8hpp}{BNO08x\+Rpt\+Stability\+Classifier.\+hpp}}\item 
+source/report/\mbox{\hyperlink{_b_n_o08x_rpt_stability_classifier_8cpp}{BNO08x\+Rpt\+Stability\+Classifier.\+cpp}}\end{DoxyCompactItemize}

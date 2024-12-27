@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['back_20function_20example_0',['Call-Back Function Example',['../md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html#autotoc_md7',1,'']]],
+  ['back_20function_20example_0',['Call-Back Function Example',['../md__r_e_a_d_m_e.html#autotoc_md7',1,'']]],
   ['batch_5fbuffer_5fbytes_1',['batch_buffer_bytes',['../structbno08x__meta__data__t.html#ac493692919e552ca32e6c87b4623ccd2',1,'bno08x_meta_data_t']]],
   ['bias_5fdata_2',['bias_data',['../class_b_n_o08x_rpt_uncal_gyro.html#a2d1e0c6c03d45efefce0b4c73a7b8512',1,'BNO08xRptUncalGyro::bias_data'],['../class_b_n_o08x_rpt_uncal_magnetometer.html#a0d38bb10486d87c633036967dfe66d75',1,'BNO08xRptUncalMagnetometer::bias_data']]],
   ['bno08x_3',['BNO08x',['../class_b_n_o08x.html',1,'BNO08x'],['../class_b_n_o08x_rpt.html#a9313d906399750f09e3fe4dae87cec15',1,'BNO08xRpt::BNO08x'],['../class_b_n_o08x.html#ad12fb6cf310ad7a04a4e53809833bd61',1,'BNO08x::BNO08x()']]],

@@ -42,6 +42,8 @@ bool \mbox{\hyperlink{class_b_n_o08x_a28cd1c0b3477571d87133234e6358503}{hard\+\_
 \begin{DoxyCompactList}\small\item\em Hard resets \doxylink{class_b_n_o08x}{BNO08x} device. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_b_n_o08x_a973a1b1785f3302ee1b2702c6a27646e}{soft\+\_\+reset}} ()
 \begin{DoxyCompactList}\small\item\em Soft resets \doxylink{class_b_n_o08x}{BNO08x} device by sending RESET (1) command on "{}device"{} channel. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_aebacbe092615cd083cf996b14402bba6}{disable\+\_\+all\+\_\+reports}} ()
+\begin{DoxyCompactList}\small\item\em Disables all currently enabled reports. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_ab2a2ace42f7f438d6a799dfcbc243147}{BNO08x\+Reset\+Reason}} \mbox{\hyperlink{class_b_n_o08x_a96d47dd0f9aedfbe3f731f8ae76b2e85}{get\+\_\+reset\+\_\+reason}} ()
 \begin{DoxyCompactList}\small\item\em Returns reason for previous reset via product ID report. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_b_n_o08x_aaaa15b21ad98a3b161065c3d03ff62b5}{on}} ()
@@ -702,6 +704,27 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{class_b_n_o08x_aebacbe092615cd083cf996b14402bba6}\label{class_b_n_o08x_aebacbe092615cd083cf996b14402bba6} 
+\index{BNO08x@{BNO08x}!disable\_all\_reports@{disable\_all\_reports}}
+\index{disable\_all\_reports@{disable\_all\_reports}!BNO08x@{BNO08x}}
+\doxysubsubsection{\texorpdfstring{disable\_all\_reports()}{disable\_all\_reports()}}
+{\footnotesize\ttfamily bool BNO08x\+::disable\+\_\+all\+\_\+reports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Disables all currently enabled reports. 
+
+\begin{DoxyReturn}{Returns}
+True if all currently enabled reports were disabled successfully. 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=293pt]{class_b_n_o08x_aebacbe092615cd083cf996b14402bba6_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{class_b_n_o08x_a9387728c276734da27388dbea38b6b32}\label{class_b_n_o08x_a9387728c276734da27388dbea38b6b32} 
@@ -1961,5 +1984,5 @@ Class tag used for serial print statements.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.\+hpp}}\item 
-\mbox{\hyperlink{_b_n_o08x_8cpp}{BNO08x.\+cpp}}\end{DoxyCompactItemize}
+include/\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.\+hpp}}\item 
+source/\mbox{\hyperlink{_b_n_o08x_8cpp}{BNO08x.\+cpp}}\end{DoxyCompactItemize}

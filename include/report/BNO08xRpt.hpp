@@ -7,7 +7,7 @@
 
 // standard library includes
 #include <functional>
-//esp-idf includes
+// esp-idf includes
 #include "esp_log.h"
 // in-house includes
 #include "BNO08xGlobalTypes.hpp"

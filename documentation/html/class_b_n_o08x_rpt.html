@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.3</span>
+   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.31</span>
    </div>
    <div id="projectbrief">C++ BNO08x IMU driver component for esp-idf.</div>
   </td>
@@ -172,9 +172,6 @@ Collaboration diagram for BNO08xRpt:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3012b77fd80f2c34e57d5a23299f1470" id="r_a3012b77fd80f2c34e57d5a23299f1470"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3012b77fd80f2c34e57d5a23299f1470">enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
-<tr class="memdesc:a3012b77fd80f2c34e57d5a23299f1470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it.  <br /></td></tr>
-<tr class="separator:a3012b77fd80f2c34e57d5a23299f1470"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d147e7540a4c6aa19749844e14cdadc" id="r_a7d147e7540a4c6aa19749844e14cdadc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d147e7540a4c6aa19749844e14cdadc">disable</a> (sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
 <tr class="memdesc:a7d147e7540a4c6aa19749844e14cdadc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables a sensor report by setting its period to 0us such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> stops sending it.  <br /></td></tr>
 <tr class="separator:a7d147e7540a4c6aa19749844e14cdadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,9 +193,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad5b054279b01204f61b4c0408acf51cf" id="r_ad5b054279b01204f61b4c0408acf51cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5b054279b01204f61b4c0408acf51cf">get_meta_data</a> (<a class="el" href="structbno08x__meta__data__t.html">bno08x_meta_data_t</a> &amp;meta_data)</td></tr>
 <tr class="memdesc:ad5b054279b01204f61b4c0408acf51cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system).  <br /></td></tr>
 <tr class="separator:ad5b054279b01204f61b4c0408acf51cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ee529725467412df396d5c610ff7bb4" id="r_a4ee529725467412df396d5c610ff7bb4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ee529725467412df396d5c610ff7bb4">enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)=0</td></tr>
+<tr class="separator:a4ee529725467412df396d5c610ff7bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa0bed98a9a497d1f39e8245d05b02e9c" id="r_aa0bed98a9a497d1f39e8245d05b02e9c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0bed98a9a497d1f39e8245d05b02e9c">rpt_enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
+<tr class="memdesc:aa0bed98a9a497d1f39e8245d05b02e9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it.  <br /></td></tr>
+<tr class="separator:aa0bed98a9a497d1f39e8245d05b02e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a970fb7e7d3745c62fec626f0ccf0759f" id="r_a970fb7e7d3745c62fec626f0ccf0759f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a970fb7e7d3745c62fec626f0ccf0759f">update_data</a> (sh2_SensorValue_t *sensor_val)=0</td></tr>
 <tr class="separator:a970fb7e7d3745c62fec626f0ccf0759f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e8eebe3fe90ac19837e3860c76374c" id="r_a15e8eebe3fe90ac19837e3860c76374c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15e8eebe3fe90ac19837e3860c76374c">BNO08xRpt</a> (uint8_t <a class="el" href="#a63cd4ac9e96baa43eebe580f03307512">ID</a>, EventBits_t <a class="el" href="#ae78feab5682a4697c5acad3ca6f12c2e">rpt_bit</a>, <a class="el" href="struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html">BNO08xPrivateTypes::bno08x_sync_ctx_t</a> *<a class="el" href="#a5a1404a08918d66bb0f41f55220db6e5">sync_ctx</a>)</td></tr>
@@ -359,13 +361,15 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_cgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_cgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_cgraph" id="aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_cgraph">
-<area shape="rect" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="5,31,145,57"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="193,31,329,57"/>
-<area shape="poly" title=" " alt="" coords="145,41,177,41,177,47,145,47"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="384,5,566,32"/>
-<area shape="poly" title=" " alt="" coords="329,33,368,29,369,34,329,39"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="377,56,573,83"/>
-<area shape="poly" title=" " alt="" coords="329,49,362,53,361,59,329,55"/>
+<area shape="rect" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="5,81,145,108"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="202,5,384,32"/>
+<area shape="poly" title=" " alt="" coords="103,78,192,41,216,34,217,39,194,47,106,83"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="200,56,386,83"/>
+<area shape="poly" title=" " alt="" coords="145,84,184,79,184,85,145,89"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="195,107,391,133"/>
+<area shape="poly" title=" " alt="" coords="145,100,179,104,179,109,145,105"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="193,157,393,184"/>
+<area shape="poly" title=" " alt="" coords="106,106,194,143,217,150,216,155,192,148,103,111"/>
 </map>
 </div>
 <div class="dynheader">
@@ -373,72 +377,51 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_icgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_icgraph" id="aclass_b_n_o08x_rpt_a7d147e7540a4c6aa19749844e14cdadc_icgraph">
-<area shape="rect" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="150,639,289,665"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="213,623,201,501,179,329,163,241,145,160,124,93,100,46,88,35,91,31,104,42,129,91,150,159,168,240,184,328,207,500,218,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="213,623,199,510,176,353,160,273,142,200,122,139,100,96,88,85,91,81,104,93,127,137,148,198,166,272,181,352,205,509,218,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="212,624,197,520,173,378,140,240,120,185,100,147,87,136,91,132,104,144,125,183,145,238,178,377,203,519,217,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,157,102,184"/>
-<area shape="poly" title=" " alt="" coords="216,623,212,543,196,431,182,370,161,309,134,251,100,198,87,186,90,182,104,194,139,248,166,307,187,369,201,430,217,542,221,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,208,102,235"/>
-<area shape="poly" title=" " alt="" coords="214,623,208,550,190,452,176,399,156,345,131,295,100,248,87,237,90,233,104,245,136,292,161,343,181,397,196,451,213,550,220,622"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,259,102,285"/>
-<area shape="poly" title=" " alt="" coords="213,623,204,559,185,474,170,428,151,382,128,339,100,299,86,288,90,284,104,296,132,336,156,380,175,426,190,472,209,558,218,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,309,102,336"/>
-<area shape="poly" title=" " alt="" coords="211,624,200,568,179,496,146,419,125,383,100,350,86,339,89,334,104,346,129,380,151,417,184,494,205,567,216,623"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,360,102,387"/>
-<area shape="poly" title=" " alt="" coords="209,625,195,578,173,519,141,457,100,401,85,389,89,385,104,397,146,454,178,516,200,576,214,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,411,102,437"/>
-<area shape="poly" title=" " alt="" coords="205,626,166,542,136,494,100,451,85,440,88,436,103,447,140,491,171,539,210,623"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,461,102,488"/>
-<area shape="poly" title=" " alt="" coords="200,627,159,566,131,532,100,502,83,491,86,486,103,498,135,529,163,563,205,624"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,512,102,539"/>
-<area shape="poly" title=" " alt="" coords="192,630,150,592,100,553,81,541,84,537,103,548,154,588,195,626"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,563,102,589"/>
-<area shape="poly" title=" " alt="" coords="173,634,83,592,86,587,176,629"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,613,102,640"/>
-<area shape="poly" title=" " alt="" coords="134,642,102,637,103,631,135,636"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,664,102,691"/>
-<area shape="poly" title=" " alt="" coords="135,668,103,673,102,667,134,662"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,715,102,741"/>
-<area shape="poly" title=" " alt="" coords="176,675,86,717,83,712,173,670"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,765,102,792"/>
-<area shape="poly" title=" " alt="" coords="195,678,154,716,103,756,84,767,81,763,100,751,150,712,192,674"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,816,102,843"/>
-<area shape="poly" title=" " alt="" coords="205,680,163,741,135,775,103,806,86,818,83,813,100,802,131,772,159,738,200,677"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,867,102,893"/>
-<area shape="poly" title=" " alt="" coords="210,681,171,765,140,813,103,857,88,868,85,864,100,853,136,810,166,762,205,678"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,917,102,944"/>
-<area shape="poly" title=" " alt="" coords="214,681,200,728,178,788,146,850,104,907,89,919,85,915,100,903,141,847,173,785,195,726,209,679"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,968,102,995"/>
-<area shape="poly" title=" " alt="" coords="216,681,205,737,184,810,151,887,129,924,104,958,89,970,86,965,100,954,125,921,146,885,179,808,200,736,211,680"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ad2587baeeb225c43d04e355166a29b18" title=" " alt="" coords="5,1019,102,1045"/>
-<area shape="poly" title=" " alt="" coords="218,681,209,746,190,832,175,878,156,924,132,968,104,1008,90,1020,86,1016,100,1005,128,965,151,922,170,876,185,830,204,745,213,681"/>
-<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,1069,102,1096"/>
-<area shape="poly" title=" " alt="" coords="220,682,213,754,196,853,181,907,161,961,136,1012,104,1059,90,1071,87,1067,100,1056,131,1009,156,959,176,905,190,852,208,754,214,681"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,1120,102,1147"/>
-<area shape="poly" title=" " alt="" coords="221,681,217,762,201,874,187,935,166,997,139,1056,104,1110,90,1122,87,1118,100,1106,134,1053,161,995,182,934,196,873,212,761,216,681"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,1171,102,1197"/>
-<area shape="poly" title=" " alt="" coords="217,681,203,785,178,927,145,1066,125,1121,104,1160,91,1172,87,1168,100,1157,120,1119,140,1064,173,926,197,784,212,680"/>
-<area shape="rect" href="_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,1221,102,1248"/>
-<area shape="poly" title=" " alt="" coords="218,681,205,795,181,952,166,1032,148,1106,127,1167,104,1211,91,1223,88,1219,100,1208,122,1165,142,1104,160,1031,176,951,199,794,213,681"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,1272,102,1299"/>
-<area shape="poly" title=" " alt="" coords="218,681,207,804,184,976,168,1064,150,1145,129,1213,104,1262,91,1273,88,1269,100,1258,124,1211,145,1144,163,1063,179,975,201,803,213,681"/>
+<area shape="rect" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="150,335,289,361"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" title=" " alt="" coords="211,320,200,264,179,192,146,115,125,79,100,46,86,35,89,30,104,42,129,76,151,113,184,190,205,263,216,319"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" title=" " alt="" coords="209,321,195,274,173,215,141,153,100,97,85,85,89,81,104,93,146,150,178,212,200,272,214,319"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" title=" " alt="" coords="205,322,166,238,136,190,100,147,85,136,88,132,103,143,140,187,171,235,210,319"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" title=" " alt="" coords="200,323,159,262,131,228,100,198,83,187,86,182,103,194,135,225,163,259,205,320"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" title=" " alt="" coords="192,326,150,288,100,249,81,237,84,233,103,244,154,284,195,322"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,259,102,285"/>
+<area shape="poly" title=" " alt="" coords="173,330,83,288,86,283,176,325"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,309,102,336"/>
+<area shape="poly" title=" " alt="" coords="134,338,102,333,103,327,135,332"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,360,102,387"/>
+<area shape="poly" title=" " alt="" coords="135,364,103,369,102,363,134,358"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,411,102,437"/>
+<area shape="poly" title=" " alt="" coords="176,371,86,413,83,408,173,366"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,461,102,488"/>
+<area shape="poly" title=" " alt="" coords="195,374,154,412,103,452,84,463,81,459,100,447,150,408,192,370"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,512,102,539"/>
+<area shape="poly" title=" " alt="" coords="205,376,163,437,135,471,103,502,86,514,83,509,100,498,131,468,159,434,200,373"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,563,102,589"/>
+<area shape="poly" title=" " alt="" coords="210,377,171,461,140,509,103,553,88,564,85,560,100,549,136,506,166,458,205,374"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,613,102,640"/>
+<area shape="poly" title=" " alt="" coords="214,377,200,424,178,484,146,546,104,603,89,615,85,611,100,599,141,543,173,481,195,422,209,375"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,664,102,691"/>
+<area shape="poly" title=" " alt="" coords="216,377,205,433,184,506,151,583,129,620,104,654,89,666,86,661,100,650,125,617,146,581,179,504,200,432,211,376"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a3012b77fd80f2c34e57d5a23299f1470" name="a3012b77fd80f2c34e57d5a23299f1470"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3012b77fd80f2c34e57d5a23299f1470">&#9670;&#160;</a></span>enable()</h2>
+<a id="a4ee529725467412df396d5c610ff7bb4" name="a4ee529725467412df396d5c610ff7bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ee529725467412df396d5c610ff7bb4">&#9670;&#160;</a></span>enable()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool BNO08xRpt::enable </td>
+          <td class="memname">virtual bool BNO08xRpt::enable </td>
           <td>(</td>
           <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>time_between_reports</em>, </span></td>
         </tr>
@@ -448,122 +431,14 @@ Here is the caller graph for this function:</div>
           <td class="paramtype">sh2_SensorConfig_t</td>          <td class="paramname"><span class="paramname"><em>sensor_cfg</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a></span></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">report_period_us</td><td>The period/interval of the report in microseconds. </td></tr>
-    <tr><td class="paramname">sensor_cfg</td><td>Sensor special configuration (optional, see <a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a> for defaults).</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if report was successfully enabled. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_cgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_cgraph" alt=""/></div>
-<map name="aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_cgraph" id="aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_cgraph">
-<area shape="rect" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="5,31,142,57"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="197,5,379,32"/>
-<area shape="poly" title=" " alt="" coords="141,33,181,29,182,34,142,39"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="190,56,386,83"/>
-<area shape="poly" title=" " alt="" coords="142,49,174,53,174,59,141,55"/>
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_icgraph" alt=""/></div>
-<map name="aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_icgraph" id="aclass_b_n_o08x_rpt_a3012b77fd80f2c34e57d5a23299f1470_icgraph">
-<area shape="rect" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="383,715,519,741"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="173,613,312,640"/>
-<area shape="poly" title=" " alt="" coords="416,708,334,661,288,643,290,638,336,656,418,703"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="446,699,439,568,420,382,405,287,386,201,362,130,348,103,333,83,309,62,281,46,250,34,219,26,156,18,102,17,102,12,157,12,220,21,252,29,283,41,312,58,337,80,353,101,367,128,391,200,411,286,425,382,444,568,451,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="446,699,437,576,417,406,402,320,383,241,360,177,347,152,333,134,308,113,280,97,250,85,218,77,156,69,102,68,102,63,156,63,219,72,252,80,283,92,312,109,337,130,352,149,365,175,388,239,407,319,422,405,442,576,451,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="445,699,435,586,413,431,398,353,380,281,358,223,333,184,308,164,280,148,250,136,218,128,156,120,102,119,102,114,157,114,220,123,252,131,283,143,311,160,337,181,363,221,385,280,404,351,419,430,440,586,450,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,157,102,184"/>
-<area shape="poly" title=" " alt="" coords="444,700,432,596,410,456,395,386,377,322,356,270,333,235,308,215,280,199,218,179,156,171,102,170,102,164,156,165,219,174,282,194,311,211,337,232,361,267,382,320,400,384,415,455,438,595,450,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,208,102,235"/>
-<area shape="poly" title=" " alt="" coords="444,700,430,606,407,481,391,419,374,362,354,316,333,286,308,266,280,250,217,230,155,222,102,221,102,215,156,216,219,225,282,245,311,261,337,282,359,314,379,360,397,417,412,480,435,605,449,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,259,102,285"/>
-<area shape="poly" title=" " alt="" coords="448,699,445,626,430,528,416,476,396,425,368,378,333,337,308,317,279,301,217,282,155,273,102,272,102,266,156,268,218,276,281,297,311,312,337,333,373,374,400,422,421,474,435,527,450,626,453,699"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,309,102,336"/>
-<area shape="poly" title=" " alt="" coords="447,700,441,634,424,549,409,505,390,461,365,421,333,386,308,367,279,352,217,332,155,324,102,322,102,317,156,318,218,327,281,347,310,362,337,382,369,418,395,458,414,503,429,548,446,634,452,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,360,102,387"/>
-<area shape="poly" title=" " alt="" coords="445,699,436,643,417,571,403,534,384,497,361,464,333,435,307,417,278,402,216,383,154,375,102,373,102,368,155,369,217,378,280,397,310,412,337,431,365,461,389,495,407,531,422,569,441,642,450,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,411,102,437"/>
-<area shape="poly" title=" " alt="" coords="442,700,431,652,410,593,378,533,358,506,333,483,307,466,278,452,215,434,154,426,102,424,102,419,155,420,217,428,280,447,309,461,337,479,362,503,383,530,415,591,436,650,448,698"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,461,102,488"/>
-<area shape="poly" title=" " alt="" coords="440,701,426,662,404,614,373,567,355,547,333,529,306,512,277,500,214,483,154,476,102,475,102,469,154,470,215,478,278,495,309,508,337,524,358,543,378,564,409,612,431,660,445,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,512,102,539"/>
-<area shape="poly" title=" " alt="" coords="436,701,420,670,398,633,369,598,334,569,306,554,276,543,213,529,153,524,102,524,102,519,153,519,214,524,277,538,308,550,336,564,373,594,402,630,425,667,441,699"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,563,102,589"/>
-<area shape="poly" title=" " alt="" coords="432,703,392,650,365,624,334,604,275,583,212,573,153,570,102,573,102,568,153,565,213,567,276,577,336,599,368,620,396,647,437,700"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,664,102,691"/>
-<area shape="poly" title=" " alt="" coords="367,717,335,712,102,685,102,679,335,707,368,712"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,715,102,741"/>
-<area shape="poly" title=" " alt="" coords="367,731,102,731,102,725,367,725"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,765,102,792"/>
-<area shape="poly" title=" " alt="" coords="368,741,103,775,102,770,367,736"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,816,102,843"/>
-<area shape="poly" title=" " alt="" coords="405,750,336,775,210,805,102,825,102,819,209,800,334,769,403,745"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,867,102,893"/>
-<area shape="poly" title=" " alt="" coords="428,754,387,789,336,821,275,845,212,861,102,879,102,874,211,856,273,840,334,816,384,785,425,750"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,917,102,944"/>
-<area shape="poly" title=" " alt="" coords="439,757,399,819,370,851,336,878,277,906,214,923,153,931,102,934,102,929,153,926,213,917,275,901,334,874,367,847,395,816,434,754"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,968,102,995"/>
-<area shape="poly" title=" " alt="" coords="445,757,431,798,410,848,378,896,359,918,337,937,309,953,278,966,215,982,154,988,102,988,102,983,154,983,214,977,277,961,306,949,333,932,355,914,374,893,405,845,427,797,440,756"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ad2587baeeb225c43d04e355166a29b18" title=" " alt="" coords="5,1019,102,1045"/>
-<area shape="poly" title=" " alt="" coords="449,757,439,809,419,873,404,907,386,939,363,968,337,993,309,1010,279,1023,216,1038,155,1043,102,1041,102,1035,155,1037,215,1033,278,1018,307,1005,333,989,359,964,381,936,399,904,414,872,434,808,444,756"/>
-<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,1069,102,1096"/>
-<area shape="poly" title=" " alt="" coords="452,757,445,819,427,899,413,940,393,981,368,1017,337,1049,310,1067,280,1080,217,1094,155,1097,102,1093,102,1088,155,1091,216,1089,278,1075,307,1062,333,1045,364,1014,389,978,408,938,422,897,440,818,446,757"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,1120,102,1147"/>
-<area shape="poly" title=" " alt="" coords="453,757,450,829,435,923,421,972,400,1021,372,1065,337,1102,310,1120,280,1133,217,1147,155,1149,102,1145,102,1139,155,1144,216,1142,279,1128,307,1116,333,1098,368,1061,395,1018,416,971,430,922,445,828,448,757"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,1171,102,1197"/>
-<area shape="poly" title=" " alt="" coords="449,757,435,849,412,969,397,1028,379,1082,359,1126,337,1155,310,1174,281,1187,250,1196,218,1200,155,1202,102,1196,102,1191,155,1196,217,1195,248,1190,279,1182,308,1169,333,1151,355,1123,374,1080,392,1027,407,967,430,848,444,756"/>
-<area shape="rect" href="_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,1221,102,1248"/>
-<area shape="poly" title=" " alt="" coords="450,757,438,858,416,994,401,1062,383,1124,362,1174,337,1207,310,1226,281,1239,250,1248,218,1253,155,1253,102,1247,102,1242,155,1248,217,1247,249,1243,279,1234,308,1221,333,1203,357,1171,378,1122,396,1061,411,993,433,857,445,756"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,1272,102,1299"/>
-<area shape="poly" title=" " alt="" coords="451,757,441,868,420,1019,405,1096,386,1165,364,1222,351,1243,337,1259,311,1278,281,1291,250,1300,218,1305,155,1305,102,1298,102,1293,156,1300,217,1299,249,1295,279,1286,308,1273,333,1255,347,1240,359,1219,381,1164,400,1095,415,1018,435,867,445,756"/>
-<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#adefe3069a697b16d93cd281bda331db4" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="150,1323,335,1365"/>
-<area shape="poly" title=" " alt="" coords="450,757,439,874,417,1037,402,1121,383,1197,362,1261,337,1306,315,1324,312,1320,333,1302,357,1259,378,1196,396,1120,412,1037,433,874,445,757"/>
-<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#a56e8ac83784ef97dba4fd1487ac9c876" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="162,1389,323,1432"/>
-<area shape="poly" title=" " alt="" coords="451,757,442,889,423,1074,408,1169,389,1256,365,1329,352,1357,337,1379,324,1391,320,1387,333,1376,347,1354,360,1327,383,1255,402,1168,417,1073,437,888,446,757"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="194,1456,291,1483"/>
-<area shape="poly" title=" " alt="" coords="452,757,446,901,429,1107,414,1213,394,1310,369,1390,354,1422,337,1446,316,1461,292,1469,290,1464,314,1456,333,1442,349,1419,364,1389,389,1309,409,1212,423,1106,441,900,447,757"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,613,102,640"/>
-<area shape="poly" title=" " alt="" coords="157,629,102,629,102,624,157,624"/>
-<area shape="poly" title=" " alt="" coords="239,598,237,497,231,429,220,353,203,273,178,193,144,116,100,46,87,34,91,30,104,42,149,113,183,191,208,271,226,352,236,428,242,497,245,597"/>
-<area shape="poly" title=" " alt="" coords="238,598,234,505,227,443,215,374,198,302,173,229,141,160,100,96,87,85,90,81,104,93,146,157,178,227,203,300,220,373,232,442,239,505,244,598"/>
-<area shape="poly" title=" " alt="" coords="237,598,230,513,209,394,192,330,168,265,138,203,100,147,87,136,90,132,104,144,142,201,173,263,197,328,215,393,235,512,243,597"/>
-<area shape="poly" title=" " alt="" coords="236,598,227,522,204,416,186,359,163,302,135,247,100,198,86,186,90,182,104,194,139,245,168,300,191,357,209,415,232,521,242,598"/>
-<area shape="poly" title=" " alt="" coords="235,598,223,530,198,438,180,388,158,338,132,291,100,249,86,237,90,233,104,245,136,288,163,336,185,386,203,436,228,529,240,597"/>
-<area shape="poly" title=" " alt="" coords="233,599,218,539,192,460,153,375,129,335,100,299,86,288,89,284,104,295,133,332,158,373,197,458,224,537,238,598"/>
-<area shape="poly" title=" " alt="" coords="231,599,213,547,186,482,148,412,125,380,100,350,85,339,89,334,104,346,130,376,153,410,191,479,218,545,236,597"/>
-<area shape="poly" title=" " alt="" coords="228,601,208,558,180,506,143,450,100,401,85,389,88,385,103,397,148,447,184,503,213,556,232,598"/>
-<area shape="poly" title=" " alt="" coords="223,602,173,530,138,489,100,451,83,440,86,436,103,447,142,485,177,526,228,599"/>
-<area shape="poly" title=" " alt="" coords="216,604,164,555,100,502,82,491,85,486,103,498,168,551,219,600"/>
-<area shape="poly" title=" " alt="" coords="201,608,100,553,79,542,82,537,103,548,204,603"/>
-<area shape="poly" title=" " alt="" coords="174,611,102,591,103,586,176,606"/>
-<area shape="poly" title=" " alt="" coords="176,647,103,667,102,662,174,642"/>
-<area shape="poly" title=" " alt="" coords="204,650,103,705,82,716,79,712,100,700,201,645"/>
-<area shape="poly" title=" " alt="" coords="219,653,168,703,103,756,85,767,82,762,100,751,164,699,216,649"/>
-<area shape="poly" title=" " alt="" coords="228,654,177,727,142,768,103,806,86,818,83,813,100,802,138,765,173,724,223,651"/>
-<area shape="poly" title=" " alt="" coords="232,655,213,697,184,750,148,806,103,857,88,868,85,864,100,853,143,803,180,748,208,695,228,653"/>
-<area shape="poly" title=" " alt="" coords="236,656,218,708,191,774,153,844,130,877,104,907,89,919,85,915,100,903,125,874,148,841,186,772,213,706,231,654"/>
-<area shape="poly" title=" " alt="" coords="238,656,224,716,197,795,158,880,133,921,104,958,89,969,86,965,100,954,129,918,153,878,192,793,218,714,233,654"/>
-<area shape="poly" title=" " alt="" coords="240,656,228,725,203,817,185,867,163,917,136,965,104,1009,90,1020,86,1016,100,1005,132,962,158,915,180,865,198,816,223,724,235,655"/>
-<area shape="poly" title=" " alt="" coords="242,656,232,733,209,838,191,896,168,954,139,1009,104,1059,90,1071,86,1067,100,1056,135,1006,163,951,186,894,204,837,227,732,236,655"/>
-<area shape="poly" title=" " alt="" coords="243,656,235,741,215,860,197,925,173,990,142,1053,104,1110,90,1121,87,1117,100,1106,138,1050,168,988,192,924,209,859,230,741,237,656"/>
-<area shape="poly" title=" " alt="" coords="244,656,239,748,232,811,220,881,203,953,178,1026,146,1096,104,1160,90,1172,87,1168,100,1157,141,1094,173,1024,198,952,215,879,227,810,234,748,238,655"/>
-<area shape="poly" title=" " alt="" coords="245,656,242,756,236,825,226,902,208,982,183,1063,149,1140,104,1211,91,1223,87,1219,100,1208,144,1138,178,1061,203,981,220,901,231,825,237,756,239,656"/>
-<area shape="poly" title=" " alt="" coords="240,656,224,783,196,963,177,1055,155,1140,131,1211,104,1262,91,1274,87,1270,100,1258,126,1209,150,1139,172,1054,190,962,219,782,235,655"/>
-</map>
-</div>
+<p>Implemented in <a class="el" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f">BNO08xRptAcceleration</a>, <a class="el" href="class_b_n_o08x_rpt_activity_classifier.html#a631329523ddaf17f2e93cd0546a42823">BNO08xRptActivityClassifier</a>, <a class="el" href="class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc">BNO08xRptCalGyro</a>, <a class="el" href="class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393">BNO08xRptCalMagnetometer</a>, <a class="el" href="class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571">BNO08xRptGravity</a>, <a class="el" href="class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed">BNO08xRptLinearAcceleration</a>, <a class="el" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a3cfc735c048700fe79a5674ad92b4b03">BNO08xRptRawMEMSAccelerometer</a>, <a class="el" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#ae872f24befd81352f812bc998acb573d">BNO08xRptRawMEMSGyro</a>, <a class="el" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a92832fd0bff6abddbbd87779de5b57fb">BNO08xRptRawMEMSMagnetometer</a>, <a class="el" href="class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e">BNO08xRptRVGeneric</a>, <a class="el" href="class_b_n_o08x_rpt_shake_detector.html#aa28fa73b51bd892f0239e647aa6ceeb8">BNO08xRptShakeDetector</a>, <a class="el" href="class_b_n_o08x_rpt_stability_classifier.html#a4959110a01f638d04d87696d8a03dd60">BNO08xRptStabilityClassifier</a>, <a class="el" href="class_b_n_o08x_rpt_step_counter.html#adf0a697561b064a7dd90a44009efbcf1">BNO08xRptStepCounter</a>, <a class="el" href="class_b_n_o08x_rpt_tap_detector.html#ad8b716b7a2f2c2f52113eaaf75a391dc">BNO08xRptTapDetector</a>, <a class="el" href="class_b_n_o08x_rpt_uncal_gyro.html#a404d36091a61af543c6fec7b6e077706">BNO08xRptUncalGyro</a>, and <a class="el" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a80ae48107ca1cc27551fd799625f2867">BNO08xRptUncalMagnetometer</a>.</p>
 
 </div>
 </div>
@@ -804,124 +679,121 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_b_n_o08x_rpt_a7a5619a74c1237c5abde2e4bd6619d12_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a7a5619a74c1237c5abde2e4bd6619d12_icgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a7a5619a74c1237c5abde2e4bd6619d12_icgraph" id="aclass_b_n_o08x_rpt_a7a5619a74c1237c5abde2e4bd6619d12_icgraph">
-<area shape="rect" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="617,1699,800,1725"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a1418be33824d3102dbc8f92558a402a6" title="Clears BNO08x internal sample counts for this sensor. (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="390,729,565,772"/>
-<area shape="poly" title=" " alt="" coords="704,1683,698,1504,690,1375,678,1235,661,1095,637,966,606,859,588,817,567,786,555,774,559,770,571,782,592,815,611,857,642,964,666,1094,683,1234,695,1374,703,1503,709,1683"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="409,796,545,823"/>
-<area shape="poly" title=" " alt="" coords="697,1684,479,824,485,823,703,1683"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#ab3bb962696b135841ef7313bc631fc72" title="Flush all buffered reports for this sensor/report module." alt="" coords="415,1607,540,1633"/>
-<area shape="poly" title=" " alt="" coords="668,1693,568,1648,534,1637,536,1631,570,1643,670,1689"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="151,1505,336,1532"/>
-<area shape="poly" title=" " alt="" coords="689,1687,641,1624,607,1591,568,1565,511,1542,451,1528,391,1520,336,1518,336,1512,391,1515,452,1522,513,1537,571,1560,610,1587,644,1620,693,1684"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="161,1556,326,1599"/>
-<area shape="poly" title=" " alt="" coords="685,1688,635,1639,603,1616,568,1597,507,1579,444,1570,382,1568,327,1570,326,1565,382,1563,444,1565,508,1574,570,1592,606,1611,639,1635,688,1685"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="401,1657,554,1700"/>
-<area shape="poly" title=" " alt="" coords="602,1699,554,1692,555,1687,602,1694"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f" title="Clears most recent tare operation." alt="" coords="391,1724,564,1767"/>
-<area shape="poly" title=" " alt="" coords="602,1730,565,1735,564,1730,601,1725"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87" title="Clears most recent tare operation." alt="" coords="391,1791,564,1817"/>
-<area shape="poly" title=" " alt="" coords="670,1735,570,1781,536,1793,534,1787,568,1776,668,1731"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062" title="Clears most recent tare operation." alt="" coords="395,1841,560,1884"/>
-<area shape="poly" title=" " alt="" coords="686,1739,635,1785,571,1832,548,1843,545,1838,568,1827,632,1781,682,1735"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="391,1908,564,1951"/>
-<area shape="poly" title=" " alt="" coords="696,1741,647,1818,612,1861,571,1898,552,1910,549,1905,568,1894,608,1857,643,1815,691,1738"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="385,1975,569,2001"/>
-<area shape="poly" title=" " alt="" coords="702,1741,686,1790,659,1850,621,1912,598,1940,571,1965,551,1976,549,1972,568,1961,594,1936,617,1909,654,1848,681,1788,697,1740"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="395,2025,560,2068"/>
-<area shape="poly" title=" " alt="" coords="704,1741,690,1798,664,1872,626,1948,600,1984,571,2015,555,2027,552,2023,568,2011,596,1980,621,1945,659,1869,685,1797,699,1740"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,847,313,873"/>
-<area shape="poly" title=" " alt="" coords="398,829,309,849,308,843,397,824"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,508,102,535"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,369,767,359,748,352,710,355,672,363,634,370,597,372,562,362,528,351,512,335,497,306,479,273,469,239,467,203,470,136,488,83,510,81,505,134,483,202,465,238,462,274,464,308,474,339,493,355,509,366,526,377,561,376,598,368,635,360,672,357,710,365,746,373,764,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,604,102,631"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,362,753,354,719,356,685,362,651,368,619,368,588,359,558,335,530,312,514,291,504,270,499,249,499,203,510,151,530,124,545,100,565,66,605,62,602,96,562,121,541,149,526,202,505,248,494,270,494,292,499,315,509,339,526,364,555,374,587,373,619,368,652,362,685,360,718,367,751,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,677,102,704"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,364,757,357,728,358,699,362,670,366,642,365,615,356,590,335,566,312,550,290,539,268,533,246,532,201,542,151,566,133,582,124,600,117,621,104,644,72,679,68,675,100,641,112,618,119,598,129,579,148,562,200,537,246,526,269,528,292,534,315,545,339,562,361,587,370,614,371,642,367,671,363,699,362,727,369,755,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,740,102,767"/>
-<area shape="poly" title=" " alt="" coords="393,794,383,786,366,762,359,737,359,713,361,689,363,665,362,643,354,622,335,602,289,574,267,568,245,566,223,569,200,576,151,602,138,614,130,626,123,653,119,684,114,701,104,718,78,742,75,738,100,714,109,698,114,683,118,652,125,624,134,610,148,598,198,571,221,564,245,561,268,563,291,570,339,598,358,619,367,641,369,665,367,689,364,713,365,737,371,760,387,782,397,790"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,796,102,823"/>
-<area shape="poly" title=" " alt="" coords="394,812,102,812,102,807,394,807"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,897,102,924"/>
-<area shape="poly" title=" " alt="" coords="446,834,396,863,338,888,275,903,211,911,102,915,102,910,211,905,274,897,336,883,394,858,443,829"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,948,102,975"/>
-<area shape="poly" title=" " alt="" coords="454,836,404,880,372,902,338,920,276,941,213,954,153,961,102,964,102,958,152,956,212,948,275,935,336,915,369,897,400,876,451,832"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,999,102,1025"/>
-<area shape="poly" title=" " alt="" coords="462,838,413,904,378,938,338,966,278,992,214,1007,153,1014,102,1016,102,1011,153,1008,213,1001,276,986,336,962,375,934,409,900,458,835"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,1049,102,1076"/>
-<area shape="poly" title=" " alt="" coords="468,838,450,879,423,929,385,979,363,1001,338,1020,310,1035,279,1047,215,1062,154,1068,102,1069,102,1063,154,1063,215,1057,278,1042,308,1030,336,1015,360,997,381,975,418,926,445,877,463,836"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,1100,102,1127"/>
-<area shape="poly" title=" " alt="" coords="472,839,457,891,431,955,392,1020,367,1050,339,1074,310,1091,280,1103,216,1118,154,1123,102,1121,102,1116,154,1117,215,1113,278,1098,308,1086,335,1070,364,1046,388,1017,427,953,452,889,467,837"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,1151,102,1177"/>
-<area shape="poly" title=" " alt="" coords="475,839,464,901,440,980,422,1022,400,1062,372,1098,339,1129,311,1146,281,1159,217,1173,155,1176,102,1174,102,1168,155,1171,216,1168,279,1154,308,1141,335,1125,368,1094,395,1059,417,1019,435,978,459,899,470,838"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,1201,102,1228"/>
-<area shape="poly" title=" " alt="" coords="477,839,469,910,448,1004,430,1054,407,1101,376,1145,339,1182,311,1200,281,1213,217,1227,155,1229,102,1225,102,1220,155,1224,217,1221,279,1208,309,1195,335,1178,372,1142,402,1099,425,1052,443,1003,464,909,472,838"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,1252,102,1279"/>
-<area shape="poly" title=" " alt="" coords="479,839,474,919,467,971,456,1028,438,1085,414,1141,381,1192,339,1235,312,1253,282,1266,218,1280,155,1282,102,1277,102,1272,155,1276,217,1275,280,1261,309,1249,335,1231,377,1189,409,1139,433,1084,450,1027,462,971,469,919,474,838"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,1303,102,1329"/>
-<area shape="poly" title=" " alt="" coords="474,838,457,939,428,1075,410,1143,388,1205,365,1254,339,1287,312,1306,282,1319,250,1327,218,1332,155,1334,102,1328,102,1323,155,1328,217,1327,249,1322,280,1314,309,1301,335,1283,360,1252,383,1203,404,1142,423,1074,452,938,469,838"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,1353,102,1380"/>
-<area shape="poly" title=" " alt="" coords="475,838,460,949,432,1100,414,1177,392,1246,367,1302,353,1323,339,1339,312,1358,282,1371,251,1380,218,1384,155,1385,102,1379,102,1374,156,1380,218,1379,250,1374,280,1366,309,1353,335,1335,349,1320,362,1299,387,1244,408,1176,427,1099,455,948,470,837"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,367,758,356,724,350,684,347,639,351,539,360,431,368,323,371,223,368,179,362,140,351,107,335,82,311,60,284,43,253,31,221,23,158,15,102,16,102,11,158,10,222,17,255,26,286,38,314,56,339,78,356,105,367,139,374,178,376,223,374,323,365,431,356,539,353,639,355,684,361,723,372,756,387,782,397,792"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,368,760,358,729,352,692,349,650,352,557,359,457,367,357,369,264,366,224,360,188,350,157,335,134,311,112,284,95,253,83,221,74,158,67,102,67,102,62,158,61,222,69,255,78,286,90,314,108,339,130,355,155,365,186,371,223,374,264,372,357,365,457,357,557,355,650,357,691,363,728,373,758,387,782,397,792"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,1404,102,1431"/>
-<area shape="poly" title=" " alt="" coords="476,838,462,959,436,1126,418,1211,395,1288,369,1350,355,1374,339,1391,312,1410,283,1423,251,1432,219,1436,156,1437,102,1430,103,1425,156,1431,218,1431,250,1427,281,1418,309,1405,335,1387,350,1370,365,1347,390,1286,412,1209,431,1125,457,958,471,838"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,1455,102,1481"/>
-<area shape="poly" title=" " alt="" coords="477,839,465,969,440,1152,421,1245,399,1329,371,1398,356,1424,339,1443,312,1462,283,1475,251,1484,219,1488,155,1488,101,1481,102,1476,156,1483,218,1483,250,1479,281,1470,310,1458,335,1439,352,1421,367,1395,394,1328,416,1244,434,1151,459,969,471,838"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ad2587baeeb225c43d04e355166a29b18" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,369,762,359,733,351,661,353,575,359,483,366,391,367,306,358,235,349,207,335,186,311,164,284,147,253,134,221,126,158,118,102,118,102,113,158,113,222,121,255,129,286,142,314,159,339,182,353,205,363,234,372,306,371,391,365,483,358,576,357,661,365,732,374,760,387,782,397,792"/>
-<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,157,102,184"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,370,765,361,738,353,672,354,594,359,510,364,426,365,349,356,284,347,259,335,239,311,217,283,200,253,187,221,178,157,170,102,169,102,164,158,164,222,173,255,182,286,195,314,213,339,236,352,256,361,283,370,348,369,426,364,510,359,594,359,672,366,737,375,762,387,782,397,792"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,208,102,235"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,371,767,363,743,355,684,355,613,359,538,362,462,362,392,354,334,346,311,335,294,311,271,283,254,253,241,221,232,157,222,102,221,102,215,158,217,222,226,255,236,286,249,314,267,339,290,351,309,359,333,367,392,368,462,364,538,360,613,360,683,368,741,376,764,387,782,397,792"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,260,102,287"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,363,758,349,729,342,701,339,674,345,619,359,564,372,510,378,456,375,430,368,403,355,376,335,348,311,326,283,308,253,295,221,286,157,275,102,273,102,268,158,270,222,280,255,290,286,304,314,322,339,345,360,373,373,401,381,429,383,456,378,511,364,566,351,620,345,674,347,701,354,728,367,755,387,782,397,791"/>
-<area shape="rect" href="_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,312,102,339"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,365,761,353,737,346,713,344,688,348,641,358,593,369,546,373,500,371,476,364,453,352,429,335,406,311,383,283,365,253,351,221,341,157,330,102,326,102,321,158,324,222,336,255,346,286,360,314,379,339,402,357,427,369,451,376,475,378,500,374,547,364,595,353,642,349,688,351,712,358,735,370,759,387,782,397,791"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,365,102,392"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,367,765,357,744,348,703,350,663,358,622,366,582,369,543,360,503,350,483,335,463,311,440,283,422,252,408,220,397,157,385,102,381,102,375,157,380,222,392,254,403,285,417,314,436,339,460,354,480,365,501,374,542,371,583,363,623,355,663,353,703,362,743,372,762,387,782,397,791"/>
-<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#adefe3069a697b16d93cd281bda331db4" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="151,612,336,655"/>
-<area shape="poly" title=" " alt="" coords="393,794,383,786,370,771,363,756,358,726,353,697,347,683,335,669,320,657,323,653,339,665,351,680,358,695,363,725,368,755,375,768,387,782,397,789"/>
-<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#a56e8ac83784ef97dba4fd1487ac9c876" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="163,679,324,721"/>
-<area shape="poly" title=" " alt="" coords="394,792,384,786,368,774,359,761,350,748,335,736,315,724,317,719,339,731,354,744,363,757,372,770,386,782,397,787"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="195,745,292,772"/>
-<area shape="poly" title=" " alt="" coords="397,795,292,772,293,766,398,790"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,847,102,873"/>
-<area shape="poly" title=" " alt="" coords="158,863,102,863,102,857,158,857"/>
-<area shape="poly" title=" " alt="" coords="203,840,173,816,147,786,133,759,125,735,119,691,115,646,109,621,99,593,82,562,64,537,68,534,87,559,104,591,115,620,120,645,124,690,130,733,138,757,152,782,177,812,206,836"/>
-<area shape="poly" title=" " alt="" coords="205,840,175,816,148,786,130,754,122,726,115,698,99,667,69,633,73,629,104,664,120,697,127,725,135,752,152,782,179,812,209,836"/>
-<area shape="poly" title=" " alt="" coords="210,839,148,786,124,758,100,730,72,706,75,702,104,726,128,754,152,782,213,835"/>
-<area shape="poly" title=" " alt="" coords="203,841,78,770,81,765,206,836"/>
-<area shape="poly" title=" " alt="" coords="175,845,101,825,103,819,176,839"/>
-<area shape="poly" title=" " alt="" coords="176,881,103,901,101,895,175,875"/>
-<area shape="poly" title=" " alt="" coords="204,883,81,950,79,945,202,879"/>
-<area shape="poly" title=" " alt="" coords="220,886,168,936,103,989,85,1000,82,996,100,984,165,932,217,883"/>
-<area shape="poly" title=" " alt="" coords="228,888,177,960,142,1002,103,1039,86,1051,83,1047,100,1035,139,998,173,957,224,885"/>
-<area shape="poly" title=" " alt="" coords="233,888,214,931,185,984,148,1039,103,1090,88,1102,85,1097,100,1086,144,1036,180,981,209,928,229,886"/>
-<area shape="poly" title=" " alt="" coords="237,889,219,941,191,1007,153,1077,130,1110,104,1141,89,1152,85,1148,100,1137,126,1107,149,1074,187,1005,214,939,232,887"/>
-<area shape="poly" title=" " alt="" coords="239,889,224,949,198,1029,158,1114,133,1154,104,1191,89,1203,86,1199,100,1187,129,1151,154,1111,193,1027,219,948,234,888"/>
-<area shape="poly" title=" " alt="" coords="241,889,229,958,204,1051,186,1101,163,1151,136,1198,104,1242,90,1254,86,1249,100,1238,132,1195,159,1148,181,1099,199,1049,223,957,236,888"/>
-<area shape="poly" title=" " alt="" coords="243,889,233,966,210,1072,192,1129,168,1187,139,1242,104,1292,90,1304,86,1300,100,1289,135,1239,164,1185,187,1128,205,1070,227,965,237,888"/>
-<area shape="poly" title=" " alt="" coords="244,890,236,975,215,1093,197,1159,173,1224,142,1286,104,1343,90,1355,87,1351,100,1340,138,1283,168,1222,192,1157,210,1092,231,974,238,889"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,817,147,785,135,754,127,716,120,626,122,522,128,411,133,300,133,198,124,110,114,75,99,46,88,34,92,31,104,42,119,73,129,109,139,197,139,301,133,411,128,522,126,626,132,715,140,752,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,817,147,785,136,756,128,721,122,637,123,540,128,436,132,333,132,238,122,156,113,123,99,96,88,85,92,81,104,93,118,121,127,155,137,237,138,334,133,437,128,540,127,637,133,720,141,754,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="245,889,240,982,233,1045,221,1114,203,1187,178,1260,146,1330,104,1394,90,1405,87,1402,100,1390,141,1327,174,1258,198,1185,215,1113,227,1044,234,981,239,889"/>
-<area shape="poly" title=" " alt="" coords="246,889,243,990,237,1059,226,1135,209,1215,183,1296,149,1374,104,1444,91,1456,87,1452,100,1441,144,1371,178,1294,203,1214,221,1134,232,1058,238,990,240,889"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,137,758,129,726,123,648,123,558,127,462,131,367,130,278,121,202,112,172,99,147,88,136,92,132,104,144,117,170,126,201,135,278,136,367,133,462,129,558,128,648,135,725,142,757,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,137,760,130,730,124,659,124,576,127,488,130,400,128,318,119,249,111,220,100,198,88,187,92,183,104,194,116,218,124,247,134,318,135,400,132,488,129,576,129,658,136,729,142,759,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,130,746,118,709,112,674,111,639,117,574,130,512,142,450,145,387,142,355,134,321,120,286,100,250,87,237,91,233,104,246,125,284,139,319,147,354,151,387,147,451,135,513,122,575,116,639,118,673,123,708,135,744,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,172,816,147,785,131,750,121,717,115,684,113,653,118,594,129,538,139,482,142,425,138,396,131,366,118,334,100,302,87,289,90,285,104,298,123,332,136,364,144,395,147,425,144,483,134,539,123,595,118,653,120,684,126,715,136,748,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,172,816,147,785,133,754,123,724,115,668,119,616,128,565,136,516,138,465,127,412,116,384,100,355,85,341,89,337,104,352,121,382,132,411,143,465,141,516,133,566,124,616,121,668,128,723,138,752,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="202,840,172,816,147,785,128,745,117,710,113,677,112,645,112,578,108,540,99,497,79,439,59,393,64,391,84,437,104,495,114,539,117,578,117,645,118,676,122,709,133,744,152,783,176,812,205,836"/>
-<area shape="poly" title=" " alt="" coords="202,1500,79,1433,81,1429,204,1495"/>
-<area shape="poly" title=" " alt="" coords="158,1551,148,1546,102,1514,67,1483,70,1479,105,1510,151,1542,161,1547"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="157,1623,330,1649"/>
-<area shape="poly" title=" " alt="" coords="385,1665,320,1653,321,1647,386,1659"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="174,1673,313,1700"/>
-<area shape="poly" title=" " alt="" coords="385,1684,313,1687,313,1682,385,1679"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="150,1724,337,1751"/>
-<area shape="poly" title=" " alt="" coords="386,1704,300,1726,299,1721,385,1699"/>
+<area shape="rect" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="669,989,852,1016"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a1418be33824d3102dbc8f92558a402a6" title="Clears BNO08x internal sample counts for this sensor. (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="442,482,617,525"/>
+<area shape="poly" title=" " alt="" coords="756,973,751,889,744,834,732,773,715,711,691,649,659,591,619,539,606,527,609,523,623,535,664,588,696,647,720,709,737,772,749,833,756,889,762,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="200,1076,339,1102"/>
+<area shape="poly" title=" " alt="" coords="728,982,669,945,633,926,594,910,553,900,513,896,474,903,439,920,423,936,416,952,414,989,413,1028,406,1047,391,1066,367,1081,340,1089,339,1084,365,1076,387,1062,401,1045,407,1027,409,989,411,951,419,933,435,916,473,898,513,891,554,894,596,905,635,921,672,940,731,977"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#ab3bb962696b135841ef7313bc631fc72" title="Flush all buffered reports for this sensor/report module." alt="" coords="467,930,592,957"/>
+<area shape="poly" title=" " alt="" coords="690,987,584,960,585,955,691,982"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="437,549,621,576"/>
+<area shape="poly" title=" " alt="" coords="756,974,749,897,728,793,711,738,688,684,657,634,620,590,603,578,606,574,623,586,662,630,692,682,716,736,734,792,754,896,761,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="447,600,612,642"/>
+<area shape="poly" title=" " alt="" coords="753,974,741,909,718,824,700,779,678,735,651,693,620,656,605,645,608,641,623,652,656,690,683,732,705,777,723,823,747,908,758,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="450,666,608,693"/>
+<area shape="poly" title=" " alt="" coords="738,978,538,695,542,692,743,975"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="453,981,606,1024"/>
+<area shape="poly" title=" " alt="" coords="654,1005,606,1005,606,1000,654,1000"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f" title="Clears most recent tare operation." alt="" coords="443,1048,616,1090"/>
+<area shape="poly" title=" " alt="" coords="697,1023,607,1050,605,1044,696,1018"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87" title="Clears most recent tare operation." alt="" coords="443,1114,616,1141"/>
+<area shape="poly" title=" " alt="" coords="735,1028,685,1067,623,1105,593,1116,591,1111,620,1100,682,1063,731,1024"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062" title="Clears most recent tare operation." alt="" coords="447,1165,612,1208"/>
+<area shape="poly" title=" " alt="" coords="744,1030,694,1092,660,1126,623,1155,602,1167,599,1162,620,1151,657,1122,690,1088,740,1027"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="443,1232,616,1274"/>
+<area shape="poly" title=" " alt="" coords="751,1032,732,1073,704,1124,668,1176,623,1222,605,1233,602,1229,620,1218,664,1173,700,1121,727,1071,746,1029"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="437,1298,621,1325"/>
+<area shape="poly" title=" " alt="" coords="756,1031,742,1086,716,1155,677,1227,652,1260,623,1288,604,1300,601,1296,620,1284,648,1256,673,1224,711,1153,736,1084,751,1030"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="447,1349,612,1392"/>
+<area shape="poly" title=" " alt="" coords="758,1032,745,1094,721,1176,703,1220,681,1263,655,1303,623,1339,608,1350,605,1346,620,1335,651,1300,677,1260,698,1218,716,1175,740,1093,753,1031"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,289,102,316"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,130,1038,118,1004,110,963,106,918,106,817,113,707,121,596,125,492,119,403,112,367,99,337,81,318,85,314,104,334,117,365,125,402,130,492,126,596,118,707,111,817,111,918,115,963,123,1002,135,1036,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,234,102,261"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,129,1036,116,999,108,955,104,906,105,796,114,677,123,557,128,445,127,394,122,349,113,310,99,278,84,263,88,260,104,275,118,308,127,348,132,394,134,445,129,557,119,677,111,796,109,906,113,954,121,997,134,1033,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,1004,102,1030"/>
+<area shape="poly" title=" " alt="" coords="183,1076,149,1066,80,1033,82,1028,151,1061,185,1071"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,1054,102,1081"/>
+<area shape="poly" title=" " alt="" coords="184,1083,101,1075,102,1070,185,1078"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,468,102,494"/>
+<area shape="poly" title=" " alt="" coords="184,1087,164,1079,148,1065,130,1035,118,993,111,943,107,888,105,780,99,697,75,580,56,495,61,494,81,579,104,697,110,780,113,888,116,942,123,992,135,1033,152,1062,167,1074,186,1082"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,709,102,736"/>
+<area shape="poly" title=" " alt="" coords="184,1086,165,1078,148,1066,126,1039,114,1013,108,988,107,962,109,908,107,877,99,843,78,784,59,737,64,735,83,782,104,842,112,876,114,907,113,962,113,987,119,1012,131,1036,152,1062,167,1074,186,1081"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,1105,102,1132"/>
+<area shape="poly" title=" " alt="" coords="185,1103,102,1114,101,1109,184,1098"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,1156,102,1182"/>
+<area shape="poly" title=" " alt="" coords="185,1106,151,1117,126,1130,103,1146,83,1157,80,1153,100,1141,124,1125,149,1112,184,1101"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,854,102,881"/>
+<area shape="poly" title=" " alt="" coords="184,1085,165,1077,148,1066,134,1051,125,1037,116,1008,112,977,99,942,62,883,67,880,104,940,117,976,121,1007,130,1035,138,1048,151,1062,168,1072,186,1080"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,1206,102,1233"/>
+<area shape="poly" title=" " alt="" coords="186,1100,151,1116,134,1134,127,1154,119,1174,104,1196,88,1208,85,1204,100,1192,115,1172,122,1152,130,1132,148,1112,184,1095"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,953,102,980"/>
+<area shape="poly" title=" " alt="" coords="184,1082,148,1066,131,1048,122,1030,114,1012,100,994,84,982,87,978,104,990,119,1009,127,1028,135,1045,151,1061,186,1077"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,1257,102,1284"/>
+<area shape="poly" title=" " alt="" coords="186,1098,167,1106,151,1116,138,1131,131,1146,126,1178,122,1211,116,1229,104,1247,90,1259,86,1254,100,1243,111,1226,117,1210,121,1177,126,1144,134,1128,148,1112,165,1101,184,1093"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,348,102,374"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,132,1041,120,1009,112,973,108,932,107,840,111,741,117,640,120,546,116,464,109,431,99,404,89,389,75,377,79,373,93,385,104,401,114,430,121,464,126,546,123,640,117,741,112,840,113,932,118,972,125,1008,136,1038,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,414,102,441"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,133,1042,122,1014,112,942,111,857,116,764,122,672,124,585,118,511,110,481,99,457,86,443,89,440,104,454,116,479,123,510,129,585,127,672,122,765,117,857,117,942,127,1012,138,1040,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,25,102,52"/>
+<area shape="poly" title=" " alt="" coords="436,540,435,539,424,520,416,496,409,438,409,368,414,294,417,220,417,152,408,96,399,75,387,59,356,36,321,21,282,12,243,9,166,14,101,27,100,22,165,9,243,3,283,7,322,16,359,31,391,55,404,72,413,95,422,151,423,220,419,294,415,369,414,438,421,495,428,518,439,535,440,537"/>
+<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,94,102,121"/>
+<area shape="poly" title=" " alt="" coords="436,591,435,589,424,570,416,545,410,485,411,413,416,337,420,261,419,192,409,135,400,114,387,98,353,75,315,62,273,57,231,59,189,65,150,75,87,96,86,91,149,70,188,60,230,53,273,52,316,57,356,70,391,94,405,111,414,134,424,191,425,261,421,337,416,413,415,484,422,544,429,568,439,586,440,587"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="188,174,351,217"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,415,629,402,601,395,574,392,547,397,494,410,441,423,389,428,336,426,310,419,284,406,257,387,231,370,216,350,207,352,202,373,212,391,227,411,255,424,282,431,309,434,336,428,390,416,442,403,495,397,547,400,573,407,599,420,626,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#a631329523ddaf17f2e93cd0546a42823" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="177,241,362,284"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,418,633,406,610,400,587,397,564,401,519,410,474,420,430,423,386,421,364,415,342,403,320,387,298,361,278,364,274,391,294,408,317,419,340,426,363,429,386,425,431,416,476,406,520,402,564,405,586,411,608,422,630,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="178,441,361,468"/>
+<area shape="poly" title=" " alt="" coords="438,659,435,656,419,634,411,611,411,566,411,523,403,502,387,482,360,465,363,460,391,478,408,499,416,522,416,566,416,610,423,631,439,653,442,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="173,492,366,534"/>
+<area shape="poly" title=" " alt="" coords="440,660,435,656,423,643,416,629,410,601,405,574,399,561,387,548,364,534,367,529,391,544,403,558,410,572,416,600,421,627,427,640,439,652,443,656"/>
+<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571" title="Enables gravity reports such that the BNO08x begins sending them." alt="" coords="181,758,358,785"/>
+<area shape="poly" title=" " alt="" coords="491,703,444,727,390,749,349,760,348,755,388,744,442,722,489,698"/>
+<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="171,1009,368,1052"/>
+<area shape="poly" title=" " alt="" coords="517,708,439,875,428,911,423,942,414,970,391,999,370,1013,367,1009,387,995,409,968,418,940,423,910,435,873,512,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a3cfc735c048700fe79a5674ad92b4b03" title="Enables raw accelerometer reports such that the BNO08x begins sending them." alt="" coords="150,558,389,601"/>
+<area shape="poly" title=" " alt="" coords="449,663,436,657,421,646,411,635,402,625,388,615,362,604,364,599,390,611,405,621,415,632,424,642,438,652,451,658"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#ae872f24befd81352f812bc998acb573d" title="Enables raw gyro reports such that the BNO08x begins sending them." alt="" coords="178,625,361,668"/>
+<area shape="poly" title=" " alt="" coords="434,670,361,661,362,655,435,665"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a92832fd0bff6abddbbd87779de5b57fb" title="Enables raw magnetometer such that the BNO08x begins sending them." alt="" coords="150,692,389,734"/>
+<area shape="poly" title=" " alt="" coords="435,694,389,700,388,695,434,689"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="193,1126,346,1169"/>
+<area shape="poly" title=" " alt="" coords="519,708,481,801,440,919,432,949,430,976,429,1024,427,1047,422,1069,410,1092,391,1116,371,1131,348,1141,346,1136,368,1127,387,1112,406,1089,417,1068,422,1046,424,1024,424,976,427,948,434,918,476,799,514,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aa28fa73b51bd892f0239e647aa6ceeb8" title="Enables shake detector reports such that the BNO08x begins sending them (only sends reports when a sh..." alt="" coords="181,809,358,852"/>
+<area shape="poly" title=" " alt="" coords="507,706,456,754,424,778,390,799,359,813,357,808,388,795,421,774,453,749,503,702"/>
+<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a4959110a01f638d04d87696d8a03dd60" title="Enables stability classifier reports such that the BNO08x begins sending them." alt="" coords="174,876,365,918"/>
+<area shape="poly" title=" " alt="" coords="517,709,497,744,468,787,433,830,391,866,366,879,364,874,387,861,429,826,464,784,492,742,512,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#adf0a697561b064a7dd90a44009efbcf1" title="Enables step counter reports such that the BNO08x begins sending them." alt="" coords="188,942,351,985"/>
+<area shape="poly" title=" " alt="" coords="518,708,460,830,424,892,391,932,352,953,349,948,387,928,419,889,455,828,514,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#ad8b716b7a2f2c2f52113eaaf75a391dc" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="189,108,350,150"/>
+<area shape="poly" title=" " alt="" coords="436,658,435,656,412,624,398,593,390,561,387,530,394,469,410,408,426,347,433,287,431,256,423,226,409,195,387,164,370,149,349,140,351,135,373,145,391,160,414,192,428,224,436,255,439,287,432,348,415,409,400,470,392,530,395,560,403,591,417,622,439,653,440,654"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#a404d36091a61af543c6fec7b6e077706" title="Enables uncalibrated gyro reports such that the BNO08x begins sending them." alt="" coords="194,308,345,350"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,411,619,402,581,404,544,410,508,417,472,418,436,410,400,387,364,368,349,344,339,346,334,370,344,391,361,415,398,424,435,422,472,416,509,409,545,407,581,416,617,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a80ae48107ca1cc27551fd799625f2867" title="Enables uncalibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="166,374,373,417"/>
+<area shape="poly" title=" " alt="" coords="438,659,435,656,415,627,407,598,407,570,410,541,414,513,414,486,406,458,387,431,371,418,374,414,391,427,411,456,419,485,419,514,416,542,412,570,412,598,420,625,439,653,441,655"/>
+<area shape="poly" title=" " alt="" coords="175,220,151,231,136,241,127,252,103,275,80,291,77,286,100,271,123,248,133,237,148,227,172,215"/>
+<area shape="poly" title=" " alt="" coords="174,221,102,239,101,234,173,216"/>
+<area shape="poly" title=" " alt="" coords="173,179,148,164,130,145,121,126,113,106,100,84,70,54,73,50,104,81,118,104,126,124,134,142,151,160,175,174"/>
+<area shape="poly" title=" " alt="" coords="172,174,149,165,108,145,74,124,77,119,111,140,151,160,174,169"/>
+<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="5,182,102,209"/>
+<area shape="poly" title=" " alt="" coords="173,198,102,198,102,193,173,193"/>
+<area shape="poly" title=" " alt="" coords="163,470,102,478,101,472,162,465"/>
+<area shape="poly" title=" " alt="" coords="161,541,151,548,116,587,89,633,71,676,61,709,56,708,66,674,84,630,111,584,148,544,158,537"/>
+<area shape="poly" title=" " alt="" coords="168,792,151,799,106,827,71,856,67,852,102,823,148,795,166,787"/>
+<area shape="poly" title=" " alt="" coords="173,1007,149,1000,96,983,98,978,150,994,174,1002"/>
+<area shape="poly" title=" " alt="" coords="177,1132,148,1116,131,1099,122,1081,114,1063,100,1044,84,1033,87,1029,104,1040,119,1060,127,1078,135,1096,151,1112,179,1127"/>
+<area shape="poly" title=" " alt="" coords="177,1127,149,1117,79,1084,81,1079,151,1112,179,1122"/>
+<area shape="poly" title=" " alt="" coords="177,1138,101,1127,102,1122,178,1132"/>
+<area shape="poly" title=" " alt="" coords="177,1159,102,1167,102,1162,177,1154"/>
+<area shape="poly" title=" " alt="" coords="179,1174,151,1183,88,1208,86,1203,149,1178,177,1169"/>
+<area shape="poly" title=" " alt="" coords="179,1169,151,1183,136,1198,127,1213,119,1229,103,1247,87,1258,84,1254,100,1243,114,1226,122,1211,131,1195,148,1179,177,1164"/>
+<area shape="poly" title=" " alt="" coords="179,345,102,357,101,351,178,340"/>
+<area shape="poly" title=" " alt="" coords="151,416,103,423,102,418,150,411"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="183,1193,356,1220"/>
+<area shape="poly" title=" " alt="" coords="442,1035,439,1037,426,1055,419,1073,417,1110,414,1147,406,1165,391,1183,375,1194,358,1202,356,1197,373,1189,387,1179,401,1162,409,1145,412,1109,414,1072,421,1053,435,1034,438,1031"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="200,1244,339,1270"/>
+<area shape="poly" title=" " alt="" coords="442,1034,439,1037,423,1062,416,1086,415,1110,417,1135,419,1160,418,1185,409,1209,391,1234,367,1249,340,1258,338,1253,365,1245,387,1230,405,1207,413,1184,414,1160,412,1135,410,1111,411,1085,418,1060,435,1034,438,1030"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="176,1294,363,1321"/>
+<area shape="poly" title=" " alt="" coords="442,1034,439,1037,420,1068,413,1099,413,1130,418,1161,422,1191,422,1222,413,1253,391,1284,365,1301,362,1297,387,1280,408,1251,417,1222,417,1192,413,1161,408,1130,407,1099,415,1066,435,1034,438,1030"/>
 </map>
 </div>
 
@@ -958,6 +830,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_b_n_o08x_rpt_a48e7b1a2c2ebc6b1f2f292735c0832a0_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a48e7b1a2c2ebc6b1f2f292735c0832a0_icgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a48e7b1a2c2ebc6b1f2f292735c0832a0_icgraph" id="aclass_b_n_o08x_rpt_a48e7b1a2c2ebc6b1f2f292735c0832a0_icgraph">
 <area shape="rect" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="463,1304,649,1331"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="213,5,352,32"/>
+<area shape="poly" title=" " alt="" coords="551,1289,539,1031,512,634,493,432,470,253,443,118,428,73,413,46,400,35,386,27,352,19,353,14,387,22,403,31,417,42,433,71,448,117,475,253,498,431,517,634,544,1031,556,1288"/>
 <area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="188,56,377,83"/>
 <area shape="poly" title=" " alt="" coords="551,1289,538,1040,510,660,491,466,468,295,442,165,428,122,413,96,396,83,376,75,378,70,399,79,417,93,433,120,447,164,474,294,496,465,515,659,543,1040,556,1288"/>
 <area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#aa77475212d3a5eb52ec31b9916cfe22d" title="Grabs most recent activity classifier data." alt="" coords="177,107,388,133"/>
@@ -1008,54 +882,53 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="448,1332,377,1339,376,1334,447,1326"/>
 <area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#a13c875a4ef09df3a82ac4bfa5109fdf7" title="Grabs most recent uncalibrated gyroscope velocity data, units are in rad/s." alt="" coords="207,1384,358,1427"/>
 <area shape="poly" title=" " alt="" coords="509,1340,416,1375,359,1391,358,1385,414,1369,507,1335"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a6b24209dc87cdd333b780fe6674fd045" title="Updates accelerometer data from decoded sensor event." alt="" coords="201,1451,364,1493"/>
-<area shape="poly" title=" " alt="" coords="535,1344,484,1394,451,1419,416,1441,365,1460,363,1455,414,1436,448,1415,480,1390,531,1341"/>
-<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#acb6fe5076011bc1f6f33a93c1c30c333" title="Updates activity classifier data from decoded sensor event." alt="" coords="190,1517,375,1560"/>
-<area shape="poly" title=" " alt="" coords="544,1346,525,1383,496,1427,460,1470,416,1508,377,1526,374,1522,414,1503,456,1467,492,1423,520,1380,540,1343"/>
-<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html#a2f822419d659be71209de6b69e8064b8" title="Updates ARVR stabilized game rotation vector data from decoded sensor event." alt="" coords="173,1584,392,1627"/>
-<area shape="poly" title=" " alt="" coords="550,1346,534,1396,507,1458,468,1521,444,1549,417,1574,393,1588,390,1584,413,1570,440,1546,464,1517,502,1455,529,1394,545,1345"/>
-<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html#a0ddf587eff71b83b01de57c2a69aa34d" title="Updates ARVR stabilized rotation vector data from decoded sensor event." alt="" coords="182,1651,383,1693"/>
-<area shape="poly" title=" " alt="" coords="553,1347,541,1408,516,1488,498,1529,476,1570,449,1608,417,1641,385,1660,382,1655,413,1637,445,1604,472,1567,493,1527,511,1486,536,1407,548,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#ab099bd0da7140c433fc7bab0a802c46f" title="Updates calibrated gyro data from decoded sensor event." alt="" coords="174,1717,391,1744"/>
-<area shape="poly" title=" " alt="" coords="556,1346,548,1420,527,1518,509,1570,485,1620,455,1667,417,1707,392,1722,389,1718,413,1703,451,1664,481,1618,504,1568,522,1516,543,1419,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#af50ecf2bb83d7eeec5b88c5273a01784" title="Updates calibrated magnetometer data from decoded sensor event." alt="" coords="186,1768,379,1811"/>
-<area shape="poly" title=" " alt="" coords="557,1347,552,1428,544,1481,532,1539,514,1598,490,1656,458,1711,417,1758,400,1771,380,1780,378,1775,397,1766,413,1754,453,1707,485,1654,509,1596,527,1537,539,1480,546,1427,552,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a8f9be2a12cec2a8467829fe561bf5f3d" title="Updates game rotation vector data from decoded sensor event." alt="" coords="171,1835,394,1861"/>
-<area shape="poly" title=" " alt="" coords="553,1347,537,1453,507,1597,489,1669,467,1735,443,1788,417,1825,395,1839,392,1835,413,1821,439,1786,462,1733,483,1668,502,1595,531,1452,548,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a47a5d1d8f89834662efaaae60a74b4c2" title="Updates gravity data from decoded sensor event." alt="" coords="178,1885,387,1912"/>
-<area shape="poly" title=" " alt="" coords="554,1346,539,1461,511,1621,492,1701,470,1775,445,1835,432,1858,417,1875,389,1893,386,1888,413,1871,427,1855,441,1832,465,1773,487,1700,506,1620,534,1461,549,1345"/>
-<area shape="rect" href="class_b_n_o08x_rpt_i_gyro_r_v.html#a29e7154e8fed38487dd100f3e98d72fb" title="Updates gyro integrated rotation vector data from decoded sensor event." alt="" coords="173,1936,392,1963"/>
-<area shape="poly" title=" " alt="" coords="555,1346,541,1471,514,1646,496,1734,474,1815,447,1881,433,1907,417,1926,394,1942,391,1937,413,1922,428,1904,443,1879,468,1814,491,1733,509,1645,536,1471,550,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#ab799259f97933e00ddfe654050c4757e" title="Updates accelerometer data from decoded sensor event." alt="" coords="184,1987,381,2029"/>
-<area shape="poly" title=" " alt="" coords="555,1346,543,1480,517,1669,498,1766,475,1854,449,1927,433,1955,417,1977,401,1989,383,1999,380,1994,398,1985,413,1973,429,1952,444,1925,470,1853,493,1765,511,1668,537,1479,550,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a269b8a306d47b0a873421674e8996187" title="Updates raw accelerometer data from decoded sensor event." alt="" coords="163,2053,402,2096"/>
-<area shape="poly" title=" " alt="" coords="556,1346,545,1492,521,1701,502,1809,479,1907,451,1988,435,2019,417,2043,403,2055,400,2051,413,2040,430,2016,446,1986,474,1905,497,1808,515,1700,540,1491,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#af79174e4b3a3579d3de85decf529e5d5" title="Updates raw mems gyro data from decoded sensor event." alt="" coords="191,2120,374,2163"/>
-<area shape="poly" title=" " alt="" coords="556,1347,547,1504,525,1733,507,1851,483,1960,454,2049,436,2083,417,2110,398,2125,376,2135,373,2130,395,2121,413,2106,432,2081,449,2047,478,1958,502,1850,520,1732,542,1504,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a5ff68ff342813b240519a315e60d4506" title="Updates raw magnetometer data from decoded sensor event." alt="" coords="163,2187,402,2229"/>
-<area shape="poly" title=" " alt="" coords="557,1346,550,1515,542,1635,529,1765,511,1894,487,2012,456,2110,438,2148,417,2176,404,2188,400,2184,413,2173,433,2145,451,2108,482,2011,506,1893,524,1764,536,1635,544,1515,552,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#ab6a7a480ecc404383a1db5c6b29e3c48" title="Updates rotation vector data from decoded sensor event." alt="" coords="189,2253,376,2280"/>
-<area shape="poly" title=" " alt="" coords="557,1346,553,1528,546,1657,535,1798,517,1938,493,2066,478,2123,460,2172,440,2212,417,2243,399,2257,377,2266,375,2261,396,2253,413,2239,435,2210,455,2170,472,2121,488,2065,512,1937,530,1797,541,1657,548,1527,552,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a531bf3018378efda8edd322e2a4a3306" title="Updates geomagnetic rotation vector data from decoded sensor event." alt="" coords="200,2304,365,2347"/>
-<area shape="poly" title=" " alt="" coords="558,1346,554,1536,547,1672,536,1820,519,1968,494,2105,479,2164,461,2217,440,2261,417,2294,394,2312,366,2322,364,2317,391,2307,413,2290,436,2258,456,2215,473,2163,489,2103,513,1968,531,1820,542,1672,548,1536,552,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aebaecde5751d7b9a3fa1d5cfe09a7393" title="Updates shake detector data from decoded sensor event." alt="" coords="194,2371,371,2413"/>
-<area shape="poly" title=" " alt="" coords="558,1346,556,1546,550,1692,540,1851,523,2010,498,2157,482,2221,463,2278,442,2325,417,2360,396,2377,372,2388,370,2383,393,2373,413,2357,437,2322,458,2276,477,2220,493,2156,518,2010,535,1851,545,1692,550,1546,552,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a53f291245bb6c40ae272fbe0142609c2" title="Updates stability classifier data from decoded sensor event." alt="" coords="187,2437,378,2480"/>
-<area shape="poly" title=" " alt="" coords="558,1346,558,1558,553,1713,544,1883,527,2053,502,2209,485,2278,466,2339,443,2389,417,2427,399,2442,379,2452,376,2447,396,2437,413,2424,439,2386,461,2337,480,2277,497,2208,522,2052,539,1882,548,1713,553,1558,553,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#a742cb9d7bc64d31f3febc51d0536c3aa" title="Updates step counter data from decoded sensor event." alt="" coords="201,2504,364,2547"/>
-<area shape="poly" title=" " alt="" coords="556,1346,542,1585,513,1950,493,2136,471,2300,446,2425,432,2467,417,2494,393,2512,365,2523,363,2518,390,2508,413,2490,427,2465,440,2424,466,2299,488,2135,507,1950,536,1585,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#aa1b7881e55a3f6210f48cec831cc72a7" title="Updates tap detector data from decoded sensor event." alt="" coords="202,2571,363,2613"/>
-<area shape="poly" title=" " alt="" coords="556,1347,543,1598,515,1984,496,2181,473,2355,447,2487,433,2532,417,2560,393,2579,364,2590,362,2585,390,2575,413,2557,428,2530,442,2486,468,2354,490,2180,509,1984,537,1598,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#acfcb717810a8924c3b119829c4b24489" title="Updates uncalibrated gyro data from decoded sensor event." alt="" coords="207,2637,358,2680"/>
-<area shape="poly" title=" " alt="" coords="556,1347,544,1610,517,2017,498,2225,475,2409,448,2550,433,2598,417,2627,391,2647,359,2658,358,2653,388,2642,413,2624,428,2595,443,2549,470,2409,492,2225,511,2017,538,1610,551,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a2737505adb4176e5843ce7d13b2b8ec4" title="Updates uncalibrated magf data from decoded sensor event." alt="" coords="179,2704,386,2747"/>
-<area shape="poly" title=" " alt="" coords="557,1346,545,1621,519,2050,500,2270,477,2464,449,2612,434,2663,417,2694,403,2706,387,2716,384,2711,400,2702,413,2690,429,2660,444,2611,472,2463,495,2269,514,2050,540,1621,551,1346"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a3998d182117c4def094998f795780351" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="203,55,102,32,103,27,205,49"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="172,72,102,72,102,67,172,67"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ace101f40531db107a743cff5815022e6" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="189,89,150,97,103,109,101,104,149,92,188,84"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="203,1451,362,1477"/>
+<area shape="poly" title=" " alt="" coords="535,1344,485,1394,452,1420,416,1441,363,1458,361,1453,414,1436,449,1415,481,1390,532,1341"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a6b24209dc87cdd333b780fe6674fd045" title="Updates accelerometer data from decoded sensor event." alt="" coords="201,1501,364,1544"/>
+<area shape="poly" title=" " alt="" coords="543,1345,522,1379,494,1419,458,1458,416,1492,391,1504,365,1513,363,1508,389,1499,414,1487,454,1454,489,1415,518,1376,538,1343"/>
+<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#acb6fe5076011bc1f6f33a93c1c30c333" title="Updates activity classifier data from decoded sensor event." alt="" coords="190,1568,375,1611"/>
+<area shape="poly" title=" " alt="" coords="549,1346,532,1393,504,1450,466,1509,443,1535,416,1558,377,1578,374,1574,414,1554,439,1531,462,1505,500,1448,527,1391,544,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html#a2f822419d659be71209de6b69e8064b8" title="Updates ARVR stabilized game rotation vector data from decoded sensor event." alt="" coords="173,1635,392,1677"/>
+<area shape="poly" title=" " alt="" coords="553,1346,539,1405,514,1480,496,1520,474,1558,448,1594,417,1625,393,1640,390,1635,413,1621,444,1590,470,1555,491,1517,509,1478,534,1403,548,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html#a0ddf587eff71b83b01de57c2a69aa34d" title="Updates ARVR stabilized rotation vector data from decoded sensor event." alt="" coords="182,1701,383,1744"/>
+<area shape="poly" title=" " alt="" coords="555,1347,546,1417,523,1510,505,1559,482,1607,453,1652,417,1691,385,1711,382,1706,413,1687,449,1649,477,1605,500,1557,518,1508,541,1416,550,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#ab099bd0da7140c433fc7bab0a802c46f" title="Updates calibrated gyro data from decoded sensor event." alt="" coords="174,1768,391,1795"/>
+<area shape="poly" title=" " alt="" coords="558,1346,553,1428,546,1482,534,1540,516,1599,492,1658,459,1711,417,1758,392,1773,389,1769,413,1754,455,1708,487,1655,511,1597,529,1538,540,1481,548,1427,552,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#af50ecf2bb83d7eeec5b88c5273a01784" title="Updates calibrated magnetometer data from decoded sensor event." alt="" coords="186,1819,379,1861"/>
+<area shape="poly" title=" " alt="" coords="558,1346,556,1435,550,1495,538,1560,521,1627,496,1693,462,1755,417,1809,400,1822,380,1831,378,1826,397,1817,413,1805,457,1752,491,1691,516,1625,533,1559,544,1494,550,1435,553,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a8f9be2a12cec2a8467829fe561bf5f3d" title="Updates game rotation vector data from decoded sensor event." alt="" coords="171,1885,394,1912"/>
+<area shape="poly" title=" " alt="" coords="554,1346,539,1461,511,1621,492,1701,470,1775,445,1835,432,1858,417,1875,395,1890,392,1886,413,1871,427,1855,441,1832,465,1773,487,1700,506,1620,534,1461,549,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a47a5d1d8f89834662efaaae60a74b4c2" title="Updates gravity data from decoded sensor event." alt="" coords="178,1936,387,1963"/>
+<area shape="poly" title=" " alt="" coords="555,1346,541,1471,514,1646,496,1734,474,1815,447,1881,433,1907,417,1926,389,1944,386,1939,413,1922,428,1904,443,1879,468,1814,491,1733,509,1645,536,1471,550,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_i_gyro_r_v.html#a29e7154e8fed38487dd100f3e98d72fb" title="Updates gyro integrated rotation vector data from decoded sensor event." alt="" coords="173,1987,392,2013"/>
+<area shape="poly" title=" " alt="" coords="555,1347,543,1481,518,1670,499,1767,477,1855,449,1928,434,1956,417,1977,393,1993,390,1988,413,1973,429,1953,445,1925,472,1854,494,1766,513,1669,538,1480,550,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#ab799259f97933e00ddfe654050c4757e" title="Updates accelerometer data from decoded sensor event." alt="" coords="184,2037,381,2080"/>
+<area shape="poly" title=" " alt="" coords="556,1346,544,1489,520,1693,501,1798,478,1894,451,1973,434,2004,417,2027,401,2040,383,2050,380,2045,398,2036,413,2023,430,2001,446,1971,473,1893,496,1797,514,1692,539,1488,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a269b8a306d47b0a873421674e8996187" title="Updates raw accelerometer data from decoded sensor event." alt="" coords="163,2104,402,2147"/>
+<area shape="poly" title=" " alt="" coords="556,1346,547,1501,524,1725,506,1841,482,1947,453,2034,436,2068,417,2094,403,2105,400,2101,413,2090,431,2065,448,2032,477,1945,501,1840,519,1725,542,1500,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#af79174e4b3a3579d3de85decf529e5d5" title="Updates raw mems gyro data from decoded sensor event." alt="" coords="191,2171,374,2213"/>
+<area shape="poly" title=" " alt="" coords="557,1346,549,1512,528,1757,510,1883,486,1999,456,2095,437,2132,417,2161,398,2176,376,2186,373,2181,395,2171,413,2157,433,2129,451,2093,481,1998,505,1882,523,1756,544,1512,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a5ff68ff342813b240519a315e60d4506" title="Updates raw magnetometer data from decoded sensor event." alt="" coords="163,2237,402,2280"/>
+<area shape="poly" title=" " alt="" coords="557,1346,552,1524,544,1651,532,1788,514,1926,490,2052,475,2107,458,2156,439,2196,417,2227,404,2239,400,2235,413,2224,434,2194,453,2154,470,2106,485,2051,509,1925,527,1788,539,1650,546,1524,552,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#ab6a7a480ecc404383a1db5c6b29e3c48" title="Updates rotation vector data from decoded sensor event." alt="" coords="189,2304,376,2331"/>
+<area shape="poly" title=" " alt="" coords="558,1347,555,1537,549,1673,538,1822,521,1970,496,2106,480,2166,462,2218,441,2261,417,2294,399,2308,378,2317,375,2312,396,2303,413,2290,436,2258,457,2216,475,2164,491,2105,516,1970,533,1822,543,1673,549,1537,552,1347"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a531bf3018378efda8edd322e2a4a3306" title="Updates geomagnetic rotation vector data from decoded sensor event." alt="" coords="200,2355,365,2397"/>
+<area shape="poly" title=" " alt="" coords="558,1347,555,1544,550,1688,539,1844,522,2001,497,2144,481,2208,463,2263,441,2309,417,2345,394,2363,366,2373,364,2368,391,2358,413,2341,437,2307,458,2261,476,2206,492,2143,517,2000,534,1844,544,1688,550,1544,552,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aebaecde5751d7b9a3fa1d5cfe09a7393" title="Updates shake detector data from decoded sensor event." alt="" coords="194,2421,371,2464"/>
+<area shape="poly" title=" " alt="" coords="558,1346,557,1556,553,1709,543,1875,526,2043,501,2197,485,2265,465,2324,443,2373,417,2411,396,2428,372,2438,370,2433,394,2423,413,2408,438,2371,460,2322,479,2263,496,2196,521,2042,538,1875,547,1708,552,1556,553,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a53f291245bb6c40ae272fbe0142609c2" title="Updates stability classifier data from decoded sensor event." alt="" coords="187,2488,378,2531"/>
+<area shape="poly" title=" " alt="" coords="556,1346,541,1583,512,1942,493,2125,470,2287,445,2410,432,2452,417,2478,399,2493,379,2503,377,2498,396,2488,413,2474,427,2450,440,2409,465,2286,488,2125,507,1942,536,1582,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#a742cb9d7bc64d31f3febc51d0536c3aa" title="Updates step counter data from decoded sensor event." alt="" coords="201,2555,364,2597"/>
+<area shape="poly" title=" " alt="" coords="556,1346,542,1595,514,1976,495,2170,472,2342,447,2472,432,2517,417,2544,393,2563,365,2574,363,2569,390,2558,413,2541,427,2515,441,2471,467,2341,490,2169,509,1975,537,1594,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#aa1b7881e55a3f6210f48cec831cc72a7" title="Updates tap detector data from decoded sensor event." alt="" coords="202,2621,363,2664"/>
+<area shape="poly" title=" " alt="" coords="556,1346,544,1606,516,2009,497,2214,474,2396,448,2535,433,2582,417,2611,393,2630,364,2641,362,2636,390,2625,413,2608,428,2580,443,2533,469,2395,492,2214,511,2008,538,1606,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#acfcb717810a8924c3b119829c4b24489" title="Updates uncalibrated gyro data from decoded sensor event." alt="" coords="207,2688,358,2731"/>
+<area shape="poly" title=" " alt="" coords="556,1346,545,1619,518,2043,499,2259,476,2451,449,2597,434,2647,417,2678,391,2698,359,2709,358,2704,388,2693,413,2674,429,2645,444,2596,471,2450,494,2259,513,2042,539,1618,551,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a2737505adb4176e5843ce7d13b2b8ec4" title="Updates uncalibrated magf data from decoded sensor event." alt="" coords="179,2755,386,2797"/>
+<area shape="poly" title=" " alt="" coords="557,1346,546,1630,520,2075,502,2303,478,2505,465,2590,450,2660,435,2712,417,2744,403,2757,387,2766,384,2762,400,2753,413,2741,430,2710,445,2658,460,2589,473,2505,496,2303,515,2075,540,1630,551,1346"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" title=" " alt="" coords="198,28,174,35,151,46,120,72,95,103,63,158,59,156,91,100,117,68,148,42,172,30,197,23"/>
+<area shape="poly" title=" " alt="" coords="158,305,148,300,117,273,91,242,59,186,63,183,95,239,120,270,151,295,161,300"/>
 </map>
 </div>
 
@@ -1092,6 +965,172 @@ Here is the caller graph for this function:</div>
 <area shape="rect" title="Registers a callback to execute when new data from a specific report is received." alt="" coords="150,5,312,32"/>
 <area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,5,102,32"/>
 <area shape="poly" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa0bed98a9a497d1f39e8245d05b02e9c" name="aa0bed98a9a497d1f39e8245d05b02e9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0bed98a9a497d1f39e8245d05b02e9c">&#9670;&#160;</a></span>rpt_enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BNO08xRpt::rpt_enable </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>time_between_reports</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sh2_SensorConfig_t</td>          <td class="paramname"><span class="paramname"><em>sensor_cfg</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a></span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">report_period_us</td><td>The period/interval of the report in microseconds. </td></tr>
+    <tr><td class="paramname">sensor_cfg</td><td>Sensor special configuration (optional, see <a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a> for defaults).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if report was successfully enabled. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_cgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_cgraph" alt=""/></div>
+<map name="aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_cgraph" id="aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_cgraph">
+<area shape="rect" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="5,81,164,108"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="221,5,403,32"/>
+<area shape="poly" title=" " alt="" coords="116,78,211,41,236,34,238,39,213,47,118,83"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="219,56,405,83"/>
+<area shape="poly" title=" " alt="" coords="163,83,203,79,203,84,164,89"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="214,107,410,133"/>
+<area shape="poly" title=" " alt="" coords="164,101,198,105,198,110,163,106"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="212,157,412,184"/>
+<area shape="poly" title=" " alt="" coords="118,106,213,143,238,150,236,155,211,148,116,111"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_icgraph" alt=""/></div>
+<map name="aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_icgraph" id="aclass_b_n_o08x_rpt_aa0bed98a9a497d1f39e8245d05b02e9c_icgraph">
+<area shape="rect" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="437,908,595,935"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="188,352,351,395"/>
+<area shape="poly" title=" " alt="" coords="509,893,498,818,476,714,440,599,415,542,387,488,367,461,345,437,300,397,303,393,349,433,372,458,391,485,420,539,445,597,481,713,503,817,514,892"/>
+<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#a631329523ddaf17f2e93cd0546a42823" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="177,499,362,541"/>
+<area shape="poly" title=" " alt="" coords="511,893,504,824,484,733,469,685,447,638,421,594,387,555,361,538,364,534,391,551,425,591,452,635,473,683,490,732,509,823,516,892"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="178,632,361,659"/>
+<area shape="poly" title=" " alt="" coords="507,894,493,845,470,785,435,724,413,696,387,673,360,658,362,653,391,668,417,693,439,721,475,782,498,843,512,892"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="173,733,366,776"/>
+<area shape="poly" title=" " alt="" coords="495,897,450,843,421,814,388,790,364,779,367,774,390,786,424,810,454,839,499,894"/>
+<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571" title="Enables gravity reports such that the BNO08x begins sending them." alt="" coords="181,683,358,709"/>
+<area shape="poly" title=" " alt="" coords="503,894,487,855,462,808,429,762,387,724,357,709,359,704,391,719,433,759,467,806,491,853,508,892"/>
+<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="171,565,368,608"/>
+<area shape="poly" title=" " alt="" coords="509,893,497,836,476,762,460,724,440,687,416,652,387,622,367,608,370,604,391,618,420,649,444,684,464,722,481,761,503,834,514,892"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a3cfc735c048700fe79a5674ad92b4b03" title="Enables raw accelerometer reports such that the BNO08x begins sending them." alt="" coords="150,800,389,843"/>
+<area shape="poly" title=" " alt="" coords="478,902,436,879,388,857,356,846,358,841,390,852,438,874,481,898"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#ae872f24befd81352f812bc998acb573d" title="Enables raw gyro reports such that the BNO08x begins sending them." alt="" coords="178,867,361,909"/>
+<area shape="poly" title=" " alt="" coords="421,911,361,903,362,898,422,906"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a92832fd0bff6abddbbd87779de5b57fb" title="Enables raw magnetometer such that the BNO08x begins sending them." alt="" coords="150,933,389,976"/>
+<area shape="poly" title=" " alt="" coords="422,937,389,941,389,936,421,931"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="193,1000,346,1043"/>
+<area shape="poly" title=" " alt="" coords="481,945,438,968,390,990,347,1005,346,1000,388,986,436,964,478,940"/>
+<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aa28fa73b51bd892f0239e647aa6ceeb8" title="Enables shake detector reports such that the BNO08x begins sending them (only sends reports when a sh..." alt="" coords="181,1067,358,1109"/>
+<area shape="poly" title=" " alt="" coords="499,949,454,1004,424,1032,390,1057,359,1072,356,1067,388,1052,421,1028,450,1000,495,946"/>
+<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a4959110a01f638d04d87696d8a03dd60" title="Enables stability classifier reports such that the BNO08x begins sending them." alt="" coords="174,1133,365,1176"/>
+<area shape="poly" title=" " alt="" coords="507,950,491,989,466,1036,432,1083,391,1123,366,1138,364,1133,387,1119,428,1080,461,1033,486,987,503,948"/>
+<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#adf0a697561b064a7dd90a44009efbcf1" title="Enables step counter reports such that the BNO08x begins sending them." alt="" coords="188,1200,351,1243"/>
+<area shape="poly" title=" " alt="" coords="512,950,499,1002,476,1066,440,1133,417,1163,391,1190,372,1202,352,1211,350,1206,370,1198,387,1186,413,1160,436,1130,471,1064,494,1000,507,949"/>
+<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#ad8b716b7a2f2c2f52113eaaf75a391dc" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="189,1267,350,1309"/>
+<area shape="poly" title=" " alt="" coords="515,950,506,1014,485,1096,469,1140,448,1182,422,1222,391,1257,372,1270,351,1279,349,1274,369,1265,387,1253,418,1219,444,1180,464,1137,480,1094,501,1013,510,950"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#a404d36091a61af543c6fec7b6e077706" title="Enables uncalibrated gyro reports such that the BNO08x begins sending them." alt="" coords="194,1333,345,1376"/>
+<area shape="poly" title=" " alt="" coords="517,950,512,1025,494,1125,478,1178,456,1231,427,1280,391,1323,370,1338,346,1348,344,1343,367,1334,387,1319,423,1277,451,1229,473,1177,489,1124,506,1024,512,950"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a80ae48107ca1cc27551fd799625f2867" title="Enables uncalibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="166,1400,373,1443"/>
+<area shape="poly" title=" " alt="" coords="514,950,498,1048,471,1180,454,1246,435,1306,414,1356,391,1390,375,1403,371,1398,387,1386,409,1353,430,1304,449,1244,466,1178,493,1047,508,949"/>
+<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="5,309,102,336"/>
+<area shape="poly" title=" " alt="" coords="173,353,101,336,102,331,174,348"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,360,102,387"/>
+<area shape="poly" title=" " alt="" coords="173,376,102,376,102,371,173,371"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,411,102,437"/>
+<area shape="poly" title=" " alt="" coords="174,398,102,415,101,410,173,393"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,461,102,488"/>
+<area shape="poly" title=" " alt="" coords="209,404,85,463,83,458,207,399"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,664,102,691"/>
+<area shape="poly" title=" " alt="" coords="227,407,187,443,152,488,141,511,135,532,131,572,126,611,118,632,104,654,90,665,87,661,100,650,114,629,121,610,126,571,130,531,136,509,147,485,183,439,224,403"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,563,102,589"/>
+<area shape="poly" title=" " alt="" coords="234,407,152,488,129,521,119,536,103,553,87,564,84,560,100,549,115,533,125,518,148,485,230,403"/>
+<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" title=" " alt="" coords="255,338,234,277,202,200,157,119,130,81,100,46,85,35,89,30,103,42,134,77,161,116,206,198,239,275,260,336"/>
+<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" title=" " alt="" coords="252,339,228,287,195,223,152,157,100,97,85,85,88,81,103,93,156,153,199,220,233,284,257,336"/>
+<area shape="rect" href="_feature_tests_8cpp.html#ad2587baeeb225c43d04e355166a29b18" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" title=" " alt="" coords="247,340,188,247,146,195,100,147,84,136,87,132,103,143,150,191,192,244,251,337"/>
+<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,715,102,741"/>
+<area shape="poly" title=" " alt="" coords="226,407,186,443,152,488,139,518,133,546,132,597,133,623,130,648,121,675,104,704,91,716,87,712,100,701,116,673,125,647,128,622,127,597,127,545,134,517,147,485,182,439,222,403"/>
+<area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" title=" " alt="" coords="240,341,179,271,141,233,100,198,83,187,85,182,103,194,145,229,183,268,244,338"/>
+<area shape="rect" href="_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" title=" " alt="" coords="228,344,169,297,100,249,81,237,83,233,103,244,172,293,232,340"/>
+<area shape="rect" href="_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,259,102,285"/>
+<area shape="poly" title=" " alt="" coords="207,347,83,288,85,283,209,342"/>
+<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,765,102,792"/>
+<area shape="poly" title=" " alt="" coords="226,406,186,443,167,464,152,488,137,525,131,560,133,623,136,654,134,686,124,719,104,755,91,767,88,763,100,752,119,717,128,685,130,654,128,623,125,559,132,524,147,485,163,461,182,439,222,402"/>
+<area shape="poly" title=" " alt="" coords="163,664,102,673,101,668,162,658"/>
+<area shape="poly" title=" " alt="" coords="176,630,149,623,80,592,82,588,151,617,177,625"/>
+<area shape="poly" title=" " alt="" coords="171,666,151,673,127,688,103,705,83,717,80,712,100,700,124,683,149,668,169,661"/>
+<area shape="poly" title=" " alt="" coords="165,665,151,673,134,691,127,711,120,733,104,755,88,767,85,763,100,751,115,730,122,709,130,689,148,669,162,660"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,613,102,640"/>
+<area shape="poly" title=" " alt="" coords="163,639,102,633,102,628,163,633"/>
+<area shape="poly" title=" " alt="" coords="169,731,149,724,81,694,83,689,151,719,171,726"/>
+<area shape="poly" title=" " alt="" coords="157,744,102,737,103,731,158,738"/>
+<area shape="poly" title=" " alt="" coords="158,770,103,776,102,771,157,764"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,867,102,893"/>
+<area shape="poly" title=" " alt="" coords="161,784,151,790,136,805,127,821,119,838,103,857,87,868,84,864,100,853,114,836,122,819,131,802,148,786,158,780"/>
+<area shape="poly" title=" " alt="" coords="165,690,102,684,102,679,166,684"/>
+<area shape="poly" title=" " alt="" coords="165,682,148,673,131,656,122,639,114,621,100,603,84,592,87,588,103,599,119,618,127,636,135,653,151,669,168,678"/>
+<area shape="poly" title=" " alt="" coords="166,714,102,724,102,718,166,709"/>
+<area shape="poly" title=" " alt="" coords="171,716,151,724,127,738,103,756,83,767,80,763,100,751,124,734,149,719,169,711"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,816,102,843"/>
+<area shape="poly" title=" " alt="" coords="168,714,151,723,134,742,127,762,120,783,104,806,88,818,85,813,100,802,115,781,122,760,130,739,148,719,166,709"/>
+<area shape="poly" title=" " alt="" coords="157,561,148,556,132,542,123,529,114,516,100,502,83,491,86,486,103,498,118,513,127,526,136,539,151,551,160,556"/>
+<area shape="poly" title=" " alt="" coords="165,616,151,622,127,637,103,654,83,666,80,661,100,650,124,633,148,618,163,611"/>
+<area shape="poly" title=" " alt="" coords="155,584,102,581,102,576,155,578"/>
+<area shape="poly" title=" " alt="" coords="158,617,151,622,135,641,127,661,120,682,104,705,88,716,85,712,100,701,115,680,122,659,130,638,148,618,155,613"/>
+<area shape="poly" title=" " alt="" coords="159,616,152,622,138,638,131,653,126,685,123,719,116,737,104,755,90,767,86,763,100,752,111,734,117,718,121,685,126,651,134,635,148,618,156,611"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,512,102,539"/>
+<area shape="poly" title=" " alt="" coords="174,563,149,556,101,542,102,537,150,551,176,558"/>
+<area shape="poly" title=" " alt="" coords="176,1010,148,990,124,954,114,918,114,883,119,848,124,813,126,778,119,742,100,704,88,693,91,689,104,701,124,740,131,778,130,814,124,849,119,883,119,917,128,951,152,986,179,1006"/>
+<area shape="poly" title=" " alt="" coords="177,1010,148,990,127,960,118,931,117,902,120,873,123,844,123,815,116,786,100,755,88,744,91,740,104,752,121,784,128,815,128,845,125,874,122,902,123,930,132,958,152,986,180,1005"/>
+<area shape="poly" title=" " alt="" coords="177,1009,148,990,130,967,122,944,120,921,120,898,120,853,114,830,100,806,87,794,90,790,104,802,119,827,125,852,126,898,125,921,127,943,135,964,152,986,180,1005"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,917,102,944"/>
+<area shape="poly" title=" " alt="" coords="177,1002,148,990,124,975,100,958,80,947,83,942,103,954,127,971,151,986,179,997"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,968,102,995"/>
+<area shape="poly" title=" " alt="" coords="177,1007,101,993,102,988,178,1002"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,1019,102,1045"/>
+<area shape="poly" title=" " alt="" coords="177,1029,102,1032,102,1027,177,1023"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,1069,102,1096"/>
+<area shape="poly" title=" " alt="" coords="178,1049,150,1057,102,1071,101,1066,149,1052,177,1044"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,1120,102,1147"/>
+<area shape="poly" title=" " alt="" coords="179,1043,151,1057,136,1069,127,1082,118,1095,103,1110,86,1122,83,1117,100,1106,114,1092,123,1079,132,1066,148,1052,176,1039"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,1171,102,1197"/>
+<area shape="poly" title=" " alt="" coords="180,1040,151,1057,140,1069,133,1081,127,1106,121,1132,104,1160,89,1172,85,1168,100,1157,116,1130,122,1105,128,1079,136,1066,148,1053,177,1035"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,1341,102,1368"/>
+<area shape="poly" title=" " alt="" coords="178,1357,102,1357,102,1352,178,1352"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,1408,102,1435"/>
+<area shape="poly" title=" " alt="" coords="151,1424,102,1424,102,1419,151,1419"/>
 </map>
 </div>
 
@@ -1205,124 +1244,121 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765_icgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765_icgraph" id="aclass_b_n_o08x_rpt_a61e3451e93806e1b7eaf5f1387726765_icgraph">
-<area shape="rect" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="617,1699,814,1725"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a1418be33824d3102dbc8f92558a402a6" title="Clears BNO08x internal sample counts for this sensor. (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="390,729,565,772"/>
-<area shape="poly" title=" " alt="" coords="711,1683,703,1503,694,1375,681,1235,663,1094,638,966,606,859,588,817,567,786,555,774,559,770,571,782,593,815,611,857,643,964,668,1094,687,1234,700,1374,708,1503,716,1683"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="409,796,545,823"/>
-<area shape="poly" title=" " alt="" coords="704,1684,480,824,485,823,709,1683"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#ab3bb962696b135841ef7313bc631fc72" title="Flush all buffered reports for this sensor/report module." alt="" coords="415,1607,540,1633"/>
-<area shape="poly" title=" " alt="" coords="673,1694,568,1648,533,1636,535,1631,570,1643,675,1689"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="151,1505,336,1532"/>
-<area shape="poly" title=" " alt="" coords="695,1687,644,1624,608,1591,568,1565,511,1543,450,1528,391,1521,336,1518,336,1513,391,1515,451,1523,513,1537,571,1560,611,1587,647,1620,699,1684"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="161,1556,326,1599"/>
-<area shape="poly" title=" " alt="" coords="691,1689,639,1640,605,1616,568,1597,507,1580,444,1571,382,1569,327,1571,327,1565,382,1563,444,1566,508,1575,570,1592,608,1611,642,1635,694,1685"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="401,1657,554,1700"/>
-<area shape="poly" title=" " alt="" coords="602,1699,554,1692,555,1687,603,1694"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f" title="Clears most recent tare operation." alt="" coords="391,1724,564,1767"/>
-<area shape="poly" title=" " alt="" coords="602,1730,565,1736,564,1731,602,1725"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87" title="Clears most recent tare operation." alt="" coords="391,1791,564,1817"/>
-<area shape="poly" title=" " alt="" coords="675,1735,570,1781,535,1793,533,1788,568,1776,673,1730"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062" title="Clears most recent tare operation." alt="" coords="395,1841,560,1884"/>
-<area shape="poly" title=" " alt="" coords="691,1738,638,1785,571,1832,547,1843,545,1838,568,1827,635,1780,688,1734"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="391,1908,564,1951"/>
-<area shape="poly" title=" " alt="" coords="702,1740,651,1817,614,1861,571,1898,551,1910,549,1905,568,1894,610,1857,646,1814,698,1737"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="385,1975,569,2001"/>
-<area shape="poly" title=" " alt="" coords="708,1741,690,1790,662,1850,623,1912,598,1940,571,1965,551,1976,548,1972,568,1961,594,1936,618,1909,657,1848,686,1788,703,1739"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="395,2025,560,2068"/>
-<area shape="poly" title=" " alt="" coords="711,1741,695,1798,668,1872,627,1948,601,1984,571,2015,555,2027,552,2023,568,2011,597,1980,622,1945,663,1869,690,1797,705,1740"/>
-<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="174,847,313,873"/>
-<area shape="poly" title=" " alt="" coords="398,829,309,849,308,843,397,824"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,508,102,535"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,369,767,359,748,352,710,355,672,363,634,370,597,372,562,362,528,351,512,335,497,306,479,273,469,239,467,203,470,136,488,83,510,81,505,134,483,202,465,238,462,274,464,308,474,339,493,355,509,366,526,377,561,376,598,368,635,360,672,357,710,365,746,373,764,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,604,102,631"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,362,753,354,719,356,685,362,651,368,619,368,588,359,558,335,530,312,514,291,504,270,499,249,499,203,510,151,530,124,545,100,565,66,605,62,602,96,562,121,541,149,526,202,505,248,494,270,494,292,499,315,509,339,526,364,555,374,587,373,619,368,652,362,685,360,718,367,751,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,677,102,704"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,364,757,357,728,358,699,362,670,366,642,365,615,356,590,335,566,312,550,290,539,268,533,246,532,201,542,151,566,133,582,124,600,117,621,104,644,72,679,68,675,100,641,112,618,119,598,129,579,148,562,200,537,246,526,269,528,292,534,315,545,339,562,361,587,370,614,371,642,367,671,363,699,362,727,369,755,387,782,397,791"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,740,102,767"/>
-<area shape="poly" title=" " alt="" coords="393,794,383,786,366,762,359,737,359,713,361,689,363,665,362,643,354,622,335,602,289,574,267,568,245,566,223,569,200,576,151,602,138,614,130,626,123,653,119,684,114,701,104,718,78,742,75,738,100,714,109,698,114,683,118,652,125,624,134,610,148,598,198,571,221,564,245,561,268,563,291,570,339,598,358,619,367,641,369,665,367,689,364,713,365,737,371,760,387,782,397,790"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,796,102,823"/>
-<area shape="poly" title=" " alt="" coords="394,812,102,812,102,807,394,807"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,897,102,924"/>
-<area shape="poly" title=" " alt="" coords="446,834,396,863,338,888,275,903,211,911,102,915,102,910,211,905,274,897,336,883,394,858,443,829"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,948,102,975"/>
-<area shape="poly" title=" " alt="" coords="454,836,404,880,372,902,338,920,276,941,213,954,153,961,102,964,102,958,152,956,212,948,275,935,336,915,369,897,400,876,451,832"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,999,102,1025"/>
-<area shape="poly" title=" " alt="" coords="462,838,413,904,378,938,338,966,278,992,214,1007,153,1014,102,1016,102,1011,153,1008,213,1001,276,986,336,962,375,934,409,900,458,835"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,1049,102,1076"/>
-<area shape="poly" title=" " alt="" coords="468,838,450,879,423,929,385,979,363,1001,338,1020,310,1035,279,1047,215,1062,154,1068,102,1069,102,1063,154,1063,215,1057,278,1042,308,1030,336,1015,360,997,381,975,418,926,445,877,463,836"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,1100,102,1127"/>
-<area shape="poly" title=" " alt="" coords="472,839,457,891,431,955,392,1020,367,1050,339,1074,310,1091,280,1103,216,1118,154,1123,102,1121,102,1116,154,1117,215,1113,278,1098,308,1086,335,1070,364,1046,388,1017,427,953,452,889,467,837"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,1151,102,1177"/>
-<area shape="poly" title=" " alt="" coords="475,839,464,901,440,980,422,1022,400,1062,372,1098,339,1129,311,1146,281,1159,217,1173,155,1176,102,1174,102,1168,155,1171,216,1168,279,1154,308,1141,335,1125,368,1094,395,1059,417,1019,435,978,459,899,470,838"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,1201,102,1228"/>
-<area shape="poly" title=" " alt="" coords="477,839,469,910,448,1004,430,1054,407,1101,376,1145,339,1182,311,1200,281,1213,217,1227,155,1229,102,1225,102,1220,155,1224,217,1221,279,1208,309,1195,335,1178,372,1142,402,1099,425,1052,443,1003,464,909,472,838"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,1252,102,1279"/>
-<area shape="poly" title=" " alt="" coords="479,839,474,919,467,971,456,1028,438,1085,414,1141,381,1192,339,1235,312,1253,282,1266,218,1280,155,1282,102,1277,102,1272,155,1276,217,1275,280,1261,309,1249,335,1231,377,1189,409,1139,433,1084,450,1027,462,971,469,919,474,838"/>
-<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,1303,102,1329"/>
-<area shape="poly" title=" " alt="" coords="474,838,457,939,428,1075,410,1143,388,1205,365,1254,339,1287,312,1306,282,1319,250,1327,218,1332,155,1334,102,1328,102,1323,155,1328,217,1327,249,1322,280,1314,309,1301,335,1283,360,1252,383,1203,404,1142,423,1074,452,938,469,838"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,1353,102,1380"/>
-<area shape="poly" title=" " alt="" coords="475,838,460,949,432,1100,414,1177,392,1246,367,1302,353,1323,339,1339,312,1358,282,1371,251,1380,218,1384,155,1385,102,1379,102,1374,156,1380,218,1379,250,1374,280,1366,309,1353,335,1335,349,1320,362,1299,387,1244,408,1176,427,1099,455,948,470,837"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,367,758,356,724,350,684,347,639,351,539,360,431,368,323,371,223,368,179,362,140,351,107,335,82,311,60,284,43,253,31,221,23,158,15,102,16,102,11,158,10,222,17,255,26,286,38,314,56,339,78,356,105,367,139,374,178,376,223,374,323,365,431,356,539,353,639,355,684,361,723,372,756,387,782,397,792"/>
-<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,368,760,358,729,352,692,349,650,352,557,359,457,367,357,369,264,366,224,360,188,350,157,335,134,311,112,284,95,253,83,221,74,158,67,102,67,102,62,158,61,222,69,255,78,286,90,314,108,339,130,355,155,365,186,371,223,374,264,372,357,365,457,357,557,355,650,357,691,363,728,373,758,387,782,397,792"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,1404,102,1431"/>
-<area shape="poly" title=" " alt="" coords="476,838,462,959,436,1126,418,1211,395,1288,369,1350,355,1374,339,1391,312,1410,283,1423,251,1432,219,1436,156,1437,102,1430,103,1425,156,1431,218,1431,250,1427,281,1418,309,1405,335,1387,350,1370,365,1347,390,1286,412,1209,431,1125,457,958,471,838"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,1455,102,1481"/>
-<area shape="poly" title=" " alt="" coords="477,839,465,969,440,1152,421,1245,399,1329,371,1398,356,1424,339,1443,312,1462,283,1475,251,1484,219,1488,155,1488,101,1481,102,1476,156,1483,218,1483,250,1479,281,1470,310,1458,335,1439,352,1421,367,1395,394,1328,416,1244,434,1151,459,969,471,838"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ad2587baeeb225c43d04e355166a29b18" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,369,762,359,733,351,661,353,575,359,483,366,391,367,306,358,235,349,207,335,186,311,164,284,147,253,134,221,126,158,118,102,118,102,113,158,113,222,121,255,129,286,142,314,159,339,182,353,205,363,234,372,306,371,391,365,483,358,576,357,661,365,732,374,760,387,782,397,792"/>
-<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,157,102,184"/>
-<area shape="poly" title=" " alt="" coords="394,796,383,786,370,765,361,738,353,672,354,594,359,510,364,426,365,349,356,284,347,259,335,239,311,217,283,200,253,187,221,178,157,170,102,169,102,164,158,164,222,173,255,182,286,195,314,213,339,236,352,256,361,283,370,348,369,426,364,510,359,594,359,672,366,737,375,762,387,782,397,792"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,208,102,235"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,371,767,363,743,355,684,355,613,359,538,362,462,362,392,354,334,346,311,335,294,311,271,283,254,253,241,221,232,157,222,102,221,102,215,158,217,222,226,255,236,286,249,314,267,339,290,351,309,359,333,367,392,368,462,364,538,360,613,360,683,368,741,376,764,387,782,397,792"/>
-<area shape="rect" href="_feature_tests_8cpp.html#aa591e9e15fbc5763f8bace22312015c0" title=" " alt="" coords="5,260,102,287"/>
-<area shape="poly" title=" " alt="" coords="393,795,383,786,363,758,349,729,342,701,339,674,345,619,359,564,372,510,378,456,375,430,368,403,355,376,335,348,311,326,283,308,253,295,221,286,157,275,102,273,102,268,158,270,222,280,255,290,286,304,314,322,339,345,360,373,373,401,381,429,383,456,378,511,364,566,351,620,345,674,347,701,354,728,367,755,387,782,397,791"/>
-<area shape="rect" href="_feature_tests_8cpp.html#abc6316f813506ff1114a4c50b5a72bdf" title=" " alt="" coords="5,312,102,339"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,365,761,353,737,346,713,344,688,348,641,358,593,369,546,373,500,371,476,364,453,352,429,335,406,311,383,283,365,253,351,221,341,157,330,102,326,102,321,158,324,222,336,255,346,286,360,314,379,339,402,357,427,369,451,376,475,378,500,374,547,364,595,353,642,349,688,351,712,358,735,370,759,387,782,397,791"/>
-<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,365,102,392"/>
-<area shape="poly" title=" " alt="" coords="394,795,383,786,367,765,357,744,348,703,350,663,358,622,366,582,369,543,360,503,350,483,335,463,311,440,283,422,252,408,220,397,157,385,102,381,102,375,157,380,222,392,254,403,285,417,314,436,339,460,354,480,365,501,374,542,371,583,363,623,355,663,353,703,362,743,372,762,387,782,397,791"/>
-<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#adefe3069a697b16d93cd281bda331db4" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="151,612,336,655"/>
-<area shape="poly" title=" " alt="" coords="393,794,383,786,370,771,363,756,358,726,353,697,347,683,335,669,320,657,323,653,339,665,351,680,358,695,363,725,368,755,375,768,387,782,397,789"/>
-<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#a56e8ac83784ef97dba4fd1487ac9c876" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="163,679,324,721"/>
-<area shape="poly" title=" " alt="" coords="394,792,384,786,368,774,359,761,350,748,335,736,315,724,317,719,339,731,354,744,363,757,372,770,386,782,397,787"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="195,745,292,772"/>
-<area shape="poly" title=" " alt="" coords="397,795,292,772,293,766,398,790"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,847,102,873"/>
-<area shape="poly" title=" " alt="" coords="158,863,102,863,102,857,158,857"/>
-<area shape="poly" title=" " alt="" coords="203,840,173,816,147,786,133,759,125,735,119,691,115,646,109,621,99,593,82,562,64,537,68,534,87,559,104,591,115,620,120,645,124,690,130,733,138,757,152,782,177,812,206,836"/>
-<area shape="poly" title=" " alt="" coords="205,840,175,816,148,786,130,754,122,726,115,698,99,667,69,633,73,629,104,664,120,697,127,725,135,752,152,782,179,812,209,836"/>
-<area shape="poly" title=" " alt="" coords="210,839,148,786,124,758,100,730,72,706,75,702,104,726,128,754,152,782,213,835"/>
-<area shape="poly" title=" " alt="" coords="203,841,78,770,81,765,206,836"/>
-<area shape="poly" title=" " alt="" coords="175,845,101,825,103,819,176,839"/>
-<area shape="poly" title=" " alt="" coords="176,881,103,901,101,895,175,875"/>
-<area shape="poly" title=" " alt="" coords="204,883,81,950,79,945,202,879"/>
-<area shape="poly" title=" " alt="" coords="220,886,168,936,103,989,85,1000,82,996,100,984,165,932,217,883"/>
-<area shape="poly" title=" " alt="" coords="228,888,177,960,142,1002,103,1039,86,1051,83,1047,100,1035,139,998,173,957,224,885"/>
-<area shape="poly" title=" " alt="" coords="233,888,214,931,185,984,148,1039,103,1090,88,1102,85,1097,100,1086,144,1036,180,981,209,928,229,886"/>
-<area shape="poly" title=" " alt="" coords="237,889,219,941,191,1007,153,1077,130,1110,104,1141,89,1152,85,1148,100,1137,126,1107,149,1074,187,1005,214,939,232,887"/>
-<area shape="poly" title=" " alt="" coords="239,889,224,949,198,1029,158,1114,133,1154,104,1191,89,1203,86,1199,100,1187,129,1151,154,1111,193,1027,219,948,234,888"/>
-<area shape="poly" title=" " alt="" coords="241,889,229,958,204,1051,186,1101,163,1151,136,1198,104,1242,90,1254,86,1249,100,1238,132,1195,159,1148,181,1099,199,1049,223,957,236,888"/>
-<area shape="poly" title=" " alt="" coords="243,889,233,966,210,1072,192,1129,168,1187,139,1242,104,1292,90,1304,86,1300,100,1289,135,1239,164,1185,187,1128,205,1070,227,965,237,888"/>
-<area shape="poly" title=" " alt="" coords="244,890,236,975,215,1093,197,1159,173,1224,142,1286,104,1343,90,1355,87,1351,100,1340,138,1283,168,1222,192,1157,210,1092,231,974,238,889"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,817,147,785,135,754,127,716,120,626,122,522,128,411,133,300,133,198,124,110,114,75,99,46,88,34,92,31,104,42,119,73,129,109,139,197,139,301,133,411,128,522,126,626,132,715,140,752,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,817,147,785,136,756,128,721,122,637,123,540,128,436,132,333,132,238,122,156,113,123,99,96,88,85,92,81,104,93,118,121,127,155,137,237,138,334,133,437,128,540,127,637,133,720,141,754,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="245,889,240,982,233,1045,221,1114,203,1187,178,1260,146,1330,104,1394,90,1405,87,1402,100,1390,141,1327,174,1258,198,1185,215,1113,227,1044,234,981,239,889"/>
-<area shape="poly" title=" " alt="" coords="246,889,243,990,237,1059,226,1135,209,1215,183,1296,149,1374,104,1444,91,1456,87,1452,100,1441,144,1371,178,1294,203,1214,221,1134,232,1058,238,990,240,889"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,137,758,129,726,123,648,123,558,127,462,131,367,130,278,121,202,112,172,99,147,88,136,92,132,104,144,117,170,126,201,135,278,136,367,133,462,129,558,128,648,135,725,142,757,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,137,760,130,730,124,659,124,576,127,488,130,400,128,318,119,249,111,220,100,198,88,187,92,183,104,194,116,218,124,247,134,318,135,400,132,488,129,576,129,658,136,729,142,759,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,171,816,147,785,130,746,118,709,112,674,111,639,117,574,130,512,142,450,145,387,142,355,134,321,120,286,100,250,87,237,91,233,104,246,125,284,139,319,147,354,151,387,147,451,135,513,122,575,116,639,118,673,123,708,135,744,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,172,816,147,785,131,750,121,717,115,684,113,653,118,594,129,538,139,482,142,425,138,396,131,366,118,334,100,302,87,289,90,285,104,298,123,332,136,364,144,395,147,425,144,483,134,539,123,595,118,653,120,684,126,715,136,748,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="201,840,172,816,147,785,133,754,123,724,115,668,119,616,128,565,136,516,138,465,127,412,116,384,100,355,85,341,89,337,104,352,121,382,132,411,143,465,141,516,133,566,124,616,121,668,128,723,138,752,152,783,175,813,204,836"/>
-<area shape="poly" title=" " alt="" coords="202,840,172,816,147,785,128,745,117,710,113,677,112,645,112,578,108,540,99,497,79,439,59,393,64,391,84,437,104,495,114,539,117,578,117,645,118,676,122,709,133,744,152,783,176,812,205,836"/>
-<area shape="poly" title=" " alt="" coords="202,1500,79,1433,81,1429,204,1495"/>
-<area shape="poly" title=" " alt="" coords="158,1551,148,1546,102,1514,67,1483,70,1479,105,1510,151,1542,161,1547"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="157,1623,330,1649"/>
-<area shape="poly" title=" " alt="" coords="385,1665,320,1653,321,1647,386,1659"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="174,1673,313,1700"/>
-<area shape="poly" title=" " alt="" coords="385,1684,313,1687,313,1682,385,1679"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="150,1724,337,1751"/>
-<area shape="poly" title=" " alt="" coords="386,1704,300,1726,299,1721,385,1699"/>
+<area shape="rect" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="669,989,866,1016"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a1418be33824d3102dbc8f92558a402a6" title="Clears BNO08x internal sample counts for this sensor. (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="442,482,617,525"/>
+<area shape="poly" title=" " alt="" coords="763,973,756,889,748,834,735,773,717,711,692,649,660,591,619,539,606,528,609,523,623,535,664,588,697,646,722,709,740,772,753,833,761,889,768,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="200,1076,339,1102"/>
+<area shape="poly" title=" " alt="" coords="735,982,675,944,638,926,598,910,556,899,515,896,475,902,439,920,423,936,416,952,414,989,413,1028,406,1047,391,1066,367,1081,340,1089,339,1084,365,1076,387,1062,401,1045,407,1027,409,989,411,951,419,933,435,916,473,897,514,890,557,894,599,905,640,921,678,940,737,977"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#ab3bb962696b135841ef7313bc631fc72" title="Flush all buffered reports for this sensor/report module." alt="" coords="467,930,592,957"/>
+<area shape="poly" title=" " alt="" coords="695,987,586,960,587,955,696,982"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#ad5b054279b01204f61b4c0408acf51cf" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="437,549,621,576"/>
+<area shape="poly" title=" " alt="" coords="762,974,754,897,732,793,713,738,689,684,658,634,620,590,603,578,606,574,623,586,662,630,694,681,718,736,737,792,759,896,768,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7ce8e48cadf59f49068af7f1cb680b38" title="Gets sample counts for this sensor (see SH&#45;2 ref manual 6.4.3.1)" alt="" coords="447,600,612,642"/>
+<area shape="poly" title=" " alt="" coords="760,974,746,909,721,824,702,779,680,735,652,693,620,656,604,645,607,641,623,652,656,690,684,732,707,777,726,823,752,908,765,973"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="450,666,608,693"/>
+<area shape="poly" title=" " alt="" coords="745,978,538,695,543,692,749,975"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd" title="Tares vector basis according to axis flags." alt="" coords="453,981,606,1024"/>
+<area shape="poly" title=" " alt="" coords="654,1005,606,1005,606,1000,654,1000"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f" title="Clears most recent tare operation." alt="" coords="443,1048,616,1090"/>
+<area shape="poly" title=" " alt="" coords="703,1023,609,1050,607,1044,701,1018"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87" title="Clears most recent tare operation." alt="" coords="443,1114,616,1141"/>
+<area shape="poly" title=" " alt="" coords="740,1028,687,1067,622,1105,592,1116,590,1111,620,1100,684,1063,737,1024"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062" title="Clears most recent tare operation." alt="" coords="447,1165,612,1208"/>
+<area shape="poly" title=" " alt="" coords="749,1030,697,1092,662,1126,623,1155,602,1167,599,1162,620,1151,658,1122,693,1088,745,1026"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="443,1232,616,1274"/>
+<area shape="poly" title=" " alt="" coords="757,1031,737,1073,708,1124,669,1176,623,1222,605,1233,602,1229,620,1218,665,1173,703,1121,732,1070,752,1029"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="437,1298,621,1325"/>
+<area shape="poly" title=" " alt="" coords="762,1031,746,1086,719,1155,679,1227,653,1260,623,1288,604,1300,601,1295,620,1284,649,1256,674,1224,714,1153,741,1084,757,1030"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63" title="Saves most recent tare operation to BNO08x internal flash, such that it persists on reset." alt="" coords="447,1349,612,1392"/>
+<area shape="poly" title=" " alt="" coords="764,1031,750,1094,724,1176,706,1220,683,1263,655,1303,623,1339,607,1351,604,1346,620,1335,651,1300,678,1260,701,1217,719,1174,745,1093,759,1030"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,289,102,316"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,130,1038,118,1004,110,963,106,918,106,817,113,707,121,596,125,492,119,403,112,367,99,337,81,318,85,314,104,334,117,365,125,402,130,492,126,596,118,707,111,817,111,918,115,963,123,1002,135,1036,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#aaefa1a1d4b3c190b7f46bb7f42512949" title=" " alt="" coords="5,234,102,261"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,129,1036,116,999,108,955,104,906,105,796,114,677,123,557,128,445,127,394,122,349,113,310,99,278,84,263,88,260,104,275,118,308,127,348,132,394,134,445,129,557,119,677,111,796,109,906,113,954,121,997,134,1033,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a508ef0459e3fd34f4235194f91992123" title=" " alt="" coords="5,1004,102,1030"/>
+<area shape="poly" title=" " alt="" coords="183,1076,149,1066,80,1033,82,1028,151,1061,185,1071"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a7a1dd1af780f6e5d8501a31da196cc45" title=" " alt="" coords="5,1054,102,1081"/>
+<area shape="poly" title=" " alt="" coords="184,1083,101,1075,102,1070,185,1078"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af25aef97093ff3259252290c5e32293f" title=" " alt="" coords="5,468,102,494"/>
+<area shape="poly" title=" " alt="" coords="184,1087,164,1079,148,1065,130,1035,118,993,111,943,107,888,105,780,99,697,75,580,56,495,61,494,81,579,104,697,110,780,113,888,116,942,123,992,135,1033,152,1062,167,1074,186,1082"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,709,102,736"/>
+<area shape="poly" title=" " alt="" coords="184,1086,165,1078,148,1066,126,1039,114,1013,108,988,107,962,109,908,107,877,99,843,78,784,59,737,64,735,83,782,104,842,112,876,114,907,113,962,113,987,119,1012,131,1036,152,1062,167,1074,186,1081"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a175ff61aad4905497f19d011693932ff" title=" " alt="" coords="5,1105,102,1132"/>
+<area shape="poly" title=" " alt="" coords="185,1103,102,1114,101,1109,184,1098"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#abf9609daa7bf6ed8f87366747236c613" title=" " alt="" coords="5,1156,102,1182"/>
+<area shape="poly" title=" " alt="" coords="185,1106,151,1117,126,1130,103,1146,83,1157,80,1153,100,1141,124,1125,149,1112,184,1101"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ab9b4ae43e33572d90c4c889452cd91ee" title=" " alt="" coords="5,854,102,881"/>
+<area shape="poly" title=" " alt="" coords="184,1085,165,1077,148,1066,134,1051,125,1037,116,1008,112,977,99,942,62,883,67,880,104,940,117,976,121,1007,130,1035,138,1048,151,1062,168,1072,186,1080"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a135345f612f52dc44e6cd1e1378c2191" title=" " alt="" coords="5,1206,102,1233"/>
+<area shape="poly" title=" " alt="" coords="186,1100,151,1116,134,1134,127,1154,119,1174,104,1196,88,1208,85,1204,100,1192,115,1172,122,1152,130,1132,148,1112,184,1095"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,953,102,980"/>
+<area shape="poly" title=" " alt="" coords="184,1082,148,1066,131,1048,122,1030,114,1012,100,994,84,982,87,978,104,990,119,1009,127,1028,135,1045,151,1061,186,1077"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a89c8a619fd6bb9768b37bc594741be09" title=" " alt="" coords="5,1257,102,1284"/>
+<area shape="poly" title=" " alt="" coords="186,1098,167,1106,151,1116,138,1131,131,1146,126,1178,122,1211,116,1229,104,1247,90,1259,86,1254,100,1243,111,1226,117,1210,121,1177,126,1144,134,1128,148,1112,165,1101,184,1093"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af7eb32a5f8137e39dbf2caaad0378c41" title=" " alt="" coords="5,348,102,374"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,132,1041,120,1009,112,973,108,932,107,840,111,741,117,640,120,546,116,464,109,431,99,404,89,389,75,377,79,373,93,385,104,401,114,430,121,464,126,546,123,640,117,741,112,840,113,932,118,972,125,1008,136,1038,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,414,102,441"/>
+<area shape="poly" title=" " alt="" coords="184,1088,164,1079,148,1065,133,1042,122,1014,112,942,111,857,116,764,122,672,124,585,118,511,110,481,99,457,86,443,89,440,104,454,116,479,123,510,129,585,127,672,122,765,117,857,117,942,127,1012,138,1040,152,1062,167,1075,186,1083"/>
+<area shape="rect" href="_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,25,102,52"/>
+<area shape="poly" title=" " alt="" coords="436,540,435,539,424,520,416,496,409,438,409,368,414,294,417,220,417,152,408,96,399,75,387,59,356,36,321,21,282,12,243,9,166,14,101,27,100,22,165,9,243,3,283,7,322,16,359,31,391,55,404,72,413,95,422,151,423,220,419,294,415,369,414,438,421,495,428,518,439,535,440,537"/>
+<area shape="rect" href="_feature_tests_8cpp.html#aa6cd73e0d81f1bad0797e318018ffd3a" title=" " alt="" coords="5,94,102,121"/>
+<area shape="poly" title=" " alt="" coords="436,591,435,589,424,570,416,545,410,485,411,413,416,337,420,261,419,192,409,135,400,114,387,98,353,75,315,62,273,57,231,59,189,65,150,75,87,96,86,91,149,70,188,60,230,53,273,52,316,57,356,70,391,94,405,111,414,134,424,191,425,261,421,337,416,413,415,484,422,544,429,568,439,586,440,587"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f" title="Enables acceleration reports such that the BNO08x begins sending them." alt="" coords="188,174,351,217"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,415,629,402,601,395,574,392,547,397,494,410,441,423,389,428,336,426,310,419,284,406,257,387,231,370,216,350,207,352,202,373,212,391,227,411,255,424,282,431,309,434,336,428,390,416,442,403,495,397,547,400,573,407,599,420,626,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#a631329523ddaf17f2e93cd0546a42823" title="Enables activity classifier reports such that the BNO08x begins sending them." alt="" coords="177,241,362,284"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,418,633,406,610,400,587,397,564,401,519,410,474,420,430,423,386,421,364,415,342,403,320,387,298,361,278,364,274,391,294,408,317,419,340,426,363,429,386,425,431,416,476,406,520,402,564,405,586,411,608,422,630,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="178,441,361,468"/>
+<area shape="poly" title=" " alt="" coords="438,659,435,656,419,634,411,611,411,566,411,523,403,502,387,482,360,465,363,460,391,478,408,499,416,522,416,566,416,610,423,631,439,653,442,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="173,492,366,534"/>
+<area shape="poly" title=" " alt="" coords="440,660,435,656,423,643,416,629,410,601,405,574,399,561,387,548,364,534,367,529,391,544,403,558,410,572,416,600,421,627,427,640,439,652,443,656"/>
+<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571" title="Enables gravity reports such that the BNO08x begins sending them." alt="" coords="181,758,358,785"/>
+<area shape="poly" title=" " alt="" coords="491,703,444,727,390,749,349,760,348,755,388,744,442,722,489,698"/>
+<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="171,1009,368,1052"/>
+<area shape="poly" title=" " alt="" coords="517,708,439,875,428,911,423,942,414,970,391,999,370,1013,367,1009,387,995,409,968,418,940,423,910,435,873,512,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a3cfc735c048700fe79a5674ad92b4b03" title="Enables raw accelerometer reports such that the BNO08x begins sending them." alt="" coords="150,558,389,601"/>
+<area shape="poly" title=" " alt="" coords="449,663,436,657,421,646,411,635,402,625,388,615,362,604,364,599,390,611,405,621,415,632,424,642,438,652,451,658"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#ae872f24befd81352f812bc998acb573d" title="Enables raw gyro reports such that the BNO08x begins sending them." alt="" coords="178,625,361,668"/>
+<area shape="poly" title=" " alt="" coords="434,670,361,661,362,655,435,665"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a92832fd0bff6abddbbd87779de5b57fb" title="Enables raw magnetometer such that the BNO08x begins sending them." alt="" coords="150,692,389,734"/>
+<area shape="poly" title=" " alt="" coords="435,694,389,700,388,695,434,689"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="193,1126,346,1169"/>
+<area shape="poly" title=" " alt="" coords="519,708,481,801,440,919,432,949,430,976,429,1024,427,1047,422,1069,410,1092,391,1116,371,1131,348,1141,346,1136,368,1127,387,1112,406,1089,417,1068,422,1046,424,1024,424,976,427,948,434,918,476,799,514,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aa28fa73b51bd892f0239e647aa6ceeb8" title="Enables shake detector reports such that the BNO08x begins sending them (only sends reports when a sh..." alt="" coords="181,809,358,852"/>
+<area shape="poly" title=" " alt="" coords="507,706,456,754,424,778,390,799,359,813,357,808,388,795,421,774,453,749,503,702"/>
+<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a4959110a01f638d04d87696d8a03dd60" title="Enables stability classifier reports such that the BNO08x begins sending them." alt="" coords="174,876,365,918"/>
+<area shape="poly" title=" " alt="" coords="517,709,497,744,468,787,433,830,391,866,366,879,364,874,387,861,429,826,464,784,492,742,512,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#adf0a697561b064a7dd90a44009efbcf1" title="Enables step counter reports such that the BNO08x begins sending them." alt="" coords="188,942,351,985"/>
+<area shape="poly" title=" " alt="" coords="518,708,460,830,424,892,391,932,352,953,349,948,387,928,419,889,455,828,514,706"/>
+<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#ad8b716b7a2f2c2f52113eaaf75a391dc" title="Enables tap detector reports such that the BNO08x begins sending them (only sends reports when a tap ..." alt="" coords="189,108,350,150"/>
+<area shape="poly" title=" " alt="" coords="436,658,435,656,412,624,398,593,390,561,387,530,394,469,410,408,426,347,433,287,431,256,423,226,409,195,387,164,370,149,349,140,351,135,373,145,391,160,414,192,428,224,436,255,439,287,432,348,415,409,400,470,392,530,395,560,403,591,417,622,439,653,440,654"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#a404d36091a61af543c6fec7b6e077706" title="Enables uncalibrated gyro reports such that the BNO08x begins sending them." alt="" coords="194,308,345,350"/>
+<area shape="poly" title=" " alt="" coords="437,658,435,656,411,619,402,581,404,544,410,508,417,472,418,436,410,400,387,364,368,349,344,339,346,334,370,344,391,361,415,398,424,435,422,472,416,509,409,545,407,581,416,617,439,653,441,655"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a80ae48107ca1cc27551fd799625f2867" title="Enables uncalibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="166,374,373,417"/>
+<area shape="poly" title=" " alt="" coords="438,659,435,656,415,627,407,598,407,570,410,541,414,513,414,486,406,458,387,431,371,418,374,414,391,427,411,456,419,485,419,514,416,542,412,570,412,598,420,625,439,653,441,655"/>
+<area shape="poly" title=" " alt="" coords="175,220,151,231,136,241,127,252,103,275,80,291,77,286,100,271,123,248,133,237,148,227,172,215"/>
+<area shape="poly" title=" " alt="" coords="174,221,102,239,101,234,173,216"/>
+<area shape="poly" title=" " alt="" coords="173,179,148,164,130,145,121,126,113,106,100,84,70,54,73,50,104,81,118,104,126,124,134,142,151,160,175,174"/>
+<area shape="poly" title=" " alt="" coords="172,174,149,165,108,145,74,124,77,119,111,140,151,160,174,169"/>
+<area shape="rect" href="_feature_tests_8cpp.html#a2ece5a0676d7eee2c801f6d6b36610ba" title=" " alt="" coords="5,182,102,209"/>
+<area shape="poly" title=" " alt="" coords="173,198,102,198,102,193,173,193"/>
+<area shape="poly" title=" " alt="" coords="163,470,102,478,101,472,162,465"/>
+<area shape="poly" title=" " alt="" coords="161,541,151,548,116,587,89,633,71,676,61,709,56,708,66,674,84,630,111,584,148,544,158,537"/>
+<area shape="poly" title=" " alt="" coords="168,792,151,799,106,827,71,856,67,852,102,823,148,795,166,787"/>
+<area shape="poly" title=" " alt="" coords="173,1007,149,1000,96,983,98,978,150,994,174,1002"/>
+<area shape="poly" title=" " alt="" coords="177,1132,148,1116,131,1099,122,1081,114,1063,100,1044,84,1033,87,1029,104,1040,119,1060,127,1078,135,1096,151,1112,179,1127"/>
+<area shape="poly" title=" " alt="" coords="177,1127,149,1117,79,1084,81,1079,151,1112,179,1122"/>
+<area shape="poly" title=" " alt="" coords="177,1138,101,1127,102,1122,178,1132"/>
+<area shape="poly" title=" " alt="" coords="177,1159,102,1167,102,1162,177,1154"/>
+<area shape="poly" title=" " alt="" coords="179,1174,151,1183,88,1208,86,1203,149,1178,177,1169"/>
+<area shape="poly" title=" " alt="" coords="179,1169,151,1183,136,1198,127,1213,119,1229,103,1247,87,1258,84,1254,100,1243,114,1226,122,1211,131,1195,148,1179,177,1164"/>
+<area shape="poly" title=" " alt="" coords="179,345,102,357,101,351,178,340"/>
+<area shape="poly" title=" " alt="" coords="151,416,103,423,102,418,150,411"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="183,1193,356,1220"/>
+<area shape="poly" title=" " alt="" coords="442,1035,439,1037,426,1055,419,1073,417,1110,414,1147,406,1165,391,1183,375,1194,358,1202,356,1197,373,1189,387,1179,401,1162,409,1145,412,1109,414,1072,421,1053,435,1034,438,1031"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="200,1244,339,1270"/>
+<area shape="poly" title=" " alt="" coords="442,1034,439,1037,423,1062,416,1086,415,1110,417,1135,419,1160,418,1185,409,1209,391,1234,367,1249,340,1258,338,1253,365,1245,387,1230,405,1207,413,1184,414,1160,412,1135,410,1111,411,1085,418,1060,435,1034,438,1030"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="176,1294,363,1321"/>
+<area shape="poly" title=" " alt="" coords="442,1034,439,1037,420,1068,413,1099,413,1130,418,1161,422,1191,422,1222,413,1253,391,1284,365,1301,362,1297,387,1280,408,1251,417,1222,417,1192,413,1161,408,1130,407,1099,415,1066,435,1034,438,1030"/>
 </map>
 </div>
 
@@ -1359,6 +1395,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="class_b_n_o08x_rpt_a26bacc572187119339ec248bb4e7d6f3_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_a26bacc572187119339ec248bb4e7d6f3_icgraph" alt=""/></div>
 <map name="aclass_b_n_o08x_rpt_a26bacc572187119339ec248bb4e7d6f3_icgraph" id="aclass_b_n_o08x_rpt_a26bacc572187119339ec248bb4e7d6f3_icgraph">
 <area shape="rect" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="463,1304,663,1331"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="213,5,352,32"/>
+<area shape="poly" title=" " alt="" coords="558,1289,544,1031,515,634,495,432,471,253,444,118,429,73,413,46,400,35,385,27,352,19,353,14,387,22,403,31,417,42,433,70,449,117,476,253,500,431,520,634,549,1031,563,1288"/>
 <area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#abac65bc939891f7a24b5a611de430328" title="Grabs most recent acceleration data (including gravity), units are in m/s^2." alt="" coords="188,56,377,83"/>
 <area shape="poly" title=" " alt="" coords="558,1289,543,1040,513,660,493,466,469,295,443,165,428,122,413,96,396,83,376,75,378,70,399,79,417,93,433,120,448,164,475,294,498,465,519,659,548,1040,563,1288"/>
 <area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#aa77475212d3a5eb52ec31b9916cfe22d" title="Grabs most recent activity classifier data." alt="" coords="177,107,388,133"/>
@@ -1409,54 +1447,53 @@ Here is the caller graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="448,1332,377,1340,376,1334,447,1327"/>
 <area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#a13c875a4ef09df3a82ac4bfa5109fdf7" title="Grabs most recent uncalibrated gyroscope velocity data, units are in rad/s." alt="" coords="207,1384,358,1427"/>
 <area shape="poly" title=" " alt="" coords="515,1339,416,1375,359,1390,358,1385,414,1369,513,1334"/>
-<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a6b24209dc87cdd333b780fe6674fd045" title="Updates accelerometer data from decoded sensor event." alt="" coords="201,1451,364,1493"/>
-<area shape="poly" title=" " alt="" coords="541,1344,487,1393,453,1419,416,1441,365,1460,363,1455,414,1436,450,1415,484,1389,537,1340"/>
-<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#acb6fe5076011bc1f6f33a93c1c30c333" title="Updates activity classifier data from decoded sensor event." alt="" coords="190,1517,375,1560"/>
-<area shape="poly" title=" " alt="" coords="550,1346,529,1383,499,1427,461,1471,416,1508,377,1526,374,1521,414,1503,458,1467,495,1423,525,1380,546,1343"/>
-<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html#a2f822419d659be71209de6b69e8064b8" title="Updates ARVR stabilized game rotation vector data from decoded sensor event." alt="" coords="173,1584,392,1627"/>
-<area shape="poly" title=" " alt="" coords="556,1346,538,1396,510,1458,470,1521,445,1549,417,1574,393,1588,390,1583,413,1570,441,1546,465,1517,505,1455,534,1394,551,1345"/>
-<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html#a0ddf587eff71b83b01de57c2a69aa34d" title="Updates ARVR stabilized rotation vector data from decoded sensor event." alt="" coords="182,1651,383,1693"/>
-<area shape="poly" title=" " alt="" coords="560,1347,546,1408,519,1488,501,1530,477,1570,450,1608,417,1641,384,1659,382,1655,413,1637,446,1604,473,1567,496,1527,514,1486,541,1407,555,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#ab099bd0da7140c433fc7bab0a802c46f" title="Updates calibrated gyro data from decoded sensor event." alt="" coords="174,1717,391,1744"/>
-<area shape="poly" title=" " alt="" coords="563,1346,553,1420,530,1518,511,1570,487,1621,456,1667,417,1707,392,1722,389,1718,413,1703,451,1664,482,1618,507,1568,525,1516,548,1419,557,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#af50ecf2bb83d7eeec5b88c5273a01784" title="Updates calibrated magnetometer data from decoded sensor event." alt="" coords="186,1768,379,1811"/>
-<area shape="poly" title=" " alt="" coords="564,1346,557,1428,548,1481,535,1539,517,1598,491,1656,458,1711,417,1758,399,1771,380,1780,378,1775,397,1766,413,1754,454,1707,487,1654,512,1596,530,1537,543,1480,551,1427,559,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a8f9be2a12cec2a8467829fe561bf5f3d" title="Updates game rotation vector data from decoded sensor event." alt="" coords="171,1835,394,1861"/>
-<area shape="poly" title=" " alt="" coords="560,1347,542,1453,510,1597,491,1669,468,1735,444,1788,417,1825,395,1839,392,1835,413,1821,439,1786,463,1733,485,1668,505,1595,536,1452,555,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a47a5d1d8f89834662efaaae60a74b4c2" title="Updates gravity data from decoded sensor event." alt="" coords="178,1885,387,1912"/>
-<area shape="poly" title=" " alt="" coords="561,1346,544,1462,514,1621,494,1702,472,1775,446,1835,432,1858,417,1875,389,1893,386,1888,413,1871,427,1855,441,1832,467,1773,489,1700,509,1620,539,1461,556,1345"/>
-<area shape="rect" href="class_b_n_o08x_rpt_i_gyro_r_v.html#a29e7154e8fed38487dd100f3e98d72fb" title="Updates gyro integrated rotation vector data from decoded sensor event." alt="" coords="173,1936,392,1963"/>
-<area shape="poly" title=" " alt="" coords="562,1346,546,1471,517,1646,498,1735,475,1815,448,1881,433,1907,417,1926,394,1942,391,1937,413,1922,428,1904,443,1879,470,1814,493,1733,512,1645,541,1471,556,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#ab799259f97933e00ddfe654050c4757e" title="Updates accelerometer data from decoded sensor event." alt="" coords="184,1987,381,2029"/>
-<area shape="poly" title=" " alt="" coords="562,1346,548,1480,520,1669,500,1766,477,1854,449,1927,434,1955,417,1977,401,1989,383,1999,380,1994,398,1985,413,1973,429,1952,444,1925,471,1853,495,1765,514,1668,542,1479,557,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a269b8a306d47b0a873421674e8996187" title="Updates raw accelerometer data from decoded sensor event." alt="" coords="163,2053,402,2096"/>
-<area shape="poly" title=" " alt="" coords="563,1347,550,1492,524,1701,504,1809,481,1907,452,1988,435,2019,417,2043,403,2055,399,2051,413,2039,430,2016,447,1986,475,1906,499,1808,519,1700,545,1492,557,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#af79174e4b3a3579d3de85decf529e5d5" title="Updates raw mems gyro data from decoded sensor event." alt="" coords="191,2120,374,2163"/>
-<area shape="poly" title=" " alt="" coords="563,1347,553,1504,528,1733,509,1851,484,1960,454,2049,436,2083,417,2110,398,2125,376,2135,373,2130,395,2120,413,2106,432,2081,449,2047,479,1958,504,1850,523,1733,547,1504,558,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a5ff68ff342813b240519a315e60d4506" title="Updates raw magnetometer data from decoded sensor event." alt="" coords="163,2187,402,2229"/>
-<area shape="poly" title=" " alt="" coords="564,1346,555,1515,546,1635,532,1765,513,1894,488,2012,457,2110,438,2148,417,2176,403,2188,400,2184,413,2173,433,2145,452,2108,483,2011,508,1893,527,1764,541,1635,550,1515,558,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#ab6a7a480ecc404383a1db5c6b29e3c48" title="Updates rotation vector data from decoded sensor event." alt="" coords="189,2253,376,2280"/>
-<area shape="poly" title=" " alt="" coords="564,1346,558,1528,551,1657,538,1798,520,1938,494,2066,478,2123,460,2172,440,2212,417,2243,399,2257,377,2266,375,2261,396,2253,413,2239,435,2210,455,2170,473,2121,489,2065,514,1937,533,1797,545,1657,553,1528,559,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a531bf3018378efda8edd322e2a4a3306" title="Updates geomagnetic rotation vector data from decoded sensor event." alt="" coords="200,2304,365,2347"/>
-<area shape="poly" title=" " alt="" coords="564,1347,559,1536,552,1672,539,1820,521,1969,495,2105,479,2165,461,2217,440,2261,417,2294,394,2312,367,2322,365,2317,391,2307,413,2290,436,2258,456,2215,474,2163,490,2104,516,1968,534,1820,546,1672,554,1536,559,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aebaecde5751d7b9a3fa1d5cfe09a7393" title="Updates shake detector data from decoded sensor event." alt="" coords="194,2371,371,2413"/>
-<area shape="poly" title=" " alt="" coords="565,1346,561,1546,555,1692,543,1851,525,2010,499,2157,483,2221,464,2278,442,2325,417,2360,396,2377,372,2387,370,2383,394,2372,413,2357,437,2322,459,2276,478,2220,494,2156,520,2010,538,1851,549,1692,556,1546,559,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a53f291245bb6c40ae272fbe0142609c2" title="Updates stability classifier data from decoded sensor event." alt="" coords="187,2437,378,2480"/>
-<area shape="poly" title=" " alt="" coords="565,1346,563,1558,558,1714,547,1883,529,2053,503,2209,486,2278,466,2339,443,2389,417,2427,399,2442,379,2452,376,2447,396,2437,413,2424,439,2386,461,2337,481,2277,498,2208,524,2052,542,1883,553,1713,558,1558,560,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#a742cb9d7bc64d31f3febc51d0536c3aa" title="Updates step counter data from decoded sensor event." alt="" coords="201,2504,364,2547"/>
-<area shape="poly" title=" " alt="" coords="563,1346,547,1585,516,1950,495,2136,472,2300,446,2425,432,2467,417,2494,393,2512,365,2523,363,2518,391,2508,413,2490,427,2465,441,2424,467,2299,490,2135,511,1950,542,1585,558,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#aa1b7881e55a3f6210f48cec831cc72a7" title="Updates tap detector data from decoded sensor event." alt="" coords="202,2571,363,2613"/>
-<area shape="poly" title=" " alt="" coords="563,1347,548,1598,518,1984,498,2181,474,2355,447,2487,433,2533,417,2560,393,2579,364,2590,362,2585,390,2575,413,2557,428,2530,442,2486,469,2354,492,2180,513,1984,543,1598,558,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#acfcb717810a8924c3b119829c4b24489" title="Updates uncalibrated gyro data from decoded sensor event." alt="" coords="207,2637,358,2680"/>
-<area shape="poly" title=" " alt="" coords="563,1347,549,1610,520,2017,500,2225,476,2410,449,2550,433,2598,417,2627,391,2647,359,2658,358,2653,388,2642,413,2624,428,2595,443,2549,471,2409,494,2225,515,2017,544,1610,558,1346"/>
-<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a2737505adb4176e5843ce7d13b2b8ec4" title="Updates uncalibrated magf data from decoded sensor event." alt="" coords="179,2704,386,2747"/>
-<area shape="poly" title=" " alt="" coords="563,1346,550,1621,522,2050,502,2270,478,2464,450,2612,434,2663,417,2694,403,2706,387,2715,384,2711,400,2702,413,2690,429,2661,445,2611,473,2463,497,2269,517,2050,545,1621,558,1346"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a3998d182117c4def094998f795780351" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" title=" " alt="" coords="203,55,102,32,103,27,205,49"/>
-<area shape="rect" href="_feature_tests_8cpp.html#a5258b4dbee44f7a6964ff93e378fd3fa" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" title=" " alt="" coords="172,72,102,72,102,67,172,67"/>
-<area shape="rect" href="_feature_tests_8cpp.html#ace101f40531db107a743cff5815022e6" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" title=" " alt="" coords="189,89,150,97,103,109,101,104,149,92,188,84"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="203,1451,362,1477"/>
+<area shape="poly" title=" " alt="" coords="541,1344,488,1394,453,1420,416,1441,363,1458,361,1453,414,1436,450,1415,484,1390,538,1340"/>
+<area shape="rect" href="class_b_n_o08x_rpt_acceleration.html#a6b24209dc87cdd333b780fe6674fd045" title="Updates accelerometer data from decoded sensor event." alt="" coords="201,1501,364,1544"/>
+<area shape="poly" title=" " alt="" coords="549,1345,527,1379,497,1419,459,1458,416,1492,391,1504,365,1513,363,1508,389,1499,414,1487,456,1454,493,1415,522,1376,544,1342"/>
+<area shape="rect" href="class_b_n_o08x_rpt_activity_classifier.html#acb6fe5076011bc1f6f33a93c1c30c333" title="Updates activity classifier data from decoded sensor event." alt="" coords="190,1568,375,1611"/>
+<area shape="poly" title=" " alt="" coords="555,1347,536,1393,507,1450,468,1509,443,1535,416,1558,377,1578,374,1573,414,1554,440,1531,463,1505,503,1448,531,1391,550,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html#a2f822419d659be71209de6b69e8064b8" title="Updates ARVR stabilized game rotation vector data from decoded sensor event." alt="" coords="173,1635,392,1677"/>
+<area shape="poly" title=" " alt="" coords="559,1346,544,1405,517,1480,498,1520,476,1558,448,1594,417,1625,394,1639,391,1635,413,1621,444,1590,471,1555,494,1517,512,1478,539,1403,554,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html#a0ddf587eff71b83b01de57c2a69aa34d" title="Updates ARVR stabilized rotation vector data from decoded sensor event." alt="" coords="182,1701,383,1744"/>
+<area shape="poly" title=" " alt="" coords="562,1346,551,1416,527,1510,508,1559,484,1607,453,1652,417,1691,385,1711,382,1706,413,1687,449,1649,479,1605,503,1557,521,1508,546,1415,557,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_gyro.html#ab099bd0da7140c433fc7bab0a802c46f" title="Updates calibrated gyro data from decoded sensor event." alt="" coords="174,1768,391,1795"/>
+<area shape="poly" title=" " alt="" coords="564,1346,558,1428,550,1482,537,1540,519,1600,493,1658,459,1712,417,1758,392,1773,389,1769,413,1754,455,1708,488,1655,514,1598,532,1539,545,1481,553,1427,559,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_cal_magnetometer.html#af50ecf2bb83d7eeec5b88c5273a01784" title="Updates calibrated magnetometer data from decoded sensor event." alt="" coords="186,1819,379,1861"/>
+<area shape="poly" title=" " alt="" coords="565,1346,561,1435,554,1495,542,1560,523,1627,497,1693,462,1755,417,1809,399,1822,380,1831,378,1826,397,1817,413,1805,458,1752,492,1691,518,1625,537,1559,549,1494,556,1435,560,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_game_r_v.html#a8f9be2a12cec2a8467829fe561bf5f3d" title="Updates game rotation vector data from decoded sensor event." alt="" coords="171,1885,394,1912"/>
+<area shape="poly" title=" " alt="" coords="561,1346,544,1462,514,1621,494,1702,472,1775,446,1835,432,1858,417,1875,395,1890,392,1885,413,1871,427,1855,441,1832,467,1773,489,1700,509,1620,539,1461,556,1345"/>
+<area shape="rect" href="class_b_n_o08x_rpt_gravity.html#a47a5d1d8f89834662efaaae60a74b4c2" title="Updates gravity data from decoded sensor event." alt="" coords="178,1936,387,1963"/>
+<area shape="poly" title=" " alt="" coords="562,1346,546,1471,517,1646,498,1735,475,1815,448,1881,433,1907,417,1926,389,1944,386,1939,413,1922,428,1904,443,1879,470,1814,493,1733,512,1645,541,1471,556,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_i_gyro_r_v.html#a29e7154e8fed38487dd100f3e98d72fb" title="Updates gyro integrated rotation vector data from decoded sensor event." alt="" coords="173,1987,392,2013"/>
+<area shape="poly" title=" " alt="" coords="562,1347,548,1481,521,1670,501,1767,478,1856,450,1928,434,1956,417,1977,394,1992,391,1988,413,1973,430,1953,445,1925,473,1854,496,1766,516,1669,543,1480,557,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_linear_acceleration.html#ab799259f97933e00ddfe654050c4757e" title="Updates accelerometer data from decoded sensor event." alt="" coords="184,2037,381,2080"/>
+<area shape="poly" title=" " alt="" coords="563,1346,550,1489,523,1693,503,1798,480,1894,451,1973,435,2004,417,2027,401,2040,383,2049,380,2045,398,2036,413,2023,430,2001,446,1971,474,1893,498,1797,518,1692,544,1488,557,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a269b8a306d47b0a873421674e8996187" title="Updates raw accelerometer data from decoded sensor event." alt="" coords="163,2104,402,2147"/>
+<area shape="poly" title=" " alt="" coords="563,1346,552,1501,527,1725,508,1841,484,1947,454,2034,436,2068,417,2094,403,2105,400,2101,413,2090,432,2065,449,2032,478,1946,503,1840,522,1725,547,1500,558,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#af79174e4b3a3579d3de85decf529e5d5" title="Updates raw mems gyro data from decoded sensor event." alt="" coords="191,2171,374,2213"/>
+<area shape="poly" title=" " alt="" coords="564,1346,555,1512,531,1757,512,1884,487,2000,456,2095,438,2132,417,2161,398,2176,376,2186,373,2181,395,2171,413,2157,433,2129,451,2093,482,1998,507,1883,526,1756,549,1512,558,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a5ff68ff342813b240519a315e60d4506" title="Updates raw magnetometer data from decoded sensor event." alt="" coords="163,2237,402,2280"/>
+<area shape="poly" title=" " alt="" coords="564,1346,557,1524,548,1651,535,1789,517,1926,491,2052,476,2108,459,2156,439,2196,417,2227,404,2239,400,2235,413,2224,434,2194,454,2154,471,2106,486,2051,511,1925,530,1788,543,1651,552,1524,559,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v.html#ab6a7a480ecc404383a1db5c6b29e3c48" title="Updates rotation vector data from decoded sensor event." alt="" coords="189,2304,376,2331"/>
+<area shape="poly" title=" " alt="" coords="564,1347,560,1537,553,1674,541,1822,523,1971,497,2106,481,2166,462,2218,441,2261,417,2294,399,2308,377,2317,375,2312,396,2303,413,2290,437,2259,457,2216,476,2165,492,2105,518,1970,536,1822,548,1673,555,1537,559,1347"/>
+<area shape="rect" href="class_b_n_o08x_rpt_r_v_geomag.html#a531bf3018378efda8edd322e2a4a3306" title="Updates geomagnetic rotation vector data from decoded sensor event." alt="" coords="200,2355,365,2397"/>
+<area shape="poly" title=" " alt="" coords="565,1347,561,1545,554,1688,542,1844,524,2001,498,2145,482,2208,463,2263,442,2309,417,2345,394,2362,366,2373,364,2368,391,2358,413,2341,437,2307,458,2261,477,2206,493,2143,519,2000,537,1844,549,1688,555,1544,559,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_shake_detector.html#aebaecde5751d7b9a3fa1d5cfe09a7393" title="Updates shake detector data from decoded sensor event." alt="" coords="194,2421,371,2464"/>
+<area shape="poly" title=" " alt="" coords="565,1346,563,1556,557,1709,546,1876,528,2043,502,2197,485,2265,466,2324,443,2374,417,2411,396,2428,372,2438,370,2433,393,2423,413,2408,438,2371,461,2322,480,2263,497,2196,523,2042,541,1875,552,1708,557,1556,559,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_stability_classifier.html#a53f291245bb6c40ae272fbe0142609c2" title="Updates stability classifier data from decoded sensor event." alt="" coords="187,2488,378,2531"/>
+<area shape="poly" title=" " alt="" coords="565,1346,565,1566,560,1729,550,1906,533,2085,506,2249,489,2322,468,2385,444,2438,417,2478,399,2493,379,2503,376,2498,396,2488,413,2474,440,2435,463,2383,484,2320,501,2248,527,2084,545,1906,555,1729,559,1566,560,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_step_counter.html#a742cb9d7bc64d31f3febc51d0536c3aa" title="Updates step counter data from decoded sensor event." alt="" coords="201,2555,364,2597"/>
+<area shape="poly" title=" " alt="" coords="563,1346,548,1595,517,1976,497,2170,474,2342,447,2472,432,2517,417,2544,393,2563,365,2574,363,2569,390,2558,413,2541,428,2515,442,2471,468,2341,492,2169,512,1975,542,1594,558,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_tap_detector.html#aa1b7881e55a3f6210f48cec831cc72a7" title="Updates tap detector data from decoded sensor event." alt="" coords="202,2621,363,2664"/>
+<area shape="poly" title=" " alt="" coords="563,1346,549,1606,519,2009,499,2214,476,2396,448,2535,433,2582,417,2611,393,2630,364,2641,362,2636,390,2625,413,2608,428,2580,443,2533,470,2395,494,2214,514,2008,544,1606,558,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_gyro.html#acfcb717810a8924c3b119829c4b24489" title="Updates uncalibrated gyro data from decoded sensor event." alt="" coords="207,2688,358,2731"/>
+<area shape="poly" title=" " alt="" coords="563,1347,550,1619,521,2043,501,2259,477,2451,450,2597,434,2647,417,2678,391,2698,359,2709,358,2703,388,2693,413,2674,429,2645,444,2596,472,2450,496,2259,516,2042,545,1619,558,1346"/>
+<area shape="rect" href="class_b_n_o08x_rpt_uncal_magnetometer.html#a2737505adb4176e5843ce7d13b2b8ec4" title="Updates uncalibrated magf data from decoded sensor event." alt="" coords="179,2755,386,2797"/>
+<area shape="poly" title=" " alt="" coords="563,1346,551,1630,524,2075,504,2303,479,2505,451,2660,435,2712,417,2744,403,2757,387,2766,384,2762,400,2753,413,2741,430,2710,446,2658,474,2505,498,2303,518,2075,546,1630,558,1346"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#af30c5c1549bda77b45a1e6fb5f76844a" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" title=" " alt="" coords="198,28,174,35,151,46,120,72,95,103,63,158,59,156,91,100,117,68,148,42,172,30,197,23"/>
+<area shape="poly" title=" " alt="" coords="158,305,148,300,117,273,91,242,59,186,63,183,95,239,120,270,151,295,161,300"/>
 </map>
 </div>
 
@@ -1656,8 +1693,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_b_n_o08x_rpt_8hpp_source.html">BNO08xRpt.hpp</a></li>
-<li><a class="el" href="_b_n_o08x_rpt_8cpp.html">BNO08xRpt.cpp</a></li>
+<li>include/report/<a class="el" href="_b_n_o08x_rpt_8hpp_source.html">BNO08xRpt.hpp</a></li>
+<li>source/<a class="el" href="_b_n_o08x_rpt_8cpp.html">BNO08xRpt.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

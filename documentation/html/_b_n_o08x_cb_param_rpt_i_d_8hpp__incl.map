@@ -1,9 +1,9 @@
-<map id="BNO08xCbParamRptID.hpp" name="BNO08xCbParamRptID.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,187,32"/>
-<area shape="rect" id="Node000002" href="$_b_n_o08x_cb_generic_8hpp.html" title=" " alt="" coords="18,80,174,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,33,99,64,93,64,93,33"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="17,155,82,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,109,68,143,63,140,86,106"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="106,155,182,181"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="107,106,130,140,125,143,102,109"/>
+<map id="include/callback/BNO08xCbParamRptID.hpp" name="include/callback/BNO08xCbParamRptID.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,189,48"/>
+<area shape="rect" id="Node000002" href="$_b_n_o08x_cb_generic_8hpp.html" title=" " alt="" coords="19,96,175,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,49,100,80,94,80,94,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="18,171,83,197"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,125,69,159,64,156,87,122"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="107,171,183,197"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="108,122,131,156,126,159,103,125"/>
 </map>

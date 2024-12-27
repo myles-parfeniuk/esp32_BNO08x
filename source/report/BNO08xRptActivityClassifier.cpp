@@ -32,8 +32,7 @@ void BNO08xRptActivityClassifier::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRptActivityClassifier::enable(
-        uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptActivityClassifier::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
     sensor_cfg.sensorSpecific = static_cast<uint8_t>(activities_to_enable); // this must be set regardless of user cfg
                                                                             // or no reports will be received

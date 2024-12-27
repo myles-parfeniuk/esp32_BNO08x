@@ -1,5 +1,5 @@
 \doxysection{BNO08x\+Rpt\+Activity\+Classifier.\+hpp}
-\hypertarget{_b_n_o08x_rpt_activity_classifier_8hpp_source}{}\label{_b_n_o08x_rpt_activity_classifier_8hpp_source}\index{BNO08xRptActivityClassifier.hpp@{BNO08xRptActivityClassifier.hpp}}
+\hypertarget{_b_n_o08x_rpt_activity_classifier_8hpp_source}{}\label{_b_n_o08x_rpt_activity_classifier_8hpp_source}\index{include/report/BNO08xRptActivityClassifier.hpp@{include/report/BNO08xRptActivityClassifier.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
@@ -15,15 +15,18 @@
 \DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_adefe3069a697b16d93cd281bda331db4}{enable}}(uint32\_t\ time\_between\_reports,\ \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08xActivityEnable}}\ activities\_to\_enable,}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}});}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823}{enable}}(}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
 \DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\_activity\_classifier\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}{get}}();}
 \DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_abcc5d57e21ea6ed79e792deafcb62187}{BNO08xActivity}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}{get\_most\_likely\_activity}}();}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\_activity\_classifier\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a55ed407cd5174879f791ddfde1bc119c}{data}};\ }
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_af39bac9547a4f9a822e4505b08941b7d}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptActivityClassifier"{}};}
-\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_adb51886e94e91d114246c51919fd368b}{set\_activities\_to\_enable}}(\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08xActivityEnable}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a10a0eaa37c9cacf5f97397c4dccdbe8e}{activities\_to\_enable}});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_acb6fe5076011bc1f6f33a93c1c30c333}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\_activity\_classifier\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a55ed407cd5174879f791ddfde1bc119c}{data}};\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0f}{BNO08xActivityEnable}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a10a0eaa37c9cacf5f97397c4dccdbe8e}{activities\_to\_enable}}\ =}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_adc1b530563e35a96fc1b8911ff133e0fa5fb1f955b45e38e31789286a1790398d}{BNO08xActivityEnable::ALL}};\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_af39bac9547a4f9a822e4505b08941b7d}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptActivityClassifier"{}};}
+\DoxyCodeLine{00035\ \};}
 
 \end{DoxyCode}

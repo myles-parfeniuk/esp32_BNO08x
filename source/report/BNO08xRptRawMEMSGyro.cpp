@@ -32,8 +32,7 @@ void BNO08xRptRawMEMSGyro::update_data(sh2_SensorValue_t* sensor_val)
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRptRawMEMSGyro::enable(
-        uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptRawMEMSGyro::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
     return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
 }

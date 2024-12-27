@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "esp32_BNO08x", "index.html", [
-    [ "README", "md__d_1_2development_2git_2imu__update_2bno08x__update_2components_2esp32___b_n_o08x_2_r_e_a_d_m_e.html", null ],
+    [ "README", "md__r_e_a_d_m_e.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -65,9 +65,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_b_n_o08x_8cpp.html",
-"_multi_report_tests_8cpp.html#ac92ec06fe64f7bedbbe37dee3e64c090",
-"class_b_n_o08x_rpt_stability_classifier.html#a41052d651d03bccc414b14d6e9b670ab",
-"struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#a7c4523e02a434a7be73f5dc5314429bd"
+"_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9",
+"class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a44247c8dbd3376ff81599c192b7dfc71",
+"struct_b_n_o08x_1_1bno08x__reports__t.html#ac8114db28ee3f7be5578e52f48caa9c3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -21,6 +21,7 @@ var class_b_n_o08x =
     [ "deinit_sh2_HAL", "class_b_n_o08x.html#a75c7226ea4626862a5039aa053116861", null ],
     [ "deinit_spi", "class_b_n_o08x.html#a233920ce97f685fbdabecccacf471d85", null ],
     [ "deinit_tasks", "class_b_n_o08x.html#a968144efd5100ccce0e453c40a63592b", null ],
+    [ "disable_all_reports", "class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6", null ],
     [ "dynamic_calibration_autosave_disable", "class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32", null ],
     [ "dynamic_calibration_autosave_enable", "class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b", null ],
     [ "dynamic_calibration_disable", "class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95", null ],

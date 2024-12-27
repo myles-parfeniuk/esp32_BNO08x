@@ -111,7 +111,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
     TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
     TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
     TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
-    
+
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         data_available = imu->data_available();

@@ -27,7 +27,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.3</span>
+   <div id="projectname">esp32_BNO08x<span id="projectnumber">&#160;1.31</span>
    </div>
    <div id="projectbrief">C++ BNO08x IMU driver component for esp-idf.</div>
   </td>
@@ -135,13 +135,13 @@ Collaboration diagram for BNO08xRptLinearAcceleration:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad63032b796912c9be563a5e6da801c59" id="r_ad63032b796912c9be563a5e6da801c59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad63032b796912c9be563a5e6da801c59">BNO08xRptLinearAcceleration</a> (uint8_t <a class="el" href="class_b_n_o08x_rpt.html#a63cd4ac9e96baa43eebe580f03307512">ID</a>, EventBits_t <a class="el" href="class_b_n_o08x_rpt.html#ae78feab5682a4697c5acad3ca6f12c2e">rpt_bit</a>, <a class="el" href="struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html">BNO08xPrivateTypes::bno08x_sync_ctx_t</a> *<a class="el" href="class_b_n_o08x_rpt.html#a5a1404a08918d66bb0f41f55220db6e5">sync_ctx</a>)</td></tr>
 <tr class="separator:ad63032b796912c9be563a5e6da801c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4584a181ae543919a851f8f288a316ed" id="r_a4584a181ae543919a851f8f288a316ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4584a181ae543919a851f8f288a316ed">enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>) override</td></tr>
+<tr class="memdesc:a4584a181ae543919a851f8f288a316ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables linear acceleration reports such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending them.  <br /></td></tr>
+<tr class="separator:a4584a181ae543919a851f8f288a316ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac2eeab16ffbe7a81ea26a21c4e453d0" id="r_aac2eeab16ffbe7a81ea26a21c4e453d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structbno08x__accel__t.html">bno08x_accel_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac2eeab16ffbe7a81ea26a21c4e453d0">get</a> ()</td></tr>
 <tr class="memdesc:aac2eeab16ffbe7a81ea26a21c4e453d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grabs most recent acceleration data (including gravity), units are in m/s^2.  <br /></td></tr>
 <tr class="separator:aac2eeab16ffbe7a81ea26a21c4e453d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_b_n_o08x_rpt"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_b_n_o08x_rpt')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_b_n_o08x_rpt.html">BNO08xRpt</a></td></tr>
-<tr class="memitem:a3012b77fd80f2c34e57d5a23299f1470 inherit pub_methods_class_b_n_o08x_rpt" id="r_a3012b77fd80f2c34e57d5a23299f1470"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_n_o08x_rpt.html#a3012b77fd80f2c34e57d5a23299f1470">enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
-<tr class="memdesc:a3012b77fd80f2c34e57d5a23299f1470 inherit pub_methods_class_b_n_o08x_rpt"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it.  <br /></td></tr>
-<tr class="separator:a3012b77fd80f2c34e57d5a23299f1470 inherit pub_methods_class_b_n_o08x_rpt"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d147e7540a4c6aa19749844e14cdadc inherit pub_methods_class_b_n_o08x_rpt" id="r_a7d147e7540a4c6aa19749844e14cdadc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc">disable</a> (sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
 <tr class="memdesc:a7d147e7540a4c6aa19749844e14cdadc inherit pub_methods_class_b_n_o08x_rpt"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables a sensor report by setting its period to 0us such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> stops sending it.  <br /></td></tr>
 <tr class="separator:a7d147e7540a4c6aa19749844e14cdadc inherit pub_methods_class_b_n_o08x_rpt"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +183,9 @@ Static Private Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_class_b_n_o08x_rpt"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_b_n_o08x_rpt')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_b_n_o08x_rpt.html">BNO08xRpt</a></td></tr>
+<tr class="memitem:aa0bed98a9a497d1f39e8245d05b02e9c inherit pro_methods_class_b_n_o08x_rpt" id="r_aa0bed98a9a497d1f39e8245d05b02e9c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c">rpt_enable</a> (uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg=<a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a>)</td></tr>
+<tr class="memdesc:aa0bed98a9a497d1f39e8245d05b02e9c inherit pro_methods_class_b_n_o08x_rpt"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a sensor report such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending it.  <br /></td></tr>
+<tr class="separator:aa0bed98a9a497d1f39e8245d05b02e9c inherit pro_methods_class_b_n_o08x_rpt"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e8eebe3fe90ac19837e3860c76374c inherit pro_methods_class_b_n_o08x_rpt" id="r_a15e8eebe3fe90ac19837e3860c76374c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_b_n_o08x_rpt.html#a15e8eebe3fe90ac19837e3860c76374c">BNO08xRpt</a> (uint8_t <a class="el" href="class_b_n_o08x_rpt.html#a63cd4ac9e96baa43eebe580f03307512">ID</a>, EventBits_t <a class="el" href="class_b_n_o08x_rpt.html#ae78feab5682a4697c5acad3ca6f12c2e">rpt_bit</a>, <a class="el" href="struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html">BNO08xPrivateTypes::bno08x_sync_ctx_t</a> *<a class="el" href="class_b_n_o08x_rpt.html#a5a1404a08918d66bb0f41f55220db6e5">sync_ctx</a>)</td></tr>
 <tr class="memdesc:a15e8eebe3fe90ac19837e3860c76374c inherit pro_methods_class_b_n_o08x_rpt"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x.">BNO08xRpt</a> report constructor.  <br /></td></tr>
 <tr class="separator:a15e8eebe3fe90ac19837e3860c76374c inherit pro_methods_class_b_n_o08x_rpt"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -258,6 +261,85 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4584a181ae543919a851f8f288a316ed" name="a4584a181ae543919a851f8f288a316ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4584a181ae543919a851f8f288a316ed">&#9670;&#160;</a></span>enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BNO08xRptLinearAcceleration::enable </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>time_between_reports</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sh2_SensorConfig_t</td>          <td class="paramname"><span class="paramname"><em>sensor_cfg</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a></span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enables linear acceleration reports such that the <a class="el" href="class_b_n_o08x.html" title="BNO08x IMU driver class.">BNO08x</a> begins sending them. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">report_period_us</td><td>The period/interval of the report in microseconds. </td></tr>
+    <tr><td class="paramname">sensor_cfg</td><td>Sensor special configuration (optional, see <a class="el" href="namespace_b_n_o08x_private_types.html#a4f68e627c3c54e471ec83756b97924da">BNO08xPrivateTypes::default_sensor_cfg</a> for defaults).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if report was successfully enabled. </dd></dl>
+
+<p>Implements <a class="el" href="class_b_n_o08x_rpt.html#a4ee529725467412df396d5c610ff7bb4">BNO08xRpt</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_cgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_cgraph" alt=""/></div>
+<map name="aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_cgraph" id="aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_cgraph">
+<area shape="rect" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="5,73,203,116"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="251,81,409,108"/>
+<area shape="poly" title=" " alt="" coords="203,92,235,92,235,97,203,97"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="466,5,648,32"/>
+<area shape="poly" title=" " alt="" coords="361,78,456,41,481,34,483,39,458,47,363,83"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="464,56,650,83"/>
+<area shape="poly" title=" " alt="" coords="409,83,448,79,449,84,409,89"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="459,107,655,133"/>
+<area shape="poly" title=" " alt="" coords="409,101,444,105,443,110,409,106"/>
+<area shape="rect" href="class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="457,157,657,184"/>
+<area shape="poly" title=" " alt="" coords="363,106,458,143,483,150,481,155,456,148,361,111"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_icgraph.png" border="0" usemap="#aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_icgraph" alt=""/></div>
+<map name="aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_icgraph" id="aclass_b_n_o08x_rpt_linear_acceleration_a4584a181ae543919a851f8f288a316ed_icgraph">
+<area shape="rect" title="Enables linear acceleration reports such that the BNO08x begins sending them." alt="" coords="150,124,347,167"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#a6d2f9d86fb1c148a375044205278a8bb" title=" " alt="" coords="5,5,102,32"/>
+<area shape="poly" title=" " alt="" coords="204,117,100,46,81,35,83,30,103,42,207,112"/>
+<area shape="rect" href="_single_report_tests_8cpp.html#ae4d70e11995e36808b6390b171aba0e8" title=" " alt="" coords="5,56,102,83"/>
+<area shape="poly" title=" " alt="" coords="176,120,89,86,91,81,178,115"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,107,102,133"/>
+<area shape="poly" title=" " alt="" coords="134,133,102,129,102,124,135,128"/>
+<area shape="rect" href="_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9" title=" " alt="" coords="5,157,102,184"/>
+<area shape="poly" title=" " alt="" coords="135,163,102,167,102,162,134,158"/>
+<area shape="rect" href="_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,208,102,235"/>
+<area shape="poly" title=" " alt="" coords="178,175,91,210,89,205,176,170"/>
+<area shape="rect" href="_callback_tests_8cpp.html#a2a38e8a82fc1fab9bdca331f39726892" title=" " alt="" coords="5,259,102,285"/>
+<area shape="poly" title=" " alt="" coords="207,179,103,249,83,260,81,256,100,244,204,174"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="aac2eeab16ffbe7a81ea26a21c4e453d0" name="aac2eeab16ffbe7a81ea26a21c4e453d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac2eeab16ffbe7a81ea26a21c4e453d0">&#9670;&#160;</a></span>get()</h2>
 
@@ -406,8 +488,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_b_n_o08x_rpt_linear_acceleration_8hpp_source.html">BNO08xRptLinearAcceleration.hpp</a></li>
-<li><a class="el" href="_b_n_o08x_rpt_linear_acceleration_8cpp.html">BNO08xRptLinearAcceleration.cpp</a></li>
+<li>include/report/<a class="el" href="_b_n_o08x_rpt_linear_acceleration_8hpp_source.html">BNO08xRptLinearAcceleration.hpp</a></li>
+<li>source/report/<a class="el" href="_b_n_o08x_rpt_linear_acceleration_8cpp.html">BNO08xRptLinearAcceleration.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

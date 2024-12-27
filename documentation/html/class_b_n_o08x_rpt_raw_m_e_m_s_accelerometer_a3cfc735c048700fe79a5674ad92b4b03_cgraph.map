@@ -1,0 +1,13 @@
+<map id="BNO08xRptRawMEMSAccelerometer::enable" name="BNO08xRptRawMEMSAccelerometer::enable">
+<area shape="rect" id="Node000001" title="Enables raw accelerometer reports such that the BNO08x begins sending them." alt="" coords="5,73,245,116"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="293,81,451,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,92,277,92,277,97,245,97"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="508,5,690,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,78,498,41,523,34,525,39,500,47,405,83"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="506,56,692,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="451,83,490,79,491,84,451,89"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="501,107,697,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="451,101,486,105,485,110,451,106"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="499,157,699,184"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="405,106,500,143,525,150,523,155,498,148,403,111"/>
+</map>

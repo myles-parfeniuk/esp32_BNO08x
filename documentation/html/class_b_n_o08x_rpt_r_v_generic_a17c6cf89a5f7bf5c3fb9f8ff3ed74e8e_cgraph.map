@@ -1,0 +1,13 @@
+<map id="BNO08xRptRVGeneric::enable" name="BNO08xRptRVGeneric::enable">
+<area shape="rect" id="Node000001" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="5,73,159,116"/>
+<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="207,81,365,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,92,191,92,191,97,159,97"/>
+<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="422,5,604,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,78,412,41,437,34,439,39,414,47,319,83"/>
+<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="420,56,606,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="365,83,404,79,405,84,365,89"/>
+<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="415,107,611,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="365,101,400,105,399,110,365,106"/>
+<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="413,157,613,184"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="319,106,414,143,439,150,437,155,412,148,317,111"/>
+</map>

@@ -1,7 +1,7 @@
-<map id="BNO08xSH2HAL.cpp" name="BNO08xSH2HAL.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="1351,5,1497,32"/>
+<map id="source/BNO08xSH2HAL.cpp" name="source/BNO08xSH2HAL.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1330,5,1518,32"/>
 <area shape="rect" id="Node000002" href="$_b_n_o08x_s_h2_h_a_l_8hpp.html" title=" " alt="" coords="238,155,383,181"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1351,32,399,158,398,152,1351,27"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1330,35,399,158,398,152,1329,30"/>
 <area shape="rect" id="Node000026" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="1674,80,1769,107"/>
 <area shape="poly" id="edge27_Node000001_Node000026" title=" " alt="" coords="1477,30,1659,74,1658,79,1476,35"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,237,59,264"/>

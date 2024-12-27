@@ -14,8 +14,7 @@
  *
  * @return True if report was successfully enabled.
  */
-bool BNO08xRptRVGeneric::enable(
-        uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
+bool BNO08xRptRVGeneric::enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg)
 {
     return BNO08xRpt::rpt_enable(time_between_reports, sensor_cfg);
 }
