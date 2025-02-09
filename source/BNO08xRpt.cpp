@@ -126,6 +126,20 @@ bool BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 }
 
 /**
+ * @brief Updates timestamp of data of respective report. 
+ *
+ * @note User data should be locked when this fxn is called. 
+ * 
+ * @param sensor_val The sh2_SensorValue_t struct used in sh2_decodeSensorEvent() call.
+ *
+ * @return void, nothing to return
+ */
+void BNO08xRpt::update_timestamp(sh2_SensorValue_t* sensor_val)
+{
+    time_stamp_us = sensor_val->timestamp;
+}
+
+/**
  * @brief Checks if a new report has been received since the last time this function was called.
  *
  *
@@ -158,6 +172,16 @@ bool BNO08xRpt::flush()
     unlock_sh2_HAL();
 
     return (success != SH2_OK) ? false : true;
+}
+
+/**
+ * @brief Returns timestamp of most recently received report for this type.
+ *
+ * @return Timestamp of most recently received report.
+ */
+uint64_t BNO08xRpt::get_timestamp_us()
+{
+    return time_stamp_us; 
 }
 
 /**

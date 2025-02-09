@@ -18,6 +18,7 @@ void BNO08xRptUncalGyro::update_data(sh2_SensorValue_t* sensor_val)
     data = sensor_val->un.gyroscopeUncal;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     bias_data = sensor_val->un.gyroscopeUncal;
+    update_timestamp(sensor_val);
     unlock_user_data();
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))

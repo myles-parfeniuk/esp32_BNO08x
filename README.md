@@ -171,7 +171,7 @@ extern "C" void app_main(void)
 #include <stdio.h>
 #include "BNO08x.hpp"
 
-static const constexpr char *TAG = "Main";
+static const constexpr char* TAG = "Main";
 
 extern "C" void app_main(void)
 {
@@ -196,50 +196,52 @@ extern "C" void app_main(void)
     // enable game rotation vector and calibrated gyro reports
     imu.rpt.rv_game.enable(100000UL);  // 100,000us == 100ms report interval
     imu.rpt.cal_gyro.enable(100000UL); // 100,000us == 100ms report interval
-    
 
     // There are 3 different flavors of callbacks available:
 
     // 1) register a callback to execute when new data is received for any report
-    imu.register_cb([&imu]()
-                    {
-                        // check for game rotation vector report
-                        if (imu.rpt.rv_game.has_new_data())
-                        {
-                            // get absolute heading in degrees
-                            bno08x_euler_angle_t euler = imu.rpt.rv_game.get_euler();
-                            // display heading
-                            ESP_LOGI(TAG, "Euler Angle: x (roll): %.2f y (pitch): %.2f z (yaw): %.2f", euler.x, euler.y, euler.z);
-                        } 
-                    });
+    imu.register_cb(
+            []()
+            {
+                // check for game rotation vector report
+                if (imu.rpt.rv_game.has_new_data())
+                {
+                    // get absolute heading in degrees
+                    bno08x_euler_angle_t euler = imu.rpt.rv_game.get_euler();
+                    // display heading
+                    ESP_LOGI(TAG, "Euler Angle: x (roll): %.2f y (pitch): %.2f z (yaw): %.2f", euler.x, euler.y, euler.z);
+                }
+            });
 
     // 2) register a callback that is only executed for a specific report
-    imu.rpt.cal_gyro.register_cb([&imu]()
-                                 {
-                                    // get angular velocity in rad/s
-                                    bno08x_gyro_t velocity = imu.rpt.cal_gyro.get();
-                                    // display velocity
-                                    ESP_LOGI(TAG, "Velocity: x: %.2f y: %.2f z: %.2f", velocity.x, velocity.y, velocity.z); 
-                                });
+    imu.rpt.cal_gyro.register_cb(
+            []()
+            {
+                // get angular velocity in rad/s
+                bno08x_gyro_t velocity = imu.rpt.cal_gyro.get();
+                // display velocity
+                ESP_LOGI(TAG, "Velocity: x: %.2f y: %.2f z: %.2f", velocity.x, velocity.y, velocity.z);
+            });
 
-    // 3) register a callback this passed report ID of report that asserted callback
-    imu.register_cb([](uint8_t rpt_ID)
-                    {
-                        switch (rpt_ID)
-                        {
-                            case SH2_GAME_ROTATION_VECTOR:
-                                ESP_LOGW(TAG, "Game RV report RX");
-                                break;
+    // 3) register a callback that is passed report ID of report that asserted callback
+    imu.register_cb(
+            [](uint8_t rpt_ID)
+            {
+                switch (rpt_ID)
+                {
+                    case SH2_GAME_ROTATION_VECTOR:
+                        ESP_LOGW(TAG, "Game RV report RX");
+                        break;
 
-                            case SH2_CAL_GYRO:
-                                ESP_LOGW(TAG, "Cal Gyro report RX");
-                                break;
+                    case SH2_CAL_GYRO:
+                        ESP_LOGW(TAG, "Cal Gyro report RX");
+                        break;
 
-                            default:
+                    default:
 
-                                break;
-                        } 
-                    });
+                        break;
+                }
+            });
 
     while (1)
     {

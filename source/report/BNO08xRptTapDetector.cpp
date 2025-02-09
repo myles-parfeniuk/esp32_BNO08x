@@ -35,6 +35,7 @@ void BNO08xRptTapDetector::update_data(sh2_SensorValue_t* sensor_val)
     lock_user_data();
     data = sensor_val->un.tapDetector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
+    update_timestamp(sensor_val);
     unlock_user_data();
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
