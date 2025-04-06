@@ -27,6 +27,9 @@ SpaceAfterCStyleCast: true
 CommentPragmas: '^[/!]<'
 
 ColumnLimit: 130  
+WrapComments: true  
+AllowShortCommentsOnASingleLine: true  
+AlignConsecutiveComments: true 
 
 BreakBeforeBraces: Allman
 IndentAccessModifiers: true

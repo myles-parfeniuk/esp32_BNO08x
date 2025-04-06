@@ -29,7 +29,6 @@ class BNO08xRpt
         bool register_cb(std::function<void(void)> cb_fxn);
         bool has_new_data();
         bool flush();
-        uint64_t get_timestamp_us();
         bool get_sample_counts(bno08x_sample_counts_t& sample_counts);
         bool clear_sample_counts();
         bool get_meta_data(bno08x_meta_data_t& meta_data);
@@ -40,12 +39,10 @@ class BNO08xRpt
         uint8_t ID;          ///< Report ID, ex. SH2_ACCELERATION.
         EventBits_t rpt_bit; ///< Respective enable and data bit for report in evt_grp_rpt_en and evt_grp_rpt_data
         uint32_t period_us;  ///< The period/interval of the report in microseconds.
-        uint64_t time_stamp_us; ///< Timestamp sent in SHTP header, updated with each respective resport rx'd. 
         BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx;
 
         bool rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
-        void update_timestamp(sh2_SensorValue_t* sensor_val);
 
         /**
          * @brief BNO08xRpt report constructor.
@@ -63,7 +60,6 @@ class BNO08xRpt
             : ID(ID)
             , rpt_bit(rpt_bit)
             , period_us(0UL)
-            , time_stamp_us(0ULL)
             , sync_ctx(sync_ctx)
 
         {
