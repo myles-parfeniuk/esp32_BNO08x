@@ -44,15 +44,16 @@ class BNO08x
         bool on();
         bool sleep();
 
-        bool calibration_start(uint32_t period_us);
-        bool calibration_end(sh2_CalStatus_t& status);
+        // bool calibration_turntable_start(uint32_t period_us);
+        // bool calibration_turntable_end(sh2_CalStatus_t& status);
 
         bool dynamic_calibration_enable(BNO08xCalSel sensor);
         bool dynamic_calibration_disable(BNO08xCalSel sensor);
         bool dynamic_calibration_autosave_enable();
         bool dynamic_calibration_autosave_disable();
-        bool save_dynamic_calibration();
-        bool clear_dynamic_calibration();
+        bool dynamic_calibration_save();
+        bool dynamic_calibration_clear();
+        bool dynamic_calibration_run_routine(); 
 
         bool get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
         sh2_ProductIds_t get_product_IDs();

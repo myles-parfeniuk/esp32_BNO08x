@@ -105,7 +105,7 @@ bool BNO08x::initialize()
     if (init_tasks() != ESP_OK)
         return false;
 
-        // clang-format off
+    // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "Successfully initialized....");
     #endif
@@ -185,6 +185,7 @@ void BNO08x::sh2_HAL_service_task_trampoline(void* arg)
 void BNO08x::sh2_HAL_service_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
+
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
     int64_t last_hint_time = esp_timer_get_time();
@@ -359,9 +360,9 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
             if (xQueueSend(queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
             {
                 // clang-format off
-                    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                    ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
-                    #endif
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
+                #endif
                 // clang-format on
             }
     }
@@ -1073,9 +1074,9 @@ bool BNO08x::hard_reset()
     else
     {
         // clang-format off
-            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Hard reset failure, reset never detected after toggling reset pin");
-            #endif
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Hard reset failure, reset never detected after toggling reset pin");
+        #endif
         // clang-format on
     }
 
@@ -1260,8 +1261,11 @@ bool BNO08x::sleep()
  *
  * @return True if start simple calibration operation succeeded.
  */
-bool BNO08x::calibration_start(uint32_t period_us)
+/*
+bool BNO08x::calibration_turntable_start(uint32_t period_us)
 {
+    // currently broken, correct packet is sent over SPI but IMU responds
+    // with unsolicited initialize response instead of the expected Turntable Cal response (0x0C)
     int op_success = SH2_ERR;
 
     lock_sh2_HAL();
@@ -1270,6 +1274,7 @@ bool BNO08x::calibration_start(uint32_t period_us)
 
     return (op_success == SH2_OK);
 }
+*/
 
 /**
  * @brief Ends turn-table calibration, see ref. manual 6.4.10.2
@@ -1278,7 +1283,7 @@ bool BNO08x::calibration_start(uint32_t period_us)
  *
  * @return True if enable start turn-table calibration operation succeeded.
  */
-bool BNO08x::calibration_end(sh2_CalStatus_t& status)
+/*bool BNO08x::calibration_turntable_end(sh2_CalStatus_t& status)
 {
     int op_success = SH2_ERR;
 
@@ -1288,6 +1293,7 @@ bool BNO08x::calibration_end(sh2_CalStatus_t& status)
 
     return (op_success == SH2_OK);
 }
+*/
 
 /**
  * @brief Enables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6.4.6.1
@@ -1376,7 +1382,7 @@ bool BNO08x::dynamic_calibration_autosave_disable()
  *
  * @return True if save dynamic/ME calibration data succeeded.
  */
-bool BNO08x::save_dynamic_calibration()
+bool BNO08x::dynamic_calibration_save()
 {
     int op_success = SH2_ERR;
 
@@ -1393,7 +1399,7 @@ bool BNO08x::save_dynamic_calibration()
  *
  * @return True if save dynamic/ME calibration data succeeded.
  */
-bool BNO08x::clear_dynamic_calibration()
+bool BNO08x::dynamic_calibration_clear()
 {
     int op_success = SH2_ERR;
 
@@ -1444,6 +1450,221 @@ bool BNO08x::clear_dynamic_calibration()
     }
 
     return false;
+}
+
+/**
+ * @brief Example calibration routine using  dynamic/ME calibration commands.
+ * 
+ * Routine does the following:alignas
+ * 
+ * 1) disables all enabled reports
+ * 2) sends a command to enable dynamic/motion engine calibration for all possible options (SH2_CAL_ACCEL | SH2_CAL_GYRO | SH2_CAL_MAG | SH2_CAL_PLANAR)
+ * 3) enables game rotation vector reports and calibrated magnetic field reports
+ * 4) moving window average for accuracy received through reports
+ * 5) deems calibration accuracy threshold met when magf accuracy avg is >=2 (MED) and quat accuracy avg >=3 (HIGH) for longer than 5 seconds
+ * 6) sends command to save dynamic calibration data
+ * 7) disables all enabled reports
+ * 
+ * Note the DCD commands don't have to be used this way, this is just an example,
+ * but the dynamic_calibration_autosave_enable() allows calibration to be run and
+ * saved constantly even while data is used for other operations. 
+ *
+ * @return True if calibration routine succeeded. 
+ */
+bool BNO08x::dynamic_calibration_run_routine()
+{
+    constexpr size_t WINDOW_SZ = 50;
+    constexpr int64_t STABLE_TIME_CRITERIA_US = 5000000LL; // meet accuracy criteria for 5 seconds
+
+    bno08x_quat_t quat_data;
+    bno08x_magf_t magf_data;
+    uint8_t quat_accuracy_window[WINDOW_SZ] = {0U};
+    uint8_t magf_accuracy_window[WINDOW_SZ] = {0U};
+    uint8_t quat_window_idx = 0U;
+    uint8_t magf_window_idx = 0U;
+    uint16_t quat_window_sum = 0U;
+    uint16_t magf_window_sum = 0U;
+    BNO08xAccuracy quat_accuracy_avg = BNO08xAccuracy::UNRELIABLE;
+    BNO08xAccuracy magf_accuracy_avg = BNO08xAccuracy::UNRELIABLE;
+    int64_t stable_time = 0LL;
+    int64_t stable_start_time = 0ULL;
+
+    // clang-format off
+     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+     ESP_LOGI(TAG, "dynamic_calibration_run_routine(): disabling all currently enabled reports and starting calibration...");
+     #endif
+    // clang-format on
+
+    if (!disable_all_reports())
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "dynamic_calibration_run_routine(): failed to disable all reports before calibration");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    if (!dynamic_calibration_enable(BNO08xCalSel::all))
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "dynamic_calibration_run_routine(): failed to enable dynamic calibration");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    if (!rpt.rv_game.enable(100000UL))
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "dynamic_calibration_run_routine(): failed to enable game rotation vector report");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    if (!rpt.cal_magnetometer.enable(100000UL))
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "dynamic_calibration_run_routine(): failed to enable calibrated magnetometer report");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    while (1)
+    {
+        if (data_available())
+        {
+            if (rpt.rv_game.has_new_data())
+            {
+                quat_data = rpt.rv_game.get_quat();
+
+                quat_accuracy_window[quat_window_idx] = static_cast<uint8_t>(quat_data.accuracy);
+                quat_window_idx++;
+
+                if (quat_window_idx >= WINDOW_SZ)
+                    quat_window_idx = 0U;
+
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGI(TAG, "dynamic_calibration_run_routine(): quat_data: accuracy: %d i: %.3f j: %.3f k: %.3f real: %.3f",
+                        static_cast<uint8_t>(quat_data.accuracy), quat_data.i, quat_data.j, quat_data.k, quat_data.real);
+                #endif
+                // clang-format on
+            }
+
+            if (rpt.cal_magnetometer.has_new_data())
+            {
+                magf_data = rpt.cal_magnetometer.get();
+
+                magf_accuracy_window[magf_window_idx] = static_cast<uint8_t>(magf_data.accuracy);
+                magf_window_idx++;
+
+                if (magf_window_idx >= WINDOW_SZ)
+                    magf_window_idx = 0U;
+
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGI(TAG, "dynamic_calibration_run_routine(): magf_data: accuracy: %d x: %.3f y: %.3f z: %.3f ",
+                static_cast<uint8_t>(magf_data.accuracy), magf_data.x, magf_data.y, magf_data.z);
+                #endif
+                // clang-format on
+            }
+        }
+
+        quat_window_sum = 0U;
+        magf_window_sum = 0U;
+
+        // sum windows and take average
+        for (int i = 0U; i < WINDOW_SZ; i++)
+        {
+            quat_window_sum += quat_accuracy_window[i];
+            magf_window_sum += magf_accuracy_window[i];
+        }
+
+        quat_accuracy_avg = static_cast<BNO08xAccuracy>(quat_window_sum / WINDOW_SZ);
+        magf_accuracy_avg = static_cast<BNO08xAccuracy>(magf_window_sum / WINDOW_SZ);
+
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "dynamic_calibration_run_routine(): magf_avg_acc: %s quat_avg_acc: %s", accuracy_to_str(magf_accuracy_avg), accuracy_to_str(quat_accuracy_avg));
+        #endif
+        // clang-format on
+
+        if ((quat_accuracy_avg >= BNO08xAccuracy::HIGH) && (magf_accuracy_avg >= BNO08xAccuracy::MED))
+        {
+            // start timer if accuracy criteria is met
+            if (stable_start_time == 0LL)
+                stable_start_time = esp_timer_get_time();
+
+            // calculate time for which accuracy criteria has been met
+            stable_time = esp_timer_get_time() - stable_start_time;
+        }
+        else
+        {
+            // reset timer if accuracy criteria is not met
+            stable_time = 0LL;
+        }
+
+        // check if average accuracy has been stable for required time
+        if (stable_time >= STABLE_TIME_CRITERIA_US)
+            break;
+    }
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "dynamic_calibration_run_routine(): calibration accuracy threshold reached, sending command to save calibration data...");
+    #endif
+    // clang-format on
+
+    if (!dynamic_calibration_save())
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "dynamic_calibration_run_routine(): failed to save calibration data");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    if (!dynamic_calibration_disable(BNO08xCalSel::all))
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "dynamic_calibration_run_routine(): failed to disable calibration");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    if (!disable_all_reports())
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "dynamic_calibration_run_routine(): failed to disable all reports after calibration");
+        #endif
+        // clang-format on
+
+        return false;
+    }
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "dynamic_calibration_run_routine(): calibration success");
+    #endif
+    // clang-format on
+
+    return true;
 }
 
 /**

@@ -320,7 +320,7 @@ TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->save_dynamic_calibration());
+    TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_save());
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -409,7 +409,7 @@ TEST_CASE("Clear Dynamic Calibration", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->clear_dynamic_calibration());
+    TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_clear());
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
