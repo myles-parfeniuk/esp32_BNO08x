@@ -1728,10 +1728,10 @@ bool BNO08x::delete_calibration_data()
 }
 
 /**
- * @brief Retrieves a record from flash record system (if your goal is to retrieve meta data use the
+ * @brief Retrieves a record from flash record system (if your goal is to retrieve sensor specific meta data use the
  * BNO08xRpt:get_meta_data() method instead)
  *
- * For more details on returned and data and frs_ID see ref. manual 6.3.7 & 4.3
+ * For more details on returned and data and frs_IDs see ref. manual 6.3.7 & 4.3
  *
  * @param frs_ID The ID of the desired record to retrieve from flash.
  * @param data Buffer of 16 uint32_t to store retrieved data.
@@ -1739,16 +1739,40 @@ bool BNO08x::delete_calibration_data()
  *
  * @return True if get flash record system operation succeeded.
  */
-bool BNO08x::get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz)
+bool BNO08x::get_frs(BNO08xFrsID frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz)
 {
     int op_success = SH2_ERR;
 
     lock_sh2_HAL();
-    op_success = sh2_getFrs(frs_ID, data, &rx_data_sz);
+    op_success = sh2_getFrs(static_cast<uint16_t>(frs_ID), data, &rx_data_sz);
     unlock_sh2_HAL();
 
     return (op_success == SH2_OK);
 }
+
+
+/**
+ * @brief Writes a record to flash record system.
+ *
+ * For more details on flash records and frs_IDs see ref. manual 6.3.6 & 4.3
+ *
+ * @param frs_ID The ID of the desired to write to flash.
+ * @param data Buffer of 16 uint32_t to store data to send.
+ * @param tx_data_sz Length of data, amount of 32 bit words to write to flash.
+ *
+ * @return True if get flash record system operation succeeded.
+ */
+bool BNO08x::write_frs(BNO08xFrsID frs_ID, uint32_t *data, const uint16_t tx_data_sz)
+{
+    int op_success = SH2_ERR;
+
+    lock_sh2_HAL();
+    op_success = sh2_setFrs(static_cast<uint16_t>(frs_ID), data, tx_data_sz);
+    unlock_sh2_HAL();
+
+    return (op_success == SH2_OK);
+}
+
 
 /**
  * @brief Returns product ID info sent by IMU at initialization.

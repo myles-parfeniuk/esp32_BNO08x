@@ -61,8 +61,8 @@ class BNO08x
         bool set_system_orientation(float w, float x, float y, float z);
         bool get_system_orientation(float &w, float &x, float &y, float &z);
 
-
-        bool get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
+        bool get_frs(BNO08xFrsID frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
+        bool write_frs(BNO08xFrsID frs_ID, uint32_t *data, const uint16_t tx_data_sz);
         sh2_ProductIds_t get_product_IDs();
 
         bool data_available();

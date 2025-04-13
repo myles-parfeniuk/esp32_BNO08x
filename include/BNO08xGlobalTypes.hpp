@@ -80,7 +80,7 @@ typedef struct bno08x_config_t
 } bno08x_config_t;
 typedef bno08x_config_t imu_config_t; // legacy version compatibility
 
-enum class BNO08xCalSel
+enum class BNO08xCalSel : uint8_t
 {
     accelerometer = SH2_CAL_ACCEL,
     gyro = SH2_CAL_GYRO,
@@ -90,7 +90,7 @@ enum class BNO08xCalSel
 };
 
 /// @brief Reason for previous IMU reset (returned by get_reset_reason())
-enum class BNO08xResetReason
+enum class BNO08xResetReason : uint8_t 
 {
     UNDEFINED, ///< Undefined reset reason, this should never occur and is an error.
     POR,       ///< Previous reset was due to power on reset.
@@ -102,7 +102,7 @@ enum class BNO08xResetReason
 
 /// @brief Sensor accuracy returned from input reports, corresponds to status bits (see ref.
 /// manual 6.5.1)
-enum class BNO08xAccuracy
+enum class BNO08xAccuracy : uint8_t 
 {
     UNRELIABLE,
     LOW,
@@ -113,7 +113,8 @@ enum class BNO08xAccuracy
 using IMUAccuracy = BNO08xAccuracy; // legacy version compatibility
 
 /// @brief BNO08xActivity Classifier enable bits passed to enable_activity_classifier()
-enum class BNO08xActivityEnable
+/// See ref manual 6.5.36.1
+enum class BNO08xActivityEnable : uint32_t 
 {
     UNKNOWN = (1U << 0U),
     IN_VEHICLE = (1U << 1U),
@@ -124,11 +125,11 @@ enum class BNO08xActivityEnable
     WALKING = (1U << 6U),
     RUNNING = (1U << 7U),
     ON_STAIRS = (1U << 8U),
-    ALL = 0x1FU
+    ALL = ( UNKNOWN | IN_VEHICLE | ON_BICYCLE | ON_FOOT | STILL | TILTING | WALKING | RUNNING | ON_STAIRS)
 };
 
 /// @brief BNO08xActivity states returned from BNO08x::activity_classifier.get()
-enum class BNO08xActivity
+enum class BNO08xActivity : uint8_t 
 {
     UNKNOWN = 0,    // 0 = unknown
     IN_VEHICLE = 1, // 1 = in vehicle
@@ -143,7 +144,7 @@ enum class BNO08xActivity
 };
 
 /// @brief BNO08xStability states returned from BNO08x::stability_classifier.get()
-enum class BNO08xStability
+enum class BNO08xStability : uint8_t 
 {
     UNKNOWN = 0,    // 0 = unknown
     ON_TABLE = 1,   // 1 = on table
@@ -152,6 +153,82 @@ enum class BNO08xStability
     MOTION = 4,     // 4 = in motion
     RESERVED = 5,   // 5 = reserved (not used)
     UNDEFINED = 6   // used for unit tests
+};
+
+enum class BNO08xFrsID : uint16_t {    
+    STATIC_CALIBRATION_AGM                  = 0x7979,
+    NOMINAL_CALIBRATION                     = 0x4D4D,
+    STATIC_CALIBRATION_SRA                  = 0x8A8A,
+    NOMINAL_CALIBRATION_SRA                 = 0x4E4E,
+    DYNAMIC_CALIBRATION                     = 0x1F1F,
+    ME_POWER_MGMT                           = 0xD3E2,
+    SYSTEM_ORIENTATION                      = 0x2D3E,
+    ACCEL_ORIENTATION                       = 0x2D41,
+    SCREEN_ACCEL_ORIENTATION                = 0x2D43,
+    GYROSCOPE_ORIENTATION                   = 0x2D46,
+    MAGNETOMETER_ORIENTATION                = 0x2D4C,
+    ARVR_STABILIZATION_RV                   = 0x3E2D,
+    ARVR_STABILIZATION_GRV                  = 0x3E2E,
+    TAP_DETECT_CONFIG                       = 0xC269,
+    SIG_MOTION_DETECT_CONFIG                = 0xC274,
+    SHAKE_DETECT_CONFIG                     = 0x7D7D,
+    MAX_FUSION_PERIOD                       = 0xD7D7,
+    SERIAL_NUMBER                           = 0x4B4B,
+    ES_PRESSURE_CAL                         = 0x39AF,
+    ES_TEMPERATURE_CAL                      = 0x4D20,
+    ES_HUMIDITY_CAL                         = 0x1AC9,
+    ES_AMBIENT_LIGHT_CAL                    = 0x39B1,
+    ES_PROXIMITY_CAL                        = 0x4DA2,
+    ALS_CAL                                 = 0xD401,
+    PROXIMITY_SENSOR_CAL                    = 0xD402,
+    PICKUP_DETECTOR_CONFIG                  = 0x1B2A,
+    FLIP_DETECTOR_CONFIG                    = 0xFC94,
+    STABILITY_DETECTOR_CONFIG               = 0xED85,
+    ACTIVITY_TRACKER_CONFIG                 = 0xED88,
+    SLEEP_DETECTOR_CONFIG                   = 0xED87,
+    TILT_DETECTOR_CONFIG                    = 0xED89,
+    POCKET_DETECTOR_CONFIG                  = 0xEF27,
+    CIRCLE_DETECTOR_CONFIG                  = 0xEE51,
+    USER_RECORD                             = 0x74B4,
+    ME_TIME_SOURCE_SELECT                   = 0xD403,
+    UART_FORMAT                             = 0xA1A1,
+    GYRO_INTEGRATED_RV_CONFIG               = 0xA1A2,
+    META_RAW_ACCELEROMETER                  = 0xE301,
+    META_ACCELEROMETER                      = 0xE302,
+    META_LINEAR_ACCELERATION                = 0xE303,
+    META_GRAVITY                            = 0xE304,
+    META_RAW_GYROSCOPE                      = 0xE305,
+    META_GYROSCOPE_CALIBRATED               = 0xE306,
+    META_GYROSCOPE_UNCALIBRATED             = 0xE307,
+    META_RAW_MAGNETOMETER                   = 0xE308,
+    META_MAGNETIC_FIELD_CALIBRATED          = 0xE309,
+    META_MAGNETIC_FIELD_UNCALIBRATED        = 0xE30A,
+    META_ROTATION_VECTOR                    = 0xE30B,
+    META_GAME_ROTATION_VECTOR               = 0xE30C,
+    META_GEOMAGNETIC_ROTATION_VECTOR        = 0xE30D,
+    META_PRESSURE                           = 0xE30E,
+    META_AMBIENT_LIGHT                      = 0xE30F,
+    META_HUMIDITY                           = 0xE310,
+    META_PROXIMITY                          = 0xE311,
+    META_TEMPERATURE                        = 0xE312,
+    META_TAP_DETECTOR                       = 0xE313,
+    META_STEP_DETECTOR                      = 0xE314,
+    META_STEP_COUNTER                       = 0xE315,
+    META_SIGNIFICANT_MOTION                 = 0xE316,
+    META_STABILITY_CLASSIFIER               = 0xE317,
+    META_SHAKE_DETECTOR                     = 0xE318,
+    META_FLIP_DETECTOR                      = 0xE319,
+    META_PICKUP_DETECTOR                    = 0xE31A,
+    META_STABILITY_DETECTOR                 = 0xE31B,
+    META_PERSONAL_ACTIVITY_CLASSIFIER       = 0xE31C,
+    META_SLEEP_DETECTOR                     = 0xE31D,
+    META_TILT_DETECTOR                      = 0xE31E,
+    META_POCKET_DETECTOR                    = 0xE31F,
+    META_CIRCLE_DETECTOR                    = 0xE320,
+    META_HEART_RATE_MONITOR                 = 0xE321,
+    META_ARVR_STABILIZED_RV                 = 0xE322,
+    META_ARVR_STABILIZED_GRV                = 0xE323,
+    META_GYRO_INTEGRATED_RV                 = 0xE324
 };
 
 /// @brief Struct to represent unit quaternion.
