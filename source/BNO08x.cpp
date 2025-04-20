@@ -668,8 +668,6 @@ esp_err_t BNO08x::init_tasks()
         &cb_task_hdl, 
         CB_TASK_AFFINITY);
 
-    ESP_LOGW(TAG, "cb_task affinity: %d", CB_TASK_AFFINITY);
-
     if (task_created != pdTRUE)
     {
         // clang-format off
