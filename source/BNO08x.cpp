@@ -636,9 +636,14 @@ esp_err_t BNO08x::init_tasks()
 
     xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASKS_RUNNING);
 
-    // launch data processing task
-    task_created = xTaskCreate(
-            &data_proc_task_trampoline, "bno08x_data_processing_task", DATA_PROC_TASK_SZ, this, 6, &data_proc_task_hdl);
+    // launch data processing task 6
+    task_created = xTaskCreatePinnedToCore(
+            &data_proc_task_trampoline, "bno08x_data_processing_task", 
+            DATA_PROC_TASK_SZ, 
+            this, 
+            DATA_PROC_TASK_PRIORITY, 
+            &data_proc_task_hdl, 
+            DATA_PROC_TASK_AFFINITY);
 
     if (task_created != pdTRUE)
     {
@@ -655,8 +660,13 @@ esp_err_t BNO08x::init_tasks()
         init_status.data_proc_task = true;
     }
 
-    // launch cb task
-    task_created = xTaskCreate(&cb_task_trampoline, "bno08x_cb_task", CB_TASK_SZ, this, 5, &cb_task_hdl);
+    // launch cb task 5
+    task_created = xTaskCreatePinnedToCore(&cb_task_trampoline, "bno08x_cb_task", 
+        CB_TASK_SZ, 
+        this, 
+        CB_TASK_PRIORITY, 
+        &cb_task_hdl, 
+        CB_TASK_AFFINITY);
 
     if (task_created != pdTRUE)
     {
@@ -673,9 +683,13 @@ esp_err_t BNO08x::init_tasks()
         init_status.cb_task = true;
     }
 
-    // launch sh2 hal service task
-    task_created = xTaskCreate(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", SH2_HAL_SERVICE_TASK_SZ, this, 7,
-            &sh2_HAL_service_task_hdl);
+    // launch sh2 hal service task 7
+    task_created = xTaskCreatePinnedToCore(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", 
+        SH2_HAL_SERVICE_TASK_SZ, 
+        this, 
+        SH2_HAL_SERVICE_TASK_PRIORITY,
+        &sh2_HAL_service_task_hdl,
+        SH2_HAL_SERVICE_TASK_AFFINITY);
 
     if (task_created != pdTRUE)
     {

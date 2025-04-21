@@ -150,6 +150,19 @@ class BNO08x
         static void cb_task_trampoline(void* arg);
         void cb_task();
 
+        static const constexpr BaseType_t CB_TASK_AFFINITY = 
+                CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY ;  /// tskNO_AFFINITY if not pinned to a core, 0 or 1
+        static const constexpr UBaseType_t CB_TASK_PRIORITY = CONFIG_ESP32_BNO08X_CB_TASK_PRIORITY; /// 5 per default, Priority of the callback task, 0-25, 0 is lowest priority, 25 is highest priority
+
+        static const constexpr BaseType_t DATA_PROC_TASK_AFFINITY = 
+                CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
+        static const constexpr UBaseType_t DATA_PROC_TASK_PRIORITY = CONFIG_ESP32_BNO08X_DATA_PROC_TASK_PRIORITY; /// 6 per default, Priority of the data processing task, 0-25, 0 is lowest priority, 25 is highest priority
+        
+        static const constexpr BaseType_t SH2_HAL_SERVICE_TASK_AFFINITY = 
+                CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
+        static const constexpr UBaseType_t SH2_HAL_SERVICE_TASK_PRIORITY = CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY; /// 7 per default, Priority of the sh2 HAL service task, 0-25, 0 is lowest priority, 25 is highest priority
+
+
         SemaphoreHandle_t sem_kill_tasks; ///<Counting Semaphore to count amount of killed tasks.
 
         void lock_sh2_HAL();

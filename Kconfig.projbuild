@@ -101,6 +101,62 @@ menu "esp32_BNO08x"
                 Stack size of task responsible for calling shtp_service() when HINT is asserted,
                 to dispatch any sh2 HAL lib callbacks.
 
+        config ESP32_BNO08X_CB_TASK_AFFINITY
+            int "Callback task core affinity"
+            range -1 1
+            default -1
+            help
+            Core to which the callback task is pinned.
+            -1 = No specific core (tskNO_AFFINITY)
+            0 = Core 0
+            1 = Core 1
+
+        config ESP32_BNO08X_CB_TASK_PRIORITY
+            int "Callback task priority"
+            range 0 25
+            default 5
+            help
+            Priority of the callback task.
+            0 is lowest priority, 25 is highest priority.
+
+        config ESP32_BNO08X_DATA_PROC_TASK_AFFINITY
+            int "Data processing task core affinity"
+            range -1 1
+            default -1
+            help
+            Core to which the data processing task is pinned.
+            -1 = No specific core (tskNO_AFFINITY)
+            0 = Core 0
+            1 = Core 1
+
+        config ESP32_BNO08X_DATA_PROC_TASK_PRIORITY
+            int "Data processing task priority"
+            range 0 25
+            default 6
+            help
+            Priority of the data processing task.
+            0 is lowest priority, 25 is highest priority.
+
+        config ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY
+            int "SH2 HAL service task core affinity"
+            range -1 1
+            default -1
+            help
+            Core to which the SH2 HAL service task is pinned.
+            -1 = No specific core (tskNO_AFFINITY)
+            0 = Core 0
+            1 = Core 1
+
+        config ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY
+            int "SH2 HAL service task priority"
+            range 0 25
+            default 7
+            help
+            Priority of the SH2 HAL service task.
+            0 is lowest priority, 25 is highest priority.
+
+
+
     endmenu #Tasks
 
     menu "Callbacks"
