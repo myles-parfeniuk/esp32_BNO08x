@@ -1681,6 +1681,47 @@ bool BNO08x::dynamic_calibration_run_routine()
     return true;
 }
 
+bool BNO08x::delete_calibration_data()
+{
+    // 1. Reset hub (using hard_reset)
+    if (!hard_reset()) {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "delete_calibration_data(): failed to hard reset hub");
+        #endif
+        return false;
+    }
+
+    // 2. Delete flash copy of DCD via FRS 
+    int op_success = SH2_ERR;
+    lock_sh2_HAL();
+    // Deleting FRS record: use sh2_setFrs with nullptr and 0 words
+    op_success = sh2_setFrs(DYNAMIC_CALIBRATION, nullptr, 0U);
+    unlock_sh2_HAL();
+    if (op_success != SH2_OK) {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "delete_calibration_data(): failed to delete DCD FRS record, op_success: %li", (int32_t)op_success);
+        #endif
+        return false;
+    }
+
+    // 3. Issue Clear DCD and Reset Command (atomic clear DCD from RAM and reset)
+    lock_sh2_HAL();
+    op_success = sh2_clearDcdAndReset();
+    unlock_sh2_HAL();
+    if (op_success != SH2_OK) {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "delete_calibration_data(): failed to clear DCD and reset, op_success: %li", (int32_t)op_success);
+        #endif
+        return false;
+    }
+
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "delete_calibration_data(): calibration data cleared successfully");
+    #endif
+
+    return true;
+}
+
 /**
  * @brief Retrieves a record from flash record system (if your goal is to retrieve meta data use the
  * BNO08xRpt:get_meta_data() method instead)
@@ -1883,6 +1924,89 @@ void BNO08x::print_product_ids()
                 i, product_IDs.entry->swPartNumber, product_IDs.entry->swVersionMajor, product_IDs.entry->swVersionMinor,
                 product_IDs.entry->swBuildNumber, product_IDs.entry->swVersionPatch);
     }
+}
+
+
+// Converts a 32-bit signed Q30 fixed-point value to float
+static inline float q30_to_float(int32_t q)
+{
+    return ((float)q) / (float)(1UL << 30);
+}
+
+// Converts a float to 32-bit signed Q30 fixed-point value
+static inline int32_t float_to_q30(float f)
+{
+    if (f > 1.0f) f = 1.0f;
+    if (f < -1.0f) f = -1.0f;
+    return (int32_t)(f * (float)(1UL << 30));
+}
+
+
+void BNO08x::print_system_orientation()
+{
+    float w, x, y, z;
+    if (get_system_orientation(w, x, y, z)) {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "Mounting orientation (float): W: %.6f X: %.6f Y: %.6f Z: %.6f", w, x, y, z);
+        #endif
+    } else {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Failed to get mounting orientation");
+        #endif
+    }
+}
+
+/**
+ * @brief Sets the system orientation of the BNO08x device and persist it in flash (FRS).
+ * use SQRT2OVER2 as a constant for sqrt(2)/2
+ * see Datasheet Figure 4.3 for reference
+ * Note that a reset is required to apply changes.
+ * Note also that this configuration seems only to work if reports are already enabled. 
+ * e.g. set .rpt.rv.enable(true) prior this call
+ */
+bool BNO08x::set_system_orientation(float w, float x, float y, float z)
+{
+    uint32_t orientation_raw[4] = {
+        static_cast<uint32_t>(float_to_q30(x)), // X component
+        static_cast<uint32_t>(float_to_q30(y)), // Y component
+        static_cast<uint32_t>(float_to_q30(z)), // Z component
+        static_cast<uint32_t>(float_to_q30(w))  // W component
+    };
+
+    int op_success = SH2_ERR;
+    lock_sh2_HAL();
+    op_success = sh2_setFrs(SYSTEM_ORIENTATION, (uint32_t*)&orientation_raw, 4);
+    unlock_sh2_HAL();
+
+    if (op_success != SH2_OK)
+    {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Failed to set mounting orientation, op_success: %li", (int32_t)op_success);
+        #endif
+        return false;
+    }
+    return true;
+}
+
+bool BNO08x::get_system_orientation(float& w, float& x, float& y, float& z)
+{
+    uint16_t words = 4;
+    uint32_t raw[4] = {0};
+
+    lock_sh2_HAL();
+    int op_success = sh2_getFrs(SYSTEM_ORIENTATION, raw, &words);
+    unlock_sh2_HAL();
+
+    if (op_success != SH2_OK) {
+        return false;
+    }
+
+    x = q30_to_float((int32_t)raw[0]);
+    y = q30_to_float((int32_t)raw[1]);
+    z = q30_to_float((int32_t)raw[2]);
+    w = q30_to_float((int32_t)raw[3]);
+
+    return true;
 }
 
 /**
