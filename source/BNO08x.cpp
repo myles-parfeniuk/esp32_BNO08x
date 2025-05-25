@@ -1681,6 +1681,11 @@ bool BNO08x::dynamic_calibration_run_routine()
     return true;
 }
 
+/**
+ * @brief Deletes dynamic calibration data from BNO08x internal flash and resets the device.
+ * Follows the steps outlined in ref. manual 6.4.9
+ * @return True if delete dynamic calibration data operation succeeded.
+ */
 bool BNO08x::delete_calibration_data()
 {
     // 1. Reset hub (using hard_reset)
