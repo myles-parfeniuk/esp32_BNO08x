@@ -55,6 +55,13 @@ class BNO08x
         bool dynamic_calibration_clear();
         bool dynamic_calibration_run_routine(); 
 
+        bool delete_calibration_data();
+
+        constexpr static float SQRT2OVER2 = 0.7071067811865476f; // sqrt(2)/2, used for setting system orientation
+        bool set_system_orientation(float w, float x, float y, float z);
+        bool get_system_orientation(float &w, float &x, float &y, float &z);
+
+
         bool get_frs(uint16_t frs_ID, uint32_t (&data)[16], uint16_t& rx_data_sz);
         sh2_ProductIds_t get_product_IDs();
 
@@ -63,6 +70,7 @@ class BNO08x
         bool register_cb(std::function<void(uint8_t report_ID)> cb_fxn);
 
         void print_product_ids();
+        void print_system_orientation();
 
         // enum helper fxns
         static const char* activity_to_str(BNO08xActivity activity);
