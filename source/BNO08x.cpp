@@ -1408,12 +1408,12 @@ bool BNO08x::dynamic_calibration_save()
 }
 
 /**
- * @brief Clears dynamic/motion engine calibration data and resets BNO08x device. See ref
+ * @brief Clears dynamic/motion engine calibration data from ram and resets BNO08x device. See ref
  * manual 6.4.9.1
  *
  * @return True if save dynamic/ME calibration data succeeded.
  */
-bool BNO08x::dynamic_calibration_clear()
+bool BNO08x::dynamic_calibration_clear_data_ram()
 {
     int op_success = SH2_ERR;
 
@@ -1440,7 +1440,7 @@ bool BNO08x::dynamic_calibration_clear()
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Clear dynamic calibration failure, incorrect reset reason returned.");
+                ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, incorrect reset reason returned.");
                 #endif
                 // clang-format on
             }
@@ -1449,7 +1449,7 @@ bool BNO08x::dynamic_calibration_clear()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Clear dynamic calibration failure, reset never detected after sending command.");
+            ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, reset never detected after sending command.");
             #endif
             // clang-format on
         }
@@ -1458,7 +1458,7 @@ bool BNO08x::dynamic_calibration_clear()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Clear dynamic calibration failure, failed to send reset command");
+        ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, failed to clearDcdAndReset command with %li", static_cast<int32_t>(op_success));
         #endif
         // clang-format on
     }
@@ -1609,7 +1609,7 @@ bool BNO08x::dynamic_calibration_run_routine()
 
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGI(TAG, "dynamic_calibration_run_routine(): magf_avg_acc: %s quat_avg_acc: %s", accuracy_to_str(magf_accuracy_avg), accuracy_to_str(quat_accuracy_avg));
+        ESP_LOGI(TAG, "dynamic_calibration_run_routine(): magf_avg_acc: %s quat_avg_acc: %s", BNO08xAccuracy_to_str(magf_accuracy_avg), BNO08xAccuracy_to_str(quat_accuracy_avg));
         #endif
         // clang-format on
 
@@ -1686,7 +1686,7 @@ bool BNO08x::dynamic_calibration_run_routine()
  * Follows the steps outlined in ref. manual 6.4.9
  * @return True if delete dynamic calibration data operation succeeded.
  */
-bool BNO08x::delete_calibration_data()
+bool BNO08x::dynamic_calibration_delete_data()
 {
     // 1. Reset hub (using hard_reset)
     if (!hard_reset()) {
@@ -1697,28 +1697,13 @@ bool BNO08x::delete_calibration_data()
     }
 
     // 2. Delete flash copy of DCD via FRS 
-    int op_success = SH2_ERR;
-    lock_sh2_HAL();
     // Deleting FRS record: use sh2_setFrs with nullptr and 0 words
-    op_success = sh2_setFrs(DYNAMIC_CALIBRATION, nullptr, 0U);
-    unlock_sh2_HAL();
-    if (op_success != SH2_OK) {
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "delete_calibration_data(): failed to delete DCD FRS record, op_success: %li", (int32_t)op_success);
-        #endif
-        return false;
-    }
+    if(!write_frs(BNO08xFrsID::DYNAMIC_CALIBRATION, nullptr, 0U))
+        return false; 
 
     // 3. Issue Clear DCD and Reset Command (atomic clear DCD from RAM and reset)
-    lock_sh2_HAL();
-    op_success = sh2_clearDcdAndReset();
-    unlock_sh2_HAL();
-    if (op_success != SH2_OK) {
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "delete_calibration_data(): failed to clear DCD and reset, op_success: %li", (int32_t)op_success);
-        #endif
-        return false;
-    }
+    if(!dynamic_calibration_clear_data_ram())
+        return false; 
 
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
     ESP_LOGI(TAG, "delete_calibration_data(): calibration data cleared successfully");
@@ -1747,6 +1732,16 @@ bool BNO08x::get_frs(BNO08xFrsID frs_ID, uint32_t (&data)[16], uint16_t& rx_data
     op_success = sh2_getFrs(static_cast<uint16_t>(frs_ID), data, &rx_data_sz);
     unlock_sh2_HAL();
 
+    if (op_success != SH2_OK)
+    {   
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "get_frs(): Failed to retrieve FRS record for ID: %s, op_success: %li", BNO08xFrsID_to_str(frs_ID), static_cast<int32_t>(op_success));
+        #endif
+        // clang-format off
+        return false;
+    }
+
     return (op_success == SH2_OK);
 }
 
@@ -1769,6 +1764,16 @@ bool BNO08x::write_frs(BNO08xFrsID frs_ID, uint32_t *data, const uint16_t tx_dat
     lock_sh2_HAL();
     op_success = sh2_setFrs(static_cast<uint16_t>(frs_ID), data, tx_data_sz);
     unlock_sh2_HAL();
+
+    if (op_success != SH2_OK)
+    {   
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "write_frs(): Failed to write FRS record for ID: %s, op_success: %li", BNO08xFrsID_to_str(frs_ID), static_cast<int32_t>(op_success));
+        #endif
+        // clang-format off
+        return false;
+    }
 
     return (op_success == SH2_OK);
 }
@@ -2002,121 +2007,29 @@ bool BNO08x::set_system_orientation(float w, float x, float y, float z)
         static_cast<uint32_t>(float_to_q30(w))  // W component
     };
 
-    int op_success = SH2_ERR;
-    lock_sh2_HAL();
-    op_success = sh2_setFrs(SYSTEM_ORIENTATION, (uint32_t*)&orientation_raw, 4);
-    unlock_sh2_HAL();
-
-    if (op_success != SH2_OK)
-    {
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Failed to set mounting orientation, op_success: %li", (int32_t)op_success);
-        #endif
-        return false;
-    }
-    return true;
-}
-
-bool BNO08x::get_system_orientation(float& w, float& x, float& y, float& z)
-{
-    uint16_t words = 4;
-    uint32_t raw[4] = {0};
-
-    lock_sh2_HAL();
-    int op_success = sh2_getFrs(SYSTEM_ORIENTATION, raw, &words);
-    unlock_sh2_HAL();
-
-    if (op_success != SH2_OK) {
-        return false;
-    }
-
-    x = q30_to_float((int32_t)raw[0]);
-    y = q30_to_float((int32_t)raw[1]);
-    z = q30_to_float((int32_t)raw[2]);
-    w = q30_to_float((int32_t)raw[3]);
+    if(!write_frs(BNO08xFrsID::SYSTEM_ORIENTATION, orientation_raw, sizeof(orientation_raw)))
+        return false; 
 
     return true;
 }
 
-/**
- * @brief Converts a BNO08xActivity enum to string.
- *
- * @return The resulting string conversion of the enum.
- */
-const char* BNO08x::activity_to_str(BNO08xActivity activity)
+bool BNO08x::get_system_orientation(float& real, float& i, float& j, float& k)
 {
-    switch (activity)
-    {
-        case BNO08xActivity::UNKNOWN:
-            return "UNKNOWN";
-        case BNO08xActivity::IN_VEHICLE:
-            return "IN_VEHICLE";
-        case BNO08xActivity::ON_BICYCLE:
-            return "ON_BICYCLE";
-        case BNO08xActivity::ON_FOOT:
-            return "ON_FOOT";
-        case BNO08xActivity::STILL:
-            return "STILL";
-        case BNO08xActivity::TILTING:
-            return "TILTING";
-        case BNO08xActivity::WALKING:
-            return "WALKING";
-        case BNO08xActivity::RUNNING:
-            return "RUNNING";
-        case BNO08xActivity::ON_STAIRS:
-            return "ON_STAIRS";
-        case BNO08xActivity::UNDEFINED:
-            return "UNDEFINED";
-        default:
-            return "UNDEFINED";
-    }
-}
+    uint16_t words_rxd = 0U;
+    uint32_t raw[16] = {0};
 
-/**
- * @brief Converts a BNO08xStability enum to string.
- *
- * @return The resulting string conversion of the enum.
- */
-const char* BNO08x::stability_to_str(BNO08xStability stability)
-{
-    switch (stability)
-    {
-        case BNO08xStability::UNKNOWN:
-            return "UNKNOWN";
-        case BNO08xStability::ON_TABLE:
-            return "ON_TABLE";
-        case BNO08xStability::STATIONARY:
-            return "STATIONARY";
-        case BNO08xStability::STABLE:
-            return "STABLE";
-        case BNO08xStability::MOTION:
-            return "MOTION";
-        case BNO08xStability::RESERVED:
-            return "RESERVED";
-        case BNO08xStability::UNDEFINED:
-            return "UNDEFINED";
-        default:
-            return "UNDEFINED";
-    }
-}
+    if(!get_frs(BNO08xFrsID::SYSTEM_ORIENTATION, raw, words_rxd))
+        return false;
+    
+    if(words_rxd >= 4U)
+        return false; 
 
-const char* BNO08x::accuracy_to_str(BNO08xAccuracy accuracy)
-{
-    switch (accuracy)
-    {
-        case BNO08xAccuracy::UNRELIABLE:
-            return "UNRELIABLE";
-        case BNO08xAccuracy::LOW:
-            return "LOW";
-        case BNO08xAccuracy::MED:
-            return "MED";
-        case BNO08xAccuracy::HIGH:
-            return "HIGH";
-        case BNO08xAccuracy::UNDEFINED:
-            return "UNDEFINED";
-        default:
-            return "UNDEFINED";
-    }
+    i = q30_to_float((int32_t)raw[0]);
+    j = q30_to_float((int32_t)raw[1]);
+    k = q30_to_float((int32_t)raw[2]);
+    real = q30_to_float((int32_t)raw[3]);
+
+    return true;
 }
 
 /**

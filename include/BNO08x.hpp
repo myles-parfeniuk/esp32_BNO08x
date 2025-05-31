@@ -52,10 +52,9 @@ class BNO08x
         bool dynamic_calibration_autosave_enable();
         bool dynamic_calibration_autosave_disable();
         bool dynamic_calibration_save();
-        bool dynamic_calibration_clear();
+        bool dynamic_calibration_clear_data_ram();
+        bool dynamic_calibration_delete_data();
         bool dynamic_calibration_run_routine(); 
-
-        bool delete_calibration_data();
 
         constexpr static float SQRT2OVER2 = 0.7071067811865476f; // sqrt(2)/2, used for setting system orientation
         bool set_system_orientation(float w, float x, float y, float z);
@@ -71,12 +70,7 @@ class BNO08x
 
         void print_product_ids();
         void print_system_orientation();
-
-        // enum helper fxns
-        static const char* activity_to_str(BNO08xActivity activity);
-        static const char* stability_to_str(BNO08xStability stability);
-        static const char* accuracy_to_str(BNO08xAccuracy accuracy);
-
+        
         /// @brief Contains report implementations.
         typedef struct bno08x_reports_t
         {
