@@ -52,8 +52,8 @@ class BNO08x
         bool dynamic_calibration_autosave_enable();
         bool dynamic_calibration_autosave_disable();
         bool dynamic_calibration_save();
-        bool dynamic_calibration_clear_data_ram();
-        bool dynamic_calibration_delete_data();
+        bool dynamic_calibration_data_clear_ram();
+        bool dynamic_calibration_data_delete();
         bool dynamic_calibration_run_routine(); 
 
         constexpr static float SQRT2OVER2 = 0.7071067811865476f; // sqrt(2)/2, used for setting system orientation

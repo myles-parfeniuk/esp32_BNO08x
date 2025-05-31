@@ -61,7 +61,7 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data.x, data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                    (i + 1), data.x, data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -72,7 +72,7 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data.x, data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                    (i + 1), data.x, data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
     }
@@ -124,7 +124,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -135,7 +135,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -146,7 +146,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -157,7 +157,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
+                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08xAccuracy_to_str(data_vel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
     }
@@ -221,7 +221,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -232,7 +232,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -243,7 +243,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                    (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -254,7 +254,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: %.2f accuracy: "
                     "%s ",
-                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
+                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08xAccuracy_to_str(data_vel.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -265,7 +265,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: CalMagnetometer: [uTesla] x: %.2f y: %.2f z: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08x::accuracy_to_str(data_magf.accuracy));
+                    (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08xAccuracy_to_str(data_magf.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -276,7 +276,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08xAccuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -287,7 +287,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV Game: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f "
                     "accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08xAccuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
 
@@ -298,7 +298,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
             sprintf(msg_buff,
                     "Rx Data Trial %d Success: RV Geomagnetic: [n/a] real: %.2f i: %.2f j: %.2f k: "
                     "%.2f accuracy: %s ",
-                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08x::accuracy_to_str(data_quat.accuracy));
+                    (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k, BNO08xAccuracy_to_str(data_quat.accuracy));
             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
         }
     }

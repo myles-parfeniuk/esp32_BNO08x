@@ -1413,7 +1413,7 @@ bool BNO08x::dynamic_calibration_save()
  *
  * @return True if save dynamic/ME calibration data succeeded.
  */
-bool BNO08x::dynamic_calibration_clear_data_ram()
+bool BNO08x::dynamic_calibration_data_clear_ram()
 {
     int op_success = SH2_ERR;
 
@@ -1686,7 +1686,7 @@ bool BNO08x::dynamic_calibration_run_routine()
  * Follows the steps outlined in ref. manual 6.4.9
  * @return True if delete dynamic calibration data operation succeeded.
  */
-bool BNO08x::dynamic_calibration_delete_data()
+bool BNO08x::dynamic_calibration_data_delete()
 {
     // 1. Reset hub (using hard_reset)
     if (!hard_reset()) {
@@ -1702,7 +1702,7 @@ bool BNO08x::dynamic_calibration_delete_data()
         return false; 
 
     // 3. Issue Clear DCD and Reset Command (atomic clear DCD from RAM and reset)
-    if(!dynamic_calibration_clear_data_ram())
+    if(!dynamic_calibration_data_clear_ram())
         return false; 
 
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS

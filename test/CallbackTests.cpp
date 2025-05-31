@@ -72,7 +72,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                         sprintf(msg_buff,
                                 "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f "
                                 "accuracy: %s ",
-                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.linear_accelerometer.has_new_data())
@@ -82,7 +82,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                         sprintf(msg_buff,
                                 "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f z: "
                                 "%.2f accuracy: %s ",
-                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.gravity.has_new_data())
@@ -92,7 +92,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                         sprintf(msg_buff,
                                 "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: "
                                 "%.2f accuracy: %s ",
-                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                                (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.cal_gyro.has_new_data())
@@ -102,7 +102,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                         sprintf(msg_buff,
                                 "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: "
                                 "%.2f accuracy: %s ",
-                                (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
+                                (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08xAccuracy_to_str(data_vel.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.cal_magnetometer.has_new_data())
@@ -112,7 +112,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                         sprintf(msg_buff,
                                 "Rx Data Trial %d Success: CalMagnetometer: [uTesla] x: %.2f y: "
                                 "%.2f z: %.2f accuracy: %s ",
-                                (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08x::accuracy_to_str(data_magf.accuracy));
+                                (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08xAccuracy_to_str(data_magf.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.rv.has_new_data())
@@ -123,7 +123,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                                 "Rx Data Trial %d Success: RV: [n/a] real: %.2f i: %.2f j: %.2f k: "
                                 "%.2f accuracy: %s ",
                                 (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                BNO08x::accuracy_to_str(data_quat.accuracy));
+                                BNO08xAccuracy_to_str(data_quat.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.rv_game.has_new_data())
@@ -134,7 +134,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                                 "Rx Data Trial %d Success: RV Game: [n/a] real: %.2f i: %.2f j: "
                                 "%.2f k: %.2f accuracy: %s ",
                                 (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                BNO08x::accuracy_to_str(data_quat.accuracy));
+                                BNO08xAccuracy_to_str(data_quat.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
                     else if (imu->rpt.rv_geomagnetic.has_new_data())
@@ -145,7 +145,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                                 "Rx Data Trial %d Success: RV Geomagnetic: [n/a] real: %.2f i: "
                                 "%.2f j: %.2f k: %.2f accuracy: %s ",
                                 (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                BNO08x::accuracy_to_str(data_quat.accuracy));
+                                BNO08xAccuracy_to_str(data_quat.accuracy));
                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                     }
 
@@ -257,7 +257,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: "
                                     "%.2f accuracy: %s ",
                                     (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                                    BNO08xAccuracy_to_str(data_accel.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -268,7 +268,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: LinAccel: [m/s^2] x: %.2f y: %.2f "
                                     "z: %.2f accuracy: %s ",
                                     (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                                    BNO08xAccuracy_to_str(data_accel.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -279,7 +279,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: "
                                     "%.2f accuracy: %s ",
                                     (i + 1), data_accel.x, data_accel.y, data_accel.z,
-                                    BNO08x::accuracy_to_str(data_accel.accuracy));
+                                    BNO08xAccuracy_to_str(data_accel.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -289,7 +289,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                             sprintf(msg_buff,
                                     "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: "
                                     "%.2f accuracy: %s ",
-                                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08x::accuracy_to_str(data_vel.accuracy));
+                                    (i + 1), data_vel.x, data_vel.y, data_vel.z, BNO08xAccuracy_to_str(data_vel.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -299,7 +299,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                             sprintf(msg_buff,
                                     "Rx Data Trial %d Success: CalMagnetometer: [uTesla] x: %.2f "
                                     "y: %.2f z: %.2f accuracy: %s ",
-                                    (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08x::accuracy_to_str(data_magf.accuracy));
+                                    (i + 1), data_magf.x, data_magf.y, data_magf.z, BNO08xAccuracy_to_str(data_magf.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -310,7 +310,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: RV: [n/a] real: %.2f i: %.2f j: "
                                     "%.2f k: %.2f accuracy: %s ",
                                     (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                                    BNO08xAccuracy_to_str(data_quat.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -321,7 +321,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: RV Game: [n/a] real: %.2f i: %.2f "
                                     "j: %.2f k: %.2f accuracy: %s ",
                                     (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                                    BNO08xAccuracy_to_str(data_quat.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -332,7 +332,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                     "Rx Data Trial %d Success: RV Geomagnetic: [n/a] real: %.2f i: "
                                     "%.2f j: %.2f k: %.2f accuracy: %s ",
                                     (i + 1), data_quat.real, data_quat.i, data_quat.j, data_quat.k,
-                                    BNO08x::accuracy_to_str(data_quat.accuracy));
+                                    BNO08xAccuracy_to_str(data_quat.accuracy));
                             BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                             break;
 
@@ -432,7 +432,7 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
                     sprintf(msg_buff,
                             "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f "
                             "accuracy: %s ",
-                            (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08x::accuracy_to_str(data_accel.accuracy));
+                            (i + 1), data_accel.x, data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
                     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
 
                     i++;

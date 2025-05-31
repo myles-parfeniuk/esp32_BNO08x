@@ -58,7 +58,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "No Rx Data Trial %d Success: LinAccelDefaults: [m/s^2] x: %.2f y: %.2f z: %.2f "
                 "accuracy: %s ",
-                (i + 1), data.x, data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.x, data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -96,7 +96,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
         data = imu->rpt.accelerometer.get();
 
         sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data.x,
-                data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -136,7 +136,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: LinearAccel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: "
                 "%s ",
-                (i + 1), data.x, data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.x, data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -174,7 +174,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
         data = imu->rpt.gravity.get();
 
         sprintf(msg_buff, "Rx Data Trial %d Success: Gravity: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data.x,
-                data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -214,7 +214,7 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: CalMagnetometer: [uTesla] x: %.2f y: %.2f z: %.2f "
                 "accuracy: %s ",
-                (i + 1), data.x, data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.x, data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -256,7 +256,7 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportEnableDisable]")
                 "Rx Data Trial %d Success: UncalMagnetometer: [uTesla] x: %.2f y: %.2f z: %.2f "
                 "x_bias: %.2f y_bias: %.2f z_bias: %.2f accuracy: %s ",
                 (i + 1), data_magf.x, data_magf.y, data_magf.z, data_bias.x, data_bias.y, data_bias.z,
-                BNO08x::accuracy_to_str(data_magf.accuracy));
+                BNO08xAccuracy_to_str(data_magf.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -294,7 +294,7 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportEnableDisable]")
         data = imu->rpt.cal_gyro.get();
 
         sprintf(msg_buff, "Rx Data Trial %d Success: CalGyro: [rad/s] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data.x,
-                data.y, data.z, BNO08x::accuracy_to_str(data.accuracy));
+                data.y, data.z, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -336,7 +336,7 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportEnableDisable]")
                 "Rx Data Trial %d Success: UncalGyro: [rad/s] x: %.2f y: %.2f z: %.2f x_bias: %.2f "
                 "y_bias: %.2f z_bias: %.2f accuracy: %s ",
                 (i + 1), data_vel.x, data_vel.y, data_vel.z, data_bias.x, data_bias.y, data_bias.z,
-                BNO08x::accuracy_to_str(data_vel.accuracy));
+                BNO08xAccuracy_to_str(data_vel.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -376,7 +376,7 @@ TEST_CASE("Enable/Disable RV", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f accuracy: "
                 "%s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -416,7 +416,7 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV Game: [n/a] real: %.2f i: %.2f j: %.2f k: %.2f "
                 "accuracy: %s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -456,7 +456,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV ARVR Stabilized: [n/a] real: %.2f i: %.2f j: %.2f k: "
                 "%.2f accuracy: %s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -496,7 +496,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportEnableDisable]
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV ARVR Stabilized Game: [n/a] real: %.2f i: %.2f j: "
                 "%.2f k: %.2f accuracy: %s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -536,7 +536,7 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV Gyro Integrated: [n/a] real: %.2f i: %.2f j: %.2f k: "
                 "%.2f accuracy: %s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
@@ -576,7 +576,7 @@ TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportEnableDisable]")
         sprintf(msg_buff,
                 "Rx Data Trial %d Success: RV Geomagnetic: [n/a] real: %.2f i: %.2f j: %.2f k: "
                 "%.2f accuracy: %s ",
-                (i + 1), data.real, data.i, data.j, data.k, BNO08x::accuracy_to_str(data.accuracy));
+                (i + 1), data.real, data.i, data.j, data.k, BNO08xAccuracy_to_str(data.accuracy));
 
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
