@@ -1960,6 +1960,25 @@ void BNO08x::print_product_ids()
     }
 }
 
+/**
+ * @brief Retrieves and prints system orientation.
+ *
+ * @return void, nothing to return
+ */
+void BNO08x::print_system_orientation()
+{
+    float w, x, y, z;
+    if (get_system_orientation(w, x, y, z)) {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "Mounting orientation (float): W: %.6f X: %.6f Y: %.6f Z: %.6f", w, x, y, z);
+        #endif
+    } else {
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "Failed to get mounting orientation");
+        #endif
+    }
+}
+
 
 // Converts a 32-bit signed Q30 fixed-point value to float
 static inline float q30_to_float(int32_t q)
@@ -1975,36 +1994,27 @@ static inline int32_t float_to_q30(float f)
     return (int32_t)(f * (float)(1UL << 30));
 }
 
-
-void BNO08x::print_system_orientation()
-{
-    float w, x, y, z;
-    if (get_system_orientation(w, x, y, z)) {
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGI(TAG, "Mounting orientation (float): W: %.6f X: %.6f Y: %.6f Z: %.6f", w, x, y, z);
-        #endif
-    } else {
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Failed to get mounting orientation");
-        #endif
-    }
-}
-
 /**
  * @brief Sets the system orientation of the BNO08x device and persist it in flash (FRS).
- * use SQRT2OVER2 as a constant for sqrt(2)/2
- * see Datasheet Figure 4.3 for reference
- * Note that a reset is required to apply changes.
- * Note also that this configuration seems only to work if reports are already enabled. 
- * e.g. set .rpt.rv.enable(true) prior this call
+ * 
+ * @note Datasheet Figure 4.3 for reference of physical mounting position relative to mapping quaternion.
+ * @note Use SQRT2OVER2 as a constant for sqrt(2)/2
+ * @note that a reset is required to apply changes.
+ * @note This configuration seems only to work if reports are already enabled. 
+ *       e.g. set .rpt.rv.enable(true) prior this call
+ * 
+ * @param Qw Real component of mapping quaternion.
+ * @param Qx X (i) component of mapping quaternion.
+ * @param Qy Y (j) component of mapping quaternion.
+ * @param Qz Z (k) component of mapping quaternion.
  */
-bool BNO08x::set_system_orientation(float w, float x, float y, float z)
+bool BNO08x::set_system_orientation(float Qw, float Qx, float Qy, float Qz)
 {
     uint32_t orientation_raw[4] = {
-        static_cast<uint32_t>(float_to_q30(x)), // X component
-        static_cast<uint32_t>(float_to_q30(y)), // Y component
-        static_cast<uint32_t>(float_to_q30(z)), // Z component
-        static_cast<uint32_t>(float_to_q30(w))  // W component
+        static_cast<uint32_t>(float_to_q30(Qx)), // X component
+        static_cast<uint32_t>(float_to_q30(Qy)), // Y component
+        static_cast<uint32_t>(float_to_q30(Qz)), // Z component
+        static_cast<uint32_t>(float_to_q30(Qw))  // W component
     };
 
     if(!write_frs(BNO08xFrsID::SYSTEM_ORIENTATION, orientation_raw, sizeof(orientation_raw)))
@@ -2013,7 +2023,15 @@ bool BNO08x::set_system_orientation(float w, float x, float y, float z)
     return true;
 }
 
-bool BNO08x::get_system_orientation(float& real, float& i, float& j, float& k)
+/**
+ * @brief Retrieves the system orientation of the BNO08x device and converts to float.
+ * 
+ * @param Qw Reference to save real component of mapping quaternion.
+ * @param Qx Reference to save X (i) component of mapping quaternion.
+ * @param Qy Reference to save Y (j) component of mapping quaternion.
+ * @param Qz Reference to save Z (k) component of mapping quaternion.
+ */
+bool BNO08x::get_system_orientation(float& Qw, float& Qx, float& Qy, float& Qz)
 {
     uint16_t words_rxd = 0U;
     uint32_t raw[16] = {0};
@@ -2022,12 +2040,19 @@ bool BNO08x::get_system_orientation(float& real, float& i, float& j, float& k)
         return false;
     
     if(words_rxd >= 4U)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "get_system_orientation(): Failed to retrieve at least 4dwords for sys orientation data, words_rxd: %d", words_rxd);
+        #endif
+        // clang-format off
         return false; 
+    }
 
-    i = q30_to_float((int32_t)raw[0]);
-    j = q30_to_float((int32_t)raw[1]);
-    k = q30_to_float((int32_t)raw[2]);
-    real = q30_to_float((int32_t)raw[3]);
+    Qx = q30_to_float((int32_t)raw[0]);
+    Qy = q30_to_float((int32_t)raw[1]);
+    Qz = q30_to_float((int32_t)raw[2]);
+    Qw = q30_to_float((int32_t)raw[3]);
 
     return true;
 }
