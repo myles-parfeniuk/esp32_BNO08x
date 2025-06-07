@@ -1,0 +1,4 @@
+<map id="BNO08xRptCalGyro" name="BNO08xRptCalGyro">
+<area shape="rect" id="node1" title="Class to represent calibrated gyro reports. (See Ref. Manual 6.5.13)" alt="" coords="5,80,155,107"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="31,5,129,32"/>
+</map>

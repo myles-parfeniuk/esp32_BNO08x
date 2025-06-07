@@ -1,0 +1,5 @@
+<map id="BNO08xRptCalMagnetometer::get" name="BNO08xRptCalMagnetometer::get">
+<area shape="rect" id="node1" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="5,31,248,57"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="304,5,507,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="296,56,515,83"/>
+</map>

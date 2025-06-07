@@ -1,0 +1,5 @@
+<map id="BNO08xRptRVGeneric::get_quat" name="BNO08xRptRVGeneric::get_quat">
+<area shape="rect" id="node1" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="268,39,433,80"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt_r_v_generic.html#abbaaa6737d578e056f93687d4ad780f7" title="Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads." alt="" coords="30,71,195,112"/>
+</map>

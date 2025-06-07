@@ -1,0 +1,5 @@
+<map id="BNO08xRptActivityClassifier" name="BNO08xRptActivityClassifier">
+<area shape="rect" id="node1" title="Class to represent activity classifier reports. (See Ref. Manual 6.5.36)" alt="" coords="5,185,212,212"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="60,109,157,136"/>
+<area shape="rect" id="node3" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="29,5,188,47"/>
+</map>

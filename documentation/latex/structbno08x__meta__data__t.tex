@@ -1,0 +1,275 @@
+\hypertarget{structbno08x__meta__data__t}{}\doxysection{bno08x\+\_\+meta\+\_\+data\+\_\+t Struct Reference}
+\label{structbno08x__meta__data__t}\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+
+
+Struct to represent sensor/report meta data, returned from \mbox{\hyperlink{class_b_n_o08x_rpt_ad5b054279b01204f61b4c0408acf51cf}{BNO08x\+Rpt\+::get\+\_\+meta\+\_\+data()}}  
+
+
+
+
+{\ttfamily \#include $<$BNO08x\+Global\+Types.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structbno08x__meta__data__t_a3e22f63db62812b5aeeb873553f378c4}{bno08x\+\_\+meta\+\_\+data\+\_\+t}} ()
+\item 
+\mbox{\hyperlink{structbno08x__meta__data__t_a549c5e42da7cf07c6ec28ce69548b1d8}{bno08x\+\_\+meta\+\_\+data\+\_\+t}} (const sh2\+\_\+\+Sensor\+Metadata\+\_\+t \&src)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structbno08x__meta__data__t_a51e1f028175bf00c880cc2dfd4e05412}{vendor\+\_\+\+ID}} \mbox{[}48\mbox{]}
+\begin{DoxyCompactList}\small\item\em Vendor name and part number. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a4134971e13a6242102facae308588072}{sensor\+\_\+specific}} \mbox{[}48\mbox{]}
+\begin{DoxyCompactList}\small\item\em See SH-\/2 Reference Manual. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a0efefbb8c4614bd3e81094f25909cc14}{vendor\+\_\+id\+\_\+len}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}bytes\mbox{]} \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_abaa4829463c424c9959d594027ce7ba2}{sensor\+\_\+specific\+\_\+len}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}bytes\mbox{]} \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a58edad7613b5b2c6e7afd0233106b09f}{range}}
+\begin{DoxyCompactList}\small\item\em Same units as sensor reports. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a7683b54fbe7ae8ec15b8f880d17a5a46}{resolution}}
+\begin{DoxyCompactList}\small\item\em Same units as sensor reports. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a5384c14c55c8f156ea18a0cc81a2e6fc}{min\+\_\+period\+\_\+us}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}uS\mbox{]} min period to use with enable\+\_\+report \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a3e4ff48e389db8b0643259f9af8c0006}{max\+\_\+period\+\_\+us}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}uS\mbox{]} max period to use with enable\+\_\+report \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a32f6c907d10794a2b64784c4bbe09723}{fifo\+\_\+reserved}}
+\begin{DoxyCompactList}\small\item\em (Unused) \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a94c6f70957ab28cde8d41fdbd2f39496}{fifo\+\_\+max}}
+\begin{DoxyCompactList}\small\item\em (Unused) \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_ac493692919e552ca32e6c87b4623ccd2}{batch\+\_\+buffer\+\_\+bytes}}
+\begin{DoxyCompactList}\small\item\em (Unused) \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a31816ac79605b829e7304973d61f7d98}{revision}}
+\begin{DoxyCompactList}\small\item\em Metadata record format revision. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_ac4297b1db8065c9ad38b6100abda92c1}{power\+\_\+mA}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}mA\mbox{]} Fixed point 16Q10 format \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a1e0a5907ac8d8dd0325cf8830aa5bd66}{q\+\_\+point\+\_\+1}}
+\begin{DoxyCompactList}\small\item\em q point for sensor values \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a09ad38c35e9cd63d4c333f851d5e01e7}{q\+\_\+point\+\_\+2}}
+\begin{DoxyCompactList}\small\item\em q point for accuracy or bias fields \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a29cb20721b8dda2c65c6b2b4dfad6551}{q\+\_\+point\+\_\+3}}
+\begin{DoxyCompactList}\small\item\em q point for sensor data change sensitivity \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a659afd22d089c9414ef865350c895d3e}{me\+\_\+version}}
+\begin{DoxyCompactList}\small\item\em Motion Engine Version. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a5883b0fdc28d754f3fff570ca29e3b3e}{mh\+\_\+version}}
+\begin{DoxyCompactList}\small\item\em Motion Hub Version. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{structbno08x__meta__data__t_a672da8b56be3269bae22c9e0e5424719}{sh\+\_\+version}}
+\begin{DoxyCompactList}\small\item\em Sensor\+Hub Version. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct to represent sensor/report meta data, returned from \mbox{\hyperlink{class_b_n_o08x_rpt_ad5b054279b01204f61b4c0408acf51cf}{BNO08x\+Rpt\+::get\+\_\+meta\+\_\+data()}} 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structbno08x__meta__data__t_a3e22f63db62812b5aeeb873553f378c4}\label{structbno08x__meta__data__t_a3e22f63db62812b5aeeb873553f378c4}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{bno08x\_meta\_data\_t()}{bno08x\_meta\_data\_t()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bno08x\+\_\+meta\+\_\+data\+\_\+t\+::bno08x\+\_\+meta\+\_\+data\+\_\+t (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a549c5e42da7cf07c6ec28ce69548b1d8}\label{structbno08x__meta__data__t_a549c5e42da7cf07c6ec28ce69548b1d8}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{bno08x\_meta\_data\_t()}{bno08x\_meta\_data\_t()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bno08x\+\_\+meta\+\_\+data\+\_\+t\+::bno08x\+\_\+meta\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{const sh2\+\_\+\+Sensor\+Metadata\+\_\+t \&}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structbno08x__meta__data__t_ac493692919e552ca32e6c87b4623ccd2}\label{structbno08x__meta__data__t_ac493692919e552ca32e6c87b4623ccd2}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!batch\_buffer\_bytes@{batch\_buffer\_bytes}}
+\index{batch\_buffer\_bytes@{batch\_buffer\_bytes}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{batch\_buffer\_bytes}{batch\_buffer\_bytes}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::batch\+\_\+buffer\+\_\+bytes}
+
+
+
+(Unused) 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a94c6f70957ab28cde8d41fdbd2f39496}\label{structbno08x__meta__data__t_a94c6f70957ab28cde8d41fdbd2f39496}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!fifo\_max@{fifo\_max}}
+\index{fifo\_max@{fifo\_max}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{fifo\_max}{fifo\_max}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::fifo\+\_\+max}
+
+
+
+(Unused) 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a32f6c907d10794a2b64784c4bbe09723}\label{structbno08x__meta__data__t_a32f6c907d10794a2b64784c4bbe09723}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!fifo\_reserved@{fifo\_reserved}}
+\index{fifo\_reserved@{fifo\_reserved}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{fifo\_reserved}{fifo\_reserved}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::fifo\+\_\+reserved}
+
+
+
+(Unused) 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a3e4ff48e389db8b0643259f9af8c0006}\label{structbno08x__meta__data__t_a3e4ff48e389db8b0643259f9af8c0006}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!max\_period\_us@{max\_period\_us}}
+\index{max\_period\_us@{max\_period\_us}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{max\_period\_us}{max\_period\_us}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::max\+\_\+period\+\_\+us}
+
+
+
+\mbox{[}uS\mbox{]} max period to use with enable\+\_\+report 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a659afd22d089c9414ef865350c895d3e}\label{structbno08x__meta__data__t_a659afd22d089c9414ef865350c895d3e}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!me\_version@{me\_version}}
+\index{me\_version@{me\_version}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{me\_version}{me\_version}}
+{\footnotesize\ttfamily uint8\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::me\+\_\+version}
+
+
+
+Motion Engine Version. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a5883b0fdc28d754f3fff570ca29e3b3e}\label{structbno08x__meta__data__t_a5883b0fdc28d754f3fff570ca29e3b3e}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!mh\_version@{mh\_version}}
+\index{mh\_version@{mh\_version}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{mh\_version}{mh\_version}}
+{\footnotesize\ttfamily uint8\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::mh\+\_\+version}
+
+
+
+Motion Hub Version. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a5384c14c55c8f156ea18a0cc81a2e6fc}\label{structbno08x__meta__data__t_a5384c14c55c8f156ea18a0cc81a2e6fc}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!min\_period\_us@{min\_period\_us}}
+\index{min\_period\_us@{min\_period\_us}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{min\_period\_us}{min\_period\_us}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::min\+\_\+period\+\_\+us}
+
+
+
+\mbox{[}uS\mbox{]} min period to use with enable\+\_\+report 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_ac4297b1db8065c9ad38b6100abda92c1}\label{structbno08x__meta__data__t_ac4297b1db8065c9ad38b6100abda92c1}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!power\_mA@{power\_mA}}
+\index{power\_mA@{power\_mA}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{power\_mA}{power\_mA}}
+{\footnotesize\ttfamily uint16\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::power\+\_\+mA}
+
+
+
+\mbox{[}mA\mbox{]} Fixed point 16Q10 format 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a1e0a5907ac8d8dd0325cf8830aa5bd66}\label{structbno08x__meta__data__t_a1e0a5907ac8d8dd0325cf8830aa5bd66}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!q\_point\_1@{q\_point\_1}}
+\index{q\_point\_1@{q\_point\_1}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{q\_point\_1}{q\_point\_1}}
+{\footnotesize\ttfamily uint16\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::q\+\_\+point\+\_\+1}
+
+
+
+q point for sensor values 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a09ad38c35e9cd63d4c333f851d5e01e7}\label{structbno08x__meta__data__t_a09ad38c35e9cd63d4c333f851d5e01e7}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!q\_point\_2@{q\_point\_2}}
+\index{q\_point\_2@{q\_point\_2}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{q\_point\_2}{q\_point\_2}}
+{\footnotesize\ttfamily uint16\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::q\+\_\+point\+\_\+2}
+
+
+
+q point for accuracy or bias fields 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a29cb20721b8dda2c65c6b2b4dfad6551}\label{structbno08x__meta__data__t_a29cb20721b8dda2c65c6b2b4dfad6551}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!q\_point\_3@{q\_point\_3}}
+\index{q\_point\_3@{q\_point\_3}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{q\_point\_3}{q\_point\_3}}
+{\footnotesize\ttfamily uint16\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::q\+\_\+point\+\_\+3}
+
+
+
+q point for sensor data change sensitivity 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a58edad7613b5b2c6e7afd0233106b09f}\label{structbno08x__meta__data__t_a58edad7613b5b2c6e7afd0233106b09f}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!range@{range}}
+\index{range@{range}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{range}{range}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::range}
+
+
+
+Same units as sensor reports. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a7683b54fbe7ae8ec15b8f880d17a5a46}\label{structbno08x__meta__data__t_a7683b54fbe7ae8ec15b8f880d17a5a46}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!resolution@{resolution}}
+\index{resolution@{resolution}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{resolution}{resolution}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::resolution}
+
+
+
+Same units as sensor reports. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a31816ac79605b829e7304973d61f7d98}\label{structbno08x__meta__data__t_a31816ac79605b829e7304973d61f7d98}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!revision@{revision}}
+\index{revision@{revision}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{revision}{revision}}
+{\footnotesize\ttfamily uint16\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::revision}
+
+
+
+Metadata record format revision. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a4134971e13a6242102facae308588072}\label{structbno08x__meta__data__t_a4134971e13a6242102facae308588072}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!sensor\_specific@{sensor\_specific}}
+\index{sensor\_specific@{sensor\_specific}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{sensor\_specific}{sensor\_specific}}
+{\footnotesize\ttfamily uint8\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::sensor\+\_\+specific\mbox{[}48\mbox{]}}
+
+
+
+See SH-\/2 Reference Manual. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_abaa4829463c424c9959d594027ce7ba2}\label{structbno08x__meta__data__t_abaa4829463c424c9959d594027ce7ba2}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!sensor\_specific\_len@{sensor\_specific\_len}}
+\index{sensor\_specific\_len@{sensor\_specific\_len}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{sensor\_specific\_len}{sensor\_specific\_len}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::sensor\+\_\+specific\+\_\+len}
+
+
+
+\mbox{[}bytes\mbox{]} 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a672da8b56be3269bae22c9e0e5424719}\label{structbno08x__meta__data__t_a672da8b56be3269bae22c9e0e5424719}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!sh\_version@{sh\_version}}
+\index{sh\_version@{sh\_version}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{sh\_version}{sh\_version}}
+{\footnotesize\ttfamily uint8\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::sh\+\_\+version}
+
+
+
+Sensor\+Hub Version. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a51e1f028175bf00c880cc2dfd4e05412}\label{structbno08x__meta__data__t_a51e1f028175bf00c880cc2dfd4e05412}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!vendor\_ID@{vendor\_ID}}
+\index{vendor\_ID@{vendor\_ID}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{vendor\_ID}{vendor\_ID}}
+{\footnotesize\ttfamily char bno08x\+\_\+meta\+\_\+data\+\_\+t\+::vendor\+\_\+\+ID\mbox{[}48\mbox{]}}
+
+
+
+Vendor name and part number. 
+
+\mbox{\Hypertarget{structbno08x__meta__data__t_a0efefbb8c4614bd3e81094f25909cc14}\label{structbno08x__meta__data__t_a0efefbb8c4614bd3e81094f25909cc14}} 
+\index{bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}!vendor\_id\_len@{vendor\_id\_len}}
+\index{vendor\_id\_len@{vendor\_id\_len}!bno08x\_meta\_data\_t@{bno08x\_meta\_data\_t}}
+\doxysubsubsection{\texorpdfstring{vendor\_id\_len}{vendor\_id\_len}}
+{\footnotesize\ttfamily uint32\+\_\+t bno08x\+\_\+meta\+\_\+data\+\_\+t\+::vendor\+\_\+id\+\_\+len}
+
+
+
+\mbox{[}bytes\mbox{]} 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/\mbox{\hyperlink{_b_n_o08x_global_types_8hpp}{BNO08x\+Global\+Types.\+hpp}}\end{DoxyCompactItemize}

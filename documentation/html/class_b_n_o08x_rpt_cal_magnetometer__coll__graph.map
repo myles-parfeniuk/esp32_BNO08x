@@ -1,0 +1,5 @@
+<map id="BNO08xRptCalMagnetometer" name="BNO08xRptCalMagnetometer">
+<area shape="rect" id="node1" title="Class to represent calibrated magnetometer reports. (See Ref. Manual 6.5.16)" alt="" coords="5,185,220,212"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="64,109,161,136"/>
+<area shape="rect" id="node3" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="33,5,192,47"/>
+</map>

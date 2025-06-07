@@ -1,0 +1,115 @@
+\hypertarget{class_b_n_o08x_rpt_acceleration}{}\doxysection{BNO08x\+Rpt\+Acceleration Class Reference}
+\label{class_b_n_o08x_rpt_acceleration}\index{BNO08xRptAcceleration@{BNO08xRptAcceleration}}
+
+
+Class to represent accelerometer reports. (See Ref. Manual 6.\+5.\+9)  
+
+
+
+
+{\ttfamily \#include $<$report/\+BNO08x\+Rpt\+Acceleration.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+Acceleration\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{class_b_n_o08x_rpt_acceleration__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+Acceleration\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{class_b_n_o08x_rpt_acceleration__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_acceleration_af3a06d4c127a5cebd136489ab5c673e2}{BNO08x\+Rpt\+Acceleration}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_acceleration_a8fde5eefac5f9d714263047426eeee4f}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg) override
+\begin{DoxyCompactList}\small\item\em Enables acceleration reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structbno08x__accel__t}{bno08x\+\_\+accel\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_acceleration_abac65bc939891f7a24b5a611de430328}{get}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most recent acceleration data (including gravity), units are in m/s$^\wedge$2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class to represent accelerometer reports. (See Ref. Manual 6.\+5.\+9) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_acceleration_af3a06d4c127a5cebd136489ab5c673e2}\label{class_b_n_o08x_rpt_acceleration_af3a06d4c127a5cebd136489ab5c673e2}} 
+\index{BNO08xRptAcceleration@{BNO08xRptAcceleration}!BNO08xRptAcceleration@{BNO08xRptAcceleration}}
+\index{BNO08xRptAcceleration@{BNO08xRptAcceleration}!BNO08xRptAcceleration@{BNO08xRptAcceleration}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptAcceleration()}{BNO08xRptAcceleration()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+Acceleration\+::\+BNO08x\+Rpt\+Acceleration (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_acceleration_a8fde5eefac5f9d714263047426eeee4f}\label{class_b_n_o08x_rpt_acceleration_a8fde5eefac5f9d714263047426eeee4f}} 
+\index{BNO08xRptAcceleration@{BNO08xRptAcceleration}!enable@{enable}}
+\index{enable@{enable}!BNO08xRptAcceleration@{BNO08xRptAcceleration}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Acceleration\+::enable (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{sh2\+\_\+\+Sensor\+Config\+\_\+t}]{sensor\+\_\+cfg = {\ttfamily BNO08xPrivateTypes\+:\+:default\+\_\+sensor\+\_\+cfg} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Enables acceleration reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+period\+\_\+us} & The period/interval of the report in microseconds. \\
+\hline
+{\em sensor\+\_\+cfg} & Sensor special configuration (optional, see BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg for defaults).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if report was successfully enabled. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_b_n_o08x_rpt_a4ee529725467412df396d5c610ff7bb4}{BNO08x\+Rpt}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_acceleration_a8fde5eefac5f9d714263047426eeee4f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_acceleration_abac65bc939891f7a24b5a611de430328}\label{class_b_n_o08x_rpt_acceleration_abac65bc939891f7a24b5a611de430328}} 
+\index{BNO08xRptAcceleration@{BNO08xRptAcceleration}!get@{get}}
+\index{get@{get}!BNO08xRptAcceleration@{BNO08xRptAcceleration}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__accel__t}{bno08x\+\_\+accel\+\_\+t}} BNO08x\+Rpt\+Acceleration\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent acceleration data (including gravity), units are in m/s$^\wedge$2. 
+
+\begin{DoxyReturn}{Returns}
+Struct containing requested data. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_acceleration_abac65bc939891f7a24b5a611de430328_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/report/\mbox{\hyperlink{_b_n_o08x_rpt_acceleration_8hpp}{BNO08x\+Rpt\+Acceleration.\+hpp}}\item 
+report/\mbox{\hyperlink{_b_n_o08x_rpt_acceleration_8cpp}{BNO08x\+Rpt\+Acceleration.\+cpp}}\end{DoxyCompactItemize}

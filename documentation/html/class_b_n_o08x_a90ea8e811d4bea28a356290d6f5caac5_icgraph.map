@@ -1,0 +1,4 @@
+<map id="BNO08x::dynamic_calibration_enable" name="BNO08x::dynamic_calibration_enable">
+<area shape="rect" id="node1" title="Starts simple calibration, see ref. manual 6.4.10.1." alt="" coords="268,5,483,47"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
+</map>

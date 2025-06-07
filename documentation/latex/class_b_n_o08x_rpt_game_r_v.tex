@@ -1,0 +1,136 @@
+\hypertarget{class_b_n_o08x_rpt_game_r_v}{}\doxysection{BNO08x\+Rpt\+Game\+RV Class Reference}
+\label{class_b_n_o08x_rpt_game_r_v}\index{BNO08xRptGameRV@{BNO08xRptGameRV}}
+
+
+Class to represent game rotation vector reports. (See Ref. Manual 6.\+5.\+19)  
+
+
+
+
+{\ttfamily \#include $<$report/\+BNO08x\+Rpt\+Game\+RV.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+Game\+RV\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{class_b_n_o08x_rpt_game_r_v__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+Game\+RV\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{class_b_n_o08x_rpt_game_r_v__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a5ce3525ae691ef37dff5c8d638e98e18}{BNO08x\+Rpt\+Game\+RV}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2}{tare}} (bool x=true, bool y=true, bool z=true)
+\begin{DoxyCompactList}\small\item\em Tares game rotation vector axis. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06}{tare\+\_\+persist}} ()
+\begin{DoxyCompactList}\small\item\em Saves most recent tare operation to \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} internal flash, such that it persists on reset. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f}{tare\+\_\+clear}} ()
+\begin{DoxyCompactList}\small\item\em Clears most recent tare operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class to represent game rotation vector reports. (See Ref. Manual 6.\+5.\+19) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_game_r_v_a5ce3525ae691ef37dff5c8d638e98e18}\label{class_b_n_o08x_rpt_game_r_v_a5ce3525ae691ef37dff5c8d638e98e18}} 
+\index{BNO08xRptGameRV@{BNO08xRptGameRV}!BNO08xRptGameRV@{BNO08xRptGameRV}}
+\index{BNO08xRptGameRV@{BNO08xRptGameRV}!BNO08xRptGameRV@{BNO08xRptGameRV}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptGameRV()}{BNO08xRptGameRV()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+Game\+RV\+::\+BNO08x\+Rpt\+Game\+RV (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2}\label{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2}} 
+\index{BNO08xRptGameRV@{BNO08xRptGameRV}!tare@{tare}}
+\index{tare@{tare}!BNO08xRptGameRV@{BNO08xRptGameRV}}
+\doxysubsubsection{\texorpdfstring{tare()}{tare()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Game\+RV\+::tare (\begin{DoxyParamCaption}\item[{bool}]{x = {\ttfamily true},  }\item[{bool}]{y = {\ttfamily true},  }\item[{bool}]{z = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Tares game rotation vector axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & If true tare x axis (optional, default true). \\
+\hline
+{\em y} & If true tare y axis (optional, default true). \\
+\hline
+{\em z} & If true tare z axis (optional, default true).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if tare operation succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f}\label{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f}} 
+\index{BNO08xRptGameRV@{BNO08xRptGameRV}!tare\_clear@{tare\_clear}}
+\index{tare\_clear@{tare\_clear}!BNO08xRptGameRV@{BNO08xRptGameRV}}
+\doxysubsubsection{\texorpdfstring{tare\_clear()}{tare\_clear()}}
+{\footnotesize\ttfamily void BNO08x\+Rpt\+Game\+RV\+::tare\+\_\+clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Clears most recent tare operation. 
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06}\label{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06}} 
+\index{BNO08xRptGameRV@{BNO08xRptGameRV}!tare\_persist@{tare\_persist}}
+\index{tare\_persist@{tare\_persist}!BNO08xRptGameRV@{BNO08xRptGameRV}}
+\doxysubsubsection{\texorpdfstring{tare\_persist()}{tare\_persist()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Game\+RV\+::tare\+\_\+persist (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Saves most recent tare operation to \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} internal flash, such that it persists on reset. 
+
+\begin{DoxyReturn}{Returns}
+True if tare operation succeeded. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/report/\mbox{\hyperlink{_b_n_o08x_rpt_game_r_v_8hpp}{BNO08x\+Rpt\+Game\+RV.\+hpp}}\item 
+report/\mbox{\hyperlink{_b_n_o08x_rpt_game_r_v_8cpp}{BNO08x\+Rpt\+Game\+RV.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,5 @@
+<map id="BNO08x::get_frs" name="BNO08x::get_frs">
+<area shape="rect" id="node1" title="Retrieves a record from flash record system (if your goal is to retrieve sensor specific meta data us..." alt="" coords="428,13,556,39"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#ad42c335827c7b09cd2e4ff303a0d3520" title="Retrieves the system orientation of the BNO08x device and converts to float." alt="" coords="221,5,380,47"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x.html#aae4512fa4768becf0e3919a0e0ec34d8" title="Retrieves and prints system orientation." alt="" coords="5,5,173,47"/>
+</map>

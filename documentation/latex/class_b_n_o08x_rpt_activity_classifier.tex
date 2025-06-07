@@ -1,0 +1,158 @@
+\hypertarget{class_b_n_o08x_rpt_activity_classifier}{}\doxysection{BNO08x\+Rpt\+Activity\+Classifier Class Reference}
+\label{class_b_n_o08x_rpt_activity_classifier}\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+
+
+Class to represent activity classifier reports. (See Ref. Manual 6.\+5.\+36)  
+
+
+
+
+{\ttfamily \#include $<$report/\+BNO08x\+Rpt\+Activity\+Classifier.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+Activity\+Classifier\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{class_b_n_o08x_rpt_activity_classifier__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+Activity\+Classifier\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{class_b_n_o08x_rpt_activity_classifier__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}{BNO08x\+Rpt\+Activity\+Classifier}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg) override
+\begin{DoxyCompactList}\small\item\em Enables activity classifier reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}{get}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most recent activity classifier data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a43d66cdccf17ba0cddcdddc72d4fb97d}{BNO08x\+Activity}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}{get\+\_\+most\+\_\+likely\+\_\+activity}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most the most likely activity from most recent activity classifier data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_adb51886e94e91d114246c51919fd368b}{set\+\_\+activities\+\_\+to\+\_\+enable}} (\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a64f4487da0833d5304046093935f5d3a}{BNO08x\+Activity\+Enable}} activities\+\_\+to\+\_\+enable)
+\begin{DoxyCompactList}\small\item\em Sets the activities to be monitored for with Activity\+Classifier reports, all enable after setting. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class to represent activity classifier reports. (See Ref. Manual 6.\+5.\+36) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}\label{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptActivityClassifier()}{BNO08xRptActivityClassifier()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+Activity\+Classifier\+::\+BNO08x\+Rpt\+Activity\+Classifier (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823}\label{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823}} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!enable@{enable}}
+\index{enable@{enable}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Activity\+Classifier\+::enable (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{sh2\+\_\+\+Sensor\+Config\+\_\+t}]{sensor\+\_\+cfg = {\ttfamily BNO08xPrivateTypes\+:\+:default\+\_\+sensor\+\_\+cfg} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Enables activity classifier reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+period\+\_\+us} & The period/interval of the report in microseconds. \\
+\hline
+{\em sensor\+\_\+cfg} & Sensor special configuration (optional, see BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg for defaults).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if report was successfully enabled. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_b_n_o08x_rpt_a4ee529725467412df396d5c610ff7bb4}{BNO08x\+Rpt}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}\label{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!get@{get}}
+\index{get@{get}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\+\_\+activity\+\_\+classifier\+\_\+t}} BNO08x\+Rpt\+Activity\+Classifier\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent activity classifier data. 
+
+\begin{DoxyReturn}{Returns}
+Struct containing requested data. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}\label{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!get\_most\_likely\_activity@{get\_most\_likely\_activity}}
+\index{get\_most\_likely\_activity@{get\_most\_likely\_activity}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_most\_likely\_activity()}{get\_most\_likely\_activity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a43d66cdccf17ba0cddcdddc72d4fb97d}{BNO08x\+Activity}} BNO08x\+Rpt\+Activity\+Classifier\+::get\+\_\+most\+\_\+likely\+\_\+activity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most the most likely activity from most recent activity classifier data. 
+
+\begin{DoxyReturn}{Returns}
+BNO08x\+Activity object with detected state. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_activity_classifier_adb51886e94e91d114246c51919fd368b}\label{class_b_n_o08x_rpt_activity_classifier_adb51886e94e91d114246c51919fd368b}} 
+\index{BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}!set\_activities\_to\_enable@{set\_activities\_to\_enable}}
+\index{set\_activities\_to\_enable@{set\_activities\_to\_enable}!BNO08xRptActivityClassifier@{BNO08xRptActivityClassifier}}
+\doxysubsubsection{\texorpdfstring{set\_activities\_to\_enable()}{set\_activities\_to\_enable()}}
+{\footnotesize\ttfamily void BNO08x\+Rpt\+Activity\+Classifier\+::set\+\_\+activities\+\_\+to\+\_\+enable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a64f4487da0833d5304046093935f5d3a}{BNO08x\+Activity\+Enable}}}]{activities\+\_\+to\+\_\+enable }\end{DoxyParamCaption})}
+
+
+
+Sets the activities to be monitored for with Activity\+Classifier reports, all enable after setting. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em activities\+\_\+to\+\_\+enable} & The activities to be monitored with sent reports.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/report/\mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8hpp}{BNO08x\+Rpt\+Activity\+Classifier.\+hpp}}\item 
+report/\mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8cpp}{BNO08x\+Rpt\+Activity\+Classifier.\+cpp}}\end{DoxyCompactItemize}

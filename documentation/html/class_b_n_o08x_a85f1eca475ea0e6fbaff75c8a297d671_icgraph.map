@@ -1,0 +1,4 @@
+<map id="BNO08x::dynamic_calibration_save" name="BNO08x::dynamic_calibration_save">
+<area shape="rect" id="node1" title="Saves dynamic/motion engine calibration data to BNO08x internal flash immediately...." alt="" coords="268,13,521,39"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
+</map>

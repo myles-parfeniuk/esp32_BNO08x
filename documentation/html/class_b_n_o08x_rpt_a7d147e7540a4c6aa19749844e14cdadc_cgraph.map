@@ -1,0 +1,7 @@
+<map id="BNO08xRpt::disable" name="BNO08xRpt::disable">
+<area shape="rect" id="node1" title="Disables a sensor report by setting its period to 0us such that the BNO08x stops sending it." alt="" coords="5,81,157,108"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="217,5,412,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="213,56,416,83"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="209,107,420,133"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="205,157,424,184"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="BNO08xRptRVGeneric" name="BNO08xRptRVGeneric">
+<area shape="rect" id="node1" title="Class to represent rotation vector reports." alt="" coords="151,132,316,159"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.43)" alt="" coords="364,5,619,32"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.42)" alt="" coords="384,56,599,83"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x_rpt_game_r_v.html" title="Class to represent game rotation vector reports. (See Ref. Manual 6.5.19)" alt="" coords="414,107,569,133"/>
+<area shape="rect" id="node6" href="$class_b_n_o08x_rpt_i_gyro_r_v.html" title="Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.5.44)" alt="" coords="416,157,567,184"/>
+<area shape="rect" id="node7" href="$class_b_n_o08x_rpt_r_v.html" title="Class to represent rotation vector reports. (See Ref. Manual 6.5.18)" alt="" coords="434,208,549,235"/>
+<area shape="rect" id="node8" href="$class_b_n_o08x_rpt_r_v_geomag.html" title="Class to represent geomagnetic rotation vector reports. (See Ref. Manual 6.5.20)" alt="" coords="406,259,577,285"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="5,132,103,159"/>
+</map>

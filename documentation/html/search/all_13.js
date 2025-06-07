@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['tag_0',['TAG',['../class_b_n_o08x_rpt_r_v_generic.html#a5315a83517cd15397842254a9926b1c4',1,'BNO08xRptRVGeneric::TAG()'],['../class_b_n_o08x_rpt.html#a2c57f370fb08b793bb10ec22d5acca45',1,'BNO08xRpt::TAG()']]],
+  ['tap_5fdetect_5fconfig_1',['TAP_DETECT_CONFIG',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8ea94ada7efc076c96b78bcb052d4f22ca2',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fdouble_2',['TAP_DETECTED_DOUBLE',['../_b_n_o08x_global_types_8hpp.html#a92a577e216f51fc6156a87e6ecf8ffc5',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fx_5faxis_3',['TAP_DETECTED_X_AXIS',['../_b_n_o08x_global_types_8hpp.html#ad0dc59e3a74a39a8e358c945162f6fc8',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fx_5faxis_5fpositive_4',['TAP_DETECTED_X_AXIS_POSITIVE',['../_b_n_o08x_global_types_8hpp.html#a8a8a0fbcff17f5123ad111fcd9a375ea',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fy_5faxis_5',['TAP_DETECTED_Y_AXIS',['../_b_n_o08x_global_types_8hpp.html#ad2ab2bbe6f01a4a641f75c41a9064cf6',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fy_5faxis_5fpositive_6',['TAP_DETECTED_Y_AXIS_POSITIVE',['../_b_n_o08x_global_types_8hpp.html#a356ec3a53c785965e8dd24381a3bdcd7',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fz_5faxis_7',['TAP_DETECTED_Z_AXIS',['../_b_n_o08x_global_types_8hpp.html#aaaf91ed835d5d1a5726806bb147c5938',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetected_5fz_5faxis_5fpositive_8',['TAP_DETECTED_Z_AXIS_POSITIVE',['../_b_n_o08x_global_types_8hpp.html#a6fd0bd9f4990ced262a8f2d4c41d65d9',1,'BNO08xGlobalTypes.hpp']]],
+  ['tap_5fdetector_9',['tap_detector',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a0cabee7da991a7399d607373f09548a7',1,'BNO08x::bno08x_reports_t']]],
+  ['tare_10',['tare',['../class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874',1,'BNO08xRptRVGeomag::tare()'],['../class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd',1,'BNO08xRptRVGeneric::tare()'],['../class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226',1,'BNO08xRptRV::tare()'],['../class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2',1,'BNO08xRptGameRV::tare()']]],
+  ['tare_5fclear_11',['tare_clear',['../class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062',1,'BNO08xRptRVGeomag::tare_clear()'],['../class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87',1,'BNO08xRptRV::tare_clear()'],['../class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f',1,'BNO08xRptGameRV::tare_clear()']]],
+  ['tare_5fpersist_12',['tare_persist',['../class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06',1,'BNO08xRptGameRV::tare_persist()'],['../class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0',1,'BNO08xRptRV::tare_persist()'],['../class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63',1,'BNO08xRptRVGeomag::tare_persist()']]],
+  ['temperature_13',['temperature',['../structbno08x__raw__gyro__t.html#adf725827f6f97e16c953f6f5c7bf890b',1,'bno08x_raw_gyro_t']]],
+  ['tilt_5fdetector_5fconfig_14',['TILT_DETECTOR_CONFIG',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8ea6590d7f1041f103cdaab64cd06e0db37',1,'BNO08xGlobalTypes.hpp']]],
+  ['tilting_15',['TILTING',['../_b_n_o08x_global_types_8hpp.html#a64f4487da0833d5304046093935f5d3aa69909b62e08f212da31719aebf67b70c',1,'TILTING():&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#a43d66cdccf17ba0cddcdddc72d4fb97da69909b62e08f212da31719aebf67b70c',1,'TILTING():&#160;BNO08xGlobalTypes.hpp']]],
+  ['timestamp_5fus_16',['timestamp_us',['../structbno08x__raw__magf__t.html#a74cb298f230665c2d600d3298717c321',1,'bno08x_raw_magf_t::timestamp_us()'],['../structbno08x__raw__accel__t.html#a7ca16a89f219b199eb5797fd101d1283',1,'bno08x_raw_accel_t::timestamp_us()'],['../structbno08x__raw__gyro__t.html#a99d61a4d56a06fb219dc023fe3e446b5',1,'bno08x_raw_gyro_t::timestamp_us()']]]
+];

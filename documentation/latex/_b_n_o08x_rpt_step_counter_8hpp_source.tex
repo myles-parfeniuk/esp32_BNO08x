@@ -1,0 +1,31 @@
+\hypertarget{_b_n_o08x_rpt_step_counter_8hpp_source}{}\doxysection{BNO08x\+Rpt\+Step\+Counter.\+hpp}
+\label{_b_n_o08x_rpt_step_counter_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptStepCounter.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptStepCounter.hpp}}
+\mbox{\hyperlink{_b_n_o08x_rpt_step_counter_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_rpt_step_counter}{BNO08xRptStepCounter}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{18         \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_a0a85682a68010aa66ddb2ccc337263a0}{BNO08xRptStepCounter}}(uint8\_t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, EventBits\_t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}* \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{19             : \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{20         \{}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_adf0a697561b064a7dd90a44009efbcf1}{enable}}(}
+\DoxyCodeLine{24                 uint32\_t time\_between\_reports, sh2\_SensorConfig\_t sensor\_cfg = BNO08xPrivateTypes::default\_sensor\_cfg) \textcolor{keyword}{override};}
+\DoxyCodeLine{25         \mbox{\hyperlink{structbno08x__step__counter__t}{bno08x\_step\_counter\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_affe413eea0483147578e58a1a9c5cd8f}{get}}();}
+\DoxyCodeLine{26         uint32\_t \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_a017b389771b4d8816b4cfd06c6d9184a}{get\_total\_steps}}();}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28     \textcolor{keyword}{private}:}
+\DoxyCodeLine{29         \textcolor{keywordtype}{void} update\_data(sh2\_SensorValue\_t* sensor\_val) \textcolor{keyword}{override};}
+\DoxyCodeLine{30         \mbox{\hyperlink{structbno08x__step__counter__t}{bno08x\_step\_counter\_t}} data; }
+\DoxyCodeLine{31         uint32\_t step\_accumulator =}
+\DoxyCodeLine{32                 0UL; }
+\DoxyCodeLine{33         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* TAG = \textcolor{stringliteral}{"{}BNO08xRptStepCounter"{}};}
+\DoxyCodeLine{34 \};}
+
+\end{DoxyCode}

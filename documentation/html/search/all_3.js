@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['data_0',['data',['../class_b_n_o08x_rpt_r_v_generic.html#ad5174665e1c943291110630dc461caff',1,'BNO08xRptRVGeneric']]],
+  ['data_5favailable_1',['data_available',['../class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc',1,'BNO08x']]],
+  ['data_5flock_2',['data_lock',['../struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html#a551d1eb66d239c54cffa96b558e40a15',1,'BNO08xPrivateTypes::bno08x_sync_ctx_t']]],
+  ['data_5fproc_5ftask_3',['data_proc_task',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#af303bcbae7a635043e0c082d7869dd40',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
+  ['destroy_5ftest_5fimu_4',['destroy_test_imu',['../class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40',1,'BNO08xTestHelper']]],
+  ['disable_5',['disable',['../class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc',1,'BNO08xRpt']]],
+  ['disable_5fall_5freports_6',['disable_all_reports',['../class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6',1,'BNO08x']]],
+  ['double_5ftap_7',['double_tap',['../structbno08x__tap__detector__t.html#aef875a8e6ff23b29cb9fb73af48db11a',1,'bno08x_tap_detector_t']]],
+  ['dynamic_5fcalibration_8',['DYNAMIC_CALIBRATION',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8eac843f0dc477c2043015db473c2bbf8b7',1,'BNO08xGlobalTypes.hpp']]],
+  ['dynamic_5fcalibration_5fautosave_5fdisable_9',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fautosave_5fenable_10',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fdata_5fclear_5fram_11',['dynamic_calibration_data_clear_ram',['../class_b_n_o08x.html#a441681a5133b1a125b534925c9bc10f9',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fdata_5fdelete_12',['dynamic_calibration_data_delete',['../class_b_n_o08x.html#a65a7175b6f6ad6ce687e4fd4cd4bc396',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fdisable_13',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fenable_14',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5frun_5froutine_15',['dynamic_calibration_run_routine',['../class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276',1,'BNO08x']]],
+  ['dynamic_5fcalibration_5fsave_16',['dynamic_calibration_save',['../class_b_n_o08x.html#a85f1eca475ea0e6fbaff75c8a297d671',1,'BNO08x']]]
+];

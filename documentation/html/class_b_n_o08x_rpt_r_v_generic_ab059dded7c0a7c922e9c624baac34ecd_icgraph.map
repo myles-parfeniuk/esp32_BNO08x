@@ -1,0 +1,6 @@
+<map id="BNO08xRptRVGeneric::tare" name="BNO08xRptRVGeneric::tare">
+<area shape="rect" id="node1" title="Tares vector basis according to axis flags." alt="" coords="257,49,423,90"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="14,5,201,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="33,56,181,83"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="5,107,209,133"/>
+</map>

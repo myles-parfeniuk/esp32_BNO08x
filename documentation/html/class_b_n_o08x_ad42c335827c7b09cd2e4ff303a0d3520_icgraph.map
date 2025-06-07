@@ -1,0 +1,4 @@
+<map id="BNO08x::get_system_orientation" name="BNO08x::get_system_orientation">
+<area shape="rect" id="node1" title="Retrieves the system orientation of the BNO08x device and converts to float." alt="" coords="221,5,380,47"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#aae4512fa4768becf0e3919a0e0ec34d8" title="Retrieves and prints system orientation." alt="" coords="5,5,173,47"/>
+</map>

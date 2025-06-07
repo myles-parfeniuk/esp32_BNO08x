@@ -1,0 +1,19 @@
+<map id="BNO08x::dynamic_calibration_run_routine" name="BNO08x::dynamic_calibration_run_routine">
+<area shape="rect" id="node1" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,297,220,338"/>
+<area shape="rect" id="node2" href="$_b_n_o08x_global_types_8hpp.html#abb500e98b07c687d37e8ac0548a02e05" title=" " alt="" coords="305,5,484,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc" title="Polls for new data/report to become available." alt="" coords="305,56,484,83"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6" title="Disables all currently enabled reports." alt="" coords="318,107,471,149"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95" title="Disables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6...." alt="" coords="287,173,502,214"/>
+<area shape="rect" id="node6" href="$class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5" title="Starts simple calibration, see ref. manual 6.4.10.1." alt="" coords="287,238,502,279"/>
+<area shape="rect" id="node7" href="$class_b_n_o08x.html#a85f1eca475ea0e6fbaff75c8a297d671" title="Saves dynamic/motion engine calibration data to BNO08x internal flash immediately...." alt="" coords="268,304,521,331"/>
+<area shape="rect" id="node8" href="$class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="287,421,502,462"/>
+<area shape="rect" id="node14" href="$class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e" title="Enables a rotation vector report such that the BNO08x begins it." alt="" coords="312,355,477,397"/>
+<area shape="rect" id="node15" href="$class_b_n_o08x_rpt_cal_magnetometer.html#a9a07338f7c149aa3d45d2c4f846620e2" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="569,541,812,568"/>
+<area shape="rect" id="node16" href="$class_b_n_o08x_rpt_r_v_generic.html#afc2accdd72076cd758f9f9108351d7a8" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="608,475,773,517"/>
+<area shape="rect" id="node17" href="$class_b_n_o08x_rpt.html#a74f6037286b51382535bab61680297ed" title="Checks if a new report has been received since the last time this function was called." alt="" coords="295,588,494,615"/>
+<area shape="rect" id="node9" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="603,424,778,451"/>
+<area shape="rect" id="node10" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="872,376,1067,403"/>
+<area shape="rect" id="node11" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="868,481,1071,508"/>
+<area shape="rect" id="node12" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="864,427,1075,453"/>
+<area shape="rect" id="node13" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="860,532,1079,559"/>
+</map>

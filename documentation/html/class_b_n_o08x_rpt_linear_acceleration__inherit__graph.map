@@ -1,0 +1,4 @@
+<map id="BNO08xRptLinearAcceleration" name="BNO08xRptLinearAcceleration">
+<area shape="rect" id="node1" title="Class to represent linear accelerometer reports. (See Ref. Manual 6.5.10)" alt="" coords="5,80,224,107"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="66,5,163,32"/>
+</map>

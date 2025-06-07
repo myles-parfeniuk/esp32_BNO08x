@@ -1,0 +1,5 @@
+<map id="BNO08xRptGravity" name="BNO08xRptGravity">
+<area shape="rect" id="node1" title="Class to represent gravity reports. (See Ref. Manual 6.5.11)" alt="" coords="12,185,157,212"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="36,109,133,136"/>
+<area shape="rect" id="node3" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,164,47"/>
+</map>

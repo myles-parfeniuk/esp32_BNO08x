@@ -1,0 +1,133 @@
+\hypertarget{_b_n_o08x_private_types_8hpp_source}{}\doxysection{BNO08x\+Private\+Types.\+hpp}
+\label{_b_n_o08x_private_types_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xPrivateTypes.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xPrivateTypes.hpp}}
+\mbox{\hyperlink{_b_n_o08x_private_types_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{comment}{// etl includes}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <etl/vector.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <etl/variant.h>}}
+\DoxyCodeLine{11 \textcolor{comment}{// esp-\/idf includes}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <freertos/FreeRTOS.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <freertos/semphr.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <freertos/event\_groups.h>}}
+\DoxyCodeLine{15 \textcolor{comment}{// in-\/house includes}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_global_types_8hpp}{BNO08xGlobalTypes.hpp}}"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_cb_param_rpt_i_d_8hpp}{BNO08xCbParamRptID.hpp}}"{}}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_cb_param_void_8hpp}{BNO08xCbParamVoid.hpp}}"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_b_n_o08x_private_types}{BNO08xPrivateTypes}}}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22     \textcolor{keyword}{using }\mbox{\hyperlink{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}{bno08x\_cb\_list\_t}} = etl::vector<etl::variant<BNO08xCbParamVoid, BNO08xCbParamRptID>,}
+\DoxyCodeLine{23             CONFIG\_ESP32\_BNO08X\_CB\_MAX>; }
+\DoxyCodeLine{24 }
+\DoxyCodeLine{27     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{bno08x\_init\_status\_t}}}
+\DoxyCodeLine{28     \{}
+\DoxyCodeLine{29             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ac74b5a17ec13d4bef4e4775f20ed68df}{gpio\_outputs}};         }
+\DoxyCodeLine{30             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a9b87a879ec795e2241985f0d33856c14}{gpio\_inputs}};          }
+\DoxyCodeLine{31             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a3cec063b6210ec58d30b3bd1d4ead4f9}{isr\_service}};          }
+\DoxyCodeLine{32             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a7c4523e02a434a7be73f5dc5314429bd}{isr\_handler}};          }
+\DoxyCodeLine{33             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a8780317bf985194a58d4b0457d518adf}{spi\_bus}};              }
+\DoxyCodeLine{34             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ab268642c4b6b9fc1eb7c6ceec0e8e64d}{spi\_device}};           }
+\DoxyCodeLine{35             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_af303bcbae7a635043e0c082d7869dd40}{data\_proc\_task}};       }
+\DoxyCodeLine{36             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a150665b9f07eea167dd61aa9701d0e66}{sh2\_HAL\_service\_task}}; }
+\DoxyCodeLine{37             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ae1066ea59e52f7d228b71df1f8c2b416}{cb\_task}};              }
+\DoxyCodeLine{38             \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a5094148539354e52e4f7b054ba766bce}{sh2\_HAL}};              }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40             \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a63b876667ae7fb32e9861dffafb55a64}{bno08x\_init\_status\_t}}()}
+\DoxyCodeLine{41                 : \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ac74b5a17ec13d4bef4e4775f20ed68df}{gpio\_outputs}}(false)}
+\DoxyCodeLine{42                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a9b87a879ec795e2241985f0d33856c14}{gpio\_inputs}}(false)}
+\DoxyCodeLine{43                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a3cec063b6210ec58d30b3bd1d4ead4f9}{isr\_service}}(false)}
+\DoxyCodeLine{44                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a7c4523e02a434a7be73f5dc5314429bd}{isr\_handler}}(false)}
+\DoxyCodeLine{45                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a8780317bf985194a58d4b0457d518adf}{spi\_bus}}(false)}
+\DoxyCodeLine{46                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ab268642c4b6b9fc1eb7c6ceec0e8e64d}{spi\_device}}(false)}
+\DoxyCodeLine{47                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_af303bcbae7a635043e0c082d7869dd40}{data\_proc\_task}}(false)}
+\DoxyCodeLine{48                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a150665b9f07eea167dd61aa9701d0e66}{sh2\_HAL\_service\_task}}(false)}
+\DoxyCodeLine{49                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_ae1066ea59e52f7d228b71df1f8c2b416}{cb\_task}}(false)}
+\DoxyCodeLine{50                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t_a5094148539354e52e4f7b054ba766bce}{sh2\_HAL}}(false)}
+\DoxyCodeLine{51             \{}
+\DoxyCodeLine{52             \}}
+\DoxyCodeLine{53     \} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}{bno08x\_init\_status\_t}};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{56     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{bno08x\_sync\_ctx\_t}}}
+\DoxyCodeLine{57     \{}
+\DoxyCodeLine{58             SemaphoreHandle\_t \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a5433c33ca93bfd2be4a7575ddff7a8d9}{sh2\_HAL\_lock}}; }
+\DoxyCodeLine{59             SemaphoreHandle\_t}
+\DoxyCodeLine{60                     \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a551d1eb66d239c54cffa96b558e40a15}{data\_lock}}; }
+\DoxyCodeLine{61             EventGroupHandle\_t \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_aeaeeb8fa04544f63b66c32f3adbb0041}{evt\_grp\_rpt\_en}}; }
+\DoxyCodeLine{62             EventGroupHandle\_t}
+\DoxyCodeLine{63                     \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a13f4a91c74fbf09059b5b136ed4f09ac}{evt\_grp\_rpt\_data\_available}}; }
+\DoxyCodeLine{64             EventGroupHandle\_t \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_aacddf6425d126d8e854eff620a2dbec0}{evt\_grp\_task}}; }
+\DoxyCodeLine{65             etl::vector<uint8\_t, TOTAL\_RPT\_COUNT> \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_aa63f0d6aa9a27e2f6cdbef17c42c3289}{en\_report\_ids}}; }
+\DoxyCodeLine{66             \mbox{\hyperlink{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}{bno08x\_cb\_list\_t}} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_ad38bf7a37a5c9cae7c9d8725b23ff365}{cb\_list}};                            }
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68             \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a3f9cea8f40f89200c93f2a4bf09039ac}{bno08x\_sync\_ctx\_t}}()}
+\DoxyCodeLine{69                 : \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a5433c33ca93bfd2be4a7575ddff7a8d9}{sh2\_HAL\_lock}}(xSemaphoreCreateMutex())}
+\DoxyCodeLine{70                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a551d1eb66d239c54cffa96b558e40a15}{data\_lock}}(xSemaphoreCreateMutex())}
+\DoxyCodeLine{71                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_aeaeeb8fa04544f63b66c32f3adbb0041}{evt\_grp\_rpt\_en}}(xEventGroupCreate())}
+\DoxyCodeLine{72                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_a13f4a91c74fbf09059b5b136ed4f09ac}{evt\_grp\_rpt\_data\_available}}(xEventGroupCreate())}
+\DoxyCodeLine{73                 , \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t_aacddf6425d126d8e854eff620a2dbec0}{evt\_grp\_task}}(xEventGroupCreate())}
+\DoxyCodeLine{74             \{}
+\DoxyCodeLine{75             \}}
+\DoxyCodeLine{76     \} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}{bno08x\_sync\_ctx\_t}};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{79     \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}{bno08x\_rpt\_bit\_t}} : EventBits\_t}
+\DoxyCodeLine{80     \{}
+\DoxyCodeLine{81         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8}{EVT\_GRP\_RPT\_RV\_BIT}} = (1UL << 0U),                 }
+\DoxyCodeLine{82         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd}{EVT\_GRP\_RPT\_RV\_GAME\_BIT}} = (1UL << 1U),            }
+\DoxyCodeLine{83         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5}{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}} = (1UL << 2U),          }
+\DoxyCodeLine{84         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca}{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}} = (1UL << 3U),     }
+\DoxyCodeLine{85         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7}{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}} = (1UL << 4U), }
+\DoxyCodeLine{86         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4}{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}} = (1UL << 5U),          }
+\DoxyCodeLine{87         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891}{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}} = (1UL << 6U),      }
+\DoxyCodeLine{88         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2}{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}} = (1UL << 7U),  }
+\DoxyCodeLine{89         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f}{EVT\_GRP\_RPT\_GRAVITY\_BIT}} = (1UL << 8U),               }
+\DoxyCodeLine{90         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7}{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}} = (1UL << 9U),              }
+\DoxyCodeLine{91         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6}{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}} = (1UL << 10U),           }
+\DoxyCodeLine{92         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d}{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}} = (1UL << 11U),     }
+\DoxyCodeLine{93         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb}{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}} = (1UL << 12U),   }
+\DoxyCodeLine{94         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77}{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}} = (1UL << 13U),         }
+\DoxyCodeLine{95         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903}{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}} = (1UL << 14U),         }
+\DoxyCodeLine{96         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b}{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}} = (1UL << 15U), }
+\DoxyCodeLine{97         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7}{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}} = (1UL << 16U),  }
+\DoxyCodeLine{98         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c}{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}} = (1UL << 17U),       }
+\DoxyCodeLine{99         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2}{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}} = (1UL << 18U),    }
+\DoxyCodeLine{100         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb}{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}} = (1UL << 19U),             }
+\DoxyCodeLine{101         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7}{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}} = (1UL << 20U),     }
+\DoxyCodeLine{102         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10}{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}} = (1UL << 21U),      }
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104         \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1}{EVT\_GRP\_RPT\_ALL}} = \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8}{EVT\_GRP\_RPT\_RV\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd}{EVT\_GRP\_RPT\_RV\_GAME\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5}{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}} |}
+\DoxyCodeLine{105                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca}{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2}{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f}{EVT\_GRP\_RPT\_GRAVITY\_BIT}} |}
+\DoxyCodeLine{106                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7}{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6}{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d}{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}} |}
+\DoxyCodeLine{107                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77}{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903}{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b}{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}} |}
+\DoxyCodeLine{108                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7}{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2}{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb}{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}} |}
+\DoxyCodeLine{109                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7}{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb}{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c}{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}} |}
+\DoxyCodeLine{110                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891}{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4}{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}} | \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7}{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}} |}
+\DoxyCodeLine{111                           \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10}{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}}}
+\DoxyCodeLine{112     \};}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{115     \textcolor{keyword}{enum} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1c}{bno08x\_tsk\_bit\_t}} : EventBits\_t}
+\DoxyCodeLine{116     \{}
+\DoxyCodeLine{117         \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca272952aff639965d61f76664cb4fed15}{EVT\_GRP\_BNO08x\_TASKS\_RUNNING}} =}
+\DoxyCodeLine{118                 (1UL << 0U), }
+\DoxyCodeLine{119         \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41}{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT}} =}
+\DoxyCodeLine{120                 (1UL << 1U), }
+\DoxyCodeLine{121         \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452}{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED}} =}
+\DoxyCodeLine{122                 (1UL << 2U), }
+\DoxyCodeLine{123         \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE}} =}
+\DoxyCodeLine{124                 (1UL << 3U) }
+\DoxyCodeLine{125     \};}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127     \textcolor{keyword}{inline} \textcolor{keyword}{static} sh2\_SensorConfig default\_sensor\_cfg = \{ }
+\DoxyCodeLine{128             .changeSensitivityEnabled = \textcolor{keyword}{false},}
+\DoxyCodeLine{129             .changeSensitivityRelative = \textcolor{keyword}{false},}
+\DoxyCodeLine{130             .wakeupEnabled = \textcolor{keyword}{false},}
+\DoxyCodeLine{131             .alwaysOnEnabled = \textcolor{keyword}{false},}
+\DoxyCodeLine{132             .changeSensitivity = 0,}
+\DoxyCodeLine{133             .reportInterval\_us = 0,}
+\DoxyCodeLine{134             .batchInterval\_us = 0,}
+\DoxyCodeLine{135             .sensorSpecific = 0\};}
+\DoxyCodeLine{136 \}; \textcolor{comment}{// namespace BNO08xPrivateTypes}}
+
+\end{DoxyCode}

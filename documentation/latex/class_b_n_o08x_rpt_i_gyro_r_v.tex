@@ -1,0 +1,111 @@
+\hypertarget{class_b_n_o08x_rpt_i_gyro_r_v}{}\doxysection{BNO08x\+Rpt\+IGyro\+RV Class Reference}
+\label{class_b_n_o08x_rpt_i_gyro_r_v}\index{BNO08xRptIGyroRV@{BNO08xRptIGyroRV}}
+
+
+Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.\+5.\+44)  
+
+
+
+
+{\ttfamily \#include $<$report/\+BNO08x\+Rpt\+IGyro\+RV.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+IGyro\+RV\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{class_b_n_o08x_rpt_i_gyro_r_v__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+IGyro\+RV\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{class_b_n_o08x_rpt_i_gyro_r_v__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_i_gyro_r_v_a5574d6213be1d7176d981e04fb9b4ea4}{BNO08x\+Rpt\+IGyro\+RV}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+void \mbox{\hyperlink{class_b_n_o08x_rpt_i_gyro_r_v_ae85b4b091ec350432a2aeabcd3b46f55}{get}} (\mbox{\hyperlink{structbno08x__quat__t}{bno08x\+\_\+quat\+\_\+t}} \&quat, \mbox{\hyperlink{structbno08x__ang__vel__t}{bno08x\+\_\+ang\+\_\+vel\+\_\+t}} \&vel)
+\begin{DoxyCompactList}\small\item\em Grabs most recent gyro integrated rotation vector data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structbno08x__ang__vel__t}{bno08x\+\_\+ang\+\_\+vel\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_i_gyro_r_v_a8e9877551635f8be5e380d47195b4061}{get\+\_\+vel}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most recent gyro integrated rotation vector angular velocity data, units are in rad/s. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.\+5.\+44) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_i_gyro_r_v_a5574d6213be1d7176d981e04fb9b4ea4}\label{class_b_n_o08x_rpt_i_gyro_r_v_a5574d6213be1d7176d981e04fb9b4ea4}} 
+\index{BNO08xRptIGyroRV@{BNO08xRptIGyroRV}!BNO08xRptIGyroRV@{BNO08xRptIGyroRV}}
+\index{BNO08xRptIGyroRV@{BNO08xRptIGyroRV}!BNO08xRptIGyroRV@{BNO08xRptIGyroRV}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptIGyroRV()}{BNO08xRptIGyroRV()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+IGyro\+RV\+::\+BNO08x\+Rpt\+IGyro\+RV (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_i_gyro_r_v_ae85b4b091ec350432a2aeabcd3b46f55}\label{class_b_n_o08x_rpt_i_gyro_r_v_ae85b4b091ec350432a2aeabcd3b46f55}} 
+\index{BNO08xRptIGyroRV@{BNO08xRptIGyroRV}!get@{get}}
+\index{get@{get}!BNO08xRptIGyroRV@{BNO08xRptIGyroRV}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily void BNO08x\+Rpt\+IGyro\+RV\+::get (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbno08x__quat__t}{bno08x\+\_\+quat\+\_\+t}} \&}]{quat,  }\item[{\mbox{\hyperlink{structbno08x__ang__vel__t}{bno08x\+\_\+ang\+\_\+vel\+\_\+t}} \&}]{vel }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent gyro integrated rotation vector data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em quat} & Struct to store requested unit quaternion data. \\
+\hline
+{\em vel} & Struct to store requested velocity data (units in rad/s).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_i_gyro_r_v_ae85b4b091ec350432a2aeabcd3b46f55_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_i_gyro_r_v_a8e9877551635f8be5e380d47195b4061}\label{class_b_n_o08x_rpt_i_gyro_r_v_a8e9877551635f8be5e380d47195b4061}} 
+\index{BNO08xRptIGyroRV@{BNO08xRptIGyroRV}!get\_vel@{get\_vel}}
+\index{get\_vel@{get\_vel}!BNO08xRptIGyroRV@{BNO08xRptIGyroRV}}
+\doxysubsubsection{\texorpdfstring{get\_vel()}{get\_vel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__ang__vel__t}{bno08x\+\_\+ang\+\_\+vel\+\_\+t}} BNO08x\+Rpt\+IGyro\+RV\+::get\+\_\+vel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent gyro integrated rotation vector angular velocity data, units are in rad/s. 
+
+\begin{DoxyReturn}{Returns}
+Struct containing requested data. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_i_gyro_r_v_a8e9877551635f8be5e380d47195b4061_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/report/\mbox{\hyperlink{_b_n_o08x_rpt_i_gyro_r_v_8hpp}{BNO08x\+Rpt\+IGyro\+RV.\+hpp}}\item 
+report/\mbox{\hyperlink{_b_n_o08x_rpt_i_gyro_r_v_8cpp}{BNO08x\+Rpt\+IGyro\+RV.\+cpp}}\end{DoxyCompactItemize}

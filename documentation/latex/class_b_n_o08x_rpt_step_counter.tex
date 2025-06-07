@@ -1,0 +1,138 @@
+\hypertarget{class_b_n_o08x_rpt_step_counter}{}\doxysection{BNO08x\+Rpt\+Step\+Counter Class Reference}
+\label{class_b_n_o08x_rpt_step_counter}\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+
+
+Class to represent step counter reports. (See Ref. Manual 6.\+5.\+29)  
+
+
+
+
+{\ttfamily \#include $<$report/\+BNO08x\+Rpt\+Step\+Counter.\+hpp$>$}
+
+
+
+Inheritance diagram for BNO08x\+Rpt\+Step\+Counter\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{class_b_n_o08x_rpt_step_counter__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for BNO08x\+Rpt\+Step\+Counter\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{class_b_n_o08x_rpt_step_counter__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_a0a85682a68010aa66ddb2ccc337263a0}{BNO08x\+Rpt\+Step\+Counter}} (uint8\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, Event\+Bits\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\+\_\+bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$\mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\+\_\+ctx}})
+\item 
+bool \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_adf0a697561b064a7dd90a44009efbcf1}{enable}} (uint32\+\_\+t time\+\_\+between\+\_\+reports, sh2\+\_\+\+Sensor\+Config\+\_\+t sensor\+\_\+cfg=BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg) override
+\begin{DoxyCompactList}\small\item\em Enables step counter reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structbno08x__step__counter__t}{bno08x\+\_\+step\+\_\+counter\+\_\+t}} \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_affe413eea0483147578e58a1a9c5cd8f}{get}} ()
+\begin{DoxyCompactList}\small\item\em Grabs most recent step counter data (rollover not accounted for in step count, just most recent report data). \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{class_b_n_o08x_rpt_step_counter_a017b389771b4d8816b4cfd06c6d9184a}{get\+\_\+total\+\_\+steps}} ()
+\begin{DoxyCompactList}\small\item\em Grabs the total step count since boot, accounts for rollover in report data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Class to represent step counter reports. (See Ref. Manual 6.\+5.\+29) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_step_counter_a0a85682a68010aa66ddb2ccc337263a0}\label{class_b_n_o08x_rpt_step_counter_a0a85682a68010aa66ddb2ccc337263a0}} 
+\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}!BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}!BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+\doxysubsubsection{\texorpdfstring{BNO08xRptStepCounter()}{BNO08xRptStepCounter()}}
+{\footnotesize\ttfamily BNO08x\+Rpt\+Step\+Counter\+::\+BNO08x\+Rpt\+Step\+Counter (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{ID,  }\item[{Event\+Bits\+\_\+t}]{rpt\+\_\+bit,  }\item[{\mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} $\ast$}]{sync\+\_\+ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_step_counter_adf0a697561b064a7dd90a44009efbcf1}\label{class_b_n_o08x_rpt_step_counter_adf0a697561b064a7dd90a44009efbcf1}} 
+\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}!enable@{enable}}
+\index{enable@{enable}!BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily bool BNO08x\+Rpt\+Step\+Counter\+::enable (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{time\+\_\+between\+\_\+reports,  }\item[{sh2\+\_\+\+Sensor\+Config\+\_\+t}]{sensor\+\_\+cfg = {\ttfamily BNO08xPrivateTypes\+:\+:default\+\_\+sensor\+\_\+cfg} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Enables step counter reports such that the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} begins sending them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em report\+\_\+period\+\_\+us} & The period/interval of the report in microseconds. \\
+\hline
+{\em sensor\+\_\+cfg} & Sensor special configuration (optional, see BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg for defaults).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if report was successfully enabled. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_b_n_o08x_rpt_a4ee529725467412df396d5c610ff7bb4}{BNO08x\+Rpt}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_step_counter_adf0a697561b064a7dd90a44009efbcf1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_step_counter_affe413eea0483147578e58a1a9c5cd8f}\label{class_b_n_o08x_rpt_step_counter_affe413eea0483147578e58a1a9c5cd8f}} 
+\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}!get@{get}}
+\index{get@{get}!BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structbno08x__step__counter__t}{bno08x\+\_\+step\+\_\+counter\+\_\+t}} BNO08x\+Rpt\+Step\+Counter\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs most recent step counter data (rollover not accounted for in step count, just most recent report data). 
+
+\begin{DoxyReturn}{Returns}
+Struct containing requested data. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_step_counter_affe413eea0483147578e58a1a9c5cd8f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_b_n_o08x_rpt_step_counter_a017b389771b4d8816b4cfd06c6d9184a}\label{class_b_n_o08x_rpt_step_counter_a017b389771b4d8816b4cfd06c6d9184a}} 
+\index{BNO08xRptStepCounter@{BNO08xRptStepCounter}!get\_total\_steps@{get\_total\_steps}}
+\index{get\_total\_steps@{get\_total\_steps}!BNO08xRptStepCounter@{BNO08xRptStepCounter}}
+\doxysubsubsection{\texorpdfstring{get\_total\_steps()}{get\_total\_steps()}}
+{\footnotesize\ttfamily uint32\+\_\+t BNO08x\+Rpt\+Step\+Counter\+::get\+\_\+total\+\_\+steps (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Grabs the total step count since boot, accounts for rollover in report data. 
+
+\begin{DoxyReturn}{Returns}
+Total steps since boot. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_b_n_o08x_rpt_step_counter_a017b389771b4d8816b4cfd06c6d9184a_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/report/\mbox{\hyperlink{_b_n_o08x_rpt_step_counter_8hpp}{BNO08x\+Rpt\+Step\+Counter.\+hpp}}\item 
+report/\mbox{\hyperlink{_b_n_o08x_rpt_step_counter_8cpp}{BNO08x\+Rpt\+Step\+Counter.\+cpp}}\end{DoxyCompactItemize}

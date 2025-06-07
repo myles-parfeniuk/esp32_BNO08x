@@ -1,0 +1,4 @@
+<map id="BNO08x::write_frs" name="BNO08x::write_frs">
+<area shape="rect" id="node1" title="Writes a record to flash record system." alt="" coords="268,13,408,39"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#a65a7175b6f6ad6ce687e4fd4cd4bc396" title="Deletes dynamic calibration data from BNO08x internal flash and resets the device...." alt="" coords="5,5,220,47"/>
+</map>

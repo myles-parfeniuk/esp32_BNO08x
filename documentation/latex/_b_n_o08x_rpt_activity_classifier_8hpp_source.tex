@@ -1,0 +1,32 @@
+\hypertarget{_b_n_o08x_rpt_activity_classifier_8hpp_source}{}\doxysection{BNO08x\+Rpt\+Activity\+Classifier.\+hpp}
+\label{_b_n_o08x_rpt_activity_classifier_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptActivityClassifier.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptActivityClassifier.hpp}}
+\mbox{\hyperlink{_b_n_o08x_rpt_activity_classifier_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier}{BNO08xRptActivityClassifier}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{18         \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_abee4e61d75eb1982f11f08eb542511a5}{BNO08xRptActivityClassifier}}(uint8\_t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, EventBits\_t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}* \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{19             : \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{20         \{}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a631329523ddaf17f2e93cd0546a42823}{enable}}(}
+\DoxyCodeLine{24                 uint32\_t time\_between\_reports, sh2\_SensorConfig\_t sensor\_cfg = BNO08xPrivateTypes::default\_sensor\_cfg) \textcolor{keyword}{override};}
+\DoxyCodeLine{25         \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\_activity\_classifier\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_aa77475212d3a5eb52ec31b9916cfe22d}{get}}();}
+\DoxyCodeLine{26         \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a43d66cdccf17ba0cddcdddc72d4fb97d}{BNO08xActivity}} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_a903a426e65752996075798ba6c51bff2}{get\_most\_likely\_activity}}();}
+\DoxyCodeLine{27         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_rpt_activity_classifier_adb51886e94e91d114246c51919fd368b}{set\_activities\_to\_enable}}(\mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a64f4487da0833d5304046093935f5d3a}{BNO08xActivityEnable}} activities\_to\_enable);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29     \textcolor{keyword}{private}:}
+\DoxyCodeLine{30         \textcolor{keywordtype}{void} update\_data(sh2\_SensorValue\_t* sensor\_val) \textcolor{keyword}{override};}
+\DoxyCodeLine{31         \mbox{\hyperlink{structbno08x__activity__classifier__t}{bno08x\_activity\_classifier\_t}} data; }
+\DoxyCodeLine{32         \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a64f4487da0833d5304046093935f5d3a}{BNO08xActivityEnable}} activities\_to\_enable =}
+\DoxyCodeLine{33                 \mbox{\hyperlink{_b_n_o08x_global_types_8hpp_a64f4487da0833d5304046093935f5d3aa5fb1f955b45e38e31789286a1790398d}{BNO08xActivityEnable::ALL}}; }
+\DoxyCodeLine{34         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* TAG = \textcolor{stringliteral}{"{}BNO08xRptActivityClassifier"{}};}
+\DoxyCodeLine{35 \};}
+
+\end{DoxyCode}

@@ -1,0 +1,4 @@
+<map id="BNO08xRptCalMagnetometer::enable" name="BNO08xRptCalMagnetometer::enable">
+<area shape="rect" id="node1" title="Enables calibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="268,5,483,47"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
+</map>

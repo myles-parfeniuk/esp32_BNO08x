@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['sclk_5fspeed_0',['sclk_speed',['../structbno08x__config__t.html#a231614c3b20888360def2ce9db83f52a',1,'bno08x_config_t']]],
+  ['sensor_5fspecific_1',['sensor_specific',['../structbno08x__meta__data__t.html#a4134971e13a6242102facae308588072',1,'bno08x_meta_data_t']]],
+  ['sensor_5fspecific_5flen_2',['sensor_specific_len',['../structbno08x__meta__data__t.html#abaa4829463c424c9959d594027ce7ba2',1,'bno08x_meta_data_t']]],
+  ['sh2_5fhal_3',['sh2_HAL',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#a5094148539354e52e4f7b054ba766bce',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
+  ['sh2_5fhal_5flock_4',['sh2_HAL_lock',['../struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html#a5433c33ca93bfd2be4a7575ddff7a8d9',1,'BNO08xPrivateTypes::bno08x_sync_ctx_t']]],
+  ['sh2_5fhal_5fservice_5ftask_5',['sh2_HAL_service_task',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#a150665b9f07eea167dd61aa9701d0e66',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
+  ['sh_5fversion_6',['sh_version',['../structbno08x__meta__data__t.html#a672da8b56be3269bae22c9e0e5424719',1,'bno08x_meta_data_t']]],
+  ['shake_5fdetector_7',['shake_detector',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a9d7ff08c5a141c3d1ad3493423e7c49c',1,'BNO08x::bno08x_reports_t']]],
+  ['spi_5fbus_8',['spi_bus',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#a8780317bf985194a58d4b0457d518adf',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
+  ['spi_5fdevice_9',['spi_device',['../struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html#ab268642c4b6b9fc1eb7c6ceec0e8e64d',1,'BNO08xPrivateTypes::bno08x_init_status_t']]],
+  ['spi_5fperipheral_10',['spi_peripheral',['../structbno08x__config__t.html#a020d2343750bb7debc2a108ae038c9ec',1,'bno08x_config_t']]],
+  ['sqrt2over2_11',['SQRT2OVER2',['../class_b_n_o08x.html#ab8d5ebfc080838870e320494da3fa64d',1,'BNO08x']]],
+  ['stability_12',['stability',['../structbno08x__stability__classifier__t.html#a2ecd636f34a6be612833009d9a1c8725',1,'bno08x_stability_classifier_t']]],
+  ['stability_5fclassifier_13',['stability_classifier',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a2edee4386eaea86ef3d316f5840d7a2f',1,'BNO08x::bno08x_reports_t']]],
+  ['step_5fcounter_14',['step_counter',['../struct_b_n_o08x_1_1bno08x__reports__t.html#aee9528ea57ab86ef29e10de9ecfefcf7',1,'BNO08x::bno08x_reports_t']]],
+  ['steps_15',['steps',['../structbno08x__step__counter__t.html#a6d6be986b770fe1343a46080f35653d3',1,'bno08x_step_counter_t']]],
+  ['sync_5fctx_16',['sync_ctx',['../class_b_n_o08x_rpt.html#a5a1404a08918d66bb0f41f55220db6e5',1,'BNO08xRpt']]]
+];

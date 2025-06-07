@@ -1,0 +1,5 @@
+<map id="BNO08xRptARVRStabilizedRV" name="BNO08xRptARVRStabilizedRV">
+<area shape="rect" id="node1" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.42)" alt="" coords="5,155,220,181"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt_r_v_generic.html" title="Class to represent rotation vector reports." alt="" coords="30,80,195,107"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="64,5,161,32"/>
+</map>
