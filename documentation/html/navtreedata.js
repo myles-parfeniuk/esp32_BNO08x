@@ -25,12 +25,10 @@
 var NAVTREE =
 [
   [ "esp32_BNO08x", "index.html", [
-    [ "README", "md__r_e_a_d_m_e.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
-        [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
         [ "Enumerator", "namespacemembers_eval.html", null ]
@@ -43,9 +41,9 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
-        [ "Related Symbols", "functions_rela.html", null ]
+        [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -53,7 +51,6 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Macros", "globals_defs.html", null ]
@@ -65,9 +62,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_b_n_o08x_8cpp.html",
-"_multi_report_tests_8cpp.html#ac0f2ca513b0adc3db58d954b1fa381e9",
-"class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a44247c8dbd3376ff81599c192b7dfc71",
-"struct_b_n_o08x_1_1bno08x__reports__t.html#ac8114db28ee3f7be5578e52f48caa9c3"
+"_b_n_o08x_rpt_raw_m_e_m_s_gyro_8cpp.html",
+"functions_v.html",
+"structbno08x__sample__counts__t.html#a8d03182919cce138cfda97c3ff5700b2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

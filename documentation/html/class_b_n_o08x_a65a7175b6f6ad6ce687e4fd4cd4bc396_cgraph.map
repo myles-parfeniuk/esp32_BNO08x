@@ -1,0 +1,8 @@
+<map id="BNO08x::dynamic_calibration_data_delete" name="BNO08x::dynamic_calibration_data_delete">
+<area shape="rect" id="node1" title="Deletes dynamic calibration data from BNO08x internal flash and resets the device...." alt="" coords="5,64,220,105"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#a441681a5133b1a125b534925c9bc10f9" title="Clears dynamic/motion engine calibration data from ram and resets BNO08x device. See ref manual 6...." alt="" coords="268,5,483,47"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x.html#a28cd1c0b3477571d87133234e6358503" title="Hard resets BNO08x device." alt="" coords="299,71,451,98"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x.html#aa616a645a4fc9054194fdbf76ec9c5b5" title="Writes a record to flash record system." alt="" coords="305,122,445,149"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="531,42,725,69"/>
+<area shape="rect" id="node6" href="$_b_n_o08x_global_types_8hpp.html#a79cad23b69ea6ab97bf9d6e0a64a2826" title=" " alt="" coords="552,122,704,149"/>
+</map>

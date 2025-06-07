@@ -1,28 +1,28 @@
-\doxysection{BNO08x\+Rpt\+Tap\+Detector.\+hpp}
-\hypertarget{_b_n_o08x_rpt_tap_detector_8hpp_source}{}\label{_b_n_o08x_rpt_tap_detector_8hpp_source}\index{include/report/BNO08xRptTapDetector.hpp@{include/report/BNO08xRptTapDetector.hpp}}
+\hypertarget{_b_n_o08x_rpt_tap_detector_8hpp_source}{}\doxysection{BNO08x\+Rpt\+Tap\+Detector.\+hpp}
+\label{_b_n_o08x_rpt_tap_detector_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptTapDetector.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptTapDetector.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_tap_detector_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector}{BNO08xRptTapDetector}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
-\DoxyCodeLine{00016\ \{}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ad4761f72a20f120e545b941b6e198b6a}{BNO08xRptTapDetector}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ad8b716b7a2f2c2f52113eaaf75a391dc}{enable}}(}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__tap__detector__t}{bno08x\_tap\_detector\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ac0c0642fbb086a480edf32c92a470a2e}{get}}();}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_aa1b7881e55a3f6210f48cec831cc72a7}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__tap__detector__t}{bno08x\_tap\_detector\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_a355ef8e965b177faf2b1c3795682e99e}{data}};}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_a657b076ac0e77e594f5feddf294f67e2}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptTapDetector"{}};}
-\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector}{BNO08xRptTapDetector}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{18         \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ad4761f72a20f120e545b941b6e198b6a}{BNO08xRptTapDetector}}(uint8\_t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, EventBits\_t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}* \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{19             : \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{20         \{}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ad8b716b7a2f2c2f52113eaaf75a391dc}{enable}}(}
+\DoxyCodeLine{24                 uint32\_t time\_between\_reports, sh2\_SensorConfig\_t sensor\_cfg = BNO08xPrivateTypes::default\_sensor\_cfg) \textcolor{keyword}{override};}
+\DoxyCodeLine{25         \mbox{\hyperlink{structbno08x__tap__detector__t}{bno08x\_tap\_detector\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_tap_detector_ac0c0642fbb086a480edf32c92a470a2e}{get}}();}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{keyword}{private}:}
+\DoxyCodeLine{28         \textcolor{keywordtype}{void} update\_data(sh2\_SensorValue\_t* sensor\_val) \textcolor{keyword}{override};}
+\DoxyCodeLine{29         \mbox{\hyperlink{structbno08x__tap__detector__t}{bno08x\_tap\_detector\_t}} data;}
+\DoxyCodeLine{30         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* TAG = \textcolor{stringliteral}{"{}BNO08xRptTapDetector"{}};}
+\DoxyCodeLine{31 \};}
 
 \end{DoxyCode}

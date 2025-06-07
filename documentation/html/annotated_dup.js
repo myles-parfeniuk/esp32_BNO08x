@@ -50,7 +50,7 @@ var annotated_dup =
     [ "BNO08xRptTapDetector", "class_b_n_o08x_rpt_tap_detector.html", "class_b_n_o08x_rpt_tap_detector" ],
     [ "BNO08xRptUncalGyro", "class_b_n_o08x_rpt_uncal_gyro.html", "class_b_n_o08x_rpt_uncal_gyro" ],
     [ "BNO08xRptUncalMagnetometer", "class_b_n_o08x_rpt_uncal_magnetometer.html", "class_b_n_o08x_rpt_uncal_magnetometer" ],
-    [ "BNO08xSH2HAL", "class_b_n_o08x_s_h2_h_a_l.html", "class_b_n_o08x_s_h2_h_a_l" ],
-    [ "BNO08xTestHelper", "class_b_n_o08x_test_helper.html", "class_b_n_o08x_test_helper" ],
-    [ "BNO08xTestSuite", "class_b_n_o08x_test_suite.html", "class_b_n_o08x_test_suite" ]
+    [ "BNO08xSH2HAL", "class_b_n_o08x_s_h2_h_a_l.html", null ],
+    [ "BNO08xTestHelper", "class_b_n_o08x_test_helper.html", null ],
+    [ "BNO08xTestSuite", "class_b_n_o08x_test_suite.html", null ]
 ];

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['undefined_0',['UNDEFINED',['../_b_n_o08x_global_types_8hpp.html#ab2a2ace42f7f438d6a799dfcbc243147a0db45d2a4141101bdfe48e3314cfbca3',1,'UNDEFINED:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#aed7bab8e55be415938e078ebe72562a0a0db45d2a4141101bdfe48e3314cfbca3',1,'UNDEFINED:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#abcc5d57e21ea6ed79e792deafcb62187a0db45d2a4141101bdfe48e3314cfbca3',1,'UNDEFINED:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#a498b35f9e00b24e51f8f60b029751ab5a0db45d2a4141101bdfe48e3314cfbca3',1,'UNDEFINED:&#160;BNO08xGlobalTypes.hpp']]],
-  ['unknown_1',['UNKNOWN',['../_b_n_o08x_global_types_8hpp.html#adc1b530563e35a96fc1b8911ff133e0fa696b031073e74bf2cb98e5ef201d4aa3',1,'UNKNOWN:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#abcc5d57e21ea6ed79e792deafcb62187a696b031073e74bf2cb98e5ef201d4aa3',1,'UNKNOWN:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#a498b35f9e00b24e51f8f60b029751ab5a696b031073e74bf2cb98e5ef201d4aa3',1,'UNKNOWN:&#160;BNO08xGlobalTypes.hpp']]],
-  ['unreliable_2',['UNRELIABLE',['../_b_n_o08x_global_types_8hpp.html#aed7bab8e55be415938e078ebe72562a0a6e257e645974b9086ed66e9465e2d80c',1,'BNO08xGlobalTypes.hpp']]]
+  ['pickup_5fdetector_5fconfig_0',['PICKUP_DETECTOR_CONFIG',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8eac9e002e70642b098e7e67cc4083d134d',1,'BNO08xGlobalTypes.hpp']]],
+  ['planar_5faccelerometer_1',['planar_accelerometer',['../_b_n_o08x_global_types_8hpp.html#a25947bbe6bc4a7c9edd7067fdce0e9ccafcaab1f4c98b7343157c3c59c6a259cb',1,'BNO08xGlobalTypes.hpp']]],
+  ['pocket_5fdetector_5fconfig_2',['POCKET_DETECTOR_CONFIG',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8eaababe7d27ea06c8f91d48e5b7aa29edd',1,'BNO08xGlobalTypes.hpp']]],
+  ['por_3',['POR',['../_b_n_o08x_global_types_8hpp.html#afed71c9ed8a8563767f26282408ccee2a7b47bb0f9f8c72f84d891e8e22a1fb92',1,'BNO08xGlobalTypes.hpp']]],
+  ['proximity_5fsensor_5fcal_4',['PROXIMITY_SENSOR_CAL',['../_b_n_o08x_global_types_8hpp.html#a8ac8ee2d5f81f6102ed94866f2bdcc8eabcf02bc8a45fdf7df5390b79184b922e',1,'BNO08xGlobalTypes.hpp']]]
 ];

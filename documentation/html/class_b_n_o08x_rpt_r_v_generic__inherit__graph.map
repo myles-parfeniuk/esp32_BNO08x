@@ -1,17 +1,10 @@
 <map id="BNO08xRptRVGeneric" name="BNO08xRptRVGeneric">
-<area shape="rect" id="Node000001" title="Class to represent rotation vector reports." alt="" coords="144,132,297,159"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.43)" alt="" coords="345,5,581,32"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,119,287,79,314,59,344,42,374,30,376,35,346,46,317,63,290,83,246,123"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.42)" alt="" coords="363,56,564,83"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="264,123,344,92,387,81,388,86,346,97,266,128"/>
-<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt_game_r_v.html" title="Class to represent game rotation vector reports. (See Ref. Manual 6.5.19)" alt="" coords="392,107,535,133"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="312,133,391,125,392,130,313,138"/>
-<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt_i_gyro_r_v.html" title="Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.5.44)" alt="" coords="394,157,533,184"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="313,152,393,161,393,166,312,158"/>
-<area shape="rect" id="Node000007" href="$class_b_n_o08x_rpt_r_v.html" title="Class to represent rotation vector reports. (See Ref. Manual 6.5.18)" alt="" coords="409,208,517,235"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="266,163,346,193,409,209,408,214,344,199,264,168"/>
-<area shape="rect" id="Node000008" href="$class_b_n_o08x_rpt_r_v_geomag.html" title="Class to represent geomagnetic rotation vector reports. (See Ref. Manual 6.5.20)" alt="" coords="385,259,542,285"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="246,168,290,208,317,228,346,244,385,258,383,263,344,249,314,232,287,212,243,172"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="5,132,96,159"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,143,143,143,143,148,111,148"/>
+<area shape="rect" id="node1" title="Class to represent rotation vector reports." alt="" coords="151,132,316,159"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_game_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.43)" alt="" coords="364,5,619,32"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt_a_r_v_r_stabilized_r_v.html" title="Class to represent ARVR stabilized rotation vector reports. (See Ref. Manual 6.5.42)" alt="" coords="384,56,599,83"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x_rpt_game_r_v.html" title="Class to represent game rotation vector reports. (See Ref. Manual 6.5.19)" alt="" coords="414,107,569,133"/>
+<area shape="rect" id="node6" href="$class_b_n_o08x_rpt_i_gyro_r_v.html" title="Class to represent integrated gyro rotation vector reports. (See Ref. Manual 6.5.44)" alt="" coords="416,157,567,184"/>
+<area shape="rect" id="node7" href="$class_b_n_o08x_rpt_r_v.html" title="Class to represent rotation vector reports. (See Ref. Manual 6.5.18)" alt="" coords="434,208,549,235"/>
+<area shape="rect" id="node8" href="$class_b_n_o08x_rpt_r_v_geomag.html" title="Class to represent geomagnetic rotation vector reports. (See Ref. Manual 6.5.20)" alt="" coords="406,259,577,285"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="5,132,103,159"/>
 </map>

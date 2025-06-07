@@ -1,28 +1,28 @@
-\doxysection{BNO08x\+Rpt\+RVGeneric.\+hpp}
-\hypertarget{_b_n_o08x_rpt_r_v_generic_8hpp_source}{}\label{_b_n_o08x_rpt_r_v_generic_8hpp_source}\index{include/report/BNO08xRptRVGeneric.hpp@{include/report/BNO08xRptRVGeneric.hpp}}
+\hypertarget{_b_n_o08x_rpt_r_v_generic_8hpp_source}{}\doxysection{BNO08x\+Rpt\+RVGeneric.\+hpp}
+\label{_b_n_o08x_rpt_r_v_generic_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptRVGeneric.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptRVGeneric.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_r_v_generic_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
-\DoxyCodeLine{00016\ \{}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e}{enable}}(}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ time\_between\_reports,\ sh2\_SensorConfig\_t\ sensor\_cfg\ =\ \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08xPrivateTypes::default\_sensor\_cfg}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__quat__t}{bno08x\_quat\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_afc2accdd72076cd758f9f9108351d7a8}{get\_quat}}();}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__euler__angle__t}{bno08x\_euler\_angle\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_abbaaa6737d578e056f93687d4ad780f7}{get\_euler}}(\textcolor{keywordtype}{bool}\ in\_degrees\ =\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a7c35188ccfb976cba1b7e4626022987c}{BNO08xRptRVGeneric}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_ab059dded7c0a7c922e9c624baac34ecd}{tare}}(\textcolor{keywordtype}{bool}\ x,\ \textcolor{keywordtype}{bool}\ y,\ \textcolor{keywordtype}{bool}\ z,\ sh2\_TareBasis\_t\ basis);}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbno08x__quat__t}{bno08x\_quat\_t}}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_ad5174665e1c943291110630dc461caff}{data}};}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a5315a83517cd15397842254a9926b1c4}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptRVGeneric"{}};}
-\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_rpt_8hpp}{BNO08xRpt.hpp}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{18         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e}{enable}}(}
+\DoxyCodeLine{19                 uint32\_t time\_between\_reports, sh2\_SensorConfig\_t sensor\_cfg = BNO08xPrivateTypes::default\_sensor\_cfg) \textcolor{keyword}{override};}
+\DoxyCodeLine{20         \mbox{\hyperlink{structbno08x__quat__t}{bno08x\_quat\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_afc2accdd72076cd758f9f9108351d7a8}{get\_quat}}();}
+\DoxyCodeLine{21         \mbox{\hyperlink{structbno08x__euler__angle__t}{bno08x\_euler\_angle\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_abbaaa6737d578e056f93687d4ad780f7}{get\_euler}}(\textcolor{keywordtype}{bool} in\_degrees = \textcolor{keyword}{true});}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{24         \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a7c35188ccfb976cba1b7e4626022987c}{BNO08xRptRVGeneric}}(uint8\_t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, EventBits\_t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}* \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{25             : \mbox{\hyperlink{class_b_n_o08x_rpt}{BNO08xRpt}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{26         \{}
+\DoxyCodeLine{27         \}}
+\DoxyCodeLine{28         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_ab059dded7c0a7c922e9c624baac34ecd}{tare}}(\textcolor{keywordtype}{bool} x, \textcolor{keywordtype}{bool} y, \textcolor{keywordtype}{bool} z, sh2\_TareBasis\_t basis);}
+\DoxyCodeLine{29         \mbox{\hyperlink{structbno08x__quat__t}{bno08x\_quat\_t}} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_ad5174665e1c943291110630dc461caff}{data}};}
+\DoxyCodeLine{30         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic_a5315a83517cd15397842254a9926b1c4}{TAG}} = \textcolor{stringliteral}{"{}BNO08xRptRVGeneric"{}};}
+\DoxyCodeLine{31 \};}
 
 \end{DoxyCode}

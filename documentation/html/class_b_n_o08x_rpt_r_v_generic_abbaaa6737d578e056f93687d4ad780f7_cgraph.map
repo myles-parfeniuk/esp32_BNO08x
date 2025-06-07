@@ -1,9 +1,6 @@
 <map id="BNO08xRptRVGeneric::get_euler" name="BNO08xRptRVGeneric::get_euler">
-<area shape="rect" id="Node000001" title="Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads." alt="" coords="5,23,159,65"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_r_v_generic.html#afc2accdd72076cd758f9f9108351d7a8" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="207,23,360,65"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,41,191,41,191,47,159,47"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="415,5,601,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,33,399,28,400,34,361,38"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="408,56,608,83"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="361,50,393,54,392,59,360,55"/>
+<area shape="rect" id="node1" title="Grabs most recent rotation vector data in form of an euler angle, units are in degrees or rads." alt="" coords="5,23,171,65"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt_r_v_generic.html#afc2accdd72076cd758f9f9108351d7a8" title="Grabs most recent rotation vector data in form of unit quaternion, rad accuracy units in radians (if ..." alt="" coords="219,23,384,65"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="440,5,643,32"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="432,56,651,83"/>
 </map>

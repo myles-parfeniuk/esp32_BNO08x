@@ -1,20 +1,4 @@
 var searchData=
 [
-  ['data_5favailable_0',['data_available',['../class_b_n_o08x.html#a367d525d1c0ba119b3dca3067bb5bccc',1,'BNO08x']]],
-  ['data_5fproc_5ftask_1',['data_proc_task',['../class_b_n_o08x.html#ab4373e9b87837ea9fcbc0b536338c7b8',1,'BNO08x']]],
-  ['data_5fproc_5ftask_5ftrampoline_2',['data_proc_task_trampoline',['../class_b_n_o08x.html#a0ae135d7bf7a5f047a1d1aa5cc07e520',1,'BNO08x']]],
-  ['deinit_5fgpio_3',['deinit_gpio',['../class_b_n_o08x.html#a4f007dd431f10e741414d197bb4926c3',1,'BNO08x']]],
-  ['deinit_5fgpio_5finputs_4',['deinit_gpio_inputs',['../class_b_n_o08x.html#a1f0f4cd8dc7d38448e2198ea47d0018c',1,'BNO08x']]],
-  ['deinit_5fgpio_5foutputs_5',['deinit_gpio_outputs',['../class_b_n_o08x.html#ab132a061bd437fd109225446aa1f6010',1,'BNO08x']]],
-  ['deinit_5fhint_5fisr_6',['deinit_hint_isr',['../class_b_n_o08x.html#a9d96108b0f5b1e1e1ac431bc993ca758',1,'BNO08x']]],
-  ['deinit_5fsh2_5fhal_7',['deinit_sh2_HAL',['../class_b_n_o08x.html#a75c7226ea4626862a5039aa053116861',1,'BNO08x']]],
-  ['deinit_5fspi_8',['deinit_spi',['../class_b_n_o08x.html#a233920ce97f685fbdabecccacf471d85',1,'BNO08x']]],
-  ['deinit_5ftasks_9',['deinit_tasks',['../class_b_n_o08x.html#a968144efd5100ccce0e453c40a63592b',1,'BNO08x']]],
-  ['destroy_5ftest_5fimu_10',['destroy_test_imu',['../class_b_n_o08x_test_helper.html#ae2d6df7dcfdbd106c2247803461bbc40',1,'BNO08xTestHelper']]],
-  ['disable_11',['disable',['../class_b_n_o08x_rpt.html#a7d147e7540a4c6aa19749844e14cdadc',1,'BNO08xRpt']]],
-  ['disable_5fall_5freports_12',['disable_all_reports',['../class_b_n_o08x.html#aebacbe092615cd083cf996b14402bba6',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fautosave_5fdisable_13',['dynamic_calibration_autosave_disable',['../class_b_n_o08x.html#a9387728c276734da27388dbea38b6b32',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fautosave_5fenable_14',['dynamic_calibration_autosave_enable',['../class_b_n_o08x.html#a4e8b49abd33e6e11f23b2ae345058b9b',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fdisable_15',['dynamic_calibration_disable',['../class_b_n_o08x.html#a5c7498f6fa4bd43280dff1d322233b95',1,'BNO08x']]],
-  ['dynamic_5fcalibration_5fenable_16',['dynamic_calibration_enable',['../class_b_n_o08x.html#a90ea8e811d4bea28a356290d6f5caac5',1,'BNO08x']]]
+  ['enable_0',['enable',['../class_b_n_o08x_rpt_raw_m_e_m_s_gyro.html#ae872f24befd81352f812bc998acb573d',1,'BNO08xRptRawMEMSGyro::enable()'],['../class_b_n_o08x_rpt_uncal_magnetometer.html#a80ae48107ca1cc27551fd799625f2867',1,'BNO08xRptUncalMagnetometer::enable()'],['../class_b_n_o08x_rpt_uncal_gyro.html#a404d36091a61af543c6fec7b6e077706',1,'BNO08xRptUncalGyro::enable()'],['../class_b_n_o08x_rpt_tap_detector.html#ad8b716b7a2f2c2f52113eaaf75a391dc',1,'BNO08xRptTapDetector::enable()'],['../class_b_n_o08x_rpt_step_counter.html#adf0a697561b064a7dd90a44009efbcf1',1,'BNO08xRptStepCounter::enable()'],['../class_b_n_o08x_rpt_stability_classifier.html#a4959110a01f638d04d87696d8a03dd60',1,'BNO08xRptStabilityClassifier::enable()'],['../class_b_n_o08x_rpt_shake_detector.html#aa28fa73b51bd892f0239e647aa6ceeb8',1,'BNO08xRptShakeDetector::enable()'],['../class_b_n_o08x_rpt_r_v_generic.html#a17c6cf89a5f7bf5c3fb9f8ff3ed74e8e',1,'BNO08xRptRVGeneric::enable()'],['../class_b_n_o08x_rpt_raw_m_e_m_s_magnetometer.html#a92832fd0bff6abddbbd87779de5b57fb',1,'BNO08xRptRawMEMSMagnetometer::enable()'],['../class_b_n_o08x_rpt.html#a4ee529725467412df396d5c610ff7bb4',1,'BNO08xRpt::enable()'],['../class_b_n_o08x_rpt_raw_m_e_m_s_accelerometer.html#a3cfc735c048700fe79a5674ad92b4b03',1,'BNO08xRptRawMEMSAccelerometer::enable()'],['../class_b_n_o08x_rpt_linear_acceleration.html#a4584a181ae543919a851f8f288a316ed',1,'BNO08xRptLinearAcceleration::enable()'],['../class_b_n_o08x_rpt_gravity.html#a5bb33cf233c6721fac992e447bd5b571',1,'BNO08xRptGravity::enable()'],['../class_b_n_o08x_rpt_cal_magnetometer.html#a9a371f613ff5053d2227faeebe941393',1,'BNO08xRptCalMagnetometer::enable()'],['../class_b_n_o08x_rpt_cal_gyro.html#aeb49d86610427c915dc9e58fcba6fddc',1,'BNO08xRptCalGyro::enable()'],['../class_b_n_o08x_rpt_activity_classifier.html#a631329523ddaf17f2e93cd0546a42823',1,'BNO08xRptActivityClassifier::enable()'],['../class_b_n_o08x_rpt_acceleration.html#a8fde5eefac5f9d714263047426eeee4f',1,'BNO08xRptAcceleration::enable()']]]
 ];

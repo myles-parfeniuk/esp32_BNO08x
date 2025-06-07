@@ -19,8 +19,6 @@ var class_b_n_o08x_rpt =
     [ "BNO08x", "class_b_n_o08x_rpt.html#a9313d906399750f09e3fe4dae87cec15", null ],
     [ "ID", "class_b_n_o08x_rpt.html#a63cd4ac9e96baa43eebe580f03307512", null ],
     [ "period_us", "class_b_n_o08x_rpt.html#a1d4d6f4cc6f1eae503863eedf7fb9f52", null ],
-    [ "RAD_2_DEG", "class_b_n_o08x_rpt.html#a201aeb71fefb0d9d485914176a82dd80", null ],
     [ "rpt_bit", "class_b_n_o08x_rpt.html#ae78feab5682a4697c5acad3ca6f12c2e", null ],
-    [ "sync_ctx", "class_b_n_o08x_rpt.html#a5a1404a08918d66bb0f41f55220db6e5", null ],
-    [ "TAG", "class_b_n_o08x_rpt.html#a2c57f370fb08b793bb10ec22d5acca45", null ]
+    [ "sync_ctx", "class_b_n_o08x_rpt.html#a5a1404a08918d66bb0f41f55220db6e5", null ]
 ];

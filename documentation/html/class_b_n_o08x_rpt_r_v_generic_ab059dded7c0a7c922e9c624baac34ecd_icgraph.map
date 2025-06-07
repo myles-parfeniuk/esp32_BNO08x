@@ -1,9 +1,6 @@
 <map id="BNO08xRptRVGeneric::tare" name="BNO08xRptRVGeneric::tare">
-<area shape="rect" id="Node000001" title="Tares vector basis according to axis flags." alt="" coords="241,48,394,91"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="12,5,186,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,51,159,35,160,30,227,46"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="30,56,168,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,72,169,72,169,67,225,67"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="5,107,193,133"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,93,160,109,159,103,225,88"/>
+<area shape="rect" id="node1" title="Tares vector basis according to axis flags." alt="" coords="257,49,423,90"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2" title="Tares game rotation vector axis." alt="" coords="14,5,201,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226" title="Tares rotation vector axis." alt="" coords="33,56,181,83"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874" title="Tares geomagnetic rotation vector." alt="" coords="5,107,209,133"/>
 </map>

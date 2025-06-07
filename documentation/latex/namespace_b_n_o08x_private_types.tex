@@ -1,22 +1,22 @@
-\doxysection{BNO08x\+Private\+Types Namespace Reference}
-\hypertarget{namespace_b_n_o08x_private_types}{}\label{namespace_b_n_o08x_private_types}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}}
-\doxysubsubsection*{Classes}
+\hypertarget{namespace_b_n_o08x_private_types}{}\doxysection{BNO08x\+Private\+Types Namespace Reference}
+\label{namespace_b_n_o08x_private_types}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}}
+\doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{bno08x\+\_\+init\+\_\+status\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds context used to synchronize tasks and callback execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Typedefs}
+\doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a72315cafa76ff8c07f84f03fc6b36bc2}{bno08x\+\_\+cb\+\_\+list\+\_\+t}}
+using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}{bno08x\+\_\+cb\+\_\+list\+\_\+t}} = etl\+::vector$<$ etl\+::variant$<$ \mbox{\hyperlink{class_b_n_o08x_cb_param_void}{BNO08x\+Cb\+Param\+Void}}, \mbox{\hyperlink{class_b_n_o08x_cb_param_rpt_i_d}{BNO08x\+Cb\+Param\+Rpt\+ID}} $>$, CONFIG\+\_\+\+ESP32\+\_\+\+BNO08\+X\+\_\+\+CB\+\_\+\+MAX $>$
 \begin{DoxyCompactList}\small\item\em Alias for vector type to contain both cb flavors. \end{DoxyCompactList}\item 
-typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t \mbox{\hyperlink{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}{bno08x\+\_\+init\+\_\+status\+\_\+t}}
+typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}{bno08x\+\_\+init\+\_\+status\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). \end{DoxyCompactList}\item 
-typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t \mbox{\hyperlink{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}{bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
+typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}{bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds context used to synchronize tasks and callback execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Enumerations}
+\doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
 enum \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}{bno08x\+\_\+rpt\+\_\+bit\+\_\+t}} \+: Event\+Bits\+\_\+t \{ \newline
@@ -56,45 +56,34 @@ enum \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438
 , \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}{EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+DATA\+\_\+\+AVAILABLE}}
  \}
 \begin{DoxyCompactList}\small\item\em Bits for evt\+\_\+grp\+\_\+bno08x\+\_\+task. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-static sh2\+\_\+\+Sensor\+Config \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{default\+\_\+sensor\+\_\+cfg}}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Typedef Documentation}
-\Hypertarget{namespace_b_n_o08x_private_types_a72315cafa76ff8c07f84f03fc6b36bc2}\label{namespace_b_n_o08x_private_types_a72315cafa76ff8c07f84f03fc6b36bc2} 
+\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}\label{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}} 
 \index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!bno08x\_cb\_list\_t@{bno08x\_cb\_list\_t}}
 \index{bno08x\_cb\_list\_t@{bno08x\_cb\_list\_t}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
 \doxysubsubsection{\texorpdfstring{bno08x\_cb\_list\_t}{bno08x\_cb\_list\_t}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a72315cafa76ff8c07f84f03fc6b36bc2}{BNO08x\+Private\+Types\+::bno08x\+\_\+cb\+\_\+list\+\_\+t}}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}{BNO08x\+Private\+Types\+::bno08x\+\_\+cb\+\_\+list\+\_\+t}} = typedef etl\+::vector$<$etl\+::variant$<$\mbox{\hyperlink{class_b_n_o08x_cb_param_void}{BNO08x\+Cb\+Param\+Void}}, \mbox{\hyperlink{class_b_n_o08x_cb_param_rpt_i_d}{BNO08x\+Cb\+Param\+Rpt\+ID}}$>$, CONFIG\+\_\+\+ESP32\+\_\+\+BNO08\+X\+\_\+\+CB\+\_\+\+MAX$>$}
 
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\ etl::vector<etl::variant<BNO08xCbParamVoid,\ BNO08xCbParamRptID>,}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ CONFIG\_ESP32\_BNO08X\_CB\_MAX>}
-
-\end{DoxyCode}
 
 
 Alias for vector type to contain both cb flavors. 
 
-\Hypertarget{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}\label{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a} 
+\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}\label{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}} 
 \index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!bno08x\_init\_status\_t@{bno08x\_init\_status\_t}}
 \index{bno08x\_init\_status\_t@{bno08x\_init\_status\_t}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
 \doxysubsubsection{\texorpdfstring{bno08x\_init\_status\_t}{bno08x\_init\_status\_t}}
-{\footnotesize\ttfamily typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}}}
 
 
 
 Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). 
 
-\Hypertarget{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}\label{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f} 
+\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}\label{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}} 
 \index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!bno08x\_sync\_ctx\_t@{bno08x\_sync\_ctx\_t}}
 \index{bno08x\_sync\_ctx\_t@{bno08x\_sync\_ctx\_t}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
 \doxysubsubsection{\texorpdfstring{bno08x\_sync\_ctx\_t}{bno08x\_sync\_ctx\_t}}
-{\footnotesize\ttfamily typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}}
 
 
 
@@ -103,7 +92,7 @@ Holds context used to synchronize tasks and callback execution.
 
 
 \doxysubsection{Enumeration Type Documentation}
-\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f} 
+\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}} 
 \index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!bno08x\_rpt\_bit\_t@{bno08x\_rpt\_bit\_t}}
 \index{bno08x\_rpt\_bit\_t@{bno08x\_rpt\_bit\_t}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
 \doxysubsubsection{\texorpdfstring{bno08x\_rpt\_bit\_t}{bno08x\_rpt\_bit\_t}}
@@ -114,100 +103,100 @@ Holds context used to synchronize tasks and callback execution.
 Bits for evt\+\_\+grp\+\_\+rpt\+\_\+en \& evt\+\_\+grp\+\_\+rpt\+\_\+data\+\_\+available. 
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_BIT@{EVT\_GRP\_RPT\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_BIT@{EVT\_GRP\_RPT\_RV\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_BIT@{EVT\_GRP\_RPT\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_BIT@{EVT\_GRP\_RPT\_RV\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac0ff3fde600aac814ad76a4769515ae8}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RV\+\_\+\+BIT&When set, rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_GAME\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_GAME\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_GAME\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_GAME\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad39283f98adf7242b3b3ccf847c150cd}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RV\+\_\+\+GAME\+\_\+\+BIT&When set, game rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d141bdda220e3fa0bd9eb0fe3f31b5}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RV\+\_\+\+ARVR\+\_\+\+S\+\_\+\+BIT&When set, ARVR stabilized rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT@{EVT\_GRP\_RPT\_RV\_ARVR\_S\_GAME\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab77588c26929a2d8dd8eeea883b905ca}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RV\+\_\+\+ARVR\+\_\+\+S\+\_\+\+GAME\+\_\+\+BIT&When set, ARVR stabilized game rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT@{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT@{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT@{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT@{EVT\_GRP\_RPT\_GYRO\_INTEGRATED\_RV\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6835a63fb08379608cda0a108098aac7}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+GYRO\+\_\+\+INTEGRATED\+\_\+\+RV\+\_\+\+BIT&When set, gyro integrator rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT@{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT@{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT@{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT@{EVT\_GRP\_RPT\_GEOMAG\_RV\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa728314f4744fc408c6b153e8fbb3feb4}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+GEOMAG\+\_\+\+RV\+\_\+\+BIT&When set, geomagnetic rotation vector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_ACCELEROMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa5b9ffe097d1eb83a6a5a13871da0891}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+ACCELEROMETER\+\_\+\+BIT&When set, accelerometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_LINEAR\_ACCELEROMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa68851003c2b7df34c3acf882251c60e2}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+LINEAR\+\_\+\+ACCELEROMETER\+\_\+\+BIT&When set, linear accelerometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GRAVITY\_BIT@{EVT\_GRP\_RPT\_GRAVITY\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GRAVITY\_BIT@{EVT\_GRP\_RPT\_GRAVITY\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_GRAVITY\_BIT@{EVT\_GRP\_RPT\_GRAVITY\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_GRAVITY\_BIT@{EVT\_GRP\_RPT\_GRAVITY\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fabd9e62157a0bc3dc38c3473d7bc2799f}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+GRAVITY\+\_\+\+BIT&When set, gravity reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_CAL\_GYRO\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faeb1961d7852ea305443610b2521aaea7}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+CAL\+\_\+\+GYRO\+\_\+\+BIT&When set, calibrated gyro reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT@{EVT\_GRP\_RPT\_UNCAL\_GYRO\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa591c062247280798af0e40d6141614c6}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+UNCAL\+\_\+\+GYRO\+\_\+\+BIT&When set, uncalibrated gyro reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_CAL\_MAGNETOMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fac1d15dddeab169b213c719e6b0fef32d}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+CAL\+\_\+\+MAGNETOMETER\+\_\+\+BIT&When set, calibrated magnetometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_UNCAL\_MAGNETOMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2faa54d15cc17179a6840b9ec3f4e0038cb}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+UNCAL\+\_\+\+MAGNETOMETER\+\_\+\+BIT&When set, uncalibrated magnetometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_TAP\_DETECTOR\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad4482fb4fb6693a492584508691f2c77}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+TAP\+\_\+\+DETECTOR\+\_\+\+BIT&When set, tap detector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT@{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT@{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT@{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT@{EVT\_GRP\_RPT\_STEP\_COUNTER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fafb8f448edba339f37fdf794bd891f903}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+STEP\+\_\+\+COUNTER\+\_\+\+BIT&When set, step counter reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_STABILITY\_CLASSIFIER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fae138ae8422830982a470025d81c4be4b}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+STABILITY\+\_\+\+CLASSIFIER\+\_\+\+BIT&When set, stability classifier reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT@{EVT\_GRP\_RPT\_ACTIVITY\_CLASSIFIER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa94cddd1837a77bba5644543b1ad8b9e7}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+ACTIVITY\+\_\+\+CLASSIFIER\+\_\+\+BIT&When set, activity classifier reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_SHAKE\_DETECTOR\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fad517d3ea5b1b259f20ed43e1fcf40e0c}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+SHAKE\+\_\+\+DETECTOR\+\_\+\+BIT&When set, shake detector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_ACCELEROMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab7e6b36da354702880ff9118d45b6af2}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RAW\+\_\+\+ACCELEROMETER\+\_\+\+BIT&When set, raw accelerometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT@{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_GYRO\_BIT@{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT@{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_GYRO\_BIT@{EVT\_GRP\_RPT\_RAW\_GYRO\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fadcfcdea69099869ebf7f246ff5b7e8bb}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RAW\+\_\+\+GYRO\+\_\+\+BIT&When set, raw gyro reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT@{EVT\_GRP\_RPT\_RAW\_MAGNETOMETER\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab57a2ea711bebb4d4e031a0b449160c7}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+RAW\+\_\+\+MAGNETOMETER\+\_\+\+BIT&When set, raw magnetometer reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT@{EVT\_GRP\_RPT\_CIRCLE\_DETECTOR\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fab5d7a8690f3b42637a52122d4269da10}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+CIRCLE\+\_\+\+DETECTOR\+\_\+\+BIT&When set, circle detector reports are active. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ALL@{EVT\_GRP\_RPT\_ALL}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ALL@{EVT\_GRP\_RPT\_ALL}}}\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_RPT\_ALL@{EVT\_GRP\_RPT\_ALL}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_RPT\_ALL@{EVT\_GRP\_RPT\_ALL}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1}\label{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2fa6bb054cdd31ded01373a4395889c84f1}} 
 EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+ALL&\\
 \hline
 
 \end{DoxyEnumFields}
-\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1c}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1c} 
+\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1c}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1c}} 
 \index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!bno08x\_tsk\_bit\_t@{bno08x\_tsk\_bit\_t}}
 \index{bno08x\_tsk\_bit\_t@{bno08x\_tsk\_bit\_t}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
 \doxysubsubsection{\texorpdfstring{bno08x\_tsk\_bit\_t}{bno08x\_tsk\_bit\_t}}
@@ -218,42 +207,20 @@ EVT\+\_\+\+GRP\+\_\+\+RPT\+\_\+\+ALL&\\
 Bits for evt\+\_\+grp\+\_\+bno08x\+\_\+task. 
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASKS\_RUNNING@{EVT\_GRP\_BNO08x\_TASKS\_RUNNING}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASKS\_RUNNING@{EVT\_GRP\_BNO08x\_TASKS\_RUNNING}}}\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca272952aff639965d61f76664cb4fed15}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca272952aff639965d61f76664cb4fed15} 
-EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASKS\+\_\+\+RUNNING&When this bit is set it indicates the \doxylink{class_b_n_o08x}{BNO08x} tasks are running, it is always set to 1 for the duration of the \doxylink{class_b_n_o08x}{BNO08x} driver object. Cleared in the destructor for safe task deletion. \\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASKS\_RUNNING@{EVT\_GRP\_BNO08x\_TASKS\_RUNNING}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASKS\_RUNNING@{EVT\_GRP\_BNO08x\_TASKS\_RUNNING}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca272952aff639965d61f76664cb4fed15}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca272952aff639965d61f76664cb4fed15}} 
+EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASKS\+\_\+\+RUNNING&When this bit is set it indicates the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} tasks are running, it is always set to 1 for the duration of the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} driver object. Cleared in the destructor for safe task deletion. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT@{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT@{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT}}}\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41} 
-EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+HINT\+\_\+\+ASSRT\+\_\+\+BIT&When this bit is set it indicates the \doxylink{class_b_n_o08x}{BNO08x} has asserted its host interrupt pin, thus an SPI transaction should commence. \\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT@{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT@{EVT\_GRP\_BNO08x\_TASK\_HINT\_ASSRT\_BIT}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41}} 
+EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+HINT\+\_\+\+ASSRT\+\_\+\+BIT&When this bit is set it indicates the \mbox{\hyperlink{class_b_n_o08x}{BNO08x}} has asserted its host interrupt pin, thus an SPI transaction should commence. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED@{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED@{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED}}}\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED@{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED@{EVT\_GRP\_BNO08x\_TASK\_RESET\_OCCURRED}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452}} 
 EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+RESET\+\_\+\+OCCURRED&When this bit is set it indicates the SH2 HAL lib has reset the IMU, any reports enabled by the user must be re-\/enabled. \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE@{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE@{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE}}}\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE@{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE@{EVT\_GRP\_BNO08x\_TASK\_DATA\_AVAILABLE}}}\mbox{\Hypertarget{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}\label{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}} 
 EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+DATA\+\_\+\+AVAILABLE&When this bit is set it indicates a report has been received for the user to read, cleared in data\+\_\+available() set/cleared in handle\+\_\+sensor\+\_\+report(). \\
 \hline
 
 \end{DoxyEnumFields}
-
-
-\doxysubsection{Variable Documentation}
-\Hypertarget{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}\label{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da} 
-\index{BNO08xPrivateTypes@{BNO08xPrivateTypes}!default\_sensor\_cfg@{default\_sensor\_cfg}}
-\index{default\_sensor\_cfg@{default\_sensor\_cfg}!BNO08xPrivateTypes@{BNO08xPrivateTypes}}
-\doxysubsubsection{\texorpdfstring{default\_sensor\_cfg}{default\_sensor\_cfg}}
-{\footnotesize\ttfamily sh2\+\_\+\+Sensor\+Config BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{=\ \{\ }
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .changeSensitivityEnabled\ =\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .changeSensitivityRelative\ =\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .wakeupEnabled\ =\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .alwaysOnEnabled\ =\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .changeSensitivity\ =\ 0,}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .reportInterval\_us\ =\ 0,}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .batchInterval\_us\ =\ 0,}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .sensorSpecific\ =\ 0\}}
-
-\end{DoxyCode}

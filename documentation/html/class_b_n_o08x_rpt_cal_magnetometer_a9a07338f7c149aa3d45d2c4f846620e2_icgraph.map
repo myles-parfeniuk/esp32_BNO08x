@@ -1,9 +1,4 @@
 <map id="BNO08xRptCalMagnetometer::get" name="BNO08xRptCalMagnetometer::get">
-<area shape="rect" id="Node000001" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="150,56,368,83"/>
-<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#a176c81d817389f072da2eddb5e37b975" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,54,102,33,103,28,188,49"/>
-<area shape="rect" id="Node000003" href="$_multi_report_tests_8cpp.html#a3c5bb20df427689d78fceefd3dad0ddd" title=" " alt="" coords="5,56,102,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,72,102,72,102,67,134,67"/>
-<area shape="rect" id="Node000004" href="$_callback_tests_8cpp.html#adc348440748fec8fed1a66213f0be52f" title=" " alt="" coords="5,107,102,133"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="188,90,103,111,102,106,186,84"/>
+<area shape="rect" id="node1" title="Grabs most recent calibrated magnetometer data, units are in uTesla." alt="" coords="268,13,511,39"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
 </map>

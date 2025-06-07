@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['uncal_5fgyro_0',['uncal_gyro',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a6f1929843393c09c21b1f107a47c8fe3',1,'BNO08x::bno08x_reports_t']]],
-  ['uncal_5fmagnetometer_1',['uncal_magnetometer',['../struct_b_n_o08x_1_1bno08x__reports__t.html#a5774fa69fc74264d40478a729aeb5ece',1,'BNO08x::bno08x_reports_t']]],
-  ['usr_5freports_2',['usr_reports',['../class_b_n_o08x.html#a58b4949a61a784d09df3e7ecda175b39',1,'BNO08x']]]
+  ['vendor_5fid_0',['vendor_ID',['../structbno08x__meta__data__t.html#a51e1f028175bf00c880cc2dfd4e05412',1,'bno08x_meta_data_t']]],
+  ['vendor_5fid_5flen_1',['vendor_id_len',['../structbno08x__meta__data__t.html#a0efefbb8c4614bd3e81094f25909cc14',1,'bno08x_meta_data_t']]]
 ];

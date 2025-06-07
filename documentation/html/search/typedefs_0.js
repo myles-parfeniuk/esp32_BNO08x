@@ -3,7 +3,7 @@ var searchData=
   ['bno08x_5faccel_5ft_0',['bno08x_accel_t',['../_b_n_o08x_global_types_8hpp.html#a0c22a2a9fede695256dfaa4703497a2e',1,'BNO08xGlobalTypes.hpp']]],
   ['bno08x_5factivity_5fclassifier_5ft_1',['bno08x_activity_classifier_t',['../_b_n_o08x_global_types_8hpp.html#a7913a36911f75945cfaa0a3249a280e3',1,'BNO08xGlobalTypes.hpp']]],
   ['bno08x_5fang_5fvel_5ft_2',['bno08x_ang_vel_t',['../_b_n_o08x_global_types_8hpp.html#a2babea2516c7c91039316693fc23a8c1',1,'BNO08xGlobalTypes.hpp']]],
-  ['bno08x_5fcb_5flist_5ft_3',['bno08x_cb_list_t',['../namespace_b_n_o08x_private_types.html#a72315cafa76ff8c07f84f03fc6b36bc2',1,'BNO08xPrivateTypes']]],
+  ['bno08x_5fcb_5flist_5ft_3',['bno08x_cb_list_t',['../namespace_b_n_o08x_private_types.html#a0f0c287ea0571e6c589c638e4bd07703',1,'BNO08xPrivateTypes']]],
   ['bno08x_5fconfig_5ft_4',['bno08x_config_t',['../_b_n_o08x_global_types_8hpp.html#a648bbdbf22731476890dd8da977d7503',1,'BNO08xGlobalTypes.hpp']]],
   ['bno08x_5feuler_5fangle_5ft_5',['bno08x_euler_angle_t',['../_b_n_o08x_global_types_8hpp.html#a8ae22357b6f53c2cf806bb3aeb80814a',1,'BNO08xGlobalTypes.hpp']]],
   ['bno08x_5fgyro_5fbias_5ft_6',['bno08x_gyro_bias_t',['../_b_n_o08x_global_types_8hpp.html#a7bf3b6ed58dd988c0f4566ba56bff415',1,'BNO08xGlobalTypes.hpp']]],

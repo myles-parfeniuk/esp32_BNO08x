@@ -1,13 +1,13 @@
-\doxysection{include/\+BNO08x\+Private\+Types.hpp File Reference}
-\hypertarget{_b_n_o08x_private_types_8hpp}{}\label{_b_n_o08x_private_types_8hpp}\index{include/BNO08xPrivateTypes.hpp@{include/BNO08xPrivateTypes.hpp}}
+\hypertarget{_b_n_o08x_private_types_8hpp}{}\doxysection{/media/develop/git/imu\+\_\+pr\+\_\+cleanup/components/esp32\+\_\+\+BNO08x/include/\+BNO08x\+Private\+Types.hpp File Reference}
+\label{_b_n_o08x_private_types_8hpp}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xPrivateTypes.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xPrivateTypes.hpp}}
 {\ttfamily \#include $<$etl/vector.\+h$>$}\newline
 {\ttfamily \#include $<$etl/variant.\+h$>$}\newline
 {\ttfamily \#include $<$freertos/\+Free\+RTOS.\+h$>$}\newline
 {\ttfamily \#include $<$freertos/semphr.\+h$>$}\newline
 {\ttfamily \#include $<$freertos/event\+\_\+groups.\+h$>$}\newline
-{\ttfamily \#include "{}BNO08x\+Global\+Types.\+hpp"{}}\newline
-{\ttfamily \#include "{}BNO08x\+Cb\+Param\+Rpt\+ID.\+hpp"{}}\newline
-{\ttfamily \#include "{}BNO08x\+Cb\+Param\+Void.\+hpp"{}}\newline
+{\ttfamily \#include \char`\"{}BNO08x\+Global\+Types.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}BNO08x\+Cb\+Param\+Rpt\+ID.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}BNO08x\+Cb\+Param\+Void.\+hpp\char`\"{}}\newline
 Include dependency graph for BNO08x\+Private\+Types.\+hpp\+:
 \nopagebreak
 \begin{figure}[H]
@@ -24,28 +24,28 @@ This graph shows which files directly or indirectly include this file\+:
 \includegraphics[width=350pt]{_b_n_o08x_private_types_8hpp__dep__incl}
 \end{center}
 \end{figure}
-\doxysubsubsection*{Classes}
+\doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds context used to synchronize tasks and callback execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Namespaces}
+\doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_b_n_o08x_private_types}{BNO08x\+Private\+Types}}
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Typedefs}
+\doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a72315cafa76ff8c07f84f03fc6b36bc2}{BNO08x\+Private\+Types\+::bno08x\+\_\+cb\+\_\+list\+\_\+t}}
+using \mbox{\hyperlink{namespace_b_n_o08x_private_types_a0f0c287ea0571e6c589c638e4bd07703}{BNO08x\+Private\+Types\+::bno08x\+\_\+cb\+\_\+list\+\_\+t}} = etl\+::vector$<$ etl\+::variant$<$ \mbox{\hyperlink{class_b_n_o08x_cb_param_void}{BNO08x\+Cb\+Param\+Void}}, \mbox{\hyperlink{class_b_n_o08x_cb_param_rpt_i_d}{BNO08x\+Cb\+Param\+Rpt\+ID}} $>$, CONFIG\+\_\+\+ESP32\+\_\+\+BNO08\+X\+\_\+\+CB\+\_\+\+MAX $>$
 \begin{DoxyCompactList}\small\item\em Alias for vector type to contain both cb flavors. \end{DoxyCompactList}\item 
-typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t \mbox{\hyperlink{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}}
+typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__init__status__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a2698bcb8153e67716b43ce3cccc0f31a}{BNO08x\+Private\+Types\+::bno08x\+\_\+init\+\_\+status\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds info about which functionality has been successfully initialized (used by deconstructor during cleanup). \end{DoxyCompactList}\item 
-typedef struct BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t \mbox{\hyperlink{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
+typedef struct \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}} \mbox{\hyperlink{namespace_b_n_o08x_private_types_a67b3b4702d94bb4ba152a213feae944f}{BNO08x\+Private\+Types\+::bno08x\+\_\+sync\+\_\+ctx\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Holds context used to synchronize tasks and callback execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Enumerations}
+\doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
 enum \mbox{\hyperlink{namespace_b_n_o08x_private_types_ac53fb578d93a18b7a83903fc7a71dc2f}{BNO08x\+Private\+Types\+::bno08x\+\_\+rpt\+\_\+bit\+\_\+t}} \+: Event\+Bits\+\_\+t \{ \newline
@@ -85,11 +85,6 @@ enum \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438
 , \mbox{\hyperlink{namespace_b_n_o08x_private_types_a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc}{BNO08x\+Private\+Types\+::\+EVT\+\_\+\+GRP\+\_\+\+BNO08x\+\_\+\+TASK\+\_\+\+DATA\+\_\+\+AVAILABLE}}
  \}
 \begin{DoxyCompactList}\small\item\em Bits for evt\+\_\+grp\+\_\+bno08x\+\_\+task. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-static sh2\+\_\+\+Sensor\+Config \mbox{\hyperlink{namespace_b_n_o08x_private_types_a4f68e627c3c54e471ec83756b97924da}{BNO08x\+Private\+Types\+::default\+\_\+sensor\+\_\+cfg}}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

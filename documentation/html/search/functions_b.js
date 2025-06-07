@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['print_5fbegin_5ftests_5fbanner_0',['print_begin_tests_banner',['../class_b_n_o08x_test_suite.html#a2fea3ea192a63c9573c774e772f5c085',1,'BNO08xTestSuite']]],
-  ['print_5fend_5ftests_5fbanner_1',['print_end_tests_banner',['../class_b_n_o08x_test_suite.html#a5a9b6538773911afed92b16c435ebceb',1,'BNO08xTestSuite']]],
-  ['print_5fproduct_5fids_2',['print_product_ids',['../class_b_n_o08x.html#a7441f7f2477c152deca17054041bf3e6',1,'BNO08x']]],
-  ['print_5ftest_5fend_5fbanner_3',['print_test_end_banner',['../class_b_n_o08x_test_helper.html#a16423fc3250e88eb5392800022f82919',1,'BNO08xTestHelper']]],
-  ['print_5ftest_5fmsg_4',['print_test_msg',['../class_b_n_o08x_test_helper.html#a23593453a05f7cac26fd341371197a8c',1,'BNO08xTestHelper']]],
-  ['print_5ftest_5fstart_5fbanner_5',['print_test_start_banner',['../class_b_n_o08x_test_helper.html#a066f8389fd1c682ec9565ebc3060d885',1,'BNO08xTestHelper']]]
+  ['register_5fcb_0',['register_cb',['../class_b_n_o08x.html#aadd44524e6d22c48916acd9518b63ec3',1,'BNO08x::register_cb(std::function&lt; void(void)&gt; cb_fxn)'],['../class_b_n_o08x.html#a082c79d9951ac32ea5fa25de90255a41',1,'BNO08x::register_cb(std::function&lt; void(uint8_t report_ID)&gt; cb_fxn)'],['../class_b_n_o08x_rpt.html#a5b542b28c81fcd05cf2e3f3d2d437d46',1,'BNO08xRpt::register_cb(std::function&lt; void(void)&gt; cb_fxn)']]],
+  ['rpt_5fenable_1',['rpt_enable',['../class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c',1,'BNO08xRpt']]],
+  ['run_5fall_5ftests_2',['run_all_tests',['../class_b_n_o08x_test_suite.html#ac12545fe311a98e9c0ae6fea77da95fd',1,'BNO08xTestSuite']]],
+  ['run_5fcallback_5ftests_3',['run_callback_tests',['../class_b_n_o08x_test_suite.html#a8e294955bf512e2e88c086f04f6030a8',1,'BNO08xTestSuite']]],
+  ['run_5ffeature_5ftests_4',['run_feature_tests',['../class_b_n_o08x_test_suite.html#a8d7a3485fdf1ff9c0a09736654187434',1,'BNO08xTestSuite']]],
+  ['run_5finit_5fdeinit_5ftests_5',['run_init_deinit_tests',['../class_b_n_o08x_test_suite.html#a53de9b0fe1b28c18e3a1ca4c68a06f16',1,'BNO08xTestSuite']]],
+  ['run_5fmulti_5freport_5ftests_6',['run_multi_report_tests',['../class_b_n_o08x_test_suite.html#a916cff374791381de61f1035f9935ac5',1,'BNO08xTestSuite']]],
+  ['run_5fsingle_5freport_5ftests_7',['run_single_report_tests',['../class_b_n_o08x_test_suite.html#a37899d7bf67fce5c3dd77dd5647f8ecb',1,'BNO08xTestSuite']]]
 ];

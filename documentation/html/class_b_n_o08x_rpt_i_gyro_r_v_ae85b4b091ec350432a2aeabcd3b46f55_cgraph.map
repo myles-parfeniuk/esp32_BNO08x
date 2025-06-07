@@ -1,7 +1,5 @@
 <map id="BNO08xRptIGyroRV::get" name="BNO08xRptIGyroRV::get">
-<area shape="rect" id="Node000001" title="Grabs most recent gyro integrated rotation vector data." alt="" coords="5,31,171,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="226,5,412,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,32,210,28,210,33,171,38"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="219,56,419,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,50,203,54,203,59,171,56"/>
+<area shape="rect" id="node1" title="Grabs most recent gyro integrated rotation vector data." alt="" coords="5,31,184,57"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="240,5,443,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="232,56,451,83"/>
 </map>

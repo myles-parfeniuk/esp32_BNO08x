@@ -1,15 +1,4 @@
 <map id="BNO08x::hard_reset" name="BNO08x::hard_reset">
-<area shape="rect" id="Node000001" title="Hard resets BNO08x device." alt="" coords="5,86,145,113"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="193,35,371,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,83,209,64,210,69,133,88"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="426,10,588,37"/>
-<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="89,83,133,50,161,33,192,21,247,9,304,3,360,3,411,7,410,12,360,9,305,9,248,14,193,26,164,38,136,54,93,88"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="419,61,595,87"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="145,92,403,77,404,83,145,98"/>
-<area shape="rect" id="Node000005" href="$class_b_n_o08x.html#a6711a624f7229f2eee51ee0a5bc87e67" title="Toggles reset gpio pin for hard reset of BNO08x device." alt="" coords="207,137,357,163"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="133,111,210,130,209,135,132,116"/>
-<area shape="rect" id="Node000006" href="$class_b_n_o08x.html#a6602374314c07e9f707c0a6d2234bf7e" title="Waits for SH2 HAL lib to detect reset or HOST_INT_TIMEOUT_DEFAULT_MS to elapse." alt="" coords="203,187,361,214"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="95,111,139,142,194,173,209,179,207,184,192,178,136,146,92,115"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,36,410,31,411,37,371,41"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="371,56,404,60,403,65,371,61"/>
+<area shape="rect" id="node1" title="Hard resets BNO08x device." alt="" coords="5,5,157,32"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="205,5,400,32"/>
 </map>

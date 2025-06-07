@@ -1,27 +1,27 @@
-\doxysection{BNO08x\+Rpt\+Game\+RV.\+hpp}
-\hypertarget{_b_n_o08x_rpt_game_r_v_8hpp_source}{}\label{_b_n_o08x_rpt_game_r_v_8hpp_source}\index{include/report/BNO08xRptGameRV.hpp@{include/report/BNO08xRptGameRV.hpp}}
+\hypertarget{_b_n_o08x_rpt_game_r_v_8hpp_source}{}\doxysection{BNO08x\+Rpt\+Game\+RV.\+hpp}
+\label{_b_n_o08x_rpt_game_r_v_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptGameRV.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/report/BNO08xRptGameRV.hpp}}
 \mbox{\hyperlink{_b_n_o08x_rpt_game_r_v_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_rpt_r_v_generic_8hpp}{BNO08xRptRVGeneric.hpp}}"{}}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v}{BNO08xRptGameRV}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}}}
-\DoxyCodeLine{00016\ \{}
-\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a5ce3525ae691ef37dff5c8d638e98e18}{BNO08xRptGameRV}}(uint8\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ EventBits\_t\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}},\ \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2}{tare}}(\textcolor{keywordtype}{bool}\ x\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{bool}\ y\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{bool}\ z\ =\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06}{tare\_persist}}();}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f}{tare\_clear}}();}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a8f9be2a12cec2a8467829fe561bf5f3d}{update\_data}}(sh2\_SensorValue\_t*\ sensor\_val)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a3fd3cec253a42d897a736adaf50bfe5d}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xRptGameRV"{}};}
-\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_rpt_r_v_generic_8hpp}{BNO08xRptRVGeneric.hpp}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v}{BNO08xRptGameRV}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}}}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     \textcolor{keyword}{public}:}
+\DoxyCodeLine{18         \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a5ce3525ae691ef37dff5c8d638e98e18}{BNO08xRptGameRV}}(uint8\_t \mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, EventBits\_t \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t}{BNO08xPrivateTypes::bno08x\_sync\_ctx\_t}}* \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{19             : \mbox{\hyperlink{class_b_n_o08x_rpt_r_v_generic}{BNO08xRptRVGeneric}}(\mbox{\hyperlink{class_b_n_o08x_rpt_a63cd4ac9e96baa43eebe580f03307512}{ID}}, \mbox{\hyperlink{class_b_n_o08x_rpt_ae78feab5682a4697c5acad3ca6f12c2e}{rpt\_bit}}, \mbox{\hyperlink{class_b_n_o08x_rpt_a5a1404a08918d66bb0f41f55220db6e5}{sync\_ctx}})}
+\DoxyCodeLine{20         \{}
+\DoxyCodeLine{21         \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_a773f8e4bf9e5059d6b301fc346cbc9d2}{tare}}(\textcolor{keywordtype}{bool} x = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} y = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} z = \textcolor{keyword}{true});}
+\DoxyCodeLine{24         \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ae91c07ae4d781216065fd704b5c88d06}{tare\_persist}}();}
+\DoxyCodeLine{25         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_rpt_game_r_v_ab8844cc390818f2b5cff8afefc89558f}{tare\_clear}}();}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{keyword}{private}:}
+\DoxyCodeLine{28         \textcolor{keywordtype}{void} update\_data(sh2\_SensorValue\_t* sensor\_val) \textcolor{keyword}{override};}
+\DoxyCodeLine{29         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* TAG = \textcolor{stringliteral}{"{}BNO08xRptGameRV"{}};}
+\DoxyCodeLine{30 \};}
 
 \end{DoxyCode}

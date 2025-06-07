@@ -1,21 +1,6 @@
 var searchData=
 [
-  ['save_5fdynamic_5fcalibration_0',['save_dynamic_calibration',['../class_b_n_o08x.html#a1c703a1fb79ce777dc73a83f02bfdb85',1,'BNO08x']]],
-  ['sensor_5fevent_5fcb_1',['sensor_event_cb',['../class_b_n_o08x_s_h2_h_a_l.html#a19c041ef614d7eda85b94b10202a3997',1,'BNO08xSH2HAL']]],
-  ['set_5factivities_5fto_5fenable_2',['set_activities_to_enable',['../class_b_n_o08x_rpt_activity_classifier.html#adb51886e94e91d114246c51919fd368b',1,'BNO08xRptActivityClassifier']]],
-  ['set_5fhal_5fimu_3',['set_hal_imu',['../class_b_n_o08x_s_h2_h_a_l.html#a236ccf0ff8d36060b465bc1f4f0a37fa',1,'BNO08xSH2HAL']]],
-  ['set_5ftest_5fimu_5fcfg_4',['set_test_imu_cfg',['../class_b_n_o08x_test_helper.html#a9e2f9bf13f28f1a6ba87e86bc5947cf1',1,'BNO08xTestHelper']]],
-  ['sh2_5fhal_5fservice_5ftask_5',['sh2_HAL_service_task',['../class_b_n_o08x.html#a7c7a9a0b81f9c8762fc927efea68bf23',1,'BNO08x']]],
-  ['sh2_5fhal_5fservice_5ftask_5ftrampoline_6',['sh2_HAL_service_task_trampoline',['../class_b_n_o08x.html#a888eaf810d6140e2e771c44f5857b7c1',1,'BNO08x']]],
-  ['signal_5fdata_5favailable_7',['signal_data_available',['../class_b_n_o08x_rpt.html#a47a623eb0a1db51af76a03a103c32329',1,'BNO08xRpt']]],
-  ['sleep_8',['sleep',['../class_b_n_o08x.html#a7c5774a48227e8e3346fa5df7dfa420c',1,'BNO08x']]],
-  ['soft_5freset_9',['soft_reset',['../class_b_n_o08x.html#a973a1b1785f3302ee1b2702c6a27646e',1,'BNO08x']]],
-  ['spi_5fclose_10',['spi_close',['../class_b_n_o08x_s_h2_h_a_l.html#a5fa6b901d1790fcd7dc0905f62ae040f',1,'BNO08xSH2HAL']]],
-  ['spi_5fopen_11',['spi_open',['../class_b_n_o08x_s_h2_h_a_l.html#ae079b1384cba806a778eb0e27f981da0',1,'BNO08xSH2HAL']]],
-  ['spi_5fread_12',['spi_read',['../class_b_n_o08x_s_h2_h_a_l.html#a3e691461235b3e3c59866ac179d06f25',1,'BNO08xSH2HAL']]],
-  ['spi_5fread_5fsh2_5fpacket_5fbody_13',['spi_read_sh2_packet_body',['../class_b_n_o08x_s_h2_h_a_l.html#a6003e3011b0e8208e2632f729e195922',1,'BNO08xSH2HAL']]],
-  ['spi_5fread_5fsh2_5fpacket_5fheader_14',['spi_read_sh2_packet_header',['../class_b_n_o08x_s_h2_h_a_l.html#ac63619162addd952a2af599cb414783f',1,'BNO08xSH2HAL']]],
-  ['spi_5fwait_5ffor_5fint_15',['spi_wait_for_int',['../class_b_n_o08x_s_h2_h_a_l.html#a15b568922a498b988bd8b897b3ae2278',1,'BNO08xSH2HAL']]],
-  ['spi_5fwrite_16',['spi_write',['../class_b_n_o08x_s_h2_h_a_l.html#a96d5b8fa7669f22cd0ecaf1feee13299',1,'BNO08xSH2HAL']]],
-  ['stability_5fto_5fstr_17',['stability_to_str',['../class_b_n_o08x.html#aa8347555e37a185bef4a834b04231123',1,'BNO08x']]]
+  ['tare_0',['tare',['../class_b_n_o08x_rpt_game_r_v.html#a773f8e4bf9e5059d6b301fc346cbc9d2',1,'BNO08xRptGameRV::tare()'],['../class_b_n_o08x_rpt_r_v.html#aab42904ebfc698d0af0944deaafcd226',1,'BNO08xRptRV::tare()'],['../class_b_n_o08x_rpt_r_v_generic.html#ab059dded7c0a7c922e9c624baac34ecd',1,'BNO08xRptRVGeneric::tare()'],['../class_b_n_o08x_rpt_r_v_geomag.html#a622f024808e368b09c41ca1b5118a874',1,'BNO08xRptRVGeomag::tare()']]],
+  ['tare_5fclear_1',['tare_clear',['../class_b_n_o08x_rpt_game_r_v.html#ab8844cc390818f2b5cff8afefc89558f',1,'BNO08xRptGameRV::tare_clear()'],['../class_b_n_o08x_rpt_r_v.html#a920fb5940c13870657c48538569aff87',1,'BNO08xRptRV::tare_clear()'],['../class_b_n_o08x_rpt_r_v_geomag.html#a2c62a41402f167a49025914a9800d062',1,'BNO08xRptRVGeomag::tare_clear()']]],
+  ['tare_5fpersist_2',['tare_persist',['../class_b_n_o08x_rpt_game_r_v.html#ae91c07ae4d781216065fd704b5c88d06',1,'BNO08xRptGameRV::tare_persist()'],['../class_b_n_o08x_rpt_r_v.html#aa152921434b50a95977b0a4f925abec0',1,'BNO08xRptRV::tare_persist()'],['../class_b_n_o08x_rpt_r_v_geomag.html#a57305f5f72067a56b037cf766fa2ee63',1,'BNO08xRptRVGeomag::tare_persist()']]]
 ];

@@ -1,7 +1,5 @@
 <map id="BNO08xRptTapDetector::get" name="BNO08xRptTapDetector::get">
-<area shape="rect" id="Node000001" title="Grabs most recent tap detector detector data." alt="" coords="5,31,192,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="247,5,433,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,32,231,27,231,33,192,37"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="240,56,440,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,51,224,55,224,60,192,56"/>
+<area shape="rect" id="node1" title="Grabs most recent tap detector detector data." alt="" coords="5,31,209,57"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="265,5,468,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="257,56,476,83"/>
 </map>

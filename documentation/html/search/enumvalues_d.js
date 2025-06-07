@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['walking_0',['WALKING',['../_b_n_o08x_global_types_8hpp.html#adc1b530563e35a96fc1b8911ff133e0fa606c114184493a665cf1f6a12fbab9d3',1,'WALKING:&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#abcc5d57e21ea6ed79e792deafcb62187a606c114184493a665cf1f6a12fbab9d3',1,'WALKING:&#160;BNO08xGlobalTypes.hpp']]],
-  ['wtd_1',['WTD',['../_b_n_o08x_global_types_8hpp.html#ab2a2ace42f7f438d6a799dfcbc243147a764caaf44e35ee682f4079bd0878fa36',1,'BNO08xGlobalTypes.hpp']]]
+  ['reserved_0',['RESERVED',['../_b_n_o08x_global_types_8hpp.html#a22d72f675aad7af764e685f91b29f4cba83c7f2aa8c3ac10ed8beb75cad162827',1,'BNO08xGlobalTypes.hpp']]],
+  ['running_1',['RUNNING',['../_b_n_o08x_global_types_8hpp.html#a64f4487da0833d5304046093935f5d3aa43491564ebcfd38568918efbd6e840fd',1,'RUNNING():&#160;BNO08xGlobalTypes.hpp'],['../_b_n_o08x_global_types_8hpp.html#a43d66cdccf17ba0cddcdddc72d4fb97da43491564ebcfd38568918efbd6e840fd',1,'RUNNING():&#160;BNO08xGlobalTypes.hpp']]]
 ];

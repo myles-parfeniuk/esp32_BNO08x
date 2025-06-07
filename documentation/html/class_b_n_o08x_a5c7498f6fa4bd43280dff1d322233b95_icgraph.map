@@ -1,5 +1,4 @@
 <map id="BNO08x::dynamic_calibration_disable" name="BNO08x::dynamic_calibration_disable">
-<area shape="rect" id="Node000001" title="Disables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6...." alt="" coords="150,5,343,48"/>
-<area shape="rect" id="Node000002" href="$_feature_tests_8cpp.html#ace101f40531db107a743cff5815022e6" title=" " alt="" coords="5,13,102,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
+<area shape="rect" id="node1" title="Disables dynamic/motion engine calibration for specified sensor(s), see ref. manual 6...." alt="" coords="268,5,483,47"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#abcdba0d0e82db480d20ea4564511a276" title="Example calibration routine using dynamic/ME calibration commands." alt="" coords="5,5,220,47"/>
 </map>

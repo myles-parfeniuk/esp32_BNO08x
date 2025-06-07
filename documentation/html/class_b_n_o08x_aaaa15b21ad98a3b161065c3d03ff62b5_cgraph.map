@@ -1,7 +1,0 @@
-<map id="BNO08x::on" name="BNO08x::on">
-<area shape="rect" id="Node000001" title="Places BNO08x device in on state by sending ON (2) command on &quot;device&quot; channel." alt="" coords="5,31,98,57"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a8e43dd50140f326cfb58e00399923e8c" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="153,5,315,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,35,137,29,138,35,99,40"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x.html#a2dbce689245a1b9968e3ea627d2b9a42" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="146,56,322,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,48,131,52,130,58,98,53"/>
-</map>

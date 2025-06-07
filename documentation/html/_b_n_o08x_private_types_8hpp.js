@@ -2,7 +2,7 @@ var _b_n_o08x_private_types_8hpp =
 [
     [ "BNO08xPrivateTypes::bno08x_init_status_t", "struct_b_n_o08x_private_types_1_1bno08x__init__status__t.html", "struct_b_n_o08x_private_types_1_1bno08x__init__status__t" ],
     [ "BNO08xPrivateTypes::bno08x_sync_ctx_t", "struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html", "struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t" ],
-    [ "bno08x_cb_list_t", "_b_n_o08x_private_types_8hpp.html#a72315cafa76ff8c07f84f03fc6b36bc2", null ],
+    [ "bno08x_cb_list_t", "_b_n_o08x_private_types_8hpp.html#a0f0c287ea0571e6c589c638e4bd07703", null ],
     [ "bno08x_init_status_t", "_b_n_o08x_private_types_8hpp.html#a2698bcb8153e67716b43ce3cccc0f31a", null ],
     [ "bno08x_sync_ctx_t", "_b_n_o08x_private_types_8hpp.html#a67b3b4702d94bb4ba152a213feae944f", null ],
     [ "bno08x_rpt_bit_t", "_b_n_o08x_private_types_8hpp.html#ac53fb578d93a18b7a83903fc7a71dc2f", [
@@ -35,6 +35,5 @@ var _b_n_o08x_private_types_8hpp =
       [ "EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT", "_b_n_o08x_private_types_8hpp.html#a59097f108831dd9860e17438d2976c1ca616d8458c1a9f54f9d99ba03a773ba41", null ],
       [ "EVT_GRP_BNO08x_TASK_RESET_OCCURRED", "_b_n_o08x_private_types_8hpp.html#a59097f108831dd9860e17438d2976c1caaddd073f2b8e89319909d7c61f220452", null ],
       [ "EVT_GRP_BNO08x_TASK_DATA_AVAILABLE", "_b_n_o08x_private_types_8hpp.html#a59097f108831dd9860e17438d2976c1ca17f12f538e40746dbe8aafee08391fcc", null ]
-    ] ],
-    [ "default_sensor_cfg", "_b_n_o08x_private_types_8hpp.html#a4f68e627c3c54e471ec83756b97924da", null ]
+    ] ]
 ];

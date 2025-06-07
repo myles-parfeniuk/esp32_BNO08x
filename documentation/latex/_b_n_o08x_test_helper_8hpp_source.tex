@@ -1,151 +1,152 @@
-\doxysection{BNO08x\+Test\+Helper.\+hpp}
-\hypertarget{_b_n_o08x_test_helper_8hpp_source}{}\label{_b_n_o08x_test_helper_8hpp_source}\index{include/BNO08xTestHelper.hpp@{include/BNO08xTestHelper.hpp}}
+\hypertarget{_b_n_o08x_test_helper_8hpp_source}{}\doxysection{BNO08x\+Test\+Helper.\+hpp}
+\label{_b_n_o08x_test_helper_8hpp_source}\index{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xTestHelper.hpp@{/media/develop/git/imu\_pr\_cleanup/components/esp32\_BNO08x/include/BNO08xTestHelper.hpp}}
 \mbox{\hyperlink{_b_n_o08x_test_helper_8hpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{comment}{//\ in-\/house\ includes}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.hpp}}"{}}}
-\DoxyCodeLine{00010\ }
-\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_b_n_o08x_test_helper}{BNO08xTestHelper}}}
-\DoxyCodeLine{00017\ \{}
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}*\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a008b268f705b9d2925230cb8193c9f28}{imu\_cfg}};}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{class_b_n_o08x_test_helper_aa09d388a5da3a925ac25125b9c5c3a90}{TAG}}\ =\ \textcolor{stringliteral}{"{}BNO08xTestHelper"{}};}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a066f8389fd1c682ec9565ebc3060d885}{print\_test\_start\_banner}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ TEST\_TAG)}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ BEGIN\ TEST:\ \%s\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n\(\backslash\)r"{}},\ TEST\_TAG);}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919}{print\_test\_end\_banner}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ TEST\_TAG)}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ END\ TEST:\ \%s\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n\(\backslash\)r"{}},\ TEST\_TAG);}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c}{print\_test\_msg}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ TEST\_TAG,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ msg)}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%s:\ \%s:\ \%s\(\backslash\)n\(\backslash\)r"{}},\ \mbox{\hyperlink{class_b_n_o08x_test_helper_aa09d388a5da3a925ac25125b9c5c3a90}{TAG}},\ TEST\_TAG,\ msg);}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a9e2f9bf13f28f1a6ba87e86bc5947cf1}{set\_test\_imu\_cfg}}(\mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}}\ cfg)}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_test_helper_a008b268f705b9d2925230cb8193c9f28}{imu\_cfg}}\ =\ cfg;}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}{create\_test\_imu}}()}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}{destroy\_test\_imu}}();}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}();}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}{destroy\_test\_imu}}()}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}};}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}*\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b}{get\_test\_imu}}()}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}};}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d}{call\_init\_config\_args}}()}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a589eb9780f5bf613bbd447ef5b9ade3d}{init\_config\_args}}();}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161}{call\_init\_gpio}}()}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00133\ }
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_ae0dab25557befcf62bf384fdc241ef10}{init\_gpio}}();}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15}{call\_init\_hint\_isr}}()}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00146\ }
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_aa27026da2c52b4aca49b78863f10ec61}{init\_hint\_isr}}();}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5}{call\_init\_spi}}()}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00159\ }
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a58f43c8bb1e7fe8560ce442d46240e81}{init\_spi}}();}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00162\ }
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4}{call\_init\_tasks}}()}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a90d959312e6f7f8151b8a38218492ead}{init\_tasks}}();}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00175\ }
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449}{call\_init\_sh2\_HAL}}()}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00185\ }
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_ae2fc9a0fe63a927c015a267621316a80}{init\_sh2\_HAL}}();}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b}{call\_deinit\_gpio}}()}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00198\ }
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a4f007dd431f10e741414d197bb4926c3}{deinit\_gpio}}();}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ }
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261}{call\_deinit\_hint\_isr}}()}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00211\ }
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a9d96108b0f5b1e1e1ac431bc993ca758}{deinit\_hint\_isr}}();}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00214\ }
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868}{call\_deinit\_spi}}()}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00224\ }
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a233920ce97f685fbdabecccacf471d85}{deinit\_spi}}();}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00227\ }
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec}{call\_deinit\_tasks}}()}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00237\ }
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a968144efd5100ccce0e453c40a63592b}{deinit\_tasks}}();}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00240\ }
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ esp\_err\_t\ \mbox{\hyperlink{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d}{call\_deinit\_sh2\_HAL}}()}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ESP\_FAIL;}
-\DoxyCodeLine{00250\ }
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_b_n_o08x_test_helper_a2da34e5d5e353cd37fa458fcfe7cf243}{test\_imu}}-\/>\mbox{\hyperlink{class_b_n_o08x_a75c7226ea4626862a5039aa053116861}{deinit\_sh2\_HAL}}();}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00253\ \};}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{comment}{// in-\/house includes}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_b_n_o08x_8hpp}{BNO08x.hpp}}"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_b_n_o08x_test_helper}{BNO08xTestHelper}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18     \textcolor{keyword}{private}:}
+\DoxyCodeLine{19         \textcolor{keyword}{static} \textcolor{keyword}{inline} uint8\_t test\_imu\_buffer[\textcolor{keyword}{sizeof}(\mbox{\hyperlink{class_b_n_o08x}{BNO08x}})];}
+\DoxyCodeLine{20         \textcolor{keyword}{inline} \textcolor{keyword}{static} \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}* test\_imu = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{21         \textcolor{keyword}{inline} \textcolor{keyword}{static} \mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}} imu\_cfg;}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{char}* TAG = \textcolor{stringliteral}{"{}BNO08xTestHelper"{}};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25     \textcolor{keyword}{public}:}
+\DoxyCodeLine{33         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_a066f8389fd1c682ec9565ebc3060d885}{print\_test\_start\_banner}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* TEST\_TAG)}
+\DoxyCodeLine{34         \{}
+\DoxyCodeLine{35             printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ BEGIN TEST: \%s -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n\(\backslash\)r"{}}, TEST\_TAG);}
+\DoxyCodeLine{36         \}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{45         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_a16423fc3250e88eb5392800022f82919}{print\_test\_end\_banner}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* TEST\_TAG)}
+\DoxyCodeLine{46         \{}
+\DoxyCodeLine{47             printf(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ END TEST: \%s -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n\(\backslash\)r"{}}, TEST\_TAG);}
+\DoxyCodeLine{48         \}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{58         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_a23593453a05f7cac26fd341371197a8c}{print\_test\_msg}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* TEST\_TAG, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg)}
+\DoxyCodeLine{59         \{}
+\DoxyCodeLine{60             printf(\textcolor{stringliteral}{"{}\%s: \%s: \%s\(\backslash\)n\(\backslash\)r"{}}, TAG, TEST\_TAG, msg);}
+\DoxyCodeLine{61         \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{70         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_a9e2f9bf13f28f1a6ba87e86bc5947cf1}{set\_test\_imu\_cfg}}(\mbox{\hyperlink{structbno08x__config__t}{bno08x\_config\_t}} cfg)}
+\DoxyCodeLine{71         \{}
+\DoxyCodeLine{72             imu\_cfg = cfg;}
+\DoxyCodeLine{73         \}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{80         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_a6bd040c7d670a9713f2ab8a8a3913518}{create\_test\_imu}}()}
+\DoxyCodeLine{81         \{}
+\DoxyCodeLine{82             \textcolor{keywordflow}{if} (test\_imu != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{83                 \mbox{\hyperlink{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}{destroy\_test\_imu}}();}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85             test\_imu = \textcolor{keyword}{new} (\&test\_imu\_buffer) \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}();}
+\DoxyCodeLine{86         \}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{93         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_b_n_o08x_test_helper_ae2d6df7dcfdbd106c2247803461bbc40}{destroy\_test\_imu}}()}
+\DoxyCodeLine{94         \{}
+\DoxyCodeLine{95             \textcolor{keywordflow}{if} (test\_imu != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{96             \{}
+\DoxyCodeLine{97                 test\_imu-\/>\string~BNO08x();  }
+\DoxyCodeLine{98                 test\_imu = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{99             \}}
+\DoxyCodeLine{100         \}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{107         \textcolor{keyword}{static} \mbox{\hyperlink{class_b_n_o08x}{BNO08x}}* \mbox{\hyperlink{class_b_n_o08x_test_helper_a41a432a3fe288e45b6ab139a00bd7d6b}{get\_test\_imu}}()}
+\DoxyCodeLine{108         \{}
+\DoxyCodeLine{109             \textcolor{keywordflow}{return} test\_imu;}
+\DoxyCodeLine{110         \}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{117         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a71d9fd7d459a98a7e9089a8587a21f8d}{call\_init\_config\_args}}()}
+\DoxyCodeLine{118         \{}
+\DoxyCodeLine{119             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{120                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122             \textcolor{keywordflow}{return} test\_imu-\/>init\_config\_args();}
+\DoxyCodeLine{123         \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{130         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a504749533ccd91890d73440809d38161}{call\_init\_gpio}}()}
+\DoxyCodeLine{131         \{}
+\DoxyCodeLine{132             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{133                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135             \textcolor{keywordflow}{return} test\_imu-\/>init\_gpio();}
+\DoxyCodeLine{136         \}}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{143         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a836c928981ac85d34668c9b97af17a15}{call\_init\_hint\_isr}}()}
+\DoxyCodeLine{144         \{}
+\DoxyCodeLine{145             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{146                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148             \textcolor{keywordflow}{return} test\_imu-\/>init\_hint\_isr();}
+\DoxyCodeLine{149         \}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{156         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a7d2d784da1e850dab41154b35d7cdab5}{call\_init\_spi}}()}
+\DoxyCodeLine{157         \{}
+\DoxyCodeLine{158             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{159                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161             \textcolor{keywordflow}{return} test\_imu-\/>init\_spi();}
+\DoxyCodeLine{162         \}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{169         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a935a69784981caf90b4e135e3e257db4}{call\_init\_tasks}}()}
+\DoxyCodeLine{170         \{}
+\DoxyCodeLine{171             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{172                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174             \textcolor{keywordflow}{return} test\_imu-\/>init\_tasks();}
+\DoxyCodeLine{175         \}}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{182         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a854c60f602fe6d9af1da1a07eee0a449}{call\_init\_sh2\_HAL}}()}
+\DoxyCodeLine{183         \{}
+\DoxyCodeLine{184             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{185                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187             \textcolor{keywordflow}{return} test\_imu-\/>init\_sh2\_HAL();}
+\DoxyCodeLine{188         \}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{195         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a347b8ca2697388394b7cb68c8895494b}{call\_deinit\_gpio}}()}
+\DoxyCodeLine{196         \{}
+\DoxyCodeLine{197             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{198                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200             \textcolor{keywordflow}{return} test\_imu-\/>deinit\_gpio();}
+\DoxyCodeLine{201         \}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{208         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_ac15a216ea5561b190f25f83caa749261}{call\_deinit\_hint\_isr}}()}
+\DoxyCodeLine{209         \{}
+\DoxyCodeLine{210             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{211                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{213             \textcolor{keywordflow}{return} test\_imu-\/>deinit\_hint\_isr();}
+\DoxyCodeLine{214         \}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{221         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a56ec98df9439461469bf0d2c23bb3868}{call\_deinit\_spi}}()}
+\DoxyCodeLine{222         \{}
+\DoxyCodeLine{223             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{224                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{226             \textcolor{keywordflow}{return} test\_imu-\/>deinit\_spi();}
+\DoxyCodeLine{227         \}}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{234         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_a3be103abfab70eef3c1b1609a0c46bec}{call\_deinit\_tasks}}()}
+\DoxyCodeLine{235         \{}
+\DoxyCodeLine{236             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{237                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239             \textcolor{keywordflow}{return} test\_imu-\/>deinit\_tasks();}
+\DoxyCodeLine{240         \}}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{247         \textcolor{keyword}{static} esp\_err\_t \mbox{\hyperlink{class_b_n_o08x_test_helper_ab1f8d61956fbceecf0baf08cb878397d}{call\_deinit\_sh2\_HAL}}()}
+\DoxyCodeLine{248         \{}
+\DoxyCodeLine{249             \textcolor{keywordflow}{if} (test\_imu == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{250                 \textcolor{keywordflow}{return} ESP\_FAIL;}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252             \textcolor{keywordflow}{return} test\_imu-\/>deinit\_sh2\_HAL();}
+\DoxyCodeLine{253         \}}
+\DoxyCodeLine{254 \};}
 
 \end{DoxyCode}

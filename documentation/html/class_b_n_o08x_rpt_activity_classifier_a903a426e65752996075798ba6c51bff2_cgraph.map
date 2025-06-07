@@ -1,7 +1,5 @@
 <map id="BNO08xRptActivityClassifier::get_most_likely_activity" name="BNO08xRptActivityClassifier::get_most_likely_activity">
-<area shape="rect" id="Node000001" title="Grabs most the most likely activity from most recent activity classifier data." alt="" coords="5,23,191,65"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="246,5,432,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,32,230,27,230,33,191,37"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="239,56,439,83"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,51,223,55,223,60,191,56"/>
+<area shape="rect" id="node1" title="Grabs most the most likely activity from most recent activity classifier data." alt="" coords="5,23,212,65"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="268,5,471,32"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="260,56,479,83"/>
 </map>

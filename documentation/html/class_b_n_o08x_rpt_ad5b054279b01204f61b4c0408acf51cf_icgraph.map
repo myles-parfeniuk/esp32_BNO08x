@@ -1,5 +1,0 @@
-<map id="BNO08xRpt::get_meta_data" name="BNO08xRpt::get_meta_data">
-<area shape="rect" id="Node000001" title="Retrieves meta data for this sensor/report by reading respective record in FRS (flash record system)." alt="" coords="150,5,334,32"/>
-<area shape="rect" id="Node000002" href="$_feature_tests_8cpp.html#ae6b70979bd6502fbeaef43fb4bc8d508" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
-</map>

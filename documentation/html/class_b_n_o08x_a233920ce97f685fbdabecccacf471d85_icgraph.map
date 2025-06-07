@@ -1,9 +1,0 @@
-<map id="BNO08x::deinit_spi" name="BNO08x::deinit_spi">
-<area shape="rect" id="Node000001" title="Deinitializes SPI." alt="" coords="358,43,491,69"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_test_helper.html#a56ec98df9439461469bf0d2c23bb3868" title="Used to call private BNO08x::deinit_spi() member for tests." alt="" coords="150,5,310,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="342,46,310,41,311,36,343,41"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x.html#a687eee44d68e1bcabce04780d7eb5fb9" title="BNO08x imu deconstructor." alt="" coords="162,72,298,99"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="343,71,298,78,297,73,343,66"/>
-<area shape="rect" id="Node000003" href="$_init_denit_tests_8cpp.html#a12171e93ec585327ea2e7464a89c0405" title=" " alt="" coords="5,13,102,40"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
-</map>

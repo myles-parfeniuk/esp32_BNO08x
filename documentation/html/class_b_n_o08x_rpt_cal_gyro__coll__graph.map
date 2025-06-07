@@ -1,9 +1,5 @@
 <map id="BNO08xRptCalGyro" name="BNO08xRptCalGyro">
-<area shape="rect" id="Node000001" title="Class to represent calibrated gyro reports. (See Ref. Manual 6.5.13)" alt="" coords="70,203,208,229"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="32,112,123,139"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,150,132,201,128,204,93,153"/>
-<area shape="rect" id="Node000003" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,150,48"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,64,80,112,75,112,75,64"/>
-<area shape="rect" id="Node000004" href="$structbno08x__gyro__t.html" title="Struct to represent gyro data (units in rad/s)" alt="" coords="147,112,253,139"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,153,150,204,145,201,180,150"/>
+<area shape="rect" id="node1" title="Class to represent calibrated gyro reports. (See Ref. Manual 6.5.13)" alt="" coords="10,185,159,212"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html" title="Class to represent and manage reports returned from BNO08x." alt="" coords="36,109,133,136"/>
+<area shape="rect" id="node3" href="$struct_b_n_o08x_private_types_1_1bno08x__sync__ctx__t.html" title="Holds context used to synchronize tasks and callback execution." alt="" coords="5,5,164,47"/>
 </map>

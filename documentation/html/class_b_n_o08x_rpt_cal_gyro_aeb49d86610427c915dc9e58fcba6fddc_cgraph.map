@@ -1,13 +1,8 @@
 <map id="BNO08xRptCalGyro::enable" name="BNO08xRptCalGyro::enable">
-<area shape="rect" id="Node000001" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="5,81,189,108"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="237,81,395,108"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,92,221,92,221,97,189,97"/>
-<area shape="rect" id="Node000003" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="452,5,634,32"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="347,78,442,41,467,34,469,39,444,47,349,83"/>
-<area shape="rect" id="Node000004" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="450,56,636,83"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="395,83,434,79,435,84,395,89"/>
-<area shape="rect" id="Node000005" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="445,107,641,133"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="395,101,430,105,429,110,395,106"/>
-<area shape="rect" id="Node000006" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="443,157,643,184"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="349,106,444,143,469,150,467,155,442,148,347,111"/>
+<area shape="rect" id="node1" title="Enables calibrated gyro reports such that the BNO08x begins sending them." alt="" coords="5,81,207,108"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x_rpt.html#aa0bed98a9a497d1f39e8245d05b02e9c" title="Enables a sensor report such that the BNO08x begins sending it." alt="" coords="255,81,429,108"/>
+<area shape="rect" id="node3" href="$class_b_n_o08x_rpt.html#a7a5619a74c1237c5abde2e4bd6619d12" title="Locks sh2 HAL lib to only allow the calling task to call its APIs." alt="" coords="489,5,684,32"/>
+<area shape="rect" id="node4" href="$class_b_n_o08x_rpt.html#a48e7b1a2c2ebc6b1f2f292735c0832a0" title="Locks locks user data to only allow the calling task to read/modify it." alt="" coords="485,56,688,83"/>
+<area shape="rect" id="node5" href="$class_b_n_o08x_rpt.html#a61e3451e93806e1b7eaf5f1387726765" title="Unlocks sh2 HAL lib to allow other tasks to call its APIs." alt="" coords="481,107,692,133"/>
+<area shape="rect" id="node6" href="$class_b_n_o08x_rpt.html#a26bacc572187119339ec248bb4e7d6f3" title="Unlocks user data to allow other tasks to read/modify it." alt="" coords="477,157,696,184"/>
 </map>

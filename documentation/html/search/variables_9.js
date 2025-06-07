@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['j_0',['j',['../structbno08x__quat__t.html#aab49754d4967cfa71578d8d1156eef46',1,'bno08x_quat_t']]]
+  ['k_0',['k',['../structbno08x__quat__t.html#ade2592f6a271cc8b260081ad018772ef',1,'bno08x_quat_t']]]
 ];

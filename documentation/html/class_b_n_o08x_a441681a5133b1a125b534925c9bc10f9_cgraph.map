@@ -1,0 +1,4 @@
+<map id="BNO08x::dynamic_calibration_data_clear_ram" name="BNO08x::dynamic_calibration_data_clear_ram">
+<area shape="rect" id="node1" title="Clears dynamic/motion engine calibration data from ram and resets BNO08x device. See ref manual 6...." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node2" href="$class_b_n_o08x.html#a96d47dd0f9aedfbe3f731f8ae76b2e85" title="Returns reason for previous reset via product ID report." alt="" coords="268,13,463,39"/>
+</map>

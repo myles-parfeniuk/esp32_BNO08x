@@ -1,27 +1,10 @@
-<map id="include/report/BNO08xRptGravity.hpp" name="include/report/BNO08xRptGravity.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="800,5,972,48"/>
-<area shape="rect" id="Node000002" href="$_b_n_o08x_reports_8hpp.html" title=" " alt="" coords="648,96,870,123"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="842,59,780,98,777,93,839,54"/>
-<area shape="rect" id="Node000013" href="$_b_n_o08x_rpt_gravity_8cpp.html" title=" " alt="" coords="895,96,1130,123"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="932,54,994,93,991,98,930,59"/>
-<area shape="rect" id="Node000003" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="689,171,829,197"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="762,138,762,170,756,170,756,138"/>
-<area shape="rect" id="Node000004" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="463,245,666,272"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="712,206,599,247,598,242,710,201"/>
-<area shape="rect" id="Node000011" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="690,245,828,272"/>
-<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="762,213,762,245,756,245,756,213"/>
-<area shape="rect" id="Node000012" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="853,245,1041,272"/>
-<area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="807,201,915,242,913,247,805,206"/>
-<area shape="rect" id="Node000005" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,320,201,347"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="469,278,184,322,183,317,468,272"/>
-<area shape="rect" id="Node000006" href="$_callback_tests_8cpp.html" title=" " alt="" coords="225,320,379,347"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="505,279,348,322,347,317,503,274"/>
-<area shape="rect" id="Node000007" href="$_feature_tests_8cpp.html" title=" " alt="" coords="404,320,552,347"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="539,284,494,322,491,318,536,280"/>
-<area shape="rect" id="Node000008" href="$_init_denit_tests_8cpp.html" title=" " alt="" coords="575,320,727,347"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="593,280,638,318,634,322,589,284"/>
-<area shape="rect" id="Node000009" href="$_multi_report_tests_8cpp.html" title=" " alt="" coords="751,320,922,347"/>
-<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="627,274,789,317,788,322,626,279"/>
-<area shape="rect" id="Node000010" href="$_single_report_tests_8cpp.html" title=" " alt="" coords="946,320,1124,347"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="662,272,953,317,952,322,662,278"/>
+<map id="/media/develop/git/imu_pr_cleanup/components/esp32_BNO08x/include/report/BNO08xRptGravity.hpp" name="/media/develop/git/imu_pr_cleanup/components/esp32_BNO08x/include/report/BNO08xRptGravity.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="351,5,569,76"/>
+<area shape="rect" id="node2" href="$_b_n_o08x_reports_8hpp.html" title=" " alt="" coords="231,124,449,195"/>
+<area shape="rect" id="node8" href="$_b_n_o08x_rpt_gravity_8cpp.html" title=" " alt="" coords="473,146,687,173"/>
+<area shape="rect" id="node3" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="209,243,471,299"/>
+<area shape="rect" id="node4" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="5,347,264,417"/>
+<area shape="rect" id="node6" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="289,369,391,395"/>
+<area shape="rect" id="node7" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="416,369,571,395"/>
+<area shape="rect" id="node5" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,465,264,536"/>
 </map>

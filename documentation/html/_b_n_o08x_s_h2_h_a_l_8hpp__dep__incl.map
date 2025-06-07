@@ -1,24 +1,8 @@
-<map id="include/BNO08xSH2HAL.hpp" name="include/BNO08xSH2HAL.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="757,5,948,32"/>
-<area shape="rect" id="Node000002" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="729,80,869,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="836,46,810,81,806,78,832,43"/>
-<area shape="rect" id="Node000011" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="853,155,1041,181"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="871,44,941,153,937,156,866,46"/>
-<area shape="rect" id="Node000003" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="463,155,666,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="745,114,606,157,605,151,743,109"/>
-<area shape="rect" id="Node000010" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="690,155,828,181"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="787,122,768,156,764,153,782,119"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="840,111,922,152,920,156,837,116"/>
-<area shape="rect" id="Node000004" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,229,201,256"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="469,187,184,231,183,226,468,182"/>
-<area shape="rect" id="Node000005" href="$_callback_tests_8cpp.html" title=" " alt="" coords="225,229,379,256"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="505,188,348,231,347,226,503,183"/>
-<area shape="rect" id="Node000006" href="$_feature_tests_8cpp.html" title=" " alt="" coords="404,229,552,256"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="539,194,494,231,491,227,536,189"/>
-<area shape="rect" id="Node000007" href="$_init_denit_tests_8cpp.html" title=" " alt="" coords="575,229,727,256"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="593,189,638,227,634,231,589,194"/>
-<area shape="rect" id="Node000008" href="$_multi_report_tests_8cpp.html" title=" " alt="" coords="751,229,922,256"/>
-<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="627,183,789,226,788,231,626,188"/>
-<area shape="rect" id="Node000009" href="$_single_report_tests_8cpp.html" title=" " alt="" coords="946,229,1124,256"/>
-<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="662,182,953,226,952,231,662,187"/>
+<map id="/media/develop/git/imu_pr_cleanup/components/esp32_BNO08x/include/BNO08xSH2HAL.hpp" name="/media/develop/git/imu_pr_cleanup/components/esp32_BNO08x/include/BNO08xSH2HAL.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="291,5,549,76"/>
+<area shape="rect" id="node2" href="$_b_n_o08x_8hpp.html" title=" " alt="" coords="205,124,467,180"/>
+<area shape="rect" id="node6" href="$_b_n_o08x_s_h2_h_a_l_8cpp.html" title=" " alt="" coords="423,250,577,277"/>
+<area shape="rect" id="node3" href="$_b_n_o08x_test_helper_8hpp.html" title=" " alt="" coords="5,228,264,299"/>
+<area shape="rect" id="node5" href="$_b_n_o08x_8cpp.html" title=" " alt="" coords="289,250,391,277"/>
+<area shape="rect" id="node4" href="$_b_n_o08x_test_suite_8hpp.html" title=" " alt="" coords="5,347,264,417"/>
 </map>
