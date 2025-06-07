@@ -31,7 +31,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable Incorrect Report";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -71,7 +71,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Accelerometer";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -109,7 +109,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Linear Accelerometer";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -149,7 +149,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Gravity";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -187,7 +187,7 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Cal Magnetometer";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -227,7 +227,7 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Uncal Magnetometer";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -269,7 +269,7 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Cal Gyro";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -307,7 +307,7 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Uncal Gyro";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -349,7 +349,7 @@ TEST_CASE("Enable/Disable RV", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -389,7 +389,7 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Game RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -429,7 +429,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -469,7 +469,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportEnableDisable]
 {
     const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized Game RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -509,7 +509,7 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Gyro Integrated RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -549,7 +549,7 @@ TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Geomagnetic RV";
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};

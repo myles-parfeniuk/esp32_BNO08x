@@ -32,7 +32,7 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
     const constexpr char* TEST_TAG = "Enable/Disable Dual Report";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 2;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -90,7 +90,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
     const constexpr char* TEST_TAG = "Enable/Disable Quad Report";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 4;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -177,7 +177,7 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
     const constexpr char* TEST_TAG = "Enable/Disable Octo Report";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};

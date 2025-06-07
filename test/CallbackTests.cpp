@@ -33,7 +33,7 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
     const constexpr char* TEST_TAG = "Void Input Param Flavor Cb";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -216,7 +216,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
     const constexpr char* TEST_TAG = "Report ID Input Param Flavor Cb";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -408,7 +408,7 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
     const constexpr char* TEST_TAG = "Single Report Void Input Param Flavor Cb";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};

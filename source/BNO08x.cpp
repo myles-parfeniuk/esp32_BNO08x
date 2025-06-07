@@ -1980,13 +1980,13 @@ void BNO08x::print_system_orientation()
 }
 
 
-// Converts a 32-bit signed Q30 fixed-point value to float
+// Internal private function, converts a 32-bit signed Q30 fixed-point value to float
 static inline float q30_to_float(int32_t q)
 {
     return ((float)q) / (float)(1UL << 30);
 }
 
-// Converts a float to 32-bit signed Q30 fixed-point value
+// Internal private function, converts a float to 32-bit signed Q30 fixed-point value
 static inline int32_t float_to_q30(float f)
 {
     if (f > 1.0f) f = 1.0f;
@@ -2001,7 +2001,7 @@ static inline int32_t float_to_q30(float f)
  * @note Use SQRT2OVER2 as a constant for sqrt(2)/2
  * @note that a reset is required to apply changes.
  * @note This configuration seems only to work if reports are already enabled. 
- *       e.g. set .rpt.rv.enable(true) prior this call
+ *       e.g. set .rpt.rv.enable(PERIOD) prior this call
  * 
  * @param Qw Real component of mapping quaternion.
  * @param Qx X (i) component of mapping quaternion.
@@ -2039,7 +2039,7 @@ bool BNO08x::get_system_orientation(float& Qw, float& Qx, float& Qy, float& Qz)
     if(!get_frs(BNO08xFrsID::SYSTEM_ORIENTATION, raw, words_rxd))
         return false;
     
-    if(words_rxd >= 4U)
+    if(words_rxd <= 4U)
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS

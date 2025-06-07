@@ -32,7 +32,7 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Hard Reset";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -77,7 +77,7 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Soft Reset";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -122,7 +122,7 @@ TEST_CASE("Sleep", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Sleep";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -176,7 +176,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Get Metadata";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -224,12 +224,76 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Set System Orientation";
+   constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    BNO08x* imu = nullptr;
+    imu = BNO08xTestHelper::get_test_imu();
+    char msg_buff[200] = {};
+    float Qw = 1.0f;
+    float Qx = 0.0f;
+    float Qy = 0.0f;
+    float Qz = 0.0f;
+    float epsilon = 0.000001f;
+
+    // 1. enable report as per FlyteSailing's instructions
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    // 2. set the system orientation to a value defined in figure 4-3 of the data sheet (X == West Aligned, Y == West Aligned, Z == Up)
+    sprintf(msg_buff, "Setting orientation to: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz)); 
+
+    // 3. hard reset to apply changes and verify they are persistent within flash
+    TEST_ASSERT_EQUAL(true, imu->hard_reset()); 
+
+    // 4. read back the system orientation frs and verify it contains the orientation we wrote
+    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz)); 
+    sprintf(msg_buff, "Read back orientation: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    // check that values match expected
+    TEST_ASSERT_EQUAL(true, fabs(1.0 - Qw) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qx) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qy) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qz) < epsilon);
+
+    // 5. reset the system orientation to default (all 0.0f)
+    Qw = 0.0f; 
+    sprintf(msg_buff, "Re-setting orientation to: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz)); 
+
+    // 6. hard reset to apply changes and verify they are persistent within flash
+    TEST_ASSERT_EQUAL(true, imu->hard_reset()); 
+
+    // 7. read back the system orientation frs and verify it has been returned to default 
+    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz)); 
+    sprintf(msg_buff, "Read back orientation after reset: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+    // check that values match expected
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qw) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qx) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qy) < epsilon);
+    TEST_ASSERT_EQUAL(true, fabs(0.0 - Qz) < epsilon);
+
+
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+    
+
+}
+
+
 TEST_CASE("Get Sample Counts", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Get Sample Counts";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -277,7 +341,7 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
 TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Enable Dynamic Calibration";
-    static const constexpr uint32_t REPORT_PERIOD = 10000UL; // 10ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
