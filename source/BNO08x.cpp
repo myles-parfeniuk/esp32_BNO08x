@@ -2039,7 +2039,7 @@ bool BNO08x::get_system_orientation(float& Qw, float& Qx, float& Qy, float& Qz)
     if(!get_frs(BNO08xFrsID::SYSTEM_ORIENTATION, raw, words_rxd))
         return false;
     
-    if(words_rxd <= 4U)
+    if(words_rxd < 4U)
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
