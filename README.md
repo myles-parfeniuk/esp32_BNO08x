@@ -305,7 +305,7 @@ Any tests added will automatically be detected at build time.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Documentation
-API documentation generated with doxygen can be found in the documentation directory of the master branch.  
+API documentation generated with doxygen can be found hosted [here](https://myles-parfeniuk.github.io/esp32_BNO08x/), from the docs directory of the master branch.  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Program Flowcharts
