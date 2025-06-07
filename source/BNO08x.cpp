@@ -1016,7 +1016,7 @@ esp_err_t BNO08x::deinit_tasks()
             xQueueSend(queue_rx_sensor_event, &empty_event, 0);
 
         if (init_status.sh2_HAL_service_task)
-            xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT);
+            xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 
         for (uint8_t i = 0; i < init_count; i++)
             if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS) == pdTRUE)

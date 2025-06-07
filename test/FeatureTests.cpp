@@ -277,31 +277,32 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
 TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Enable Dynamic Calibration";
+    static const constexpr uint32_t REPORT_PERIOD = 10000UL; // 10ms
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    static const constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
-    bno08x_accel_t data_accel;
-    bno08x_sample_counts_t sample_counts;
+    bno08x_quat_t quat_data;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
     TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_enable(BNO08xCalSel::all));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.has_new_data());
-        data_accel = imu->rpt.accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x,
-                data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.has_new_data());
+        quat_data = imu->rpt.rv_game.get_quat();
+        sprintf(msg_buff, "Rx Data Trial %d Success: quat_data: i: %.3f j: %.3f k: %.3f real: %.3f Accuracy: %s", (i + 1),
+                quat_data.i, quat_data.j, quat_data.k, quat_data.real, BNO08xAccuracy_to_str(quat_data.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
 TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
@@ -312,8 +313,7 @@ TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
-    bno08x_accel_t data_accel;
-    bno08x_sample_counts_t sample_counts;
+    bno08x_quat_t quat_data;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -324,12 +324,14 @@ TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.has_new_data());
-        data_accel = imu->rpt.accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x,
-                data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.has_new_data());
+        quat_data = imu->rpt.rv_game.get_quat();
+        sprintf(msg_buff, "Rx Data Trial %d Success: quat_data: i: %.3f j: %.3f k: %.3f real: %.3f Accuracy: %s", (i + 1),
+                quat_data.i, quat_data.j, quat_data.k, quat_data.real, BNO08xAccuracy_to_str(quat_data.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
 TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
@@ -340,8 +342,7 @@ TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
-    bno08x_accel_t data_accel;
-    bno08x_sample_counts_t sample_counts;
+    bno08x_quat_t quat_data;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -352,14 +353,15 @@ TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.has_new_data());
-        data_accel = imu->rpt.accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x,
-                data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.has_new_data());
+        quat_data = imu->rpt.rv_game.get_quat();
+        sprintf(msg_buff, "Rx Data Trial %d Success: quat_data: i: %.3f j: %.3f k: %.3f real: %.3f Accuracy: %s", (i + 1),
+                quat_data.i, quat_data.j, quat_data.k, quat_data.real, BNO08xAccuracy_to_str(quat_data.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
     TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_autosave_disable());
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
 TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
@@ -370,8 +372,7 @@ TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
-    bno08x_accel_t data_accel;
-    bno08x_sample_counts_t sample_counts;
+    bno08x_quat_t quat_data;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -382,24 +383,25 @@ TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.has_new_data());
-        data_accel = imu->rpt.accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x,
-                data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.has_new_data());
+        quat_data = imu->rpt.rv_game.get_quat();
+        sprintf(msg_buff, "Rx Data Trial %d Success: quat_data: i: %.3f j: %.3f k: %.3f real: %.3f Accuracy: %s", (i + 1),
+                quat_data.i, quat_data.j, quat_data.k, quat_data.real, BNO08xAccuracy_to_str(quat_data.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("Clear Dynamic Calibration", "[FeatureTests]")
+TEST_CASE("Clear Dynamic Calibration Data Ram", "[FeatureTests]")
 {
-    const constexpr char* TEST_TAG = "Clear Dynamic Calibration";
+    const constexpr char* TEST_TAG = "Clear Dynamic Calibration Data Ram";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
-    bno08x_accel_t data_accel;
-    bno08x_sample_counts_t sample_counts;
+    bno08x_quat_t quat_data;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -410,14 +412,44 @@ TEST_CASE("Clear Dynamic Calibration", "[FeatureTests]")
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
         TEST_ASSERT_EQUAL(true, imu->data_available());
-        TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.has_new_data());
-        data_accel = imu->rpt.accelerometer.get();
-        sprintf(msg_buff, "Rx Data Trial %d Success: Accel: [m/s^2] x: %.2f y: %.2f z: %.2f accuracy: %s ", (i + 1), data_accel.x,
-                data_accel.y, data_accel.z, BNO08xAccuracy_to_str(data_accel.accuracy));
+        TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.has_new_data());
+        quat_data = imu->rpt.rv_game.get_quat();
+        sprintf(msg_buff, "Rx Data Trial %d Success: quat_data: i: %.3f j: %.3f k: %.3f real: %.3f Accuracy: %s", (i + 1),
+                quat_data.i, quat_data.j, quat_data.k, quat_data.real, BNO08xAccuracy_to_str(quat_data.accuracy));
         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     }
 
-    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
+}
+
+TEST_CASE("Delete Dynamic Calibration Data", "[FeatureTests]")
+{
+    const constexpr char* TEST_TAG = "Delete Dynamic Calibration Data";
+    
+    BNO08x* imu = nullptr;
+    static char msg_buff[200] = {0};
+    static uint32_t frs_data[16] = {0};
+    uint16_t words_rxd = 0U;
+    bno08x_accel_t data_accel;
+
+    BNO08xTestHelper::print_test_start_banner(TEST_TAG);
+
+    imu = BNO08xTestHelper::get_test_imu();
+
+    // 1. read the DCD data from FRS before we delete it and ensure it is non-0 (should be set by previous test)
+    TEST_ASSERT_EQUAL(true, imu->get_frs(BNO08xFrsID::DYNAMIC_CALIBRATION, frs_data, words_rxd));
+    sprintf(msg_buff, "DCD before delete: %ld", frs_data[0]);
+    TEST_ASSERT_EQUAL(true, (frs_data[0] != 0));
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+    // 2. run FlyteSailing's delete DCD fxn and ensure DCD is now 0
+    TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_data_delete());
+    TEST_ASSERT_EQUAL(true, imu->get_frs(BNO08xFrsID::DYNAMIC_CALIBRATION, frs_data, words_rxd));
+    sprintf(msg_buff, "DCD after delete: %ld", frs_data[0]);
+    TEST_ASSERT_EQUAL(true, (frs_data[0] == 0));
+    BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
+
+    BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
 TEST_CASE("BNO08x Driver Cleanup for [FeatureTests] Tests", "[FeatureTests]")

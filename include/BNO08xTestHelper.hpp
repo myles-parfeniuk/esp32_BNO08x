@@ -16,6 +16,7 @@
 class BNO08xTestHelper
 {
     private:
+        static inline uint8_t test_imu_buffer[sizeof(BNO08x)];
         inline static BNO08x* test_imu = nullptr;
         inline static bno08x_config_t imu_cfg;
 
@@ -81,7 +82,7 @@ class BNO08xTestHelper
             if (test_imu != nullptr)
                 destroy_test_imu();
 
-            test_imu = new BNO08x();
+            test_imu = new (&test_imu_buffer) BNO08x();
         }
 
         /**
@@ -93,7 +94,7 @@ class BNO08xTestHelper
         {
             if (test_imu != nullptr)
             {
-                delete test_imu;
+                test_imu->~BNO08x();  
                 test_imu = nullptr;
             }
         }
