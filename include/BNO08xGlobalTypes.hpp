@@ -475,16 +475,16 @@ typedef struct bno08x_quat_t
         float i;
         float j;
         float k;
-        BNO08xAccuracy accuracy;
         float rad_accuracy;
+        BNO08xAccuracy accuracy;
 
         bno08x_quat_t()
             : real(0.0f)
             , i(0.0f)
             , j(0.0f)
             , k(0.0f)
-            , accuracy(BNO08xAccuracy::UNDEFINED)
             , rad_accuracy(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -529,15 +529,15 @@ typedef struct bno08x_euler_angle_t
         float x;
         float y;
         float z;
-        BNO08xAccuracy accuracy;
         float rad_accuracy;
+        BNO08xAccuracy accuracy;
 
         bno08x_euler_angle_t()
             : x(0.0f)
             , y(0.0f)
             , z(0.0f)
-            , accuracy(BNO08xAccuracy::UNDEFINED)
             , rad_accuracy(0.0f)
+            , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
 
@@ -726,18 +726,18 @@ typedef struct bno08x_gyro_bias_t
 /// @brief Struct to represent activity classifier data.
 typedef struct bno08x_activity_classifier_t
 {
+        uint8_t confidence[10];
+        BNO08xActivity mostLikelyState;
+        BNO08xAccuracy accuracy;
         uint8_t page;
         bool lastPage;
-        BNO08xActivity mostLikelyState;
-        uint8_t confidence[10];
-        BNO08xAccuracy accuracy;
 
         bno08x_activity_classifier_t()
-            : page(0U)
-            , lastPage(false)
+            : confidence({})
             , mostLikelyState(BNO08xActivity::UNDEFINED)
-            , confidence({})
             , accuracy(BNO08xAccuracy::UNDEFINED)
+            , page(0U)
+            , lastPage(false)
         {
         }
 
@@ -903,19 +903,19 @@ typedef struct bno08x_step_counter_t
 /// @brief Struct to represent raw mems gyro data from raw gyro reports (units in ADC counts).
 typedef struct bno08x_raw_gyro_t
 {
+        uint32_t timestamp_us;
         int16_t x;
         int16_t y;
         int16_t z;
         int16_t temperature;
-        uint32_t timestamp_us;
         BNO08xAccuracy accuracy;
 
         bno08x_raw_gyro_t()
-            : x(0U)
+            : timestamp_us(0UL)
+            , x(0U)
             , y(0U)
             , z(0U)
             , temperature(0U)
-            , timestamp_us(0UL)
             , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
@@ -936,17 +936,17 @@ typedef struct bno08x_raw_gyro_t
 /// ADC counts).
 typedef struct bno08x_raw_accel_t
 {
+        uint32_t timestamp_us;
         int16_t x;
         int16_t y;
         int16_t z;
-        uint32_t timestamp_us;
         BNO08xAccuracy accuracy;
 
         bno08x_raw_accel_t()
-            : x(0U)
+            : timestamp_us(0UL)
+            , x(0U)
             , y(0U)
             , z(0U)
-            , timestamp_us(0UL)
             , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
@@ -966,17 +966,17 @@ typedef struct bno08x_raw_accel_t
 /// ADC counts).
 typedef struct bno08x_raw_magf_t
 {
+        uint32_t timestamp_us;
         int16_t x;
         int16_t y;
         int16_t z;
-        uint32_t timestamp_us;
         BNO08xAccuracy accuracy;
 
         bno08x_raw_magf_t()
-            : x(0U)
+            : timestamp_us(0UL)
+            , x(0U)
             , y(0U)
             , z(0U)
-            , timestamp_us(0UL)
             , accuracy(BNO08xAccuracy::UNDEFINED)
         {
         }
@@ -1045,45 +1045,48 @@ typedef struct bno08x_sample_counts_t
 /// @brief Struct to represent sensor/report meta data, returned from BNO08xRpt::get_meta_data()
 typedef struct bno08x_meta_data_t
 {
-        uint8_t me_version;           ///< Motion Engine Version
-        uint8_t mh_version;           ///< Motion Hub Version
-        uint8_t sh_version;           ///< SensorHub Version
+        char vendor_ID[48];           ///< Vendor name and part number
+        uint8_t sensor_specific[48];  ///< See SH-2 Reference Manual
+        uint32_t vendor_id_len;       ///< [bytes]
+        uint32_t sensor_specific_len; ///< [bytes]
         uint32_t range;               ///< Same units as sensor reports
         uint32_t resolution;          ///< Same units as sensor reports
-        uint16_t revision;            ///< Metadata record format revision
-        uint16_t power_mA;            ///< [mA] Fixed point 16Q10 format
         uint32_t min_period_us;       ///< [uS] min period to use with enable_report
         uint32_t max_period_us;       ///< [uS] max period to use with enable_report
         uint32_t fifo_reserved;       ///< (Unused)
         uint32_t fifo_max;            ///< (Unused)
         uint32_t batch_buffer_bytes;  ///< (Unused)
+        uint16_t revision;            ///< Metadata record format revision
+        uint16_t power_mA;            ///< [mA] Fixed point 16Q10 format
         uint16_t q_point_1;           ///< q point for sensor values
         uint16_t q_point_2;           ///< q point for accuracy or bias fields
         uint16_t q_point_3;           ///< q point for sensor data change sensitivity
-        uint32_t vendor_id_len;       ///< [bytes]
-        char vendor_ID[48];           ///< Vendor name and part number
-        uint32_t sensor_specific_len; ///< [bytes]
-        uint8_t sensor_specific[48];  ///< See SH-2 Reference Manual
+        uint8_t me_version;           ///< Motion Engine Version
+        uint8_t mh_version;           ///< Motion Hub Version
+        uint8_t sh_version;           ///< SensorHub Version
+        
 
         // Default constructor
         bno08x_meta_data_t()
-            : me_version(0)
-            , mh_version(0)
-            , sh_version(0)
+            : vendor_ID({})
+            , sensor_specific({})
+            , vendor_id_len(0)
+            , sensor_specific_len(0)
             , range(0)
             , resolution(0)
-            , revision(0)
-            , power_mA(0)
             , min_period_us(0)
             , max_period_us(0)
             , fifo_reserved(0)
             , fifo_max(0)
             , batch_buffer_bytes(0)
+            , revision(0)
+            , power_mA(0)
             , q_point_1(0)
             , q_point_2(0)
             , q_point_3(0)
-            , vendor_id_len(0)
-            , sensor_specific_len(0)
+            , me_version(0)
+            , mh_version(0)
+            , sh_version(0)
         {
             memset(vendor_ID, 0, sizeof(vendor_ID));
             memset(sensor_specific, 0, sizeof(sensor_specific));

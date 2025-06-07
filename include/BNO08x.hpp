@@ -70,60 +70,60 @@ class BNO08x
 
         void print_product_ids();
         void print_system_orientation();
-        
+
         /// @brief Contains report implementations.
-        typedef struct bno08x_reports_t
+        typedef struct alignas(4) bno08x_reports_t
         {
-                BNO08xRptAcceleration accelerometer;
-                BNO08xRptLinearAcceleration linear_accelerometer;
-                BNO08xRptGravity gravity;
-                BNO08xRptCalMagnetometer cal_magnetometer;
+                BNO08xRptIGyroRV rv_gyro_integrated;
                 BNO08xRptUncalMagnetometer uncal_magnetometer;
-                BNO08xRptCalGyro cal_gyro;
                 BNO08xRptUncalGyro uncal_gyro;
                 BNO08xRptRV rv;
                 BNO08xRptGameRV rv_game;
                 BNO08xRptARVRStabilizedRV rv_ARVR_stabilized;
                 BNO08xRptARVRStabilizedGameRV rv_ARVR_stabilized_game;
-                BNO08xRptIGyroRV rv_gyro_integrated;
                 BNO08xRptRVGeomag rv_geomagnetic;
+                BNO08xRptActivityClassifier activity_classifier;
+                BNO08xRptAcceleration accelerometer;
+                BNO08xRptLinearAcceleration linear_accelerometer;
+                BNO08xRptGravity gravity;
+                BNO08xRptCalMagnetometer cal_magnetometer;
+                BNO08xRptCalGyro cal_gyro;
                 BNO08xRptRawMEMSGyro raw_gyro;
                 BNO08xRptRawMEMSAccelerometer raw_accelerometer;
                 BNO08xRptRawMEMSMagnetometer raw_magnetometer;
                 BNO08xRptStepCounter step_counter;
-                BNO08xRptActivityClassifier activity_classifier;
+                BNO08xRptTapDetector tap_detector;
                 BNO08xRptStabilityClassifier stability_classifier;
                 BNO08xRptShakeDetector shake_detector;
-                BNO08xRptTapDetector tap_detector;
 
                 bno08x_reports_t(BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
-                    : accelerometer(SH2_ACCELEROMETER, BNO08xPrivateTypes::EVT_GRP_RPT_ACCELEROMETER_BIT, sync_ctx)
-                    , linear_accelerometer(
-                              SH2_LINEAR_ACCELERATION, BNO08xPrivateTypes::EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, sync_ctx)
-                    , gravity(SH2_GRAVITY, BNO08xPrivateTypes::EVT_GRP_RPT_GRAVITY_BIT, sync_ctx)
-                    , cal_magnetometer(
-                              SH2_MAGNETIC_FIELD_CALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, sync_ctx)
+                    : rv_gyro_integrated(SH2_GYRO_INTEGRATED_RV, BNO08xPrivateTypes::EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, sync_ctx)
                     , uncal_magnetometer(
                               SH2_MAGNETIC_FIELD_UNCALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, sync_ctx)
-                    , cal_gyro(SH2_GYROSCOPE_CALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_CAL_GYRO_BIT, sync_ctx)
                     , uncal_gyro(SH2_GYROSCOPE_UNCALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_UNCAL_GYRO_BIT, sync_ctx)
                     , rv(SH2_ROTATION_VECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_RV_BIT, sync_ctx)
                     , rv_game(SH2_GAME_ROTATION_VECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_RV_GAME_BIT, sync_ctx)
                     , rv_ARVR_stabilized(SH2_ARVR_STABILIZED_RV, BNO08xPrivateTypes::EVT_GRP_RPT_RV_ARVR_S_BIT, sync_ctx)
                     , rv_ARVR_stabilized_game(
                               SH2_ARVR_STABILIZED_GRV, BNO08xPrivateTypes::EVT_GRP_RPT_RV_ARVR_S_GAME_BIT, sync_ctx)
-                    , rv_gyro_integrated(SH2_GYRO_INTEGRATED_RV, BNO08xPrivateTypes::EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, sync_ctx)
                     , rv_geomagnetic(SH2_GEOMAGNETIC_ROTATION_VECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_GEOMAG_RV_BIT, sync_ctx)
+                    , activity_classifier(
+                              SH2_PERSONAL_ACTIVITY_CLASSIFIER, BNO08xPrivateTypes::EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, sync_ctx)
+                    , accelerometer(SH2_ACCELEROMETER, BNO08xPrivateTypes::EVT_GRP_RPT_ACCELEROMETER_BIT, sync_ctx)
+                    , linear_accelerometer(
+                              SH2_LINEAR_ACCELERATION, BNO08xPrivateTypes::EVT_GRP_RPT_LINEAR_ACCELEROMETER_BIT, sync_ctx)
+                    , gravity(SH2_GRAVITY, BNO08xPrivateTypes::EVT_GRP_RPT_GRAVITY_BIT, sync_ctx)
+                    , cal_magnetometer(
+                              SH2_MAGNETIC_FIELD_CALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_CAL_MAGNETOMETER_BIT, sync_ctx)
+                    , cal_gyro(SH2_GYROSCOPE_CALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_CAL_GYRO_BIT, sync_ctx)
                     , raw_gyro(SH2_RAW_GYROSCOPE, BNO08xPrivateTypes::EVT_GRP_RPT_RAW_GYRO_BIT, sync_ctx)
                     , raw_accelerometer(SH2_RAW_ACCELEROMETER, BNO08xPrivateTypes::EVT_GRP_RPT_RAW_ACCELEROMETER_BIT, sync_ctx)
                     , raw_magnetometer(SH2_RAW_MAGNETOMETER, BNO08xPrivateTypes::EVT_GRP_RPT_RAW_MAGNETOMETER_BIT, sync_ctx)
                     , step_counter(SH2_STEP_COUNTER, BNO08xPrivateTypes::EVT_GRP_RPT_STEP_COUNTER_BIT, sync_ctx)
-                    , activity_classifier(
-                              SH2_PERSONAL_ACTIVITY_CLASSIFIER, BNO08xPrivateTypes::EVT_GRP_RPT_ACTIVITY_CLASSIFIER_BIT, sync_ctx)
+                    , tap_detector(SH2_TAP_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_TAP_DETECTOR_BIT, sync_ctx)
                     , stability_classifier(
                               SH2_STABILITY_CLASSIFIER, BNO08xPrivateTypes::EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, sync_ctx)
                     , shake_detector(SH2_SHAKE_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_SHAKE_DETECTOR_BIT, sync_ctx)
-                    , tap_detector(SH2_TAP_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_TAP_DETECTOR_BIT, sync_ctx)
                 {
                 }
         } bno08x_reports_t;
