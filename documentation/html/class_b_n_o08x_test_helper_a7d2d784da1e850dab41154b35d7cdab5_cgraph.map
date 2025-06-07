@@ -1,5 +1,0 @@
-<map id="BNO08xTestHelper::call_init_spi" name="BNO08xTestHelper::call_init_spi">
-<area shape="rect" id="Node000001" title="Used to call private BNO08x::init_spi() member for tests." alt="" coords="5,5,166,48"/>
-<area shape="rect" id="Node000002" href="$class_b_n_o08x.html#a58f43c8bb1e7fe8560ce442d46240e81" title="Initializes SPI." alt="" coords="214,13,333,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,24,198,24,198,29,166,29"/>
-</map>

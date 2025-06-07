@@ -1,5 +1,0 @@
-<map id="BNO08xRpt::register_cb" name="BNO08xRpt::register_cb">
-<area shape="rect" id="Node000001" title="Registers a callback to execute when new data from a specific report is received." alt="" coords="150,5,312,32"/>
-<area shape="rect" id="Node000002" href="$_callback_tests_8cpp.html#a0cae93f9fe6d369521dd1aeed1cd504b" title=" " alt="" coords="5,5,102,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
-</map>

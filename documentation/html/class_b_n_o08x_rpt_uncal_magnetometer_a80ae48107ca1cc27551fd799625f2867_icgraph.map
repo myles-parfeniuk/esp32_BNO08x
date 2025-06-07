@@ -1,5 +1,0 @@
-<map id="BNO08xRptUncalMagnetometer::enable" name="BNO08xRptUncalMagnetometer::enable">
-<area shape="rect" id="Node000001" title="Enables uncalibrated magnetometer reports such that the BNO08x begins sending them." alt="" coords="150,5,356,48"/>
-<area shape="rect" id="Node000002" href="$_single_report_tests_8cpp.html#a9525f7e9b6932ed0aede1a93476b43bc" title=" " alt="" coords="5,13,102,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,29,102,29,102,24,134,24"/>
-</map>
