@@ -55,6 +55,8 @@ namespace BNO08xPrivateTypes
     /// @brief Holds context used to synchronize tasks and callback execution.
     typedef struct bno08x_sync_ctx_t
     {
+            bno08x_cb_list_t cb_list;                            ///< Vector to contain registered callbacks.
+            etl::vector<uint8_t, TOTAL_RPT_COUNT> en_report_ids; ///< Vector to contain IDs of currently enabled reports
             SemaphoreHandle_t sh2_HAL_lock; ///<Mutex to prevent sh2 HAL lib functions from being accessed at same time.
             SemaphoreHandle_t
                     data_lock; ///<Mutex to prevent user from reading data while data_proc_task() updates it, and vice versa.
@@ -62,11 +64,11 @@ namespace BNO08xPrivateTypes
             EventGroupHandle_t
                     evt_grp_rpt_data_available; ///< Event group for indicating to BNO08xRpt::has_new_data() that a module received a new report.
             EventGroupHandle_t evt_grp_task; ///<Event group for indicating various BNO08x related events between tasks.
-            etl::vector<uint8_t, TOTAL_RPT_COUNT> en_report_ids; ///< Vector to contain IDs of currently enabled reports
-            bno08x_cb_list_t cb_list;                            ///< Vector to contain registered callbacks.
 
             bno08x_sync_ctx_t()
-                : sh2_HAL_lock(xSemaphoreCreateMutex())
+                : cb_list()
+                , en_report_ids()
+                , sh2_HAL_lock(xSemaphoreCreateMutex())
                 , data_lock(xSemaphoreCreateMutex())
                 , evt_grp_rpt_en(xEventGroupCreate())
                 , evt_grp_rpt_data_available(xEventGroupCreate())
