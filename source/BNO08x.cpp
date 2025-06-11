@@ -383,8 +383,8 @@ void BNO08x::handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry)
 }
 
 /**
- * @brief Initializes required esp-idf SPI data structures with values from user passed
- * bno08x_config_t struct.
+ * @brief Error checks user bno08x_config_t struct constructor (or default generated one) and initializes required esp-idf SPI
+ * data structures with its values.
  *
  * @return ESP_OK if initialization was success.
  */
