@@ -156,8 +156,8 @@ void BNO08x::data_proc_task()
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     init_status.data_proc_task = false;
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -228,8 +228,8 @@ void BNO08x::sh2_HAL_service_task()
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     init_status.sh2_HAL_service_task = false;
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -281,8 +281,8 @@ void BNO08x::cb_task()
 
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     init_status.cb_task = false;
+    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
