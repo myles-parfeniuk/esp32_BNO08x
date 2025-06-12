@@ -11,6 +11,16 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
+/**
+ * @test Driver Creation for [MultiReportEnableDisable] Tests
+ *
+ * This test creates and initializes a BNO08x IMU driver object for use in the [MultiReportEnableDisable] test group.
+ *
+ * 1. Create a test IMU instance for use in [MultiReportEnableDisable] test group.
+ *
+ * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
+ *
+ */
 TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Driver Creation for [MultiReportEnableDisable] Tests";
@@ -18,20 +28,38 @@ TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportE
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
+    // 1.
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Creating & initializing BNO08x driver.");
     BNO08xTestHelper::create_test_imu();
     imu = BNO08xTestHelper::get_test_imu();
 
-    // ensure IMU initialized successfully
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->initialize());
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+/**
+ * @test Enable/Disable Dual Report
+ *
+ * This test validates that two reports can simultaneously be enabled and accessed
+ * through the data_available polling methods without issue.
+ *
+ * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
+ * 
+ * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
+ *
+ * 3. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
+ * 
+ * 4. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 5. Assert that report data was received for all enabled reports.
+ *
+ */
 TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Dual Report";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 2;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 2;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -46,11 +74,15 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
+    // 1.
     TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
+        // 3.
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
@@ -77,19 +109,42 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
         }
     }
 
+    // 4.
     TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
+    // 5.
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+/**
+ * @test Enable/Disable Quad Report
+ *
+ * This test validates that four reports can simultaneously be enabled and accessed
+ * through the data_available polling methods without issue.
+ *
+ * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
+ * 
+ * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
+ * 
+ * 3. Attempt to enable gravity reports and assert that it happens successfully.
+ * 
+ * 4. Attempt to enable calibrated gyroscope reports and assert that it happens successfully.
+ *
+ * 5. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
+ * 
+ * 6. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 7. Assert that report data was received for all enabled reports.
+ *
+ */
 TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Quad Report";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 4;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 4;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -107,13 +162,21 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
+    // 1.
     TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+
+    // 3.
     TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+
+    // 4.
     TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
+        // 5.
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
@@ -162,8 +225,10 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
         }
     }
 
+    // 6.
     TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
+    // 7.
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
     TEST_ASSERT_EQUAL(true, data_available_gravity);
@@ -172,11 +237,40 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+/**
+ * @test Enable/Disable Octo Report
+ *
+ * This test validates that eight reports can simultaneously be enabled and accessed
+ * through the data_available polling methods without issue.
+ *
+ * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
+ * 
+ * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
+ * 
+ * 3. Attempt to enable gravity reports and assert that it happens successfully.
+ * 
+ * 4. Attempt to enable calibrated gyroscope reports and assert that it happens successfully.
+ * 
+ * 5. Attempt to enable calibrated magnetometer reports and assert that it happens successfully.
+ * 
+ * 6. Attempt to enable rotation vector reports and assert that it happens successfully.
+ * 
+ * 7. Attempt to enable game rotation vector reports and assert that it happens successfully.
+ * 
+ * 8. Attempt to enable geomagnetic rotation vector reports and assert that it happens successfully.
+ *
+ * 9. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
+ * 
+ * 10. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 11. Assert that report data was received for all enabled reports.
+ *
+ */
 TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Octo Report";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 8;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 8;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -200,17 +294,33 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
+    // 1.
     TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+
+    // 3.
     TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+
+    // 4.
     TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
+
+    // 5.
     TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD));
+
+    // 6.
     TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+
+    // 7.
     TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
+
+    // 8.
     TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
+        // 9.
         data_available = imu->data_available();
         TEST_ASSERT_EQUAL(true, data_available);
 
@@ -303,8 +413,10 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
         }
     }
 
+    // 10.
     TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
+    // 11.
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
     TEST_ASSERT_EQUAL(true, data_available_gravity);
@@ -317,13 +429,23 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
+/**
+ * @test Driver Cleanup for [MultiReportEnableDisable] Tests"
+ *
+ * This test destroys the BNO08x IMU driver object for use in the [MultiReportEnableDisable] test group.
+ *
+ * 1. Destroys the test IMU instance that was used with the MultiReportEnableDisable test group.
+ *
+ */
 TEST_CASE("Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
     const constexpr char* TEST_TAG = "Driver Cleanup for [MultiReportEnableDisable] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
-    BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");
 
+    // 1.
+    BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");
     BNO08xTestHelper::destroy_test_imu();
+
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
