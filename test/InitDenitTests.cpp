@@ -11,22 +11,12 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-void setUp()
-{
-    // do nothing
-}
-
-void tearDown()
-{
-    // do nothing
-}
-
 /**
  * @test InitComprehensive Config Args
  *
- * This test verifies the internal logic for error checking the default bno08x_config_t struct. It performs the following steps:
+ * This test verifies the internal logic for error checking the default bno08x_config_t struct. 
  *
- * 1. Creates a test IMU instance for use in [InitComprehensive] and [DeinitComprehensive] test groups.
+ * 1. Create a test IMU instance for use in [InitComprehensive] and [DeinitComprehensive] test groups.
  *
  * 2. Call the internal BNO08x::init_config_args() function to error check the default imu_config struct and assert it returns
  *  without fail.

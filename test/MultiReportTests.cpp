@@ -11,9 +11,9 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-TEST_CASE("BNO08x Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Creation for [MultiReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [MultiReportEnableDisable] Tests";
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
@@ -317,9 +317,9 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [MultiReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [MultiReportEnableDisable] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");

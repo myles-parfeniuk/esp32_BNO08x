@@ -11,9 +11,9 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-TEST_CASE("BNO08x Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
+TEST_CASE("Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Creation for [CallbackAllReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [CallbackAllReportVoidInputParam] Tests";
 
     BNO08x* imu = nullptr;
 
@@ -183,9 +183,9 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Cleanup for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
+TEST_CASE("Driver Cleanup for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [CallbackAllReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackAllReportVoidInputParam] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");
@@ -194,9 +194,9 @@ TEST_CASE("BNO08x Driver Cleanup for [CallbackAllReportVoidInputParam] Tests", "
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Creation for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
+TEST_CASE("Driver Creation for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Creation for [CallbackAllReportIDInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [CallbackAllReportIDInputParam] Tests";
 
     BNO08x* imu = nullptr;
 
@@ -375,9 +375,9 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Cleanup for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
+TEST_CASE("Driver Cleanup for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [CallbackAllReportIDInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackAllReportIDInputParam] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");
@@ -386,9 +386,9 @@ TEST_CASE("BNO08x Driver Cleanup for [CallbackAllReportIDInputParam] Tests", "[C
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Creation for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
+TEST_CASE("Driver Creation for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Creation for [CallbackSingleReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [CallbackSingleReportVoidInputParam] Tests";
 
     BNO08x* imu = nullptr;
 
@@ -455,9 +455,9 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
+TEST_CASE("Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");

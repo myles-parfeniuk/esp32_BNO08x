@@ -11,9 +11,9 @@
 #include "unity.h"
 #include "../include/BNO08xTestHelper.hpp"
 
-TEST_CASE("BNO08x Driver Creation for [FeatureTests] Tests", "[FeatureTests]")
+TEST_CASE("Driver Creation for [FeatureTests] Tests", "[FeatureTests]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Creation for [FeatureTests] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [FeatureTests] Tests";
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
@@ -516,9 +516,9 @@ TEST_CASE("Delete Dynamic Calibration Data", "[FeatureTests]")
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
-TEST_CASE("BNO08x Driver Cleanup for [FeatureTests] Tests", "[FeatureTests]")
+TEST_CASE("Driver Cleanup for [FeatureTests] Tests", "[FeatureTests]")
 {
-    const constexpr char* TEST_TAG = "BNO08x Driver Cleanup for [FeatureTests] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [FeatureTests] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Destroying BNO08x Driver.");
