@@ -191,6 +191,7 @@ class BNO08x
         void toggle_reset();
 
         esp_err_t re_enable_reports();
+        BNO08xRpt * search_rpt_map(uint8_t rpt_ID);
 
         sh2_Hal_t sh2_HAL; ///< sh2 hardware abstraction layer struct for use with sh2 HAL lib.
 
@@ -230,6 +231,7 @@ class BNO08x
                 {SH2_TAP_DETECTOR, &rpt.tap_detector},
                 
                 // not implemented, see include/report for existing implementations to add your own
+                /*
                 {SH2_PRESSURE, nullptr}, // requires auxilary i2c sensor
                 {SH2_AMBIENT_LIGHT, nullptr},  // requires auxilary i2c sensor
                 {SH2_HUMIDITY, nullptr},  // requires auxilary i2c sensor
@@ -246,6 +248,7 @@ class BNO08x
                 {SH2_POCKET_DETECTOR, nullptr},
                 {SH2_CIRCLE_DETECTOR, nullptr},
                 {SH2_IZRO_MOTION_REQUEST, nullptr}
+                */
         };
         // clang-format on
 

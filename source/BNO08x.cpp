@@ -302,7 +302,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     // clang-format on
 
     // grab report implementation if it exists within map
-    auto& rpt = usr_reports.at(rpt_ID);
+    BNO08xRpt * rpt = search_rpt_map(rpt_ID);
     if (rpt == nullptr)
         return;
 
@@ -1124,7 +1124,7 @@ bool BNO08x::disable_all_reports()
     while (sync_ctx.en_report_ids.size() != 0 && (attempts < TOTAL_RPT_COUNT))
     {
         uint8_t rpt_ID = sync_ctx.en_report_ids.back();
-        BNO08xRpt* rpt = usr_reports.at(rpt_ID);
+        BNO08xRpt* rpt = search_rpt_map(rpt_ID);
         if (rpt == nullptr)
         {
             // clang-format off
@@ -1809,7 +1809,7 @@ esp_err_t BNO08x::re_enable_reports()
 
     for (const auto& rpt_ID : sync_ctx.en_report_ids)
     {
-        BNO08xRpt* rpt = usr_reports.at(rpt_ID);
+        BNO08xRpt* rpt = search_rpt_map(rpt_ID);
         if (rpt == nullptr)
         {
             // clang-format off
@@ -1837,6 +1837,25 @@ esp_err_t BNO08x::re_enable_reports()
     xEventGroupClearBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 
     return ESP_OK;
+}
+
+/**
+ * @brief Searches for a report implementation within the map.
+ *
+ * @param rpt_ID The report ID to search for.
+ *
+ * @return A pointer to the report implementation if found, nullptr if otherwise.
+ */
+BNO08xRpt* BNO08x::search_rpt_map(uint8_t rpt_ID)
+{
+    BNO08xRpt* rpt = nullptr;
+
+    auto it = usr_reports.find(rpt_ID);
+
+    if (it != usr_reports.end())
+        rpt = it->second;
+
+    return rpt;
 }
 
 /**
