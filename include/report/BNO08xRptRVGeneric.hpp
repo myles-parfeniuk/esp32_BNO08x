@@ -21,7 +21,7 @@ class BNO08xRptRVGeneric : public BNO08xRpt
         bno08x_euler_angle_t get_euler(bool in_degrees = true);
 
     protected:
-        BNO08xRptRVGeneric(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+        BNO08xRptRVGeneric(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t &sync_ctx)
             : BNO08xRpt(ID, rpt_bit, sync_ctx)
         {
         }

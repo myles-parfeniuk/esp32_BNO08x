@@ -61,6 +61,7 @@ namespace BNO08xPrivateTypes
             SemaphoreHandle_t sh2_HAL_lock; ///<Mutex to prevent sh2 HAL lib functions from being accessed at same time.
             SemaphoreHandle_t
                     data_lock; ///<Mutex to prevent user from reading data while data_proc_task() updates it, and vice versa.
+            SemaphoreHandle_t sem_kill_tasks; ///<Counting Semaphore to count amount of killed tasks for BNO08x deconstructor.
             EventGroupHandle_t evt_grp_rpt_en; ///<Event group for indicating which reports are currently enabled.
             EventGroupHandle_t
                     evt_grp_rpt_data_available; ///< Event group for indicating to BNO08xRpt::has_new_data() that a module received a new report.
@@ -75,6 +76,7 @@ namespace BNO08xPrivateTypes
                 , en_report_ids()
                 , sh2_HAL_lock(xSemaphoreCreateMutex())
                 , data_lock(xSemaphoreCreateMutex())
+                , sem_kill_tasks(NULL)
                 , evt_grp_rpt_en(xEventGroupCreate())
                 , evt_grp_rpt_data_available(xEventGroupCreate())
                 , evt_grp_task(xEventGroupCreate())

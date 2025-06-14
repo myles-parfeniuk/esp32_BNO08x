@@ -20,7 +20,7 @@ void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
     data_vel = sensor_val->un.gyroIntegratedRV;
     BNO08xGuard::unlock_user_data(sync_ctx);
 
-    if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
+    if (rpt_bit & xEventGroupGetBits(sync_ctx.evt_grp_rpt_en))
         signal_data_available();
 }
 

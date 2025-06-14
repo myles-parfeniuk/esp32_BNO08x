@@ -15,7 +15,7 @@
 class BNO08xRptStabilityClassifier : public BNO08xRpt
 {
     public:
-        BNO08xRptStabilityClassifier(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+        BNO08xRptStabilityClassifier(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t &sync_ctx)
             : BNO08xRpt(ID, rpt_bit, sync_ctx)
         {
         }

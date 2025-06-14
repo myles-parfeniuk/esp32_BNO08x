@@ -40,7 +40,7 @@ class BNO08xRpt
         uint8_t ID;          ///< Report ID, ex. SH2_ACCELERATION.
         EventBits_t rpt_bit; ///< Respective enable and data bit for report in evt_grp_rpt_en and evt_grp_rpt_data
         uint32_t period_us;  ///< The period/interval of the report in microseconds.
-        BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx;
+        BNO08xPrivateTypes::bno08x_sync_ctx_t &sync_ctx; ///< Holds context used to synchronize tasks and callback execution.
 
         bool rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sensor_cfg = BNO08xPrivateTypes::default_sensor_cfg);
         virtual void update_data(sh2_SensorValue_t* sensor_val) = 0;
@@ -57,7 +57,7 @@ class BNO08xRpt
          *
          * @return void, nothing to return
          */
-        BNO08xRpt(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+        BNO08xRpt(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t& sync_ctx)
             : ID(ID)
             , rpt_bit(rpt_bit)
             , period_us(0UL)

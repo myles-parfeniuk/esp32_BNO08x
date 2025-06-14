@@ -31,15 +31,15 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
     }
     else
     {
-        xEventGroupSetBits(sync_ctx->evt_grp_rpt_en, rpt_bit); // set the event group bit
+        xEventGroupSetBits(sync_ctx.evt_grp_rpt_en, rpt_bit); // set the event group bit
 
         vTaskDelay(30UL / portTICK_PERIOD_MS); // delay a bit to allow command to execute
         period_us = time_between_reports;      // update the period
 
         BNO08xGuard::lock_user_data(sync_ctx);
-        for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
+        for (int i = 0; i < sync_ctx.en_report_ids.size(); i++)
         {
-            if (sync_ctx->en_report_ids[i] == ID)
+            if (sync_ctx.en_report_ids[i] == ID)
             {
                 idx = i;
                 break;
@@ -48,7 +48,7 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
 
         // if not already enabled (ie user called this, not re_enable_reports())
         if (idx == -1)
-            sync_ctx->en_report_ids.push_back(ID); // add report ID to enabled report IDs
+            sync_ctx.en_report_ids.push_back(ID); // add report ID to enabled report IDs
 
         BNO08xGuard::unlock_user_data(sync_ctx);
 
@@ -83,13 +83,13 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
     else
     {
         // clear the event group bit (this is redundant if called from BNO08x::disable_all_reports())
-        xEventGroupClearBits(sync_ctx->evt_grp_rpt_en, rpt_bit);
+        xEventGroupClearBits(sync_ctx.evt_grp_rpt_en, rpt_bit);
 
         // remove report ID from enabled report IDs
         BNO08xGuard::lock_user_data(sync_ctx);
-        for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
+        for (int i = 0; i < sync_ctx.en_report_ids.size(); i++)
         {
-            if (sync_ctx->en_report_ids[i] == ID)
+            if (sync_ctx.en_report_ids[i] == ID)
             {
                 idx = i;
                 break;
@@ -100,7 +100,7 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         period_us = 0UL;                       // update the period
 
         if (idx != -1)
-            sync_ctx->en_report_ids.erase(sync_ctx->en_report_ids.begin() + idx);
+            sync_ctx.en_report_ids.erase(sync_ctx.en_report_ids.begin() + idx);
 
         BNO08xGuard::unlock_user_data(sync_ctx);
     }
@@ -117,9 +117,9 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
  */
 bool BNO08xRpt::register_cb(std::function<void(void)> cb_fxn)
 {
-    if (sync_ctx->cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
+    if (sync_ctx.cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
     {
-        sync_ctx->cb_list.push_back(BNO08xCbParamVoid(cb_fxn, ID));
+        sync_ctx.cb_list.push_back(BNO08xCbParamVoid(cb_fxn, ID));
         return true;
     }
     return false;
@@ -135,10 +135,10 @@ bool BNO08xRpt::has_new_data()
 {
     bool new_data = false;
 
-    if (xEventGroupGetBits(sync_ctx->evt_grp_rpt_data_available) & rpt_bit)
+    if (xEventGroupGetBits(sync_ctx.evt_grp_rpt_data_available) & rpt_bit)
     {
         new_data = true;
-        xEventGroupClearBits(sync_ctx->evt_grp_rpt_data_available, rpt_bit);
+        xEventGroupClearBits(sync_ctx.evt_grp_rpt_data_available, rpt_bit);
     }
 
     return new_data;
@@ -235,6 +235,6 @@ bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
  */
 void BNO08xRpt::signal_data_available()
 {
-    xEventGroupSetBits(sync_ctx->evt_grp_rpt_data_available, rpt_bit);
-    xEventGroupSetBits(sync_ctx->evt_grp_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
+    xEventGroupSetBits(sync_ctx.evt_grp_rpt_data_available, rpt_bit);
+    xEventGroupSetBits(sync_ctx.evt_grp_task, BNO08xPrivateTypes::EVT_GRP_BNO08x_TASK_DATA_AVAILABLE);
 }

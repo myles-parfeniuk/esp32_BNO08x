@@ -15,7 +15,7 @@
 class BNO08xRptIGyroRV : public BNO08xRptRVGeneric
 {
     public:
-        BNO08xRptIGyroRV(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+        BNO08xRptIGyroRV(uint8_t ID, EventBits_t rpt_bit, BNO08xPrivateTypes::bno08x_sync_ctx_t &sync_ctx)
             : BNO08xRptRVGeneric(ID, rpt_bit, sync_ctx)
         {
         }

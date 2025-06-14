@@ -18,11 +18,10 @@ using namespace BNO08xPrivateTypes;
  * @return void, nothing to return
  */
 BNO08x::BNO08x(bno08x_config_t imu_config)
-    : rpt(bno08x_reports_t(&sync_ctx))
+    : rpt(bno08x_reports_t(sync_ctx))
     , data_proc_task_hdl(NULL)
     , sh2_HAL_service_task_hdl(NULL)
     , cb_task_hdl(NULL)
-    , sem_kill_tasks(NULL)
     , imu_config(imu_config)
 {
 }
@@ -54,8 +53,8 @@ BNO08x::~BNO08x()
     // delete all semaphores
     vSemaphoreDelete(sync_ctx.sh2_HAL_lock);
     vSemaphoreDelete(sync_ctx.data_lock);
-    if (sem_kill_tasks != NULL)
-        vSemaphoreDelete(sem_kill_tasks);
+    if (sync_ctx.sem_kill_tasks != NULL)
+        vSemaphoreDelete(sync_ctx.sem_kill_tasks);
 
     // delete event groups
     vEventGroupDelete(sync_ctx.evt_grp_task);
@@ -155,7 +154,7 @@ void BNO08x::data_proc_task()
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     init_status.data_proc_task = false;
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    xSemaphoreGive(sync_ctx.sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -208,9 +207,9 @@ void BNO08x::sh2_HAL_service_task()
 
         if (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT)
         {
-            BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::lock_sh2_HAL(sync_ctx);
             sh2_service();
-            BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::unlock_sh2_HAL(sync_ctx);
         }
 
         evt_grp_bno08x_task_bits = xEventGroupWaitBits(sync_ctx.evt_grp_task,
@@ -227,7 +226,7 @@ void BNO08x::sh2_HAL_service_task()
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     init_status.sh2_HAL_service_task = false;
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    xSemaphoreGive(sync_ctx.sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -280,7 +279,7 @@ void BNO08x::cb_task()
     } while (evt_grp_bno08x_task_bits & EVT_GRP_BNO08x_TASKS_RUNNING);
 
     init_status.cb_task = false;
-    xSemaphoreGive(sem_kill_tasks); // signal to deconstructor deletion is completed
+    xSemaphoreGive(sync_ctx.sem_kill_tasks); // signal to deconstructor deletion is completed
     vTaskDelete(NULL);
 }
 
@@ -963,7 +962,7 @@ esp_err_t BNO08x::deinit_tasks()
 
     if (init_count != 0)
     {
-        sem_kill_tasks = xSemaphoreCreateCounting(init_count, 0);
+        sync_ctx.sem_kill_tasks = xSemaphoreCreateCounting(init_count, 0);
         xEventGroupClearBits(sync_ctx.evt_grp_task,
                 EVT_GRP_BNO08x_TASKS_RUNNING); // clear task running bit request deletion of tasks
 
@@ -977,7 +976,7 @@ esp_err_t BNO08x::deinit_tasks()
             xEventGroupSetBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_HINT_ASSRT_BIT | EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
 
         for (uint8_t i = 0; i < init_count; i++)
-            if (xSemaphoreTake(sem_kill_tasks, TASK_DELETE_TIMEOUT_MS) == pdTRUE)
+            if (xSemaphoreTake(sync_ctx.sem_kill_tasks, TASK_DELETE_TIMEOUT_MS) == pdTRUE)
                 kill_count++;
 
         if (kill_count != init_count)
@@ -1025,9 +1024,9 @@ bool BNO08x::hard_reset()
     if (wait_for_reset() == ESP_OK)
     {
         // run service to dispatch callbacks
-        BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+        BNO08xGuard::lock_sh2_HAL(sync_ctx);
         sh2_service();
-        BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+        BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
         // get product ids and check reset reason
         if (get_reset_reason() == BNO08xResetReason::EXT_RST)
@@ -1065,9 +1064,9 @@ bool BNO08x::soft_reset()
     int op_success = SH2_ERR;
 
     // send reset command
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_devReset();
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success == SH2_OK)
     {
@@ -1075,9 +1074,9 @@ bool BNO08x::soft_reset()
         if (wait_for_reset() == ESP_OK)
         {
             // run service to dispatch callbacks
-            BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::lock_sh2_HAL(sync_ctx);
             sh2_service();
-            BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
             if (get_reset_reason() == BNO08xResetReason::EXT_RST)
             {
@@ -1168,9 +1167,9 @@ BNO08xResetReason BNO08x::get_reset_reason()
     BNO08xResetReason rr = BNO08xResetReason::UNDEFINED;
 
     memset(&product_IDs, 0, sizeof(sh2_ProductIds_t));
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_getProdIds(&product_IDs);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success == SH2_OK)
     {
@@ -1197,9 +1196,9 @@ bool BNO08x::on()
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_devOn();
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1214,9 +1213,9 @@ bool BNO08x::sleep()
 
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_devSleep();
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1240,9 +1239,9 @@ bool BNO08x::calibration_turntable_start(uint32_t period_us)
     // with unsolicited initialize response instead of the expected Turntable Cal response (0x0C)
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_startCal(period_us);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1259,9 +1258,9 @@ bool BNO08x::calibration_turntable_start(uint32_t period_us)
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_finishCal(&status);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1278,9 +1277,9 @@ bool BNO08x::dynamic_calibration_enable(BNO08xCalSel sensor)
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_setCalConfig(static_cast<uint8_t>(sensor));
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1298,17 +1297,17 @@ bool BNO08x::dynamic_calibration_disable(BNO08xCalSel sensor)
     int op_success = SH2_ERR;
     uint8_t active_sensors = 0U;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_getCalConfig(&active_sensors);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success == SH2_OK)
     {
         active_sensors &= ~static_cast<uint8_t>(sensor);
 
-        BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+        BNO08xGuard::lock_sh2_HAL(sync_ctx);
         op_success = sh2_setCalConfig(active_sensors);
-        BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+        BNO08xGuard::unlock_sh2_HAL(sync_ctx);
     }
 
     return (op_success == SH2_OK);
@@ -1324,9 +1323,9 @@ bool BNO08x::dynamic_calibration_autosave_enable()
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_setDcdAutoSave(true);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1341,9 +1340,9 @@ bool BNO08x::dynamic_calibration_autosave_disable()
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_setDcdAutoSave(false);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1358,9 +1357,9 @@ bool BNO08x::dynamic_calibration_save()
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_saveDcdNow();
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (op_success == SH2_OK);
 }
@@ -1376,9 +1375,9 @@ bool BNO08x::dynamic_calibration_data_clear_ram()
     int op_success = SH2_ERR;
 
     // send clear DCD and reset command
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_clearDcdAndReset();
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success == SH2_OK)
     {
@@ -1386,9 +1385,9 @@ bool BNO08x::dynamic_calibration_data_clear_ram()
         if (wait_for_reset() == ESP_OK)
         {
             // run service to dispatch callbacks
-            BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::lock_sh2_HAL(sync_ctx);
             sh2_service();
-            BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+            BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
             if (get_reset_reason() == BNO08xResetReason::EXT_RST)
             {
@@ -1686,9 +1685,9 @@ bool BNO08x::get_frs(BNO08xFrsID frs_ID, uint32_t (&data)[16], uint16_t& rx_data
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_getFrs(static_cast<uint16_t>(frs_ID), data, &rx_data_sz);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success != SH2_OK)
     {   
@@ -1719,9 +1718,9 @@ bool BNO08x::write_frs(BNO08xFrsID frs_ID, uint32_t *data, const uint16_t tx_dat
 {
     int op_success = SH2_ERR;
 
-    BNO08xGuard::lock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     op_success = sh2_setFrs(static_cast<uint16_t>(frs_ID), data, tx_data_sz);
-    BNO08xGuard::unlock_sh2_HAL(&sync_ctx);
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (op_success != SH2_OK)
     {   

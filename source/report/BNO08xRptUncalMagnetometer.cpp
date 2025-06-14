@@ -20,7 +20,7 @@ void BNO08xRptUncalMagnetometer::update_data(sh2_SensorValue_t* sensor_val)
     bias_data = sensor_val->un.magneticFieldUncal;
     BNO08xGuard::unlock_user_data(sync_ctx);
 
-    if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
+    if (rpt_bit & xEventGroupGetBits(sync_ctx.evt_grp_rpt_en))
         signal_data_available();
 }
 

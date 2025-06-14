@@ -97,7 +97,7 @@ class BNO08x
                 BNO08xRptStabilityClassifier stability_classifier;
                 BNO08xRptShakeDetector shake_detector;
 
-                bno08x_reports_t(BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
+                bno08x_reports_t(BNO08xPrivateTypes::bno08x_sync_ctx_t &sync_ctx)
                     : rv_gyro_integrated(SH2_GYRO_INTEGRATED_RV, BNO08xPrivateTypes::EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, sync_ctx)
                     , uncal_magnetometer(
                               SH2_MAGNETIC_FIELD_UNCALIBRATED, BNO08xPrivateTypes::EVT_GRP_RPT_UNCAL_MAGNETOMETER_BIT, sync_ctx)
@@ -154,19 +154,16 @@ class BNO08x
         void cb_task();
 
         static const constexpr BaseType_t CB_TASK_AFFINITY = 
-                CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY ;  /// tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t CB_TASK_PRIORITY = CONFIG_ESP32_BNO08X_CB_TASK_PRIORITY; /// 5 per default, Priority of the callback task, 0-25, 0 is lowest priority, 25 is highest priority
+                CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY ;  ///< tskNO_AFFINITY if not pinned to a core, 0 or 1
+        static const constexpr UBaseType_t CB_TASK_PRIORITY = CONFIG_ESP32_BNO08X_CB_TASK_PRIORITY; ///< 5 per default, Priority of the callback task, 0-25, 0 is lowest priority, 25 is highest priority
 
         static const constexpr BaseType_t DATA_PROC_TASK_AFFINITY = 
                 CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t DATA_PROC_TASK_PRIORITY = CONFIG_ESP32_BNO08X_DATA_PROC_TASK_PRIORITY; /// 6 per default, Priority of the data processing task, 0-25, 0 is lowest priority, 25 is highest priority
+        static const constexpr UBaseType_t DATA_PROC_TASK_PRIORITY = CONFIG_ESP32_BNO08X_DATA_PROC_TASK_PRIORITY; ///< 6 per default, Priority of the data processing task, 0-25, 0 is lowest priority, 25 is highest priority
         
         static const constexpr BaseType_t SH2_HAL_SERVICE_TASK_AFFINITY = 
                 CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t SH2_HAL_SERVICE_TASK_PRIORITY = CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY; /// 7 per default, Priority of the sh2 HAL service task, 0-25, 0 is lowest priority, 25 is highest priority
-
-
-        SemaphoreHandle_t sem_kill_tasks; ///<Counting Semaphore to count amount of killed tasks.
+        static const constexpr UBaseType_t SH2_HAL_SERVICE_TASK_PRIORITY = CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY; ///< 7 per default, Priority of the sh2 HAL service task, 0-25, 0 is lowest priority, 25 is highest priority
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
         void handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry);
