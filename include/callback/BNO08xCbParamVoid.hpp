@@ -15,6 +15,8 @@
 class BNO08xCbParamVoid : public BNO08xCbGeneric
 {
     public:
+        static constexpr uint8_t ID_INVOKE_FOR_ANY_RPT = 0U; ///< Indicates to BNO08x::handle_cb that cb is registered to ALL enabled reports
+
         BNO08xCbParamVoid(std::function<void(void)> cb_fxn, uint8_t rpt_ID)
             : BNO08xCbGeneric(rpt_ID)
             , cb_fxn(cb_fxn)

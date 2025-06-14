@@ -253,25 +253,28 @@ void BNO08x::cb_task_trampoline(void* arg)
 void BNO08x::cb_task()
 {
     EventBits_t evt_grp_bno08x_task_bits = 0U;
-    uint8_t rpt_ID = 0;
+    uint8_t rpt_ID = BNO08xCbParamVoid::ID_INVOKE_FOR_ANY_RPT;
+    BNO08xCbGeneric* cb_ptr = nullptr;
 
     do
     {
-        // execute callbacks
+        // loop through list of registered callbacks and handle them appropriately 
         for (auto& cb_entry : sync_ctx.cb_list)
         {
-            BNO08xCbGeneric* cb_ptr = nullptr;
+            cb_ptr = nullptr;
 
+            // unwrap variant to get callback flavor
             if (auto* ptr = etl::get_if<BNO08xCbParamVoid>(&cb_entry))
                 cb_ptr = ptr;
-
             else if (auto* ptr = etl::get_if<BNO08xCbParamRptID>(&cb_entry))
                 cb_ptr = ptr;
 
+            // ensure the callback was unwrapped correctly
             if (cb_ptr != nullptr)
                 handle_cb(rpt_ID, cb_ptr);
         }
 
+        // wait until a report ID is received (indicates which report asserted the callback)
         xQueueReceive(sync_ctx.queue_cb_report_id, &rpt_ID, portMAX_DELAY);
 
         evt_grp_bno08x_task_bits = xEventGroupGetBits(sync_ctx.evt_grp_task);
@@ -298,21 +301,18 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
     #endif
     // clang-format on
 
-    // check if report implementation exists within map
-    if (rpt_ID == SH2_RESERVED)
-        return;
-
+    // grab report implementation if it exists within map
     auto& rpt = usr_reports.at(rpt_ID);
-
     if (rpt == nullptr)
         return;
 
-    // send report ids to cb_task for callback execution (only if this report is enabled)
+    // check if report is enabled
     if (rpt->rpt_bit & xEventGroupGetBits(sync_ctx.evt_grp_rpt_en))
     {
         // update respective report with new data
         rpt->update_data(sensor_val);
 
+        // send report ID to cb_task if any callbacks are registered
         if (sync_ctx.cb_list.size() != 0)
             if (xQueueSend(sync_ctx.queue_cb_report_id, &rpt_ID, 0) != pdTRUE)
             {
@@ -332,11 +332,9 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
  */
 void BNO08x::handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry)
 {
-    // only execute callback if it is registered to this report or all reports
-    if ((cb_entry->rpt_ID == 0) || (cb_entry->rpt_ID == rpt_ID))
-    {
+    // only execute callback if it is registered to the report that initiated callback request, or all reports
+    if ((cb_entry->rpt_ID == BNO08xCbParamVoid::ID_INVOKE_FOR_ANY_RPT) || (cb_entry->rpt_ID == rpt_ID))
         cb_entry->invoke(rpt_ID);
-    }
 }
 
 /**
@@ -1869,7 +1867,7 @@ bool BNO08x::register_cb(std::function<void(void)> cb_fxn)
 
     if (sync_ctx.cb_list.size() < CONFIG_ESP32_BNO08X_CB_MAX)
     {
-        sync_ctx.cb_list.push_back(BNO08xCbParamVoid(cb_fxn, 0U));
+        sync_ctx.cb_list.push_back(BNO08xCbParamVoid(cb_fxn, BNO08xCbParamVoid::ID_INVOKE_FOR_ANY_RPT));
         return true;
     }
     return false;

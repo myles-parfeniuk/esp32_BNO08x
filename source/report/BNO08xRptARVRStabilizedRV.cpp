@@ -19,6 +19,5 @@ void BNO08xRptARVRStabilizedRV::update_data(sh2_SensorValue_t* sensor_val)
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     BNO08xGuard::unlock_user_data(sync_ctx);
 
-    if (rpt_bit & xEventGroupGetBits(sync_ctx.evt_grp_rpt_en))
-        signal_data_available();
+    signal_data_available();
 }
