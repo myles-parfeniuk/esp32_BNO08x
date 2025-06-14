@@ -14,10 +14,10 @@
  */
 void BNO08xRptStabilityClassifier::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.stabilityClassifier;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -44,9 +44,9 @@ bool BNO08xRptStabilityClassifier::enable(uint32_t time_between_reports, sh2_Sen
  */
 bno08x_stability_classifier_t BNO08xRptStabilityClassifier::get()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_stability_classifier_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 
@@ -57,8 +57,8 @@ bno08x_stability_classifier_t BNO08xRptStabilityClassifier::get()
  */
 BNO08xStability BNO08xRptStabilityClassifier::get_stability()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     BNO08xStability rqdata = data.stability;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }

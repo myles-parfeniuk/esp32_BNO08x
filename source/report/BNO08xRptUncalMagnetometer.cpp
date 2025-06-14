@@ -14,11 +14,11 @@
  */
 void BNO08xRptUncalMagnetometer::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.magneticFieldUncal;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     bias_data = sensor_val->un.magneticFieldUncal;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -48,10 +48,10 @@ bool BNO08xRptUncalMagnetometer::enable(uint32_t time_between_reports, sh2_Senso
  */
 void BNO08xRptUncalMagnetometer::get(bno08x_magf_t& magf, bno08x_magf_bias_t& bias)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     magf = data;
     bias = bias_data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 }
 
 /**
@@ -61,9 +61,9 @@ void BNO08xRptUncalMagnetometer::get(bno08x_magf_t& magf, bno08x_magf_bias_t& bi
  */
 bno08x_magf_t BNO08xRptUncalMagnetometer::get_magf()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_magf_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 
@@ -74,8 +74,8 @@ bno08x_magf_t BNO08xRptUncalMagnetometer::get_magf()
  */
 bno08x_magf_bias_t BNO08xRptUncalMagnetometer::get_bias()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_magf_bias_t rqdata = bias_data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }

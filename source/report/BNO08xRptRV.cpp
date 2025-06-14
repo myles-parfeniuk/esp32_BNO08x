@@ -14,10 +14,10 @@
  */
 void BNO08xRptRV::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.rotationVector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -47,9 +47,9 @@ bool BNO08xRptRV::tare_persist()
 {
     int success = SH2_ERR;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_persistTare();
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (success != SH2_OK)
         return false;
@@ -64,7 +64,7 @@ bool BNO08xRptRV::tare_persist()
  */
 void BNO08xRptRV::tare_clear()
 {
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     sh2_clearTare();
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 }

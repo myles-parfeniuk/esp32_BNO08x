@@ -16,7 +16,7 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
 {
     static uint16_t prev_steps = 0;
 
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.stepCounter;
 
     if (prev_steps > data.steps)
@@ -28,7 +28,7 @@ void BNO08xRptStepCounter::update_data(sh2_SensorValue_t* sensor_val)
 
     prev_steps = data.steps;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -56,9 +56,9 @@ bool BNO08xRptStepCounter::enable(uint32_t time_between_reports, sh2_SensorConfi
  */
 bno08x_step_counter_t BNO08xRptStepCounter::get()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_step_counter_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 
@@ -69,8 +69,8 @@ bno08x_step_counter_t BNO08xRptStepCounter::get()
  */
 uint32_t BNO08xRptStepCounter::get_total_steps()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     uint32_t total_steps = step_accumulator + data.steps;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return total_steps;
 }

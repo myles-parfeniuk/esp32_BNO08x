@@ -14,10 +14,10 @@
  */
 void BNO08xRptRawMEMSGyro::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.rawGyroscope;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -44,8 +44,8 @@ bool BNO08xRptRawMEMSGyro::enable(uint32_t time_between_reports, sh2_SensorConfi
  */
 bno08x_raw_gyro_t BNO08xRptRawMEMSGyro::get()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_raw_gyro_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }

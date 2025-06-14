@@ -21,6 +21,7 @@
 // in-house includes
 #include "BNO08xGlobalTypes.hpp"
 #include "BNO08xPrivateTypes.hpp"
+#include "BNO08xGuard.hpp"
 #include "BNO08xSH2HAL.hpp"
 #include "BNO08xReports.hpp"
 
@@ -167,11 +168,6 @@ class BNO08x
 
         SemaphoreHandle_t sem_kill_tasks; ///<Counting Semaphore to count amount of killed tasks.
 
-        void lock_sh2_HAL();
-        void unlock_sh2_HAL();
-        void lock_user_data();
-        void unlock_user_data();
-
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
         void handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry);
 
@@ -200,11 +196,6 @@ class BNO08x
         esp_err_t re_enable_reports();
 
         sh2_Hal_t sh2_HAL; ///< sh2 hardware abstraction layer struct for use with sh2 HAL lib.
-
-        QueueHandle_t
-                queue_rx_sensor_event; ///< Queue to send sensor events from sh2 HAL sensor event callback (BNO08xSH2HAL::sensor_event_cb()) to data_proc_task()
-
-        QueueHandle_t queue_cb_report_id; ///< Queue to send report ID of most recent report to cb_task()
 
         bno08x_config_t imu_config{};                   ///<IMU configuration settings
         spi_bus_config_t bus_config{};                  ///<SPI bus GPIO configuration settings

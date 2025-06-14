@@ -12,6 +12,7 @@
 // in-house includes
 #include "BNO08xGlobalTypes.hpp"
 #include "BNO08xPrivateTypes.hpp"
+#include "BNO08xGuard.hpp"
 // hill-crest labs includes (apache 2.0 license, compatible with MIT)
 #include "sh2.h"
 #include "sh2_SensorValue.h"
@@ -65,10 +66,6 @@ class BNO08xRpt
         {
         }
 
-        void unlock_sh2_HAL();
-        void lock_sh2_HAL();
-        void unlock_user_data();
-        void lock_user_data();
         void signal_data_available();
 
         static const constexpr float RAD_2_DEG =

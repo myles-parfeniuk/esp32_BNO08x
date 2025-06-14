@@ -154,7 +154,7 @@ void BNO08xSH2HAL::hal_cb(void* cookie, sh2_AsyncEvent_t* pEvent)
  */
 void BNO08xSH2HAL::sensor_event_cb(void* cookie, sh2_SensorEvent_t* event)
 {
-    xQueueSend(imu->queue_rx_sensor_event, event, 0);
+    xQueueSend(imu->sync_ctx.queue_rx_sensor_event, event, 0);
 }
 
 /**

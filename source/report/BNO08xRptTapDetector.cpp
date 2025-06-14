@@ -32,10 +32,10 @@ bool BNO08xRptTapDetector::enable(uint32_t time_between_reports, sh2_SensorConfi
  */
 void BNO08xRptTapDetector::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.tapDetector;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -48,8 +48,8 @@ void BNO08xRptTapDetector::update_data(sh2_SensorValue_t* sensor_val)
  */
 bno08x_tap_detector_t BNO08xRptTapDetector::get()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_tap_detector_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }

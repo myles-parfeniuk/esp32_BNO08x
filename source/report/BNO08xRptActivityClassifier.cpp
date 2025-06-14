@@ -14,10 +14,10 @@
  */
 void BNO08xRptActivityClassifier::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.personalActivityClassifier;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -46,9 +46,9 @@ bool BNO08xRptActivityClassifier::enable(uint32_t time_between_reports, sh2_Sens
  */
 bno08x_activity_classifier_t BNO08xRptActivityClassifier::get()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_activity_classifier_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 
@@ -59,9 +59,9 @@ bno08x_activity_classifier_t BNO08xRptActivityClassifier::get()
  */
 BNO08xActivity BNO08xRptActivityClassifier::get_most_likely_activity()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     BNO08xActivity rqdata = static_cast<BNO08xActivity>(data.mostLikelyState);
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 

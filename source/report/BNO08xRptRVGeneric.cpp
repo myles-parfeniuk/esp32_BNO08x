@@ -33,9 +33,9 @@ bool BNO08xRptRVGeneric::enable(uint32_t time_between_reports, sh2_SensorConfig_
  */
 bno08x_quat_t BNO08xRptRVGeneric::get_quat()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_quat_t rqdata = data;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }
 
@@ -86,9 +86,9 @@ bool BNO08xRptRVGeneric::tare(bool x, bool y, bool z, sh2_TareBasis_t basis)
     if (z)
         axis_flag |= SH2_TARE_Z;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_setTareNow(axis_flag, basis);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (success != SH2_OK)
         return false;

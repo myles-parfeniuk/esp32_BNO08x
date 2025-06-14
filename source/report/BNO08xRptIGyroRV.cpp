@@ -14,11 +14,11 @@
  */
 void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     data = sensor_val->un.gyroIntegratedRV;
     data.accuracy = static_cast<BNO08xAccuracy>(sensor_val->status);
     data_vel = sensor_val->un.gyroIntegratedRV;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 
     if (rpt_bit & xEventGroupGetBits(sync_ctx->evt_grp_rpt_en))
         signal_data_available();
@@ -34,10 +34,10 @@ void BNO08xRptIGyroRV::update_data(sh2_SensorValue_t* sensor_val)
  */
 void BNO08xRptIGyroRV::get(bno08x_quat_t& quat, bno08x_ang_vel_t& vel)
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     quat = data;
     vel = data_vel;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
 }
 
 /**
@@ -48,8 +48,8 @@ void BNO08xRptIGyroRV::get(bno08x_quat_t& quat, bno08x_ang_vel_t& vel)
  */
 bno08x_ang_vel_t BNO08xRptIGyroRV::get_vel()
 {
-    lock_user_data();
+    BNO08xGuard::lock_user_data(sync_ctx);
     bno08x_ang_vel_t rqdata = data_vel;
-    unlock_user_data();
+    BNO08xGuard::unlock_user_data(sync_ctx);
     return rqdata;
 }

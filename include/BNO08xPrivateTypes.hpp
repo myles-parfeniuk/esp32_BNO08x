@@ -12,6 +12,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 #include <freertos/event_groups.h>
+#include <freertos/queue.h>
 // in-house includes
 #include "BNO08xGlobalTypes.hpp"
 #include "BNO08xCbParamRptID.hpp"
@@ -64,6 +65,10 @@ namespace BNO08xPrivateTypes
             EventGroupHandle_t
                     evt_grp_rpt_data_available; ///< Event group for indicating to BNO08xRpt::has_new_data() that a module received a new report.
             EventGroupHandle_t evt_grp_task; ///<Event group for indicating various BNO08x related events between tasks.
+            QueueHandle_t
+                    queue_rx_sensor_event; ///< Queue to send sensor events from sh2 HAL sensor event callback (BNO08xSH2HAL::sensor_event_cb()) to data_proc_task()
+
+            QueueHandle_t queue_cb_report_id; ///< Queue to send report ID of most recent report to cb_task()
 
             bno08x_sync_ctx_t()
                 : cb_list()
@@ -73,6 +78,8 @@ namespace BNO08xPrivateTypes
                 , evt_grp_rpt_en(xEventGroupCreate())
                 , evt_grp_rpt_data_available(xEventGroupCreate())
                 , evt_grp_task(xEventGroupCreate())
+                , queue_rx_sensor_event(xQueueCreate(10, sizeof(sh2_SensorEvent_t)))
+                , queue_cb_report_id(xQueueCreate(CONFIG_ESP32_BNO08X_CB_QUEUE_SZ, sizeof(uint8_t)))
             {
             }
     } bno08x_sync_ctx_t;

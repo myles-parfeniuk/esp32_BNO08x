@@ -21,9 +21,9 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
 
     sensor_cfg.reportInterval_us = time_between_reports;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (sh2_res != SH2_OK)
     {
@@ -36,7 +36,7 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
         vTaskDelay(30UL / portTICK_PERIOD_MS); // delay a bit to allow command to execute
         period_us = time_between_reports;      // update the period
 
-        lock_user_data();
+        BNO08xGuard::lock_user_data(sync_ctx);
         for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
         {
             if (sync_ctx->en_report_ids[i] == ID)
@@ -50,7 +50,7 @@ bool BNO08xRpt::rpt_enable(uint32_t time_between_reports, sh2_SensorConfig_t sen
         if (idx == -1)
             sync_ctx->en_report_ids.push_back(ID); // add report ID to enabled report IDs
 
-        unlock_user_data();
+        BNO08xGuard::unlock_user_data(sync_ctx);
 
         return true;
     }
@@ -72,9 +72,9 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
 
     sensor_cfg.reportInterval_us = 0UL;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     sh2_res = sh2_setSensorConfig(ID, &sensor_cfg);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (sh2_res != SH2_OK)
     {
@@ -86,7 +86,7 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         xEventGroupClearBits(sync_ctx->evt_grp_rpt_en, rpt_bit);
 
         // remove report ID from enabled report IDs
-        lock_user_data();
+        BNO08xGuard::lock_user_data(sync_ctx);
         for (int i = 0; i < sync_ctx->en_report_ids.size(); i++)
         {
             if (sync_ctx->en_report_ids[i] == ID)
@@ -102,7 +102,7 @@ bool BNO08xRpt::disable(sh2_SensorConfig_t sensor_cfg)
         if (idx != -1)
             sync_ctx->en_report_ids.erase(sync_ctx->en_report_ids.begin() + idx);
 
-        unlock_user_data();
+        BNO08xGuard::unlock_user_data(sync_ctx);
     }
 
     return true;
@@ -153,9 +153,9 @@ bool BNO08xRpt::flush()
 {
     int success = SH2_OK;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_flush(ID);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (success != SH2_OK) ? false : true;
 }
@@ -172,9 +172,9 @@ bool BNO08xRpt::get_sample_counts(bno08x_sample_counts_t& sample_counts)
     int success = SH2_OK;
     sh2_Counts_t pCounts;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_getCounts(ID, &pCounts);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (success != SH2_OK)
     {
@@ -196,9 +196,9 @@ bool BNO08xRpt::clear_sample_counts()
 {
     int success = SH2_OK;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_clearCounts(ID);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     return (success == SH2_OK);
 }
@@ -218,54 +218,14 @@ bool BNO08xRpt::get_meta_data(bno08x_meta_data_t& meta_data)
 
     sh2_SensorMetadata_t sensor_meta_data;
 
-    lock_sh2_HAL();
+    BNO08xGuard::lock_sh2_HAL(sync_ctx);
     success = sh2_getMetadata(ID, &sensor_meta_data);
-    unlock_sh2_HAL();
+    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
     if (success == SH2_OK)
         meta_data = sensor_meta_data;
 
     return (success == SH2_OK);
-}
-
-/**
- * @brief Locks sh2 HAL lib to only allow the calling task to call its APIs.
- *
- * @return void, nothing to return
- */
-void BNO08xRpt::lock_sh2_HAL()
-{
-    xSemaphoreTake(sync_ctx->sh2_HAL_lock, portMAX_DELAY);
-}
-
-/**
- * @brief Unlocks sh2 HAL lib to allow other tasks to call its APIs.
- *
- * @return void, nothing to return
- */
-void BNO08xRpt::unlock_sh2_HAL()
-{
-    xSemaphoreGive(sync_ctx->sh2_HAL_lock);
-}
-
-/**
- * @brief Locks locks user data to only allow the calling task to read/modify it.
- *
- * @return void, nothing to return
- */
-void BNO08xRpt::lock_user_data()
-{
-    xSemaphoreTake(sync_ctx->data_lock, portMAX_DELAY);
-}
-
-/**
- * @brief Unlocks user data to allow other tasks to read/modify it.
- *
- * @return void, nothing to return
- */
-void BNO08xRpt::unlock_user_data()
-{
-    xSemaphoreGive(sync_ctx->data_lock);
 }
 
 /**
