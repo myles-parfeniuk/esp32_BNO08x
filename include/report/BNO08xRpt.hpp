@@ -68,7 +68,7 @@ class BNO08xRpt
 
         void signal_data_available();
 
-        static const constexpr float RAD_2_DEG =
+        static constexpr float RAD_2_DEG =
                 (180.0f / M_PI); ///< Constant for radian to degree conversions, sed in quaternion to euler function conversions.
 
         static const constexpr char* TAG = "BNO08xRpt";

@@ -133,37 +133,37 @@ class BNO08x
 
     private:
         // data processing task
-        static const constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ =
+        static constexpr configSTACK_DEPTH_TYPE DATA_PROC_TASK_SZ =
                 CONFIG_ESP32_BNO08X_DATA_PROC_TASK_SZ; ///< Size of data_proc_task() stack in bytes
         TaskHandle_t data_proc_task_hdl;               ///<data_proc_task() task handle
         static void data_proc_task_trampoline(void* arg);
         void data_proc_task();
 
         // sh2 service task
-        static const constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ =
+        static constexpr configSTACK_DEPTH_TYPE SH2_HAL_SERVICE_TASK_SZ =
                 CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_SZ; ///< Size of sh2_HAL_service_task() stack in bytes
         TaskHandle_t sh2_HAL_service_task_hdl;               ///<sh2_HAL_service_task() task handle
         static void sh2_HAL_service_task_trampoline(void* arg);
         void sh2_HAL_service_task();
 
         // callback task
-        static const constexpr configSTACK_DEPTH_TYPE CB_TASK_SZ =
+        static constexpr configSTACK_DEPTH_TYPE CB_TASK_SZ =
                 CONFIG_ESP32_BNO08X_CB_TASK_SZ; ///< Size of sh2_HAL_service_task() stack in bytes
         TaskHandle_t cb_task_hdl;               ///<sh2_HAL_service_task() task handle
         static void cb_task_trampoline(void* arg);
         void cb_task();
 
-        static const constexpr BaseType_t CB_TASK_AFFINITY = 
+        static constexpr BaseType_t CB_TASK_AFFINITY = 
                 CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_CB_TASK_AFFINITY ;  ///< tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t CB_TASK_PRIORITY = CONFIG_ESP32_BNO08X_CB_TASK_PRIORITY; ///< 5 per default, Priority of the callback task, 0-25, 0 is lowest priority, 25 is highest priority
+        static constexpr UBaseType_t CB_TASK_PRIORITY = CONFIG_ESP32_BNO08X_CB_TASK_PRIORITY; ///< 5 per default, Priority of the callback task, 0-25, 0 is lowest priority, 25 is highest priority
 
-        static const constexpr BaseType_t DATA_PROC_TASK_AFFINITY = 
+        static constexpr BaseType_t DATA_PROC_TASK_AFFINITY = 
                 CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_DATA_PROC_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t DATA_PROC_TASK_PRIORITY = CONFIG_ESP32_BNO08X_DATA_PROC_TASK_PRIORITY; ///< 6 per default, Priority of the data processing task, 0-25, 0 is lowest priority, 25 is highest priority
+        static constexpr UBaseType_t DATA_PROC_TASK_PRIORITY = CONFIG_ESP32_BNO08X_DATA_PROC_TASK_PRIORITY; ///< 6 per default, Priority of the data processing task, 0-25, 0 is lowest priority, 25 is highest priority
         
-        static const constexpr BaseType_t SH2_HAL_SERVICE_TASK_AFFINITY = 
+        static constexpr BaseType_t SH2_HAL_SERVICE_TASK_AFFINITY = 
                 CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY < 0 ? tskNO_AFFINITY : CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_AFFINITY; /// tskNO_AFFINITY if not pinned to a core, 0 or 1
-        static const constexpr UBaseType_t SH2_HAL_SERVICE_TASK_PRIORITY = CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY; ///< 7 per default, Priority of the sh2 HAL service task, 0-25, 0 is lowest priority, 25 is highest priority
+        static constexpr UBaseType_t SH2_HAL_SERVICE_TASK_PRIORITY = CONFIG_ESP32_BNO08X_SH2_HAL_SERVICE_TASK_PRIORITY; ///< 7 per default, Priority of the sh2 HAL service task, 0-25, 0 is lowest priority, 25 is highest priority
 
         void handle_sensor_report(sh2_SensorValue_t* sensor_val);
         void handle_cb(uint8_t rpt_ID, BNO08xCbGeneric* cb_entry);
@@ -254,21 +254,21 @@ class BNO08x
 
         static void IRAM_ATTR hint_handler(void* arg);
 
-        static const constexpr uint16_t RX_DATA_LENGTH = 300U; ///<length buffer containing data received over spi
+        static constexpr uint16_t RX_DATA_LENGTH = 300U; ///<length buffer containing data received over spi
 
-        static const constexpr TickType_t HOST_INT_TIMEOUT_DEFAULT_MS =
+        static constexpr TickType_t HOST_INT_TIMEOUT_DEFAULT_MS =
                 CONFIG_ESP32_BNO08X_HINT_TIMEOUT_MS /
                 portTICK_PERIOD_MS; ///<Max wait between HINT being asserted by BNO08x before transaction is considered failed (in miliseconds).
 
-        static const constexpr TickType_t DATA_AVAILABLE_TIMEOUT_MS =
+        static constexpr TickType_t DATA_AVAILABLE_TIMEOUT_MS =
                 CONFIG_ESP32_BNO08X_DATA_AVAILABLE_TIMEOUT_MS /
                 portTICK_PERIOD_MS; ///<Max wait between data_available() being called and no new data/report being detected.
 
-        static const constexpr TickType_t HARD_RESET_DELAY_MS =
+        static constexpr TickType_t HARD_RESET_DELAY_MS =
                 CONFIG_ESP32_BNO08X_HARD_RESET_DELAY_MS /
                 portTICK_PERIOD_MS; ///<How long RST pin is held low during hard reset (min 10ns according to datasheet, but should be longer for stable operation)
 
-        static const constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of.
+        static constexpr uint32_t SCLK_MAX_SPEED = 3000000UL; ///<Max SPI SCLK speed BNO08x is capable of.
 
         static const constexpr char* TAG = "BNO08x"; ///< Class tag used for serial print statements
 

@@ -946,7 +946,7 @@ esp_err_t BNO08x::deinit_spi()
  */
 esp_err_t BNO08x::deinit_tasks()
 {
-    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = HOST_INT_TIMEOUT_DEFAULT_MS;
+    constexpr uint8_t TASK_DELETE_TIMEOUT_MS = HOST_INT_TIMEOUT_DEFAULT_MS;
     uint8_t kill_count = 0;
     uint8_t init_count = 0;
     sh2_SensorEvent_t empty_event;

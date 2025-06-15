@@ -1117,4 +1117,4 @@ typedef struct bno08x_meta_data_t
         }
 } bno08x_meta_data_t;
 
-constexpr uint8_t TOTAL_RPT_COUNT = 21; ///< Amount of report types currently implemented by this library.
+static constexpr uint8_t TOTAL_RPT_COUNT = 21U; ///< Amount of report types currently implemented by this library.

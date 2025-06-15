@@ -30,8 +30,8 @@ TEST_CASE("Driver Creation for [FeatureTests] Tests", "[FeatureTests]")
 TEST_CASE("Hard Reset", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Hard Reset";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -75,8 +75,8 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
 TEST_CASE("Soft Reset", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Soft Reset";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -120,8 +120,8 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
 TEST_CASE("Sleep", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Sleep";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -174,8 +174,8 @@ TEST_CASE("Sleep", "[FeatureTests]")
 TEST_CASE("Get Metadata", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Get Metadata";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -291,8 +291,8 @@ TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
 TEST_CASE("Get Sample Counts", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Get Sample Counts";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
@@ -342,8 +342,8 @@ TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Enable Dynamic Calibration";
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -372,8 +372,8 @@ TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Save Dynamic Calibration";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -401,8 +401,8 @@ TEST_CASE("Save Dynamic Calibration", "[FeatureTests]")
 TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Autosave Dynamic Calibration";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 200;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 200;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -431,8 +431,8 @@ TEST_CASE("Autosave Dynamic Calibration", "[FeatureTests]")
 TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Disable Dynamic Calibration";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -460,8 +460,8 @@ TEST_CASE("Disable Dynamic Calibration", "[FeatureTests]")
 TEST_CASE("Clear Dynamic Calibration Data Ram", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Clear Dynamic Calibration Data Ram";
-    static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
-    static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
+    constexpr uint8_t ENABLED_REPORT_COUNT = 1;
+    constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
