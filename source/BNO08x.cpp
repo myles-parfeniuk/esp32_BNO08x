@@ -1015,39 +1015,38 @@ esp_err_t BNO08x::deinit_sh2_HAL()
  */
 bool BNO08x::hard_reset()
 {
-    // toggle reset gpio
-    toggle_reset();
-
-    // wait for reset to be detected by SH2 HAL lib
-    if (wait_for_reset() == ESP_OK)
+    do
     {
+        // toggle reset gpio
+        toggle_reset();
+
+        if (wait_for_reset() != ESP_OK)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "hard_reset(): Reset never detected after toggling reset pin");
+            #endif
+            // clang-format on
+            break;
+        }
+
         // run service to dispatch callbacks
         BNO08xGuard::lock_sh2_HAL(sync_ctx);
         sh2_service();
         BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
-        // get product ids and check reset reason
-        if (get_reset_reason() == BNO08xResetReason::EXT_RST)
-        {
-            return true;
-        }
-        else
+        BNO08xResetReason reset_reason = get_reset_reason();
+        if (reset_reason != BNO08xResetReason::EXT_RST)
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Hard reset failure, incorrect reset reason returned: %d.", product_IDs.entry[0].resetCause);
+            ESP_LOGE(TAG, "hard_reset(): Incorrect reset reason returned: %d.", static_cast<uint8_t>(reset_reason));
             #endif
             // clang-format on
         }
-    }
-    else
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Hard reset failure, reset never detected after toggling reset pin");
-        #endif
-        // clang-format on
-    }
+
+        return true;
+    } while (0);
 
     return false;
 }
@@ -1060,52 +1059,51 @@ bool BNO08x::hard_reset()
 bool BNO08x::soft_reset()
 {
     int op_success = SH2_ERR;
-
-    // send reset command
-    BNO08xGuard::lock_sh2_HAL(sync_ctx);
-    op_success = sh2_devReset();
-    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
-
-    if (op_success == SH2_OK)
+    do
     {
-        // wait for reset to be detected by SH2 HAL lib
-        if (wait_for_reset() == ESP_OK)
-        {
-            // run service to dispatch callbacks
-            BNO08xGuard::lock_sh2_HAL(sync_ctx);
-            sh2_service();
-            BNO08xGuard::unlock_sh2_HAL(sync_ctx);
+        // send reset command
+        BNO08xGuard::lock_sh2_HAL(sync_ctx);
+        op_success = sh2_devReset();
+        BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
-            if (get_reset_reason() == BNO08xResetReason::EXT_RST)
-            {
-                return true;
-            }
-            else
-            {
-                // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Soft reset failure, incorrect reset reason returned.");
-                #endif
-                // clang-format on
-            }
-        }
-        else
+        if (op_success != SH2_OK)
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Soft reset failure, reset never detected after sending command.");
+            ESP_LOGE(TAG, "soft_reset(): Failed to send reset command");
+            #endif
+            // clang-format on
+            break;
+        }
+
+        if (wait_for_reset() != ESP_OK)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "soft_reset(): Reset never detected after sending command.");
+            #endif
+            // clang-format on
+            break;
+        }
+
+        // run service to dispatch callbacks
+        BNO08xGuard::lock_sh2_HAL(sync_ctx);
+        sh2_service();
+        BNO08xGuard::unlock_sh2_HAL(sync_ctx);
+
+        BNO08xResetReason reset_reason = get_reset_reason(); 
+        if (reset_reason != BNO08xResetReason::EXT_RST)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "soft_reset(): Incorrect reset reason returned: %d.", static_cast<uint8_t>(reset_reason));
             #endif
             // clang-format on
         }
-    }
-    else
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Soft reset failure, failed to send reset command");
-        #endif
-        // clang-format on
-    }
+
+        return true;
+
+    } while (0);
 
     return false;
 }
@@ -1117,11 +1115,9 @@ bool BNO08x::soft_reset()
  */
 bool BNO08x::disable_all_reports()
 {
-    int attempts = 0;
-
     xEventGroupClearBits(sync_ctx.evt_grp_rpt_en, EVT_GRP_RPT_ALL);
 
-    while (sync_ctx.en_report_ids.size() != 0 && (attempts < TOTAL_RPT_COUNT))
+    while (sync_ctx.en_report_ids.size() != 0)
     {
         uint8_t rpt_ID = sync_ctx.en_report_ids.back();
         BNO08xRpt* rpt = search_rpt_map(rpt_ID);
@@ -1129,29 +1125,24 @@ bool BNO08x::disable_all_reports()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "NULL pointer detected in usr_reports map for enabled report.");
+            ESP_LOGW(TAG, "disable_all_reports(): No implementation detected in usr_reports map for enabled report with ID: %d.", rpt_ID);
             #endif
             // clang-format on
-            return false;
+            continue;
         }
 
         if (!rpt->disable())
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Failed to disable: %d", rpt->ID);
+            ESP_LOGE(TAG, "disable_all_reports(): Failed to disable report with ID: %d", rpt->ID);
             #endif
             // clang-format on
             return false;
-        }
-
-        attempts++;
+        } 
     }
 
-    if (attempts < TOTAL_RPT_COUNT)
-        return true;
-    else
-        return false;
+    return true;
 }
 
 /**
@@ -1814,7 +1805,7 @@ esp_err_t BNO08x::re_enable_reports()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "NULL pointer detected in usr_reports map for enabled report.");
+            ESP_LOGW(TAG, "re_enable_reports(): No implementation detected in usr_reports map for enabled report with ID: %d.", rpt_ID);
             #endif
             // clang-format on
             continue;
@@ -1826,7 +1817,7 @@ esp_err_t BNO08x::re_enable_reports()
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Failed to re-enable: %d", rpt->ID);
+                ESP_LOGE(TAG, "re_enable_reports(): Failed to re-enable report with ID: %d", rpt_ID);
                 #endif
                 // clang-format on
                 return ESP_FAIL;
