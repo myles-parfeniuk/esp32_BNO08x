@@ -104,7 +104,7 @@ bool BNO08x::initialize()
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-    ESP_LOGI(TAG, "Successfully initialized....");
+    ESP_LOGI(TAG, "initialize(): successfully initialized....");
     #endif
     // clang-format on
 
@@ -199,7 +199,7 @@ void BNO08x::sh2_HAL_service_task()
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Failed to re-enable enabled reports after IMU reset.");
+                ESP_LOGE(TAG, "sh2_HAL_service_task(): Failed to re-enable enabled reports after IMU reset.");
                 #endif
                 // clang-format on
             }
@@ -218,7 +218,7 @@ void BNO08x::sh2_HAL_service_task()
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
         current_hint_time = esp_timer_get_time();
-        ESP_LOGW(TAG, "HINT Asserted, time since last assertion: %lldus", current_hint_time - last_hint_time);
+        ESP_LOGW(TAG, "sh2_HAL_service_task(): HINT Asserted, time since last assertion: %lldus", current_hint_time - last_hint_time);
         last_hint_time = current_hint_time;
         #endif
         // clang-format on
@@ -297,7 +297,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
 
     // clang-format off
     #ifdef CONFIG_ESP32_BNO08x_DEBUG_STATEMENTS
-    ESP_LOGE(TAG, "Report RX'd, ID: %d", sensor_val->sensorId);
+    ESP_LOGE(TAG, "handle_sensor_report(): Report RX'd, ID: %d", sensor_val->sensorId);
     #endif
     // clang-format on
 
@@ -318,7 +318,7 @@ void BNO08x::handle_sensor_report(sh2_SensorValue_t* sensor_val)
             {
                 // clang-format off
                 #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "Callback queue full, callback execution for report missed.");
+                ESP_LOGE(TAG, "handle_sensor_report(): Callback queue full, callback execution for report missed.");
                 #endif
                 // clang-format on
             }
@@ -349,7 +349,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, CS GPIO cannot be unassigned.");
+        ESP_LOGE(TAG, "init_config_args(): CS GPIO cannot be unassigned.");
         #endif
         // clang-format on
 
@@ -360,7 +360,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, MISO GPIO cannot be unassigned.");
+        ESP_LOGE(TAG, "init_config_args(): MISO GPIO cannot be unassigned.");
         #endif
         // clang-format on
 
@@ -371,7 +371,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, MOSI GPIO cannot be unassigned.");
+        ESP_LOGE(TAG, "init_config_args(): MOSI GPIO cannot be unassigned.");
         #endif
         // clang-format on
 
@@ -382,7 +382,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, SCLK GPIO cannot be unassigned.");
+        ESP_LOGE(TAG, "init_config_args(): SCLK GPIO cannot be unassigned.");
         #endif
         // clang-format on
 
@@ -393,7 +393,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "RST GPIO cannot be unassigned.");
+        ESP_LOGE(TAG, "init_config_args(): RST GPIO cannot be unassigned.");
         #endif
         // clang-format on
 
@@ -415,7 +415,7 @@ esp_err_t BNO08x::init_config_args()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Max SPI clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
+        ESP_LOGW(TAG, "init_config_args(): Max SPI clock speed exceeded, %ld overwritten with 3MHz", imu_config.sclk_speed);
         #endif
         // clang-format on
 
@@ -456,7 +456,7 @@ esp_err_t BNO08x::init_gpio_inputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to configure HINT gpio.");
+        ESP_LOGE(TAG, "init_gpio_inputs(): Failed to configure HINT gpio.");
         #endif
         // clang-format on
     }
@@ -493,7 +493,7 @@ esp_err_t BNO08x::init_gpio_outputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to configure CS, and RST gpio.");
+        ESP_LOGE(TAG, "init_gpio_outputs(): Failed to configure CS, and RST gpio.");
         #endif
         // clang-format on
     }
@@ -548,7 +548,7 @@ esp_err_t BNO08x::init_hint_isr()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to install global ISR service.");
+        ESP_LOGE(TAG, "init_hint_isr(): Failed to install global ISR service.");
         #endif
         // clang-format on
 
@@ -566,7 +566,7 @@ esp_err_t BNO08x::init_hint_isr()
 
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to add hint_handler ISR.");
+        ESP_LOGE(TAG, "init_hint_isr(): Failed to add hint_handler ISR.");
         #endif
         // clang-format on
 
@@ -604,7 +604,7 @@ esp_err_t BNO08x::init_tasks()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, data_proc_task failed to launch.");
+        ESP_LOGE(TAG, "init_tasks(): data_proc_task failed to launch.");
         #endif
         // clang-format on
 
@@ -627,7 +627,7 @@ esp_err_t BNO08x::init_tasks()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, cb_task failed to launch.");
+        ESP_LOGE(TAG, "init_tasks(): cb_task failed to launch.");
         #endif
         // clang-format on
 
@@ -650,7 +650,7 @@ esp_err_t BNO08x::init_tasks()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, sh2_HAL_service_task failed to launch.");
+        ESP_LOGE(TAG, "init_tasks(): sh2_HAL_service_task failed to launch.");
         #endif
         // clang-format on
 
@@ -679,7 +679,7 @@ esp_err_t BNO08x::init_spi()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, SPI bus failed to initialize.");
+        ESP_LOGE(TAG, "init_spi(): SPI bus failed to initialize.");
         #endif
         // clang-format on
 
@@ -696,7 +696,7 @@ esp_err_t BNO08x::init_spi()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to add device to SPI bus.");
+        ESP_LOGE(TAG, "init_spi(): Failed to add device to SPI bus.");
         #endif
         // clang-format on
 
@@ -733,7 +733,7 @@ esp_err_t BNO08x::init_sh2_HAL()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, sh2_open() call failed.");
+        ESP_LOGE(TAG, "init_sh2_HAL(): sh2_open() call failed.");
         #endif
         // clang-format on
 
@@ -748,7 +748,7 @@ esp_err_t BNO08x::init_sh2_HAL()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, sh2_getProdIds() call failed.");
+        ESP_LOGE(TAG, "init_sh2_HAL(): sh2_getProdIds() call failed.");
         #endif
         // clang-format on
 
@@ -811,7 +811,7 @@ esp_err_t BNO08x::deinit_gpio_inputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Initialization failed, failed to add device to SPI bus.");
+        ESP_LOGE(TAG, "deinit_gpio_inputs(): Failed to reset gpio HINT pin to default state.");
         #endif
         // clang-format on
     }
@@ -833,7 +833,7 @@ esp_err_t BNO08x::deinit_gpio_outputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio CS pin to default state.");
+        ESP_LOGE(TAG, "deinit_gpio_outputs(): Failed to reset gpio CS pin to default state.");
         #endif
         // clang-format on
 
@@ -845,7 +845,7 @@ esp_err_t BNO08x::deinit_gpio_outputs()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Deconstruction failed, could reset gpio RST pin to default state.");
+        ESP_LOGE(TAG, "deinit_gpio_outputs(): Failed to reset gpio RST pin to default state.");
         #endif
         // clang-format on
 
@@ -871,7 +871,7 @@ esp_err_t BNO08x::deinit_hint_isr()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Deconstruction failed, could not remove hint ISR handler.");
+            ESP_LOGE(TAG, "deinit_hint_isr(): Failed to remove hint ISR handler.");
             #endif
             // clang-format on
 
@@ -909,7 +909,7 @@ esp_err_t BNO08x::deinit_spi()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Deconstruction failed, could not remove spi device.");
+            ESP_LOGE(TAG, "deinit_spi(): Failed to remove spi device from bus.");
             #endif
             // clang-format on
 
@@ -926,7 +926,7 @@ esp_err_t BNO08x::deinit_spi()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Deconstruction failed, could free SPI peripheral.");
+            ESP_LOGE(TAG, "deinit_spi(): Failed to free SPI peripheral.");
             #endif
             // clang-format on
 
@@ -981,7 +981,7 @@ esp_err_t BNO08x::deinit_tasks()
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "Task deletion timed out in deconstructor call.");
+            ESP_LOGE(TAG, "deinit_tasks(): Task deletion timed out.");
             #endif
             // clang-format on
 
@@ -1168,7 +1168,7 @@ BNO08xResetReason BNO08x::get_reset_reason()
     {
         // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Get reset reason failure, failed to get prodIDs.");
+        ESP_LOGE(TAG, "get_reset_reason(): Failed to get prodIDs.");
         #endif
         // clang-format on
     }
@@ -1939,7 +1939,7 @@ void BNO08x::print_system_orientation()
         #endif
     } else {
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "Failed to get mounting orientation");
+        ESP_LOGE(TAG, "print_system_orientation(): Failed to get mounting orientation");
         #endif
     }
 }
