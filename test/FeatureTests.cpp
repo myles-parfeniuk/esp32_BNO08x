@@ -227,7 +227,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
 TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Set System Orientation";
-   constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
     BNO08x* imu = nullptr;
     imu = BNO08xTestHelper::get_test_imu();
     char msg_buff[200] = {};
@@ -242,16 +242,17 @@ TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
-    // 2. set the system orientation to a value defined in figure 4-3 of the data sheet (X == West Aligned, Y == West Aligned, Z == Up)
+    // 2. set the system orientation to a value defined in figure 4-3 of the data sheet (X == West Aligned, Y == West Aligned, Z
+    // == Up)
     sprintf(msg_buff, "Setting orientation to: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
-    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz)); 
+    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz));
 
     // 3. hard reset to apply changes and verify they are persistent within flash
-    TEST_ASSERT_EQUAL(true, imu->hard_reset()); 
+    TEST_ASSERT_EQUAL(true, imu->hard_reset());
 
     // 4. read back the system orientation frs and verify it contains the orientation we wrote
-    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz)); 
+    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz));
     sprintf(msg_buff, "Read back orientation: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     // check that values match expected
@@ -261,16 +262,16 @@ TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
     TEST_ASSERT_EQUAL(true, fabs(0.0 - Qz) < epsilon);
 
     // 5. reset the system orientation to default (all 0.0f)
-    Qw = 0.0f; 
+    Qw = 0.0f;
     sprintf(msg_buff, "Re-setting orientation to: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
-    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz)); 
+    TEST_ASSERT_EQUAL(true, imu->set_system_orientation(Qw, Qx, Qy, Qz));
 
     // 6. hard reset to apply changes and verify they are persistent within flash
-    TEST_ASSERT_EQUAL(true, imu->hard_reset()); 
+    TEST_ASSERT_EQUAL(true, imu->hard_reset());
 
-    // 7. read back the system orientation frs and verify it has been returned to default 
-    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz)); 
+    // 7. read back the system orientation frs and verify it has been returned to default
+    TEST_ASSERT_EQUAL(true, imu->get_system_orientation(Qw, Qx, Qy, Qz));
     sprintf(msg_buff, "Read back orientation after reset: Qw: %.6f Qx: %.6f Qy: %.6f Qz: %.6f", Qw, Qx, Qy, Qz);
     BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
     // check that values match expected
@@ -279,14 +280,10 @@ TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
     TEST_ASSERT_EQUAL(true, fabs(0.0 - Qy) < epsilon);
     TEST_ASSERT_EQUAL(true, fabs(0.0 - Qz) < epsilon);
 
-
     TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
-    
-
 }
-
 
 TEST_CASE("Get Sample Counts", "[FeatureTests]")
 {
@@ -489,7 +486,7 @@ TEST_CASE("Clear Dynamic Calibration Data Ram", "[FeatureTests]")
 TEST_CASE("Delete Dynamic Calibration Data", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Delete Dynamic Calibration Data";
-    
+
     BNO08x* imu = nullptr;
     static char msg_buff[200] = {0};
     static uint32_t frs_data[16] = {0};

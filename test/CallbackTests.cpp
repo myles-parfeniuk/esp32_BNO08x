@@ -65,9 +65,11 @@ TEST_CASE("Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[Callb
  *
  * 10. Block until test lock is released by callback or timeout occurs.
  *
- * 11. Attempt to disable all reports after callback called RX_REPORT_TRIAL_COUNT times and release test lock.
+ * 11. Assert that callback releases test lock successfully after callback invoked RX_REPORT_TRIAL_COUNT times.
  *
- * 12. Assert that report data was received for all enabled reports.
+ * 12. Attempt to disable all reports.
+ *
+ * 13. Assert that report data was received for all enabled reports.
  *
  */
 TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
@@ -107,14 +109,15 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
                             &data_available_rv_geomagnetic, &data_quat, &data_vel, &data_magf, &msg_buff, &test_lock]()
                     {
                         static int i = 0;
+                        static bool lock_release = false;
 
                         i++;
 
-                        if (i > RX_REPORT_TRIAL_CNT)
+                        if (i > RX_REPORT_TRIAL_CNT && !lock_release)
                         {
                             // 11.
-                            TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
-                            xSemaphoreGive(test_lock);
+                            TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreGive(test_lock));
+                            lock_release = true;
                             return;
                         }
 
@@ -246,6 +249,9 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
     TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreTake(test_lock, CB_EXECUTION_TIMEOUT_MS / portTICK_PERIOD_MS));
 
     // 12.
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
+
+    // 13.
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
     TEST_ASSERT_EQUAL(true, data_available_grav);
@@ -335,9 +341,11 @@ TEST_CASE("Driver Creation for [CallbackAllReportIDInputParam] Tests", "[Callbac
  *
  * 10. Block until test lock is released by callback or timeout occurs.
  *
- * 11. Attempt to disable all reports after callback called RX_REPORT_TRIAL_COUNT times and release test lock.
+ * 11. Assert that callback releases test lock successfully after callback invoked RX_REPORT_TRIAL_COUNT times.
  *
- * 12. Assert that report data was received for all enabled reports.
+ * 12. Attempt to disable all reports.
+ *
+ * 13. Assert that report data was received for all enabled reports.
  *
  */
 TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
@@ -379,14 +387,15 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                             &test_lock](uint8_t report_ID)
                     {
                         static int i = 0;
+                        static bool lock_release = false;
 
                         i++;
 
-                        if (i > RX_REPORT_TRIAL_CNT)
+                        if (i > RX_REPORT_TRIAL_CNT && !lock_release)
                         {
-                            // 11. 
-                            TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
-                            xSemaphoreGive(test_lock);
+                            // 11.
+                            TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreGive(test_lock));
+                            lock_release = true;
                             return;
                         }
 
@@ -480,7 +489,7 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
                                 break;
                         }
                     }));
-    
+
     // 2.
     TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
 
@@ -504,11 +513,14 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
 
     // 9.
     TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD));
-    
+
     // 10.
     TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreTake(test_lock, CB_EXECUTION_TIMEOUT_MS / portTICK_PERIOD_MS));
-    
+
     // 12.
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
+
+    // 13.
     TEST_ASSERT_EQUAL(true, data_available_accel);
     TEST_ASSERT_EQUAL(true, data_available_lin_accel);
     TEST_ASSERT_EQUAL(true, data_available_grav);
@@ -583,9 +595,11 @@ TEST_CASE("Driver Creation for [CallbackSingleReportVoidInputParam] Tests", "[Ca
  *
  * 3. Block until test lock is released by callback or timeout occurs.
  *
- * 4. Attempt to disable all reports after callback called RX_REPORT_TRIAL_COUNT times and release test lock.
+ * 4. Assert that callback releases test lock successfully after callback invoked RX_REPORT_TRIAL_COUNT times.
  *
- * 5. Assert that report data was received for all enabled reports.
+ * 5. Attempt to disable all reports.
+ *
+ * 6. Assert that report data was received for all enabled reports.
  *
  */
 TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoidInputParam]")
@@ -612,14 +626,15 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
                                     [&imu, &data_available_accel, &data_accel, &msg_buff, &test_lock]()
                                     {
                                         static int i = 0;
+                                        static bool lock_release = false;
 
                                         i++;
 
-                                        if (i > RX_REPORT_TRIAL_CNT)
+                                        if (i > RX_REPORT_TRIAL_CNT && !lock_release)
                                         {
                                             // 4.
-                                            TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
-                                            xSemaphoreGive(test_lock);
+                                            TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreGive(test_lock));
+                                            lock_release = true;
                                             return;
                                         }
 
@@ -632,14 +647,17 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
                                                 BNO08xAccuracy_to_str(data_accel.accuracy));
                                         BNO08xTestHelper::print_test_msg(TEST_TAG, msg_buff);
                                     }));
-    
-    // 2. 
+
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
-    
+
     // 3.
     TEST_ASSERT_EQUAL(pdTRUE, xSemaphoreTake(test_lock, CB_EXECUTION_TIMEOUT_MS / portTICK_PERIOD_MS));
-    
+
     // 5.
+    TEST_ASSERT_EQUAL(true, imu->disable_all_reports());
+
+    // 6.
     TEST_ASSERT_EQUAL(true, data_available_accel);
 
     vSemaphoreDelete(test_lock);

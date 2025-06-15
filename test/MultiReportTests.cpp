@@ -45,12 +45,12 @@ TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportE
  * through the data_available polling methods without issue.
  *
  * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
- * 
+ *
  * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
  *
  * 3. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
- * 
- * 4. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 4. Attempt to disable all reports and assert that it happens successfully.
  *
  * 5. Assert that report data was received for all enabled reports.
  *
@@ -126,16 +126,16 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
  * through the data_available polling methods without issue.
  *
  * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
- * 
+ *
  * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
- * 
+ *
  * 3. Attempt to enable gravity reports and assert that it happens successfully.
- * 
+ *
  * 4. Attempt to enable calibrated gyroscope reports and assert that it happens successfully.
  *
  * 5. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
- * 
- * 6. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 6. Attempt to disable all reports and assert that it happens successfully.
  *
  * 7. Assert that report data was received for all enabled reports.
  *
@@ -244,24 +244,24 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
  * through the data_available polling methods without issue.
  *
  * 1. Attempt to enable accelerometer reports and assert that it happens successfully.
- * 
+ *
  * 2. Attempt to enable linear accelerometer reports and assert that it happens successfully.
- * 
+ *
  * 3. Attempt to enable gravity reports and assert that it happens successfully.
- * 
+ *
  * 4. Attempt to enable calibrated gyroscope reports and assert that it happens successfully.
- * 
+ *
  * 5. Attempt to enable calibrated magnetometer reports and assert that it happens successfully.
- * 
+ *
  * 6. Attempt to enable rotation vector reports and assert that it happens successfully.
- * 
+ *
  * 7. Attempt to enable game rotation vector reports and assert that it happens successfully.
- * 
+ *
  * 8. Attempt to enable geomagnetic rotation vector reports and assert that it happens successfully.
  *
  * 9. Assert that new report data is available RX_REPORT_TRIAL_COUNT times.
- * 
- * 10. Attempt to disable all reports and assert that it happens successfully. 
+ *
+ * 10. Attempt to disable all reports and assert that it happens successfully.
  *
  * 11. Assert that report data was received for all enabled reports.
  *

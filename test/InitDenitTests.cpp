@@ -14,7 +14,7 @@
 /**
  * @test InitComprehensive Config Args
  *
- * This test verifies the internal logic for error checking the default bno08x_config_t struct. 
+ * This test verifies the internal logic for error checking the default bno08x_config_t struct.
  *
  * 1. Create a test IMU instance for use in [InitComprehensive] and [DeinitComprehensive] test groups.
  *
@@ -165,7 +165,7 @@ TEST_CASE("InitComprehensive Tasks", "[InitComprehensive]")
 /**
  * @test DeinitComprehensive Tasks
  *
- * This test verifies the internal task deinitialization function can be executed successfully. 
+ * This test verifies the internal task deinitialization function can be executed successfully.
  * It is responsible for safely deleting the 3 tasks used by this library (data processing task, callback task,
  * and sh2 HAL service task).
  *
@@ -181,7 +181,7 @@ TEST_CASE("DeinitComprehensive Tasks", "[DeinitComprehensive]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    // 1. 
+    // 1.
     TEST_ASSERT_EQUAL(ESP_OK, BNO08xTestHelper::call_deinit_tasks());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
@@ -190,7 +190,7 @@ TEST_CASE("DeinitComprehensive Tasks", "[DeinitComprehensive]")
 /**
  * @test DeinitComprehensive sh2 HAL
  *
- * This test verifies the internal sh2 HAL deinitialization function can be executed successfully.  
+ * This test verifies the internal sh2 HAL deinitialization function can be executed successfully.
  * It is responsible for closing the sh2 HAL lib instance.
  *
  * 1. Call the internal BNO08x::deinit_sh2_HAL() function and assert it returns without fail.
@@ -214,8 +214,8 @@ TEST_CASE("DeinitComprehensive sh2 HAL", "[DeinitComprehensive]")
 /**
  * @test DeinitComprehensive HINT ISR
  *
- * This test verifies the internal HINT ISR deinitialization function can be executed successfully.  
- * It is responsible unregistering the HINT ISR handler with esp-idf. 
+ * This test verifies the internal HINT ISR deinitialization function can be executed successfully.
+ * It is responsible unregistering the HINT ISR handler with esp-idf.
  *
  * 1. Call the internal BNO08x::deinit_hint_isr() function and assert it returns without fail.
  *
@@ -229,7 +229,7 @@ TEST_CASE("DeinitComprehensive HINT ISR", "[DeinitComprehensive]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    // 1. 
+    // 1.
     TEST_ASSERT_EQUAL(ESP_OK, BNO08xTestHelper::call_deinit_hint_isr());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
@@ -238,7 +238,7 @@ TEST_CASE("DeinitComprehensive HINT ISR", "[DeinitComprehensive]")
 /**
  * @test DeinitComprehensive SPI
  *
- * This test verifies the internal SPI deinitialization function can be executed successfully.   
+ * This test verifies the internal SPI deinitialization function can be executed successfully.
  * It is responsible for releasing the selected SPI host/peripheral.
  *
  * 1. Call the internal BNO08x::deinit_spi() function and assert it returns without fail.
@@ -253,7 +253,7 @@ TEST_CASE("DeinitComprehensive SPI", "[DeinitComprehensive]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    // 1. 
+    // 1.
     TEST_ASSERT_EQUAL(ESP_OK, BNO08xTestHelper::call_deinit_spi());
 
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
@@ -262,12 +262,12 @@ TEST_CASE("DeinitComprehensive SPI", "[DeinitComprehensive]")
 /**
  * @test DeinitComprehensive GPIO
  *
- * This test verifies the internal GPIO deinitialization function can be executed successfully.  
+ * This test verifies the internal GPIO deinitialization function can be executed successfully.
  * It is responsible for returning the GPIO not controlled by the SPI peripheral to their default state.
  *
  * 1. Call the internal BNO08x::deinit_gpio() function and assert it returns without fail.
- * 
- * 2. Destroys the test IMU instance that was used with the [InitComprehensive] and [DeinitComprehensive] test groups 
+ *
+ * 2. Destroys the test IMU instance that was used with the [InitComprehensive] and [DeinitComprehensive] test groups
  * this will also release any freeRTOS resources (queues, semaphores, event groups, etc...).
  *
  */
@@ -294,16 +294,16 @@ TEST_CASE("DeinitComprehensive GPIO", "[DeinitComprehensive]")
  * This test verifies the full initialization and deinitialization without calling the internal functions
  * individually.
  *
- * 1. Creates a test IMU instance 
+ * 1. Creates a test IMU instance
  *
- * 2. Call the public BNO08x::initialize() function and assert it returns without fail. 
- * 
- * 3. Destroy the test IMU instance deinitialize flow is performed in deconstructor. 
- * 
+ * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
+ *
+ * 3. Destroy the test IMU instance deinitialize flow is performed in deconstructor.
+ *
  * 4. Create another test IMU instance
- * 
- * 5. Call the public BNO08x::initialize() function and assert it returns without fail. 
- * 
+ *
+ * 5. Call the public BNO08x::initialize() function and assert it returns without fail.
+ *
  * 6. Destroy the test IMU instance deinitialize flow is performed in deconstructor.
  *
  */
