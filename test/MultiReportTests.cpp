@@ -60,7 +60,7 @@ TEST_CASE("Read Dual Report", "[MultiReportRead]")
     const constexpr char* TEST_TAG = "Read Dual Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 2;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -75,10 +75,10 @@ TEST_CASE("Read Dual Report", "[MultiReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     // 2.
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -145,7 +145,7 @@ TEST_CASE("Read Quad Report", "[MultiReportRead]")
     const constexpr char* TEST_TAG = "Read Quad Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 4;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -163,16 +163,16 @@ TEST_CASE("Read Quad Report", "[MultiReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     // 2.
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD_US));
 
     // 3.
-    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD_US));
 
     // 4.
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -271,7 +271,7 @@ TEST_CASE("Read Octo Report", "[MultiReportRead]")
     const constexpr char* TEST_TAG = "Read Octo Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -295,28 +295,28 @@ TEST_CASE("Read Octo Report", "[MultiReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     // 2.
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD_US));
 
     // 3.
-    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD_US));
 
     // 4.
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD_US));
 
     // 5.
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD_US));
 
     // 6.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD_US));
 
     // 7.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD_US));
 
     // 8.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {

@@ -58,7 +58,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable Incorrect Report";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -71,7 +71,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -100,7 +100,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Accelerometer
+ * @test Read Accelerometer
  *
  * This test validates the basic functionality of the Accelerometer report.
  *
@@ -113,11 +113,11 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportRead]")
  * 3. Attempt to disable accelerometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Accelerometer", "[SingleReportRead]")
+TEST_CASE("Read Accelerometer", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Accelerometer";
+    const constexpr char* TEST_TAG = "Read Accelerometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -130,7 +130,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -157,7 +157,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Linear Accelerometer
+ * @test Read Linear Accelerometer
  *
  * This test validates the basic functionality of the Linear Accelerometer report.
  *
@@ -170,11 +170,11 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportRead]")
  * 3. Attempt to disable linear accelerometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportRead]")
+TEST_CASE("Read Linear Accelerometer", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Linear Accelerometer";
+    const constexpr char* TEST_TAG = "Read Linear Accelerometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5UL;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -187,7 +187,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.linear_accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -216,7 +216,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Gravity
+ * @test Read Gravity
  *
  * This test validates the basic functionality of the Gravity report.
  *
@@ -229,11 +229,11 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportRead]")
  * 3. Attempt to disable gravity reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Gravity", "[SingleReportRead]")
+TEST_CASE("Read Gravity", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Gravity";
+    const constexpr char* TEST_TAG = "Read Gravity";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5UL;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -246,7 +246,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.gravity.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -273,7 +273,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Cal Magnetometer
+ * @test Read Cal Magnetometer
  *
  * This test validates the basic functionality of the Calibrated Magnetometer report.
  *
@@ -286,11 +286,11 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportRead]")
  * 3. Attempt to disable calibrated magnetometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportRead]")
+TEST_CASE("Read Cal Magnetometer", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Cal Magnetometer";
+    const constexpr char* TEST_TAG = "Read Cal Magnetometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -303,7 +303,7 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_magnetometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -332,7 +332,7 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Uncal Magnetometer
+ * @test Read Uncal Magnetometer
  *
  * This test validates the basic functionality of the Uncalibrated Magnetometer report.
  *
@@ -345,11 +345,11 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportRead]")
  * 3. Attempt to disable uncalibrated magnetometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportRead]")
+TEST_CASE("Read Uncal Magnetometer", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Uncal Magnetometer";
+    const constexpr char* TEST_TAG = "Read Uncal Magnetometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -363,7 +363,7 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.uncal_magnetometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.uncal_magnetometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -393,7 +393,7 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Cal Gyro
+ * @test Read Cal Gyro
  *
  * This test validates the basic functionality of the Calibrated Gyroscope report.
  *
@@ -406,11 +406,11 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportRead]")
  * 3. Attempt to disable calibrated gyroscope reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportRead]")
+TEST_CASE("Read Cal Gyro", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Cal Gyro";
+    const constexpr char* TEST_TAG = "Read Cal Gyro";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -423,7 +423,7 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.cal_gyro.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -450,7 +450,7 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Uncal Gyro
+ * @test Read Uncal Gyro
  *
  * This test validates the basic functionality of the Uncalibrated Gyroscope report.
  *
@@ -463,11 +463,11 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportRead]")
  * 3. Attempt to disable uncalibrated gyroscope reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportRead]")
+TEST_CASE("Read Uncal Gyro", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Uncal Gyro";
+    const constexpr char* TEST_TAG = "Read Uncal Gyro";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -481,7 +481,7 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.uncal_gyro.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.uncal_gyro.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -511,7 +511,7 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable RV
+ * @test Read RV
  *
  * This test validates the basic functionality of the Rotation Vector report.
  *
@@ -524,11 +524,11 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportRead]")
  * 3. Attempt to disable rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable RV", "[SingleReportRead]")
+TEST_CASE("Read RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable RV";
+    const constexpr char* TEST_TAG = "Read RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -541,7 +541,7 @@ TEST_CASE("Enable/Disable RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -570,7 +570,7 @@ TEST_CASE("Enable/Disable RV", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Game RV
+ * @test Read Game RV
  *
  * This test validates the basic functionality of the Game Rotation Vector report.
  *
@@ -583,11 +583,11 @@ TEST_CASE("Enable/Disable RV", "[SingleReportRead]")
  * 3. Attempt to disable game rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Game RV", "[SingleReportRead]")
+TEST_CASE("Read Game RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Game RV";
+    const constexpr char* TEST_TAG = "Read Game RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -600,7 +600,7 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -629,7 +629,7 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable ARVR Stabilized Rotation Vector
+ * @test Read ARVR Stabilized Rotation Vector
  *
  * This test validates the basic functionality of the ARVR Stabilized Rotation Vector report.
  *
@@ -642,11 +642,11 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportRead]")
  * 3. Attempt to disable ARVR stabilized rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportRead]")
+TEST_CASE("Read ARVR Stabilized RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized RV";
+    const constexpr char* TEST_TAG = "Read ARVR Stabilized RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -659,7 +659,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_ARVR_stabilized.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_ARVR_stabilized.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -688,7 +688,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable ARVR Stabilized Game RV
+ * @test Read ARVR Stabilized Game RV
  *
  * This test validates the basic functionality of the ARVR Stabilized Game Rotation Vector report.
  *
@@ -701,11 +701,11 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportRead]")
  * 3. Attempt to disable ARVR stabilized game rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportRead]")
+TEST_CASE("Read ARVR Stabilized Game RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized Game RV";
+    const constexpr char* TEST_TAG = "Read ARVR Stabilized Game RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -718,7 +718,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_ARVR_stabilized_game.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_ARVR_stabilized_game.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -747,7 +747,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Gyro Integrated RV
+ * @test Read Gyro Integrated RV
  *
  * This test validates the basic functionality of the Gyroscope Integrated Rotation Vector report.
  *
@@ -760,11 +760,11 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportRead]")
  * 3. Attempt to disable gyroscope integrated rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportRead]")
+TEST_CASE("Read Gyro Integrated RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Gyro Integrated RV";
+    const constexpr char* TEST_TAG = "Read Gyro Integrated RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -777,7 +777,7 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_gyro_integrated.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_gyro_integrated.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -806,7 +806,7 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportRead]")
 }
 
 /**
- * @test Enable/Disable Geomagnetic RV
+ * @test Read Geomagnetic RV
  *
  * This test validates the basic functionality of the Geomagnetic Rotation Vector report.
  *
@@ -819,11 +819,11 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportRead]")
  * 3. Attempt to disable geomagnetic rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportRead]")
+TEST_CASE("Read Geomagnetic RV", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Geomagnetic RV";
+    const constexpr char* TEST_TAG = "Read Geomagnetic RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -836,7 +836,7 @@ TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportRead]")
     imu = BNO08xTestHelper::get_test_imu();
 
     // 1.
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_geomagnetic.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {

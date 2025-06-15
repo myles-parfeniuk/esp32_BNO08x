@@ -32,7 +32,7 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Hard Reset";
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -42,7 +42,7 @@ TEST_CASE("Hard Reset", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -77,7 +77,7 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Soft Reset";
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -87,7 +87,7 @@ TEST_CASE("Soft Reset", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -122,7 +122,7 @@ TEST_CASE("Sleep", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Sleep";
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -132,7 +132,7 @@ TEST_CASE("Sleep", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -176,7 +176,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Get Metadata";
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -187,7 +187,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -227,7 +227,7 @@ TEST_CASE("Get Metadata", "[FeatureTests]")
 TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Set System Orientation";
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
     BNO08x* imu = nullptr;
     imu = BNO08xTestHelper::get_test_imu();
     char msg_buff[200] = {};
@@ -238,7 +238,7 @@ TEST_CASE("Set and Get System Orientation", "[FeatureTests]")
     float epsilon = 0.000001f;
 
     // 1. enable report as per FlyteSailing's instructions
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv.enable(REPORT_PERIOD_US));
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -290,7 +290,7 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
     const constexpr char* TEST_TAG = "Get Sample Counts";
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
 
     BNO08x* imu = nullptr;
     char msg_buff[200] = {};
@@ -301,7 +301,7 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.accelerometer.enable(REPORT_PERIOD_US));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
     {
@@ -338,7 +338,7 @@ TEST_CASE("Get Sample Counts", "[FeatureTests]")
 TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 {
     const constexpr char* TEST_TAG = "Enable Dynamic Calibration";
-    constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
+    constexpr uint32_t REPORT_PERIOD_US = 60000UL; // 60ms
     constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
 
@@ -350,7 +350,7 @@ TEST_CASE("Enable Dynamic Calibration", "[FeatureTests]")
 
     imu = BNO08xTestHelper::get_test_imu();
 
-    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD));
+    TEST_ASSERT_EQUAL(true, imu->rpt.rv_game.enable(REPORT_PERIOD_US));
     TEST_ASSERT_EQUAL(true, imu->dynamic_calibration_enable(BNO08xCalSel::all));
 
     for (int i = 0; i < RX_REPORT_TRIAL_CNT; i++)
