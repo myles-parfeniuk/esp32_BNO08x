@@ -554,12 +554,10 @@ esp_err_t BNO08x::init_hint_isr()
 
         return ret;
     }
-    else
-    {
-        init_status.isr_service = true; // set isr service to initialized such that deconstructor knows to clean it up
+   
+    init_status.isr_service = true; // set isr service to initialized such that deconstructor knows to clean it up
                                         // (this will be ignored if imu_config.install_isr_service == false)
-    }
-
+    
     ret = gpio_isr_handler_add(imu_config.io_int, hint_handler, (void*) this);
     if (ret != ESP_OK)
     {
@@ -572,10 +570,9 @@ esp_err_t BNO08x::init_hint_isr()
 
         return ret;
     }
-    else
-    {
-        init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
-    }
+  
+    init_status.isr_handler = true; // set isr handler to initialized such that deconstructor knows to clean it up
+    
 
     return ret;
 }
@@ -610,10 +607,8 @@ esp_err_t BNO08x::init_tasks()
 
         return ESP_FAIL;
     }
-    else
-    {
-        init_status.data_proc_task = true;
-    }
+   
+    init_status.data_proc_task = true;
 
     // launch cb task 5
     task_created = xTaskCreatePinnedToCore(&cb_task_trampoline, "bno08x_cb_task", 
@@ -633,10 +628,8 @@ esp_err_t BNO08x::init_tasks()
 
         return ESP_FAIL;
     }
-    else
-    {
-        init_status.cb_task = true;
-    }
+   
+    init_status.cb_task = true;
 
     // launch sh2 hal service task 7
     task_created = xTaskCreatePinnedToCore(&sh2_HAL_service_task_trampoline, "bno08x_sh2_HAL_service_task", 
@@ -656,10 +649,8 @@ esp_err_t BNO08x::init_tasks()
 
         return ESP_FAIL;
     }
-    else
-    {
-        init_status.sh2_HAL_service_task = true;
-    }
+    
+    init_status.sh2_HAL_service_task = true;
 
     return ESP_OK;
 }
@@ -685,10 +676,8 @@ esp_err_t BNO08x::init_spi()
 
         return ret;
     }
-    else
-    {
-        init_status.spi_bus = true;
-    }
+
+    init_status.spi_bus = true;
 
     // add the imu device to the bus
     ret = spi_bus_add_device(imu_config.spi_peripheral, &imu_spi_config, &spi_hdl);
@@ -702,10 +691,9 @@ esp_err_t BNO08x::init_spi()
 
         return ret;
     }
-    else
-    {
-        init_status.spi_device = true;
-    }
+    
+    init_status.spi_device = true;
+    
     return ret;
 }
 
@@ -1046,6 +1034,7 @@ bool BNO08x::hard_reset()
         }
 
         return true;
+
     } while (0);
 
     return false;
@@ -1361,53 +1350,49 @@ bool BNO08x::dynamic_calibration_save()
  */
 bool BNO08x::dynamic_calibration_data_clear_ram()
 {
-    int op_success = SH2_ERR;
+    int32_t op_success = SH2_ERR;
 
-    // send clear DCD and reset command
-    BNO08xGuard::lock_sh2_HAL(sync_ctx);
-    op_success = sh2_clearDcdAndReset();
-    BNO08xGuard::unlock_sh2_HAL(sync_ctx);
-
-    if (op_success == SH2_OK)
+    do
     {
-        // wait for reset to be detected by SH2 HAL lib
-        if (wait_for_reset() == ESP_OK)
-        {
-            // run service to dispatch callbacks
-            BNO08xGuard::lock_sh2_HAL(sync_ctx);
-            sh2_service();
-            BNO08xGuard::unlock_sh2_HAL(sync_ctx);
+        // send clear DCD and reset command
+        BNO08xGuard::lock_sh2_HAL(sync_ctx);
+        op_success = sh2_clearDcdAndReset();
+        BNO08xGuard::unlock_sh2_HAL(sync_ctx);
 
-            if (get_reset_reason() == BNO08xResetReason::EXT_RST)
-            {
-                return true;
-            }
-            else
-            {
-                // clang-format off
-                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-                ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, incorrect reset reason returned.");
-                #endif
-                // clang-format on
-            }
-        }
-        else
+        if(op_success != SH2_OK)
         {
             // clang-format off
             #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-            ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, reset never detected after sending command.");
+            ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Failed call to sh2_clearDcdAndReset() command with %li", op_success);
             #endif
             // clang-format on
+            break; 
         }
-    }
-    else
-    {
-        // clang-format off
-        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
-        ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, failed to clearDcdAndReset command with %li", static_cast<int32_t>(op_success));
-        #endif
-        // clang-format on
-    }
+
+        // wait for reset to be detected by SH2 HAL lib
+        if (wait_for_reset() != ESP_OK)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram():Reset never detected after sending command.");
+            #endif
+            // clang-format on
+            break;
+        }
+
+        if (get_reset_reason() != BNO08xResetReason::EXT_RST)
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "dynamic_calibration_clear_data_ram(): Clear dynamic calibration failure, incorrect reset reason returned.");
+            #endif
+            // clang-format on
+            break;
+        }
+
+        return true;
+
+    } while (0);
 
     return false;
 }
