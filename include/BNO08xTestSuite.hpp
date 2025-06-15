@@ -60,32 +60,32 @@ class BNO08xTestSuite
 
         static void run_single_report_tests(bool call_unity_end_begin = true)
         {
-            print_begin_tests_banner("single_report_enable_disable_tests");
+            print_begin_tests_banner("single_report_read_tests");
 
             if (call_unity_end_begin)
                 UNITY_BEGIN();
 
-            unity_run_tests_by_tag("[SingleReportEnableDisable]", false);
+            unity_run_tests_by_tag("[SingleReportRead]", false);
 
             if (call_unity_end_begin)
                 UNITY_END();
 
-            print_end_tests_banner("single_report_enable_disable_tests");
+            print_end_tests_banner("single_report_read_tests");
         }
 
         static void run_multi_report_tests(bool call_unity_end_begin = true)
         {
-            print_begin_tests_banner("multi_report_enable_disable_tests");
+            print_begin_tests_banner("multi_report_read_tests");
 
             if (call_unity_end_begin)
                 UNITY_BEGIN();
 
-            unity_run_tests_by_tag("[MultiReportEnableDisable]", false);
+            unity_run_tests_by_tag("[MultiReportRead]", false);
 
             if (call_unity_end_begin)
                 UNITY_END();
 
-            print_end_tests_banner("multi_report_enable_disable_tests");
+            print_end_tests_banner("multi_report_read_tests");
         }
 
         static void run_callback_tests(bool call_unity_end_begin = true)
@@ -97,7 +97,7 @@ class BNO08xTestSuite
 
             unity_run_tests_by_tag("[CallbackAllReportVoidInputParam]", false);
             unity_run_tests_by_tag("[CallbackAllReportIDInputParam]", false);
-            unity_run_tests_by_tag("[CallbackSingleReportVoidInputParam]", false);
+            unity_run_tests_by_tag("[CallbackSpecificReportVoidInputParam]", false);
 
             if (call_unity_end_begin)
                 UNITY_END();

@@ -12,18 +12,18 @@
 #include "../include/BNO08xTestHelper.hpp"
 
 /**
- * @test Driver Creation for [SingleReportEnableDisable] Tests
+ * @test Driver Creation for [SingleReportRead] Tests
  *
- * This test creates and initializes a BNO08x IMU driver object for use in the [SingleReportEnableDisable] test group.
+ * This test creates and initializes a BNO08x IMU driver object for use in the [SingleReportRead] test group.
  *
- * 1. Create a test IMU instance for use in [SingleReportEnableDisable] test group.
+ * 1. Create a test IMU instance for use in [SingleReportRead] test group.
  *
  * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
  *
  */
-TEST_CASE("Driver Creation for [SingleReportEnableDisable] Tests", "[SingleReportEnableDisable]")
+TEST_CASE("Driver Creation for [SingleReportRead] Tests", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Driver Creation for [SingleReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [SingleReportRead] Tests";
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
@@ -54,7 +54,7 @@ TEST_CASE("Driver Creation for [SingleReportEnableDisable] Tests", "[SingleRepor
  * 3. Attempt to disable accelerometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
+TEST_CASE("Enable Incorrect Report", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable Incorrect Report";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -113,7 +113,7 @@ TEST_CASE("Enable Incorrect Report", "[SingleReportEnableDisable]")
  * 3. Attempt to disable accelerometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Accelerometer", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Accelerometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -170,7 +170,7 @@ TEST_CASE("Enable/Disable Accelerometer", "[SingleReportEnableDisable]")
  * 3. Attempt to disable linear accelerometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Linear Accelerometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5UL;
@@ -229,7 +229,7 @@ TEST_CASE("Enable/Disable Linear Accelerometer", "[SingleReportEnableDisable]")
  * 3. Attempt to disable gravity reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Gravity", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Gravity";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5UL;
@@ -286,7 +286,7 @@ TEST_CASE("Enable/Disable Gravity", "[SingleReportEnableDisable]")
  * 3. Attempt to disable calibrated magnetometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Cal Magnetometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -345,7 +345,7 @@ TEST_CASE("Enable/Disable Cal Magnetometer", "[SingleReportEnableDisable]")
  * 3. Attempt to disable uncalibrated magnetometer reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Uncal Magnetometer";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -406,7 +406,7 @@ TEST_CASE("Enable/Disable Uncal Magnetometer", "[SingleReportEnableDisable]")
  * 3. Attempt to disable calibrated gyroscope reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Cal Gyro";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -463,7 +463,7 @@ TEST_CASE("Enable/Disable Cal Gyro", "[SingleReportEnableDisable]")
  * 3. Attempt to disable uncalibrated gyroscope reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Uncal Gyro";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -524,7 +524,7 @@ TEST_CASE("Enable/Disable Uncal Gyro", "[SingleReportEnableDisable]")
  * 3. Attempt to disable rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -583,7 +583,7 @@ TEST_CASE("Enable/Disable RV", "[SingleReportEnableDisable]")
  * 3. Attempt to disable game rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Game RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Game RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Game RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -642,7 +642,7 @@ TEST_CASE("Enable/Disable Game RV", "[SingleReportEnableDisable]")
  * 3. Attempt to disable ARVR stabilized rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -701,7 +701,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized RV", "[SingleReportEnableDisable]")
  * 3. Attempt to disable ARVR stabilized game rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable ARVR Stabilized Game RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -760,7 +760,7 @@ TEST_CASE("Enable/Disable ARVR Stabilized Game RV", "[SingleReportEnableDisable]
  * 3. Attempt to disable gyroscope integrated rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Gyro Integrated RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -819,7 +819,7 @@ TEST_CASE("Enable/Disable Gyro Integrated RV", "[SingleReportEnableDisable]")
  * 3. Attempt to disable geomagnetic rotation vector reports and assert that it happens successfully.
  *
  */
-TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportEnableDisable]")
+TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportRead]")
 {
     const constexpr char* TEST_TAG = "Enable/Disable Geomagnetic RV";
     constexpr uint8_t RX_REPORT_TRIAL_CNT = 5U;
@@ -865,16 +865,16 @@ TEST_CASE("Enable/Disable Geomagnetic RV", "[SingleReportEnableDisable]")
 }
 
 /**
- * @test Driver Cleanup for [SingleReportEnableDisable] Tests"
+ * @test Driver Cleanup for [SingleReportRead] Tests"
  *
- * This test destroys the BNO08x IMU driver object for use in the [SingleReportEnableDisable] test group.
+ * This test destroys the BNO08x IMU driver object for use in the [SingleReportRead] test group.
  *
- * 1. Destroys the test IMU instance that was used with the SingleReportEnableDisable test group.
+ * 1. Destroys the test IMU instance that was used with the SingleReportRead test group.
  *
  */
-TEST_CASE("Driver Cleanup for [SingleReportEnableDisable] Tests", "[SingleReportEnableDisable]")
+TEST_CASE("Driver Cleanup for [SingleReportRead] Tests", "[SingleReportRead]")
 {
-    const constexpr char* TEST_TAG = "Driver Cleanup for [SingleReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [SingleReportRead] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 

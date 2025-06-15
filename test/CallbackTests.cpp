@@ -12,18 +12,19 @@
 #include "../include/BNO08xTestHelper.hpp"
 
 /**
- * @test Driver Creation for [CallbackAllReportVoidInputParam] Tests
+ * @test Driver Creation for Read Octo Report Test
  *
- * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackAllReportVoidInputParam] test group.
+ * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackAllReportVoidInputParam] - Read Octo
+ * Report Test
  *
- * 1. Create a test IMU instance for use in [CallbackAllReportVoidInputParam] test group.
+ * 1. Create a test IMU instance for use in Read Octo Report Test.
  *
  * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
  *
  */
-TEST_CASE("Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
+TEST_CASE("Driver Creation for Read Octo Report Test", "[CallbackAllReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Creation for [CallbackAllReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for Read Octo Report Test";
 
     BNO08x* imu = nullptr;
 
@@ -40,7 +41,7 @@ TEST_CASE("Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[Callb
 }
 
 /**
- * @test Void Input Param Flavor Cb
+ * @test Read Octo Report
  *
  * This test validates the basic functionality of the void input parameter callback flavor,
  * (one registered to no specific report that is not passed the report ID).
@@ -72,7 +73,7 @@ TEST_CASE("Driver Creation for [CallbackAllReportVoidInputParam] Tests", "[Callb
  * 13. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
+TEST_CASE("Read Octo Report", "[CallbackAllReportVoidInputParam]")
 {
     const constexpr char* TEST_TAG = "Void Input Param Flavor Cb";
     constexpr uint8_t ENABLED_REPORT_COUNT = 8;
@@ -267,16 +268,16 @@ TEST_CASE("Void Input Param Flavor Cb", "[CallbackAllReportVoidInputParam]")
 }
 
 /**
- * @test Driver Cleanup for [CallbackAllReportVoidInputParam] Tests"
+ * @test Driver Cleanup for Read Octo Report
  *
- * This test destroys the BNO08x IMU driver object for use in the [CallbackAllReportVoidInputParam] test group.
+ * This test destroys the BNO08x IMU driver object that was used in the [CallbackAllReportVoidInputParam] - Read Octo Report Test.
  *
- * 1. Destroys the test IMU instance that was used with the CallbackAllReportVoidInputParam test group.
+ * 1. Destroys the test IMU instance that was used with the [CallbackAllReportVoidInputParam] - Read Octo Report Test.
  *
  */
-TEST_CASE("Driver Cleanup for [CallbackAllReportVoidInputParam] Tests", "[CallbackAllReportVoidInputParam]")
+TEST_CASE("Driver Cleanup for Read Octo Report", "[CallbackAllReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackAllReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for Read Octo Report";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -288,18 +289,19 @@ TEST_CASE("Driver Cleanup for [CallbackAllReportVoidInputParam] Tests", "[Callba
 }
 
 /**
- * @test Driver Creation for [CallbackAllReportIDInputParam] Tests
+ * @test Driver Creation for Read Octo Report Test
  *
- * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackAllReportIDInputParam] test group.
+ * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackAllReportIDInputParam] - Read Octo Report
+ * Test
  *
- * 1. Create a test IMU instance for use in [CallbackAllReportIDInputParam] test group.
+ * 1. Create a test IMU instance for use in Read Octo Report Test.
  *
  * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
  *
  */
-TEST_CASE("Driver Creation for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
+TEST_CASE("Driver Creation for Read Octo Report Test", "[CallbackAllReportIDInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Creation for [CallbackAllReportIDInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for Read Octo Report Test";
 
     BNO08x* imu = nullptr;
 
@@ -316,7 +318,7 @@ TEST_CASE("Driver Creation for [CallbackAllReportIDInputParam] Tests", "[Callbac
 }
 
 /**
- * @test Report ID Input Param Flavor Cb
+ * @test Read Octo Report
  *
  * This test validates the basic functionality of the report ID input parameter callback flavor,
  * (one registered to no specific report that is passed the report ID which invoked it).
@@ -348,9 +350,9 @@ TEST_CASE("Driver Creation for [CallbackAllReportIDInputParam] Tests", "[Callbac
  * 13. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
+TEST_CASE("Read Octo Report", "[CallbackAllReportIDInputParam]")
 {
-    const constexpr char* TEST_TAG = "Report ID Input Param Flavor Cb";
+    const constexpr char* TEST_TAG = "Read Octo Report";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 100000UL; // 100ms
@@ -536,16 +538,16 @@ TEST_CASE("Report ID Input Param Flavor Cb", "[CallbackAllReportIDInputParam]")
 }
 
 /**
- * @test Driver Cleanup for [CallbackAllReportIDInputParam] Tests"
+ * @test Driver Cleanup for Read Octo Report
  *
- * This test destroys the BNO08x IMU driver object for use in the [CallbackAllReportIDInputParam] test group.
+ * This test destroys the BNO08x IMU driver object that was used in the [CallbackAllReportIDInputParam] - Read Octo Report Test.
  *
- * 1. Destroys the test IMU instance that was used with the CallbackAllReportIDInputParam test group.
+ * 1. Destroys the test IMU instance that was used with the [CallbackAllReportIDInputParam] - Read Octo Report Test.
  *
  */
-TEST_CASE("Driver Cleanup for [CallbackAllReportIDInputParam] Tests", "[CallbackAllReportIDInputParam]")
+TEST_CASE("Driver Cleanup for Read Octo Report", "[CallbackAllReportIDInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackAllReportIDInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for Read Octo Report";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
@@ -557,34 +559,36 @@ TEST_CASE("Driver Cleanup for [CallbackAllReportIDInputParam] Tests", "[Callback
 }
 
 /**
- * @test Driver Creation for [CallbackSingleReportVoidInputParam] Tests
+ * @test Driver Creation for Read Single Report Test
  *
- * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackSingleReportVoidInputParam] test group.
+ * This test creates and initializes a BNO08x IMU driver object for use in the [CallbackSpecificReportVoidInputParam] - Read
+ * Single Report Test
  *
- * 1. Create a test IMU instance for use in [CallbackSingleReportVoidInputParam] test group.
+ * 1. Create a test IMU instance for use in Read Single Report Test.
  *
  * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
  *
  */
-TEST_CASE("Driver Creation for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
+TEST_CASE("Driver Creation for Read Single Report Test", "[CallbackSpecificReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Creation for [CallbackSingleReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for Read Single Report Test";
 
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
+    // 1.
     BNO08xTestHelper::print_test_msg(TEST_TAG, "Creating & initializing BNO08x driver.");
     BNO08xTestHelper::create_test_imu();
     imu = BNO08xTestHelper::get_test_imu();
 
-    // ensure IMU initialized successfully
+    // 2.
     TEST_ASSERT_EQUAL(true, imu->initialize());
     BNO08xTestHelper::print_test_end_banner(TEST_TAG);
 }
 
 /**
- * @test Single Report Void Input Param Flavor Cb
+ * @test Read Single Report
  *
  * This test validates the basic functionality of the void input parameter specific report callback flavor,
  * (one registered to a specific report).
@@ -602,9 +606,9 @@ TEST_CASE("Driver Creation for [CallbackSingleReportVoidInputParam] Tests", "[Ca
  * 6. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoidInputParam]")
+TEST_CASE("Read Single Report", "[CallbackSpecificReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "Single Report Void Input Param Flavor Cb";
+    const constexpr char* TEST_TAG = "Read Single Report";
     static const constexpr uint8_t ENABLED_REPORT_COUNT = 1;
     static const constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
@@ -666,16 +670,17 @@ TEST_CASE("Single Report Void Input Param Flavor Cb", "[CallbackSingleReportVoid
 }
 
 /**
- * @test Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests"
+ * @test Driver Cleanup for Read Single Report Test
  *
- * This test destroys the BNO08x IMU driver object for use in the [CallbackSingleReportVoidInputParam] test group.
+ * This test destroys the BNO08x IMU driver object that was used in the [CallbackSpecificReportVoidInputParam] - Read Single
+ * Report Test.
  *
- * 1. Destroys the test IMU instance that was used with the CallbackSingleReportVoidInputParam test group.
+ * 1. Destroys the test IMU instance that was used with the [CallbackSpecificReportVoidInputParam] - Read Single Report Test.
  *
  */
-TEST_CASE("Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests", "[CallbackSingleReportVoidInputParam]")
+TEST_CASE("Driver Cleanup for Read Single Report Test", "[CallbackSpecificReportVoidInputParam]")
 {
-    const constexpr char* TEST_TAG = "Driver Cleanup for [CallbackSingleReportVoidInputParam] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for Read Single Report Test";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 

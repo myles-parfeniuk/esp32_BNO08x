@@ -12,18 +12,18 @@
 #include "../include/BNO08xTestHelper.hpp"
 
 /**
- * @test Driver Creation for [MultiReportEnableDisable] Tests
+ * @test Driver Creation for [MultiReportRead] Tests
  *
- * This test creates and initializes a BNO08x IMU driver object for use in the [MultiReportEnableDisable] test group.
+ * This test creates and initializes a BNO08x IMU driver object for use in the [MultiReportRead] test group.
  *
- * 1. Create a test IMU instance for use in [MultiReportEnableDisable] test group.
+ * 1. Create a test IMU instance for use in [MultiReportRead] test group.
  *
  * 2. Call the public BNO08x::initialize() function and assert it returns without fail.
  *
  */
-TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("Driver Creation for [MultiReportRead] Tests", "[MultiReportRead]")
 {
-    const constexpr char* TEST_TAG = "Driver Creation for [MultiReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Creation for [MultiReportRead] Tests";
     BNO08x* imu = nullptr;
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
@@ -39,7 +39,7 @@ TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportE
 }
 
 /**
- * @test Enable/Disable Dual Report
+ * @test Read Dual Report
  *
  * This test validates that two reports can simultaneously be enabled and accessed
  * through the data_available polling methods without issue.
@@ -55,9 +55,9 @@ TEST_CASE("Driver Creation for [MultiReportEnableDisable] Tests", "[MultiReportE
  * 5. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
+TEST_CASE("Read Dual Report", "[MultiReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Dual Report";
+    const constexpr char* TEST_TAG = "Read Dual Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 2;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
@@ -120,7 +120,7 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
 }
 
 /**
- * @test Enable/Disable Quad Report
+ * @test Read Quad Report
  *
  * This test validates that four reports can simultaneously be enabled and accessed
  * through the data_available polling methods without issue.
@@ -140,9 +140,9 @@ TEST_CASE("Enable/Disable Dual Report", "[MultiReportEnableDisable]")
  * 7. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
+TEST_CASE("Read Quad Report", "[MultiReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Quad Report";
+    const constexpr char* TEST_TAG = "Read Quad Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 4;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
@@ -238,7 +238,7 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
 }
 
 /**
- * @test Enable/Disable Octo Report
+ * @test Read Octo Report
  *
  * This test validates that eight reports can simultaneously be enabled and accessed
  * through the data_available polling methods without issue.
@@ -266,9 +266,9 @@ TEST_CASE("Enable/Disable Quad Report", "[MultiReportEnableDisable]")
  * 11. Assert that report data was received for all enabled reports.
  *
  */
-TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
+TEST_CASE("Read Octo Report", "[MultiReportRead]")
 {
-    const constexpr char* TEST_TAG = "Enable/Disable Octo Report";
+    const constexpr char* TEST_TAG = "Read Octo Report";
     constexpr uint8_t ENABLED_REPORT_COUNT = 8;
     constexpr uint8_t RX_REPORT_TRIAL_CNT = ENABLED_REPORT_COUNT * 5;
     constexpr uint32_t REPORT_PERIOD = 60000UL; // 60ms
@@ -430,16 +430,16 @@ TEST_CASE("Enable/Disable Octo Report", "[MultiReportEnableDisable]")
 }
 
 /**
- * @test Driver Cleanup for [MultiReportEnableDisable] Tests"
+ * @test Driver Cleanup for [MultiReportRead] Tests"
  *
- * This test destroys the BNO08x IMU driver object for use in the [MultiReportEnableDisable] test group.
+ * This test destroys the BNO08x IMU driver object for use in the [MultiReportRead] test group.
  *
- * 1. Destroys the test IMU instance that was used with the MultiReportEnableDisable test group.
+ * 1. Destroys the test IMU instance that was used with the MultiReportRead test group.
  *
  */
-TEST_CASE("Driver Cleanup for [MultiReportEnableDisable] Tests", "[MultiReportEnableDisable]")
+TEST_CASE("Driver Cleanup for [MultiReportRead] Tests", "[MultiReportRead]")
 {
-    const constexpr char* TEST_TAG = "Driver Cleanup for [MultiReportEnableDisable] Tests";
+    const constexpr char* TEST_TAG = "Driver Cleanup for [MultiReportRead] Tests";
 
     BNO08xTestHelper::print_test_start_banner(TEST_TAG);
 
