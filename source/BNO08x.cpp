@@ -1918,17 +1918,23 @@ void BNO08x::print_product_ids()
 void BNO08x::print_system_orientation()
 {
     float w, x, y, z;
-    if (get_system_orientation(w, x, y, z)) {
+    if (get_system_orientation(w, x, y, z))
+    {
+        // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGI(TAG, "Mounting orientation (float): W: %.6f X: %.6f Y: %.6f Z: %.6f", w, x, y, z);
         #endif
-    } else {
+        // clang-format on
+    }
+    else
+    {
+        // clang-format off
         #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
         ESP_LOGE(TAG, "print_system_orientation(): Failed to get mounting orientation");
         #endif
+        // clang-format on
     }
 }
-
 
 // Internal private function, converts a 32-bit signed Q30 fixed-point value to float
 static inline float q30_to_float(int32_t q)
