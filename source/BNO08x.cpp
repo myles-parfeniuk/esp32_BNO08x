@@ -2017,7 +2017,7 @@ bool BNO08x::set_system_orientation(float Qw, float Qx, float Qy, float Qz)
         static_cast<uint32_t>(float_to_q30(Qw))  // W component
     };
 
-    if(!write_frs(BNO08xFrsID::SYSTEM_ORIENTATION, orientation_raw, sizeof(orientation_raw)))
+    if(!write_frs(BNO08xFrsID::SYSTEM_ORIENTATION, orientation_raw, sizeof(orientation_raw)/sizeof(uint32_t)))
         return false; 
 
     return true;
