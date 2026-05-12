@@ -991,7 +991,7 @@ esp_err_t BNO08x::deinit_spi()
  */
 esp_err_t BNO08x::deinit_tasks()
 {
-    static const constexpr uint8_t TASK_DELETE_TIMEOUT_MS = HOST_INT_TIMEOUT_DEFAULT_MS;
+    static const constexpr TickType_t TASK_DELETE_TIMEOUT_MS = HOST_INT_TIMEOUT_DEFAULT_MS;
     uint8_t kill_count = 0;
     uint8_t init_count = 0;
     sh2_SensorEvent_t empty_event;
@@ -1316,6 +1316,13 @@ bool BNO08x::calibration_turntable_start(uint32_t period_us)
  *
  * @return True if enable dynamic/ME calibration succeeded.
  */
+// Cached cal-config value, set on every successful setCalConfig call.
+// Re-applied automatically by re_enable_reports() after a chip reset
+// — without this, an unexpected runtime reset (watchdog, brown-out,
+// power glitch) leaves the chip in factory cal-enable state with our
+// host-requested config silently dropped.
+static uint8_t s_cached_cal_config = 0;
+
 bool BNO08x::dynamic_calibration_enable(BNO08xCalSel sensor)
 {
     int op_success = SH2_ERR;
@@ -1324,6 +1331,9 @@ bool BNO08x::dynamic_calibration_enable(BNO08xCalSel sensor)
     op_success = sh2_setCalConfig(static_cast<uint8_t>(sensor));
     unlock_sh2_HAL();
 
+    if (op_success == SH2_OK) {
+        s_cached_cal_config = static_cast<uint8_t>(sensor);
+    }
     return (op_success == SH2_OK);
 }
 
@@ -1351,6 +1361,10 @@ bool BNO08x::dynamic_calibration_disable(BNO08xCalSel sensor)
         lock_sh2_HAL();
         op_success = sh2_setCalConfig(active_sensors);
         unlock_sh2_HAL();
+
+        if (op_success == SH2_OK) {
+            s_cached_cal_config = active_sensors;
+        }
     }
 
     return (op_success == SH2_OK);
@@ -1840,6 +1854,7 @@ void BNO08x::toggle_reset()
     vTaskDelay(HARD_RESET_DELAY_MS);      // 10ns min, set to larger delay to let things stabilize(Anton)
     gpio_intr_enable(imu_config.io_int);  // enable interrupts before bringing out of reset
     gpio_set_level(imu_config.io_rst, 1); // bring out of reset
+    vTaskDelay(HARD_RESET_DELAY_MS);      // additional delay after deasserting reset is required before requesting prod ids on ESP32(Evgeny)
 }
 
 /**
@@ -1877,6 +1892,22 @@ esp_err_t BNO08x::re_enable_reports()
                 return ESP_FAIL;
             }
         }
+    }
+
+    // Re-apply cached cal-config after the chip restart. Otherwise the
+    // chip comes back up at factory defaults and any host-requested
+    // dynamic_calibration_enable from before the reset is silently
+    // lost. Skipped if no setCalConfig has ever been called this boot.
+    if (s_cached_cal_config != 0) {
+        lock_sh2_HAL();
+        sh2_setCalConfig(s_cached_cal_config);
+        unlock_sh2_HAL();
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "Re-applied cached cal_config 0x%02X after reset",
+                 s_cached_cal_config);
+        #endif
+        // clang-format on
     }
 
     xEventGroupClearBits(sync_ctx.evt_grp_task, EVT_GRP_BNO08x_TASK_RESET_OCCURRED);
