@@ -1264,6 +1264,239 @@ bool BNO08x::sleep()
 }
 
 /**
+ * @brief Enters low power sleep mode with optional accelerometer-based wake.
+ * 
+ * This function puts the BNO08x sensor hub into sleep mode. If wake-on-accel
+ * is enabled, the accelerometer runs as an "always-on" sensor that will assert
+ * the HINT pin when acceleration exceeds the specified threshold, waking the host.
+ * 
+ * Workflow:
+ * 1. Call enter_low_power_mode() with your acceleration threshold
+ * 2. When acceleration exceeds threshold, HINT asserts and accelerometer report arrives
+ * 3. In your callback or main loop, detect the wake event
+ * 4. Call exit_low_power_mode() then take burst readings or enable other sensors
+ * 5. When done, call enter_low_power_mode() again
+ * 
+ * @param accel_threshold_mg Acceleration threshold in milli-g (e.g., 500 = 0.5g).
+ *                           Set to 0 to disable wake-on-accel (pure sleep, no wake).
+ * @param sample_rate_us     Sample rate for wake sensor in microseconds (default 100ms).
+ * 
+ * @return True if the operation succeeded.
+ */
+bool BNO08x::enter_low_power_mode(uint16_t accel_threshold_mg, uint32_t sample_rate_us)
+{
+    // Save current enabled reports so we can restore them later
+    saved_enabled_reports = xEventGroupGetBits(sync_ctx.evt_grp_rpt_en);
+    
+    // Disable all currently enabled reports
+    disable_all_reports();
+
+    if (accel_threshold_mg > 0)
+    {
+        // Use LINEAR ACCELERATION (gravity removed) as the wake sensor
+        // This reads ~0 at rest, so threshold works correctly
+        sh2_SensorConfig_t accel_cfg = BNO08xPrivateTypes::default_sensor_cfg;
+        accel_cfg.wakeupEnabled = true;           // Assert HINT when threshold crossed
+        accel_cfg.alwaysOnEnabled = true;         // Keep running during sleep
+        accel_cfg.changeSensitivityEnabled = true; // Only report when change exceeds threshold
+        accel_cfg.changeSensitivityRelative = false; // Absolute threshold (since linear accel is ~0 at rest)
+        
+        // Convert milli-g to accelerometer units (Q8 format, 1g ≈ 9.81 m/s²)
+        // changeSensitivity is in sensor units, linear accel Q8: 1 LSB = 1/256 m/s²
+        // threshold_m_s2 = (accel_threshold_mg / 1000) * 9.81
+        // threshold_q8 = threshold_m_s2 * 256
+        // Simplified: threshold_q8 = accel_threshold_mg * 9.81 * 256 / 1000 ≈ accel_threshold_mg * 2.51
+        uint16_t threshold_q8 = (uint16_t)((accel_threshold_mg * 251UL) / 100UL);
+        accel_cfg.changeSensitivity = threshold_q8;
+        accel_cfg.reportInterval_us = sample_rate_us;
+        
+        // Enable LINEAR ACCELEROMETER with wake config (gravity subtracted = ~0 at rest)
+        if (!rpt.linear_accelerometer.enable(sample_rate_us, accel_cfg))
+        {
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGE(TAG, "enter_low_power_mode(): Failed to enable wake linear accelerometer");
+            #endif
+            // clang-format on
+            return false;
+        }
+        wake_on_motion_enabled = true;
+        
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGI(TAG, "Wake linear accel enabled: threshold=%dmg (%d Q8), rate=%luus", 
+                 accel_threshold_mg, threshold_q8, sample_rate_us);
+        #endif
+        // clang-format on
+    }
+
+    // NOTE: We do NOT call sh2_devSleep() because it appears to completely
+    // disable communication, even for "always-on" sensors. Instead, we run
+    // in a pseudo-sleep mode with only the threshold-triggered linear accel
+    // sensor active at a low sample rate. This provides significant power
+    // savings while maintaining wake capability.
+    //
+    // If you need true deep sleep, you would need to:
+    // 1. Put ESP32 in light sleep with HINT pin as wake source
+    // 2. BNO085 will assert HINT when threshold exceeded
+    // 3. ESP32 wakes, reads the data
+
+    low_power_mode_active = true;
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "Entered low power mode (pseudo-sleep), wake_on_accel: %s", 
+             accel_threshold_mg > 0 ? "enabled" : "disabled");
+    #endif
+    // clang-format on
+
+    return true;
+}
+
+/**
+ * @brief Exits low power mode.
+ * 
+ * Disables the wake linear accelerometer sensor.
+ * You can now enable other sensors as needed.
+ * 
+ * @return True if the operation succeeded.
+ */
+bool BNO08x::exit_low_power_mode()
+{
+    // Disable wake linear accelerometer if it was enabled
+    if (wake_on_motion_enabled)
+    {
+        rpt.linear_accelerometer.disable();
+        wake_on_motion_enabled = false;
+    }
+
+    low_power_mode_active = false;
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "Exited low power mode");
+    #endif
+    // clang-format on
+
+    return true;
+}
+
+/**
+ * @brief Checks if the device is currently in low power mode.
+ * 
+ * @return True if the device is in low power mode.
+ */
+bool BNO08x::is_in_low_power_mode()
+{
+    return low_power_mode_active;
+}
+
+/**
+ * @brief Performs a burst read of sensor data, collecting multiple samples.
+ * 
+ * This function enables a sensor report, collects the specified number of samples,
+ * then disables the report. Useful for taking a series of measurements after 
+ * waking from low power mode.
+ * 
+ * @param sensor_id The SH2 sensor ID to read from (e.g., SH2_ACCELEROMETER, SH2_ROTATION_VECTOR)
+ * @param num_samples Number of samples to collect
+ * @param sample_period_us Sample period in microseconds (report interval)
+ * @param on_complete Optional callback to execute when burst read is complete
+ * 
+ * @return True if burst read was initiated successfully. The on_complete callback
+ *         will be called when all samples have been collected.
+ * 
+ * @note The samples are stored in the corresponding report object (e.g., rpt.accelerometer).
+ *       Use the report's has_new_data() and get() methods to access them.
+ *       For multiple samples, register a callback on the specific report to process each sample.
+ */
+bool BNO08x::burst_read(uint8_t sensor_id, uint32_t num_samples, uint32_t sample_period_us, 
+                        std::function<void(void)> on_complete)
+{
+    // Find the report object for this sensor
+    auto it = usr_reports.find(sensor_id);
+    if (it == usr_reports.end() || it->second == nullptr)
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "burst_read(): Invalid sensor ID or unimplemented report: 0x%02X", sensor_id);
+        #endif
+        // clang-format on
+        return false;
+    }
+
+    BNO08xRpt* report = it->second;
+
+    // Enable the report with the specified period
+    if (!report->enable(sample_period_us))
+    {
+        // clang-format off
+        #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+        ESP_LOGE(TAG, "burst_read(): Failed to enable report for sensor 0x%02X", sensor_id);
+        #endif
+        // clang-format on
+        return false;
+    }
+
+    // Wait for samples
+    uint32_t samples_collected = 0;
+    uint32_t timeout_per_sample_ms = (sample_period_us / 1000) + 100; // Add 100ms margin
+    
+    while (samples_collected < num_samples)
+    {
+        if (data_available())
+        {
+            if (report->has_new_data())
+            {
+                samples_collected++;
+            }
+        }
+        else
+        {
+            // Timeout waiting for data
+            // clang-format off
+            #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+            ESP_LOGW(TAG, "burst_read(): Timeout waiting for sample %lu/%lu", samples_collected + 1, num_samples);
+            #endif
+            // clang-format on
+        }
+        
+        // Prevent infinite loop - break if we've waited too long
+        if (samples_collected == 0)
+        {
+            vTaskDelay(pdMS_TO_TICKS(timeout_per_sample_ms));
+            if (!data_available())
+            {
+                // clang-format off
+                #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+                ESP_LOGE(TAG, "burst_read(): No data received from sensor");
+                #endif
+                // clang-format on
+                report->disable();
+                return false;
+            }
+        }
+    }
+
+    // Disable the report after collecting samples
+    report->disable();
+
+    // clang-format off
+    #ifdef CONFIG_ESP32_BNO08x_LOG_STATEMENTS
+    ESP_LOGI(TAG, "burst_read(): Collected %lu samples from sensor 0x%02X", samples_collected, sensor_id);
+    #endif
+    // clang-format on
+
+    // Execute completion callback if provided
+    if (on_complete)
+    {
+        on_complete();
+    }
+
+    return true;
+}
+
+/**
  * @brief Starts simple calibration, see ref. manual 6.4.10.1
  *
  * @param period_us This interval should be set to whatever rate the sensor hub is expected to run

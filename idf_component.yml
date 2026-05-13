@@ -1,0 +1,6 @@
+version: "0.1.0"                      
+description: "ESP-IDF C++ driver for BNO080/BNO085 9-axis IMU sensors (SPI)"
+url: "https://github.com/notwillhynds/esp32_BNO08x"  
+license: "MIT"                      
+tags:                                 
+  - bno085

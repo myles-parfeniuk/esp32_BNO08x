@@ -44,6 +44,15 @@ class BNO08x
         bool on();
         bool sleep();
 
+        // Low-power mode with acceleration threshold wake
+        bool enter_low_power_mode(uint16_t accel_threshold_mg = 500, uint32_t sample_rate_us = 100000);
+        bool exit_low_power_mode();
+        bool is_in_low_power_mode();
+
+        // Burst reading for capturing multiple samples after wake
+        bool burst_read(uint8_t sensor_id, uint32_t num_samples, uint32_t sample_period_us, 
+                        std::function<void(void)> on_complete = nullptr);
+
         // bool calibration_turntable_start(uint32_t period_us);
         // bool calibration_turntable_end(sh2_CalStatus_t& status);
 
@@ -95,6 +104,7 @@ class BNO08x
                 BNO08xRptTapDetector tap_detector;
                 BNO08xRptStabilityClassifier stability_classifier;
                 BNO08xRptShakeDetector shake_detector;
+                BNO08xRptSignificantMotion significant_motion;
 
                 bno08x_reports_t(BNO08xPrivateTypes::bno08x_sync_ctx_t* sync_ctx)
                     : rv_gyro_integrated(SH2_GYRO_INTEGRATED_RV, BNO08xPrivateTypes::EVT_GRP_RPT_GYRO_INTEGRATED_RV_BIT, sync_ctx)
@@ -124,6 +134,7 @@ class BNO08x
                     , stability_classifier(
                               SH2_STABILITY_CLASSIFIER, BNO08xPrivateTypes::EVT_GRP_RPT_STABILITY_CLASSIFIER_BIT, sync_ctx)
                     , shake_detector(SH2_SHAKE_DETECTOR, BNO08xPrivateTypes::EVT_GRP_RPT_SHAKE_DETECTOR_BIT, sync_ctx)
+                    , significant_motion(SH2_SIGNIFICANT_MOTION, BNO08xPrivateTypes::EVT_GRP_RPT_SIGNIFICANT_MOTION_BIT, sync_ctx)
                 {
                 }
         } bno08x_reports_t;
@@ -215,6 +226,9 @@ class BNO08x
                 init_status; ///<Initialization status of various functionality, used by deconstructor during cleanup, set during initialization.
         BNO08xPrivateTypes::bno08x_sync_ctx_t sync_ctx; ///< Holds context used to synchronize tasks and callback execution.
         sh2_ProductIds_t product_IDs; ///< Product ID info returned IMU at initialization, can be viewed with print_product_ids()
+        bool low_power_mode_active = false; ///< Tracks if the device is in low power sleep mode
+        bool wake_on_motion_enabled = false; ///< Tracks if wake-on-motion was enabled when entering low power mode
+        EventBits_t saved_enabled_reports = 0; ///< Saves which reports were enabled before entering low power mode
 
         // clang-format off
         etl::map<uint8_t, BNO08xRpt*, TOTAL_RPT_COUNT, etl::less<uint8_t>> usr_reports = 
@@ -249,7 +263,7 @@ class BNO08x
                 {SH2_TEMPERATURE, nullptr},  // requires auxilary i2c sensor
                 {SH2_HEART_RATE_MONITOR, nullptr},  // requires auxilary i2c sensor
                 {SH2_STEP_DETECTOR, nullptr},
-                {SH2_SIGNIFICANT_MOTION, nullptr},
+                {SH2_SIGNIFICANT_MOTION, &rpt.significant_motion},
                 {SH2_FLIP_DETECTOR, nullptr},
                 {SH2_PICKUP_DETECTOR, nullptr},
                 {SH2_STABILITY_DETECTOR, nullptr},

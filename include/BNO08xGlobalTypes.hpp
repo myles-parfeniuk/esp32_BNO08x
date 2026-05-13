@@ -811,6 +811,25 @@ typedef struct bno08x_tap_detector_t
 
 } bno08x_tap_detector_t;
 
+/// @brief Struct to represent significant motion data from significant motion reports.
+typedef struct bno08x_significant_motion_t
+{
+        uint16_t motion;
+
+
+        bno08x_significant_motion_t()
+            : motion(0U)
+        {
+        }
+
+        // conversion from sh2_SigMotion_t
+        bno08x_significant_motion_t& operator=(const sh2_SigMotion_t& source)
+        {
+            this->motion = source.motion;
+            return *this;
+        }
+} bno08x_significant_motion_t;
+
 /// @brief Struct to represent shake detector data (flag meaning: 0 = no shake 1 = shake detected)
 typedef struct bno08x_shake_detector_t
 {
